@@ -3,33 +3,35 @@ package it.unibo.oop.cctan.geometry;
 /**
  *  Identify a two-dimensional point in the map area.
  */
-public class P2D {
+public class Point2D {
 
     private final double x;
     private final double y;
 
     /**
      * @param x
-     *      the x coordinate
+     *      the x coordinate of the point
      * @param y
-     *      the y coordinate
+     *      the y coordinate of the point
      */
-    public P2D(final double x, final double y) {
+    public Point2D(final double x, final double y) {
         this.x = x;
         this.y = y;
     }
 
     /**
+     * Return the x coordinate of the point in a xy axis.
      * @return
-     *      the x coordinate
+     *      the x coordinate of the point
      */
     public double getX() {
         return this.x;
     }
 
     /**
+     * Return the y coordinate of the point in a xy axis.
      * @return
-     *      the y coordinate
+     *      the y coordinate of the point
      */
     public double getY() {
         return this.y;

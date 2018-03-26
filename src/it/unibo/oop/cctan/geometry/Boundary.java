@@ -1,6 +1,5 @@
 package it.unibo.oop.cctan.geometry;
 
-
 /**
  * Represent the map area boundaries.
  */
@@ -29,6 +28,7 @@ public class Boundary {
     }
 
     /**
+     * Return the value of the left bound.
      * @return
      *      the value of the left bound
      */
@@ -37,6 +37,7 @@ public class Boundary {
     }
 
     /**
+     * Return the value of the right bound.
      * @return
      *      the value of the right bound
      */
@@ -45,6 +46,7 @@ public class Boundary {
     }
 
     /**
+     * Return the value of the lower bound.
      * @return
      *      the value of the lower bound
      */
@@ -53,6 +55,7 @@ public class Boundary {
     }
 
     /**
+     * Return the value of the upper bound.
      * @return
      *      the value of the upper bound
      */
