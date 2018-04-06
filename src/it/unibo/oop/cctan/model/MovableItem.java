@@ -1,6 +1,8 @@
 package it.unibo.oop.cctan.model;
 
-import it.unibo.oop.cctan.geometry.P2D;
+import com.sun.swing.internal.plaf.synth.resources.synth;
+
+import it.unibo.oop.cctan.geometry.Point2D;
 
 /**
  * Represents any object capable of moving in the game area (i.e. ball, square)
@@ -9,7 +11,6 @@ import it.unibo.oop.cctan.geometry.P2D;
 public abstract class MovableItem extends FixedItem {
 
     private static final int REFRESH_RATIO = 20;
-    private static final double DEFAULT_SPEED = 0.0005;
 
     private double angle;
     private double speed;
@@ -17,7 +18,6 @@ public abstract class MovableItem extends FixedItem {
 
     protected MovableItem(final Model model) {
         super(model);
-        this.speed = DEFAULT_SPEED;
         this.stop = false;
     }
 
@@ -36,10 +36,22 @@ public abstract class MovableItem extends FixedItem {
         this.stop = true;
     }
 
-    private void updatePos() {
-        this.setPos(new P2D(this.getPos().getX() + this.speed * Math.cos(this.angle),
+    public double getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(final double speed) {
+        this.speed = speed;
+    }
+
+    protected void updatePos() {
+        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(this.angle),
                 this.getPos().getY() + this.speed * Math.sin(this.angle)));
         applyConstraints();
+    }
+
+    protected synchronized double getAngle() {
+        return this.angle;
     }
 
     protected synchronized void setAngle(final double angle) {
@@ -47,4 +59,5 @@ public abstract class MovableItem extends FixedItem {
     }
 
     protected abstract void applyConstraints();
+
 }
