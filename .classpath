@@ -4,5 +4,10 @@
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="/Users/pasolininicolas/Desktop/esameOOP/oop17-cctan/lib/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/pasolininicolas/Desktop/esameOOP/oop17-cctan/lib/commons-lang3-3.7/commons-lang3-3.7-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/pasolininicolas/Desktop/esameOOP/oop17-cctan/lib/commons-lang3-3.7/commons-lang3-3.7-test-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/pasolininicolas/Desktop/esameOOP/oop17-cctan/lib/commons-lang3-3.7/commons-lang3-3.7-tests.jar"/>
+	<classpathentry kind="lib" path="/Users/pasolininicolas/Desktop/esameOOP/oop17-cctan/lib/commons-lang3-3.7/commons-lang3-3.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
