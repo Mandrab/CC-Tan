@@ -1,8 +1,14 @@
 package it.unibo.oop.cctan.view;
 
-import java.awt.*;
-import javax.swing.*;
-import org.apache.commons.lang3.tuple.*;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class ViewImpl extends JFrame implements View {
 
@@ -20,11 +26,10 @@ public class ViewImpl extends JFrame implements View {
 		this.gameWindowSize = gameWindowSize;
 		this.displayRatio = displayRatio;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
 		gpanel = new GraphicPanel(this);
 		getContentPane().add(gpanel, BorderLayout.CENTER);
-		
-		
+
 		setSize(gameWindowSize.width, gameWindowSize.height);
 		setResizable(false);
 		setVisible(true);
@@ -33,6 +38,24 @@ public class ViewImpl extends JFrame implements View {
 	@Override
 	public Dimension getDimension() {
 		return gameWindowSize;
+	}
+
+	@Override
+	public Point getWindowLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMouseRelativePosition(Point point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addCommandsObserver(CommandsObserver commandsObserver) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
