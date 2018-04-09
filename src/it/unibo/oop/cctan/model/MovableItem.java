@@ -1,14 +1,12 @@
 package it.unibo.oop.cctan.model;
 
-import com.sun.swing.internal.plaf.synth.resources.synth;
-
-import it.unibo.oop.cctan.geometry.Point2D;
+import javafx.geometry.Point2D;
 
 /**
  * Represents any object capable of moving in the game area (i.e. ball, square)
  *
  */
-public abstract class MovableItem extends FixedItem {
+public abstract class MovableItem extends FixedItem implements Runnable {
 
     private static final int REFRESH_RATIO = 20;
 

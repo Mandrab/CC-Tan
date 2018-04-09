@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.Controller;
+package it.unibo.oop.cctan.controller;
 
 /**
  * An enum that store all the possible commands that a model should handle.

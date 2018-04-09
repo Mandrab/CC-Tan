@@ -1,9 +1,9 @@
 package it.unibo.oop.cctan.model;
 
 import java.awt.geom.Area;
+import javafx.geometry.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
-import it.unibo.oop.cctan.geometry.Point2D;
 
 public class SquareAgent extends MovableItem {
 
