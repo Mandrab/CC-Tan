@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import it.unibo.oop.cctan.geometry.Point2D;
 
-public class SquareAgent extends MovableItem {
+public class SquareAgent extends MovableItem  {
 
     private static final double WIDTH = 0.18;
     private static final double HEIGHT = 0.18;
