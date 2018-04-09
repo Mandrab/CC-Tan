@@ -9,7 +9,7 @@ import it.unibo.oop.cctan.model.BallAgent;
 
 public class BallGeneratorImpl extends Thread implements BallGenerator {
 
-	private static final int GENERATION_RATIO = 500;
+	private static final int GENERATION_RATIO = 200;
 	private List<BallAgent> balls;
 	private final Model model;
 	
@@ -35,7 +35,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
 		}
 	}
 
-	private synchronized void createNewSquare() {
+	private synchronized void createNewBall() {
 		BallAgent ball = new BallAgent(this.model, 0/*To Do*/);
 		this.balls.add(ball);
 		ball.run();
