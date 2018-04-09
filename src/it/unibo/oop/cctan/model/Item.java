@@ -4,11 +4,11 @@ import javafx.geometry.Point2D;
 
 public interface Item {
 
+	Model getModel();
+    
     Point2D getPos();
 
     double getWidth();
 
     double getHeight();
-
-    Model getModel();
 }
