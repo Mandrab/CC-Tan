@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.model;
 
-import it.unibo.oop.cctan.geometry.Point2D;
+import javafx.geometry.Point2D;
 
 /**
  * Represents any object capable of moving in the game area (i.e. ball, square)
