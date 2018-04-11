@@ -6,8 +6,8 @@ import it.unibo.oop.cctan.geometry.Side;
 
 public class BallAgent extends MovableItem {
 
-    private static final double WIDTH = 0.05;
-    private static final double HEIGHT = 0.05;
+    public static final double WIDTH = 0.05;
+    public static final double HEIGHT = 0.05;
     private static final double DEFAULT_SPEED = 0.001;
     private static final int REFRESH_RATIO = 15;
 
