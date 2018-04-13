@@ -7,6 +7,6 @@ public interface Model extends BallGenerator, SquareGenerator {
     Boundary getBounds();
 
     void start();
-   
+
     Shuttle getShuttle();
 }
