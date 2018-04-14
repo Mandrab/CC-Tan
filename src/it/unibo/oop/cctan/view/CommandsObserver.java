@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.view;
 
-import it.unibo.oop.cctan.controller.Commands;
+import InterPackageComunication.Commands;
 
 interface CommandsObserver {
 
