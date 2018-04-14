@@ -7,11 +7,11 @@ import org.junit.Test;
 
 public class ViewImplTest {
 
-	@Test
+	/*@Test
 	public void dimension() {
 		View v = new ViewImpl();
 		v.show(new ImmutablePair<Integer, Integer>(9, 16), new Dimension(100, 100));
 		assertEquals(v.getDimension(), new Dimension(100, 100));
-	}
+	}*/
 
 }

@@ -13,10 +13,9 @@ public interface View {
     /** 
      * Setup and show the game window.
      * 
-     * @param displayRatio represent the proportion between width and height of screen
      * @param resolution represent the pixel of width and height
      */
-    void show(Pair<Integer, Integer> displayRatio, Dimension resolution);
+    void show(Dimension resolution);
 
     /** 
      * Get the top-left point of the window.
