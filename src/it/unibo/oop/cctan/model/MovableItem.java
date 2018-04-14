@@ -15,6 +15,18 @@ public abstract class MovableItem extends FixedItem implements Runnable {
     private boolean stop;
 
     /**
+     * Put a new movable item respecting the value specified inside the builder object.
+     * If speed is not set, will be used the default speed for the current item.
+     * @param builder
+     *          the builder containing the desired parameters
+     */
+    protected MovableItem(final AbstractBuilder builder) {
+        super(builder);
+        this.angle = builder.angleDir;
+        this.speed = builder.speedValue == 0 ? this.getDefaultSpeed() : builder.speedValue;
+    }
+
+    /**
      * Put a new movable item in the current position.
      * @param model
      *          the model of the application
@@ -105,4 +117,48 @@ public abstract class MovableItem extends FixedItem implements Runnable {
      */
     protected abstract void applyConstraints();
 
+    /**
+     * Get the default speed of the current item.
+     * @return
+     *          the default speed of the item
+     */
+    protected abstract double getDefaultSpeed();
+
+    /**
+     * A basic abstract builder for FixedItem abstract class.
+     */
+    public abstract static class AbstractBuilder extends FixedItem.AbstractBuilder {
+
+        private double angleDir;
+        private double speedValue;
+
+        /**
+         * Set the direction of movement, with the angle between direction and x-axis.
+         * @param angle
+         *              the angle of movement
+         * @return
+         *              the current abstract builder for movable items
+         */
+        public AbstractBuilder angle(final double angle) {
+            this.angleDir = angle;
+            return this;
+        }
+
+        /**
+         * Set the speed of the item in the direction of movement.
+         * @param speed
+         *              the speed of the item
+         * @return
+         *              the current abstract builder for movable items
+         */
+        public AbstractBuilder speed(final double speed) {
+            this.speedValue = speed;
+            return this;
+        }
+
+        /** 
+         * {@inheritDoc}
+         */
+        public abstract MovableItem build();
+    }
 }

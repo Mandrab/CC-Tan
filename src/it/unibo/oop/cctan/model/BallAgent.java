@@ -9,13 +9,12 @@ import java.util.Optional;
 
 import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.geometry.Side;
-import javafx.geometry.Point2D;
 
 /**
  * Represent a ball outgoing from the shuttle. They can also be considered like the shots of the shuttle.
  * Every time a ball hits a square, the square's hit points will be decreased by 1.
  */
-public class BallAgent extends MovableItem {
+public final class BallAgent extends MovableItem {
 
     private static final double WIDTH = 0.05;
     private static final double HEIGHT = 0.05;
@@ -23,19 +22,8 @@ public class BallAgent extends MovableItem {
 
     private Optional<SquareAgent> lastCollision;
 
-    /**
-     * Create a new ball in the desired starting position (outgoing from the shuttle).
-     * @param model
-     *          the model of the application
-     * @param angle
-     *          the angle indicating the direction of the ball
-     * @param startingPos
-     *          the starting position
-     */
-    public BallAgent(final Model model, final Point2D startingPos, final double angle) {
-        super(model, startingPos);
-        this.setAngle(angle);
-        this.setSpeed(DEFAULT_SPEED);
+    private BallAgent(final BallBuilder builder) {
+        super(builder);
     }
 
     /** 
@@ -75,6 +63,14 @@ public class BallAgent extends MovableItem {
                 this.getModel().removeBall(this);
             }
         }
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    protected double getDefaultSpeed() {
+        return DEFAULT_SPEED;
     }
 
     private void checkIntersecate() {
@@ -118,4 +114,18 @@ public class BallAgent extends MovableItem {
         return Side.BELOW;
     }
 
+    /**
+     * A basic builder for BallAgent class.
+     */
+    public static class BallBuilder extends MovableItem.AbstractBuilder {
+
+        /** 
+         * {@inheritDoc}
+         */
+        @Override
+        public MovableItem build() {
+            super.validate();
+            return new BallAgent(this);
+        }
+    }
 }
