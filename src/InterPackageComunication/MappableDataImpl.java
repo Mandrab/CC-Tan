@@ -6,7 +6,7 @@ import java.awt.Shape;
 public class MappableDataImpl implements MappableData {
 
     @Override
-    public String getName() {
+    public String getText() {
         // TODO Auto-generated method stub
         return null;
     }

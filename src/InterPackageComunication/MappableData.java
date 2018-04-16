@@ -5,7 +5,7 @@ import java.awt.Shape;
 
 public interface MappableData {
 
-    public String getName();
+    public String getText();
 
     public Color getColor();
 
