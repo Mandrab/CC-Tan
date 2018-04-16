@@ -17,9 +17,9 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
 	}
 
 	@Override
-	public void start () {
-		super.start();
-	}
+	public void start() {
+		super.start(); 		
+	}      
 	
 	@Override
 	public void run() {
