@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface SquareGenerator {
 
-	void start();
+    void start();
 
-	void removeSquare(SquareAgent square);
+    void removeSquare(SquareAgent square);
 
-	List<SquareAgent> getSquareAgents();
+    List<SquareAgent> getSquareAgents();
 }

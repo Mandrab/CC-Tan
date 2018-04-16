@@ -1,11 +1,10 @@
 package it.unibo.oop.cctan.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import it.unibo.oop.cctan.model.BallAgent;
+import javafx.geometry.Point2D;
 
 public class BallGeneratorImpl extends Thread implements BallGenerator {
 
@@ -49,12 +48,14 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     }
 
     private synchronized void createNewBall() {
-        final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()            //TO DO!
-                                                  .angle(0)
-                                                  .position(null)
-                                                  .model(this.model)
-                                                  .build();
+        final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
+                .angle(this.model.getShuttle().getAngle())
+                .position(new Point2D(this.model.getShuttle().getTop().getX() - (BallAgent.WIDTH / 2),
+                        this.model.getShuttle().getTop().getY() + (BallAgent.HEIGHT / 2)))
+                .model(this.model)
+                .build();
         this.balls.add(ball);
         ball.run();
     }
+
 }

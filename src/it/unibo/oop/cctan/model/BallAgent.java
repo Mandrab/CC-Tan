@@ -16,30 +16,14 @@ import it.unibo.oop.cctan.geometry.Side;
  */
 public final class BallAgent extends MovableItem {
 
-    private static final double WIDTH = 0.05;
-    private static final double HEIGHT = 0.05;
+    public static final double WIDTH = 0.05;
+    public static final double HEIGHT = 0.05;
     private static final double DEFAULT_SPEED = 0.001;
 
     private Optional<SquareAgent> lastCollision;
 
     private BallAgent(final BallBuilder builder) {
         super(builder);
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getWidth() {
-        return WIDTH;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getHeight() {
-        return HEIGHT;
     }
 
     /** 
@@ -82,8 +66,8 @@ public final class BallAgent extends MovableItem {
                     final Area ballArea = new Area(
                             new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY() - HEIGHT, WIDTH, HEIGHT));
                     ballArea.intersect(new Area(new Rectangle2D.Double(squareAg.getPos().getX(),
-                            squareAg.getPos().getY() - squareAg.getHeight(), squareAg.getWidth(),
-                            squareAg.getHeight())));
+                            squareAg.getPos().getY() - SquareAgent.HEIGHT, SquareAgent.WIDTH,
+                            SquareAgent.HEIGHT)));
                     if (!ballArea.isEmpty()) {
                         squareAg.hit();
                         this.lastCollision = Optional.of(squareAg);
@@ -101,7 +85,7 @@ public final class BallAgent extends MovableItem {
 
     private Side collisionSide(final SquareAgent square) {
         final double ballCenterX = this.getPos().getX() + WIDTH / 2;
-        if (ballCenterX > square.getPos().getX() + square.getWidth()) {
+        if (ballCenterX > square.getPos().getX() + SquareAgent.WIDTH) {
             return Side.RIGHT;
         }
         if (ballCenterX < square.getPos().getX()) {
