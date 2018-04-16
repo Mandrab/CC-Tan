@@ -20,18 +20,4 @@ public interface Item {
      *          the current position of the item
      */
     Point2D getPos();
-
-    /**
-     * Get the width of the item in proportion to the window width.
-     * @return
-     *          the width of the item
-     */
-    double getWidth();
-
-    /**
-     * Get the height of the item in proportion to the window height.
-     * @return
-     *          the height of the item
-     */
-    double getHeight();
 }

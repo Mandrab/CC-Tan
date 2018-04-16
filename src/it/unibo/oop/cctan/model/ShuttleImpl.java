@@ -7,28 +7,12 @@ import javafx.geometry.Point2D;
 
 public class ShuttleImpl extends FixedItem implements Shuttle {
 
-    private static final double WIDTH = 0.05;
-    private static final double HEIGHT = 0.05;
+    public static final double WIDTH = 0.05;
+    public static final double HEIGHT = 0.05;
     private double angle;
 
     public ShuttleImpl(Model model) {
         super(model, new Point2D(0, 0));
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getWidth() {
-        return WIDTH;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getHeight() {
-        return HEIGHT;
     }
 
     /** 

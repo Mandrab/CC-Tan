@@ -9,8 +9,8 @@ import java.awt.geom.Rectangle2D;
  */
 public final class SquareAgent extends MovableItem  {
 
-    private static final double WIDTH = 0.18;
-    private static final double HEIGHT = 0.18;
+    public static final double WIDTH = 0.18;
+    public static final double HEIGHT = 0.18;
     private static final double DEFAULT_SPEED = 0.0005;
 
     private int hitPoints;
@@ -40,22 +40,6 @@ public final class SquareAgent extends MovableItem  {
      */
     public synchronized int getHP() {
         return this.hitPoints;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getWidth() {
-        return WIDTH;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public double getHeight() {
-        return HEIGHT;
     }
 
     /** 

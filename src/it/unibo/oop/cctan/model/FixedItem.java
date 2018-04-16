@@ -48,16 +48,6 @@ public abstract class FixedItem implements Item {
         return this.model;
     }
 
-    /** 
-     * {@inheritDoc}
-     */
-    public abstract double getWidth();
-
-    /** 
-     * {@inheritDoc}
-     */
-    public abstract double getHeight();
-
     /**
      * Set the position of the item.
      * @param pos
