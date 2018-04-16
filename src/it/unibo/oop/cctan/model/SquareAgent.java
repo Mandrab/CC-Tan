@@ -1,11 +1,13 @@
 package it.unibo.oop.cctan.model;
 
 import java.awt.geom.Area;
-import javafx.geometry.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
-public class SquareAgent extends MovableItem  {
+/**
+ * Represent a square block in the map area. Every square has got different hit points, that are the number
+ * of hits the square must receive to be destroyed.
+ */
+public final class SquareAgent extends MovableItem  {
 
     private static final double WIDTH = 0.18;
     private static final double HEIGHT = 0.18;
@@ -13,46 +15,52 @@ public class SquareAgent extends MovableItem  {
 
     private int hitPoints;
 
-    public SquareAgent(Model model, final int hitPoints) {
-        super(model);
-        this.hitPoints = hitPoints;
-        final Random rnd = new Random();
-        final int side = new Random().nextInt(4);
-        if (side == 0 || side == 1) {
-            this.setPos(new Point2D(
-                    rnd.nextDouble() * Math.abs(model.getBounds().getX0() - model.getBounds().getX1())
-                            - model.getBounds().getX1(), side == 0 ? model.getBounds().getY1() : model.getBounds().getY0())); //1.2 : -1.2
-        } else {
-            this.setPos(new Point2D(side == 2 ? model.getBounds().getX0() : model.getBounds().getX1(),
-                    rnd.nextDouble() * Math.abs(model.getBounds().getY0() - model.getBounds().getY1())
-                            - model.getBounds().getY1())); // -1.2 : 1.2
-        }
-        this.setAngle(Math.atan2(-this.getPos().getY(), -this.getPos().getX())); //Da perfezionare!
-        this.setSpeed(DEFAULT_SPEED);
+    private SquareAgent(final SquareBuilder builder) {
+        super(builder);
+        this.hitPoints = builder.hp;
     }
 
+    /**
+     * Specify the current square has been hit and decrease its hit points by 1.
+     * If the new hit points value is 0 the square will be destroyed.
+     */
     public synchronized void hit() {
-        if (--this.hitPoints <= 0) {
+        this.hitPoints--;
+        if (this.hitPoints <= 0) {
             synchronized (this.getModel()) {
-                //this.getModel().removeSquare(this);
+                this.getModel().removeSquare(this);
             }
         }
     }
 
+    /**
+     * Get the remaining hit points of the square.
+     * @return
+     *          the remaining hit points of the square
+     */
     public synchronized int getHP() {
         return this.hitPoints;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public double getWidth() {
         return WIDTH;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public double getHeight() {
         return HEIGHT;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     protected void applyConstraints() {
         synchronized (this.getModel()) {
@@ -61,9 +69,49 @@ public class SquareAgent extends MovableItem  {
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
                 //JOptionPane.showMessageDialog(PANEL, "GAME OVER!");
-                System.exit(0);
-                //this.getModel().removeSquare(this);
+                this.getModel().removeSquare(this);
+                //System.exit(0);
             }
+        }
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    protected double getDefaultSpeed() {
+        return DEFAULT_SPEED;
+    }
+
+    /**
+     * A basic builder for SquareAgent class.
+     */
+    public static class SquareBuilder extends MovableItem.AbstractBuilder {
+
+        private int hp;
+
+        /**
+         * Set the starting hit points of the square.
+         * @param hitPoints
+         *              the starting value of hit points
+         * @return
+         *              the current square builder
+         */
+        public SquareBuilder hitPoints(final int hitPoints) {
+            this.hp = hitPoints;
+            return this;
+        }
+
+        /** 
+         * {@inheritDoc}
+         */
+        @Override
+        public MovableItem build() {
+            super.validate();
+            if (this.hp <= 0) {
+                throw new IllegalArgumentException();
+            }
+            return new SquareAgent(this);
         }
     }
 }
