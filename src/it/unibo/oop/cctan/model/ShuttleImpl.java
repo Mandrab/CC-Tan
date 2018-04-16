@@ -52,4 +52,13 @@ public class ShuttleImpl extends FixedItem implements Shuttle {
     public Area getImpactArea() {
         return null;
     }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Point2D getTop() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
