@@ -51,22 +51,26 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
     private synchronized void createNewSquare() {
         final Point2D randomPos = randomPosition();
         final SquareAgent square = (SquareAgent) new SquareAgent.SquareBuilder()
-                                                                .hitPoints(new Random().nextInt(41) + 40)
-                                                                .angle(Math.atan2(-randomPos.getY(), -randomPos.getX())) //Da perfezionare!
-                                                                .position(randomPosition())
-                                                                .model(this.model)
-                                                                .build();
+                .hitPoints(new Random().nextInt(41) + 40)
+                .angle(Math.atan2(-randomPos.getY(), -randomPos.getX()))
+                .position(randomPosition()).model(this.model).build();
         this.squares.add(square);
         square.run();
     }
 
+    //0 è sopra e in questo caso la x è random e la y è +1.2,
+    //1 è sotto e in questo caso la x è random e la y è -1.2,
+    //2 è sinistra e in questo caso la x è -1.2 e la y è random,
+    //3 è destra e in questo caso la x è +1.2 e la y è random.
     private Point2D randomPosition() {
         final Random rnd = new Random();
+        //4 is the number of sides
         final int side = new Random().nextInt(4);
         if (side == 0 || side == 1) {
             return (new Point2D(
                     rnd.nextDouble() * Math.abs(model.getBounds().getX0() - model.getBounds().getX1())
-                            - model.getBounds().getX1(), side == 0 ? model.getBounds().getY1() : model.getBounds().getY0())); //1.2 : -1.2
+                            - model.getBounds().getX1(),
+                    side == 0 ? model.getBounds().getY1() : model.getBounds().getY0())); // 1.2 : -1.2
         } else {
             return (new Point2D(side == 2 ? model.getBounds().getX0() : model.getBounds().getX1(),
                     rnd.nextDouble() * Math.abs(model.getBounds().getY0() - model.getBounds().getY1())
