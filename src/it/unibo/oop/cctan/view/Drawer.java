@@ -53,7 +53,8 @@ class Drawer {
     }
 
     /**
-     * Set the graphic class used by the GraphicPanel to let the drawer to draw on it.
+     * Set the graphic class used by the GraphicPanel to let the drawer to draw on
+     * it.
      * 
      * @param graphics
      *            The graphic class used by GraphicPanel

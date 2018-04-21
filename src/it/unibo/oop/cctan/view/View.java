@@ -35,7 +35,7 @@ public interface View {
      * 
      * @param point
      *            representing the position of the mouse relatively at the center of
-     *            the window (as a cartesian graphic)
+     *            the window (as a Cartesian graphic)
      */
     void setMouseRelativePosition(Point point);
 
@@ -62,6 +62,11 @@ public interface View {
      */
     Dimension getDimension();
 
+    /**
+     * Return a list of data that as to be mapped.
+     * 
+     * @return The list of the MappableData
+     */
     List<MappableData> getListOfMappableData();
 
 }

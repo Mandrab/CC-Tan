@@ -49,8 +49,7 @@ class GameWindow extends JFrame implements SizeObserver {
     }
 
     /**
-     * Get the dimension of the game window (e.g.: 320x240, 640x480,
-     *            1024x768,...).
+     * Get the dimension of the game window (e.g.: 320x240, 640x480, 1024x768,...).
      * 
      * @return Dimension class that contains the dimension of the window
      */
