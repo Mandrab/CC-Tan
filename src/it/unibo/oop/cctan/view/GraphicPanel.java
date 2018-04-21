@@ -3,18 +3,26 @@ package it.unibo.oop.cctan.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JPanel;
+
+import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7666161570364892169L;
+    private GameWindow gameWindow;
     private GraphicPanelUpdater updater;
     private Drawer drawer;
     private Dimension dimension;
+    private List<MappableData> mappableDatas;
 
     GraphicPanel(final GameWindow gw) {
+        gameWindow = gw;
         dimension = gw.getDimension();
+        mappableDatas = new LinkedList<>();
         setSize(dimension);
 
         drawer = new Drawer(dimension, gw.getScreenRatio());
@@ -27,10 +35,20 @@ class GraphicPanel extends JPanel {
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, dimension.width, dimension.height);
         drawer.setGraphics(graphics);
+        synchronized (this) {
+            mappableDatas.forEach(drawer::draw);
+        }
     }
 
-    void redraw() {
+    void redraw(final List<MappableData> mappableDatas) {
+        synchronized (this) {
+            this.mappableDatas = mappableDatas;
+        }
+        repaint();
+    }
 
+    public List<MappableData> getListOfMappableData() {
+        return gameWindow.getListOfMappableData();
     }
 
 }

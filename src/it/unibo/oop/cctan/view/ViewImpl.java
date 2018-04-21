@@ -2,21 +2,36 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.controller.Controller;
 
 public class ViewImpl implements View {
 
+    private Controller controller;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Pair<Integer, Integer> screenRatio;
+    //private List<CommandsObserver> commandsObservers;
+    //private List<SizeObserver> sizeObervers;
 
-    public ViewImpl() {
-        show(new Dimension(500, 500));
+    public ViewImpl(Controller controller) {
+        this.controller = controller;
+        //commandsObservers = new ArrayList<>();
+        //sizeObervers = new ArrayList<>();
+        new Loader();
+        showGameWindow(new Dimension(500, 500), new ImmutablePair<Integer, Integer>(1, 1));
     }
 
-    public void show(Dimension gameWindowSize) {
+    public void showGameWindow(Dimension gameWindowSize, Pair<Integer, Integer> screenRatio) {
         if (!gameWindow.isPresent()) {
-            gameWindow = Optional.of(new GameWindow(this, gameWindowSize));
+            gameWindow = Optional.of(new GameWindow(this, gameWindowSize, screenRatio));
         }
         gameWindow.get().show();
     }
@@ -41,8 +56,17 @@ public class ViewImpl implements View {
 
     @Override
     public void addCommandsObserver(CommandsObserver commandsObserver) {
-        // TODO Auto-generated method stub
+        //commandsObservers.add(commandsObserver);
+    }
 
+    @Override
+    public void addSizeObserver(SizeObserver sizeObserver) {
+        //sizeObervers.add(sizeObserver);
+    }
+
+    @Override
+    public List<MappableData> getListOfMappableData() {
+        return controller.getListOfMappableData();
     }
 
 }

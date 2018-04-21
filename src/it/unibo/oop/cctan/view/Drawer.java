@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import InterPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.MappableData;;
 
 class Drawer {
 

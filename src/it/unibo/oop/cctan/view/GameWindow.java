@@ -2,11 +2,14 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.oop.cctan.interPackageComunication.MappableData;;
 
 class GameWindow extends JFrame implements SizeObserver {
 
@@ -21,6 +24,7 @@ class GameWindow extends JFrame implements SizeObserver {
         this.view = view;
         this.gameWindowSize = gameWindowSize;
         this.screenRatio = screenRatio;
+        view.addSizeObserver(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         gpanel = new GraphicPanel(this);
@@ -41,6 +45,10 @@ class GameWindow extends JFrame implements SizeObserver {
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         this.gameWindowSize = gameWindowSize;
         this.screenRatio = screenRatio;
+    }
+
+    public List<MappableData> getListOfMappableData() {
+        return view.getListOfMappableData();
     }
 
 }

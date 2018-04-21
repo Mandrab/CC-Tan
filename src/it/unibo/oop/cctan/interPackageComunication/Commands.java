@@ -1,4 +1,4 @@
-package InterPackageComunication;
+package it.unibo.oop.cctan.interPackageComunication;
 
 /**
  * An enum that store all the possible commands that a model should handle.

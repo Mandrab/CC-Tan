@@ -1,4 +1,4 @@
-package InterPackageComunication;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.awt.Color;
 import java.awt.Shape;

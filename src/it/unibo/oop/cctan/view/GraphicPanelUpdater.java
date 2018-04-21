@@ -1,5 +1,7 @@
 package it.unibo.oop.cctan.view;
 
+import java.util.LinkedList;
+
 class GraphicPanelUpdater extends Thread {
 
     private boolean stop = false;
@@ -11,7 +13,7 @@ class GraphicPanelUpdater extends Thread {
 
     public void run() {
         while (!stop) {
-            gpanel.redraw();
+            gpanel.redraw(gpanel.getListOfMappableData());
             try {
                 Thread.sleep(20);   //concurrent modification exception con tempo troppo basso -> aggiusta con synchronized  
             } catch (Exception ex) {
