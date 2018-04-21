@@ -30,8 +30,9 @@ class Drawer {
         graphics.setColor(mappableData.getColor());
         Shape shape = transformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
+        double diff = shape.getBounds2D().getWidth() - graphics.getFontMetrics().stringWidth(mappableData.getText());
         graphics.drawString(mappableData.getText(), 
-                            (int) shape.getBounds2D().getCenterX(),
+                            (int) (shape.getBounds2D().getX() + diff / 2),
                             (int) shape.getBounds2D().getCenterY());
     }
 
