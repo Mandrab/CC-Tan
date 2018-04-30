@@ -31,13 +31,25 @@ public interface View {
     Point getWindowLocation();
 
     /**
-     * Set the position of the mouse.
+     * Get the degrees of the mouse relatively at the center of the game window.
      * 
-     * @param point
-     *            representing the position of the mouse relatively at the center of
-     *            the window (as a Cartesian graphic)
+     * @return A double representing the position of the mouse relatively to the
+     *         center of the window [center-right = 0, top-center = 90, ...]
      */
-    void setMouseRelativePosition(Point point);
+    double getMouseRelativePosition();
+
+    /**
+     * Get the position of the mouse relatively at the center of the game window in
+     * a given range.
+     * 
+     * @param lowerBound
+     *            number representing the 0 in the radiant measure
+     * @param upperBound
+     *            number representing 2PI in the radiant measure
+     * @return A double representing the position of the mouse relatively to the
+     *         center of the window [center-right = lowerBound, top-center = ?, ...]
+     */
+    double getMouseRelativePositionInRange(double lowerBound, double upperBound);
 
     /**
      * Allow to add a "command" observer.
@@ -68,5 +80,7 @@ public interface View {
      * @return The list of the MappableData
      */
     List<MappableData> getListOfMappableData();
+    
+    int getScore();
 
 }

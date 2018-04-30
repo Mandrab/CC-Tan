@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 class GraphicPanel extends JPanel {
@@ -18,11 +20,13 @@ class GraphicPanel extends JPanel {
     private Drawer drawer;
     private Dimension dimension;
     private List<MappableData> mappableDatas;
+    private int score;
 
     GraphicPanel(final GameWindow gw) {
         gameWindow = gw;
         dimension = gw.getDimension();
         mappableDatas = new LinkedList<>();
+        score = 0;
         setSize(dimension);
 
         drawer = new Drawer(dimension, gw.getScreenRatio());
@@ -38,17 +42,23 @@ class GraphicPanel extends JPanel {
         synchronized (this) {
             mappableDatas.forEach(drawer::draw);
         }
+        drawer.drawText(new ImmutablePair<Double, Double>(0.5, 0.9), Color.WHITE, score + "");
     }
 
     void redraw(final List<MappableData> mappableDatas) {
         synchronized (this) {
             this.mappableDatas = mappableDatas;
         }
+        this.score = gameWindow.getScore();
         repaint();
     }
 
     public List<MappableData> getListOfMappableData() {
         return gameWindow.getListOfMappableData();
+    }
+
+    public int getScore() {
+        return gameWindow.getScore();
     }
 
 }

@@ -81,4 +81,8 @@ class GameWindow extends JFrame implements SizeObserver {
         return view.getListOfMappableData();
     }
 
+    public int getScore() {
+        return view.getScore();
+    }
+
 }

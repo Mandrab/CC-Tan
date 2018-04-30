@@ -16,4 +16,6 @@ public interface Controller {
      */
     List<MappableData> getListOfMappableData();
 
+    int getScore();
+
 }

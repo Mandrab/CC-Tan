@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
@@ -17,6 +16,7 @@ import it.unibo.oop.cctan.controller.Controller;
 public class ViewImpl implements View {
 
     private Controller controller;
+    private MouseEvents mouseEvents;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Pair<Integer, Integer> screenRatio;
     // private List<CommandsObserver> commandsObservers;
@@ -34,33 +34,40 @@ public class ViewImpl implements View {
         // commandsObservers = new ArrayList<>();
         // sizeObervers = new ArrayList<>();
         new Loader();
-        showGameWindow(new Dimension(500, 500), new ImmutablePair<Integer, Integer>(1, 1));
     }
 
     @Override
-    public void showGameWindow(Dimension gameWindowSize, Pair<Integer, Integer> screenRatio) {
+    /** {@inheritDoc} */
+    public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (!gameWindow.isPresent()) {
             gameWindow = Optional.of(new GameWindow(this, gameWindowSize, screenRatio));
         }
-        gameWindow.get().show();
+        gameWindow.get().setVisible(true);
+        mouseEvents = new MouseEvents(this);
     }
 
     @Override
-    public Dimension getDimension() {
-        // return gameWindowSize;
-        return null;
+    /** {@inheritDoc} */
+    public Dimension getDimension() {//return optional or save value in view
+        return gameWindow.get().getDimension();
     }
 
     @Override
-    public Point getWindowLocation() {
-        // TODO Auto-generated method stub
-        return null;
+    /** {@inheritDoc} */
+    public Point getWindowLocation() {//return optional
+        return gameWindow.get().getLocation();
     }
 
     @Override
-    public void setMouseRelativePosition(final Point point) {
-        // TODO Auto-generated method stub
+    /** {@inheritDoc} */
+    public double getMouseRelativePosition() {
+        return mouseEvents.getMouseRelativePosition();
+    }
 
+    @Override
+    /** {@inheritDoc} */
+    public double getMouseRelativePositionInRange(final double lowerBound, final double upperBound) {
+        return mouseEvents.getMouseRelativePositionInRange(lowerBound, upperBound);
     }
 
     @Override
@@ -74,8 +81,14 @@ public class ViewImpl implements View {
     }
 
     @Override
+    /** {@inheritDoc} */
     public List<MappableData> getListOfMappableData() {
         return controller.getListOfMappableData();
+    }
+
+    @Override
+    public int getScore() {
+        return controller.getScore();
     }
 
 }

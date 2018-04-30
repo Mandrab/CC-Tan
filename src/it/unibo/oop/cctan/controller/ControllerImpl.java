@@ -12,4 +12,10 @@ public class ControllerImpl implements Controller {
         return null;
     }
 
+    @Override
+    public int getScore() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }
