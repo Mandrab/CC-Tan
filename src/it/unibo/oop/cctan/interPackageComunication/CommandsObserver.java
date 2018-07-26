@@ -1,8 +1,6 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-
-interface CommandsObserver {
+public interface CommandsObserver {
 
     /**
      * Notify that a new command has been called.
