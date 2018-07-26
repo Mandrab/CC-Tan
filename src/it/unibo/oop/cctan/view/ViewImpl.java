@@ -34,7 +34,7 @@ public class ViewImpl implements View {
         this.controller = controller;
         // commandsObservers = new ArrayList<>();
         // sizeObervers = new ArrayList<>();
-        new Loader();
+        new Loader(this);
     }
 
     @Override
