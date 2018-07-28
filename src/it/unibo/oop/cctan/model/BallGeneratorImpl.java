@@ -21,6 +21,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      *          it's the model of the application
      */
     public BallGeneratorImpl(final Model model) {
+        super();
         this.model = model;
         this.balls = new ArrayList<>();
     }

@@ -53,7 +53,7 @@ public abstract class FixedItem implements Item {
      * @param pos
      *          the new position
      */
-    protected synchronized void setPos(final Point2D pos) { //Movable items can change their position
+    protected synchronized void setPos(final Point2D pos) { //MovableItem class, can change their position
         this.pos = pos;
     }
 

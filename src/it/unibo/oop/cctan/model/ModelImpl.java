@@ -29,12 +29,12 @@ public class ModelImpl implements Model {
         }
 
         @Override
-        public void removeSquare(SquareAgent square) {
+        public void removeSquare(final SquareAgent square) {
             this.squareGenerator.removeSquare(square);
         }
 
         @Override
-        public void removeBall(BallAgent ball) {
+        public void removeBall(final BallAgent ball) {
             this.ballGenerator.removeBall(ball);
         }
 
