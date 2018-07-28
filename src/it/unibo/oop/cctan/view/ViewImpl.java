@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.controller.Controller;
 
@@ -33,7 +34,7 @@ public class ViewImpl implements View {
         this.controller = controller;
         // commandsObservers = new ArrayList<>();
         // sizeObervers = new ArrayList<>();
-        new Loader();
+        new Loader(this);
     }
 
     @Override
