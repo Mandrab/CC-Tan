@@ -10,9 +10,8 @@ import java.util.List;
  */
 public class BallGeneratorImpl extends Thread implements BallGenerator {
 
-    private static final double DEFAULT_SPEED = 0.001;
-    private static final int GENERATION_RATIO = 200;
     private final List<BallAgent> balls;
+    private final BallRatio ratio;
     private final Model model;
 
     /**
@@ -23,6 +22,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     public BallGeneratorImpl(final Model model) {
         super();
         this.model = model;
+        this.ratio = new BallRatio();
         this.balls = new ArrayList<>();
     }
 
@@ -42,7 +42,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
         while (true) {
             this.createNewBall();
             try {
-                Thread.sleep(GENERATION_RATIO);
+                Thread.sleep(this.ratio.getRatio());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -71,7 +71,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     private synchronized void createNewBall() {
         final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
                 .angle(this.model.getShuttle().getAngle())
-                .speed(DEFAULT_SPEED)
+                .speed(this.ratio.getSpeed())
                 .position(new Point2D(this.model.getShuttle().getTop().getX() - (BallAgent.WIDTH / 2),
                         this.model.getShuttle().getTop().getY() + (BallAgent.HEIGHT / 2)))
                 .model(this.model)

@@ -10,12 +10,13 @@ import java.util.Collections;
 
 public class SquareGeneratorImpl extends Thread implements SquareGenerator {
 
-    private static final int GENERATION_RATIO = 2000;
     private final Model model;
+    private final SquareRatio ratio;
     private final List<SquareAgent> squares;
 
     public SquareGeneratorImpl(final Model model) {
         this.squares = new ArrayList<>();
+        this.ratio = new SquareRatio();
         this.model = model;
     }
 
@@ -29,7 +30,7 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
         while (true) {
             this.createNewSquare();
             try {
-                Thread.sleep(GENERATION_RATIO);
+                Thread.sleep(this.ratio.getRatio());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -51,17 +52,22 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
     private synchronized void createNewSquare() {
         final Point2D randomPos = randomPosition();
         final SquareAgent square = (SquareAgent) new SquareAgent.SquareBuilder()
-                .hitPoints(new Random().nextInt(41) + 40)
+                .hitPoints(new Random().nextInt(SquareRatio.DEFAULT_POINTS) + this.ratio.getPoints())
                 .angle(Math.atan2(-randomPos.getY(), -randomPos.getX()))
-                .position(randomPosition()).model(this.model).build();
+                .speed(this.ratio.getSpeed())
+                .position(randomPosition())
+                .model(this.model)
+                .build();
         this.squares.add(square);
         square.run();
     }
 
-    //0 è sopra e in questo caso la x è random e la y è +1.2,
-    //1 è sotto e in questo caso la x è random e la y è -1.2,
-    //2 è sinistra e in questo caso la x è -1.2 e la y è random,
-    //3 è destra e in questo caso la x è +1.2 e la y è random.
+    /*
+     * 0 è sopra e in questo caso la x è random e la y è +1.2,
+     * 1 è sotto e in questo caso la x è random e la y è -1.2,
+     * 2 è sinistra e in questo caso la x è -1.2 e la y è random,
+     * 3 è destra e in questo caso la x è +1.2 e la y è random.
+     */
     private Point2D randomPosition() {
         final Random rnd = new Random();
         //4 is the number of sides
