@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import javax.swing.ImageIcon;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
@@ -96,6 +98,18 @@ class MouseJTest {
         @Override
         public int getScore() {
             return 0;
+        }
+
+        @Override
+        public void advanceLoading(int i) {
+        }
+
+        @Override
+        public void setView(View v) {
+        }
+
+        @Override
+        public void setLoadImage(ImageIcon img) {
         }
 
     }

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
@@ -81,7 +83,29 @@ public interface View {
      * @return The list of the MappableData
      */
     List<MappableData> getListOfMappableData();
-    
+
+    /**
+     * Obtain the actual score in the game.
+     * 
+     * @return the actual score
+     */
     int getScore();
+
+    /**
+     * Sets the percentage of advance of a loading. If the number is less than 0 or
+     * exceeds 100, the change is ignored.
+     * 
+     * @param value
+     *            the percentage (es. 1 -> 1%, 40 -> 40%)
+     */
+    void advanceLoading(int value);
+
+    /**
+     * Sets the loaded backgroud image of the loader screen.
+     * 
+     * @param img
+     *            is the imageIcon that will be load in the background
+     */
+    public void setLoadImage(ImageIcon img);
 
 }
