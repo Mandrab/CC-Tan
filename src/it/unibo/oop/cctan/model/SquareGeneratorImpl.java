@@ -15,13 +15,15 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
     private final List<SquareAgent> squares;
 
     public SquareGeneratorImpl(final Model model) {
-        this.squares = new ArrayList<>();
-        this.ratio = new SquareRatio();
+        super();
         this.model = model;
+        this.ratio = new SquareRatio();
+        this.squares = new ArrayList<>();
     }
 
     @Override
     public void start() {
+        this.ratio.start();
         super.start();
     }
 

@@ -31,7 +31,8 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      */
     @Override
     public void start() {
-        super.run();
+        this.ratio.start();
+        super.start();
     }
 
     /**

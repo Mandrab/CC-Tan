@@ -9,7 +9,7 @@ import java.util.List;
 public interface BallGenerator {
 
     /**
-     * This method allows to start the "BallGeneratorImpl" thread.
+     * This method allows to start the "BallGeneratorImpl" thread and the "BallRatio" thread.
      */
     void start(); 
 
