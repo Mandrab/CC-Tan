@@ -15,7 +15,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     private final Model model;
 
     /**
-     * Put a new movable item respecting the value specified inside the builder object.
+     * Create a new thread that generates balls.
      * @param model
      *          it's the model of the application
      */
@@ -65,7 +65,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      * {@inheritDoc}
      */
     @Override
-    public List<BallAgent> getBallAgents() {
+    public synchronized List<BallAgent> getBallAgents() {
         return Collections.unmodifiableList(this.balls);
     }
 

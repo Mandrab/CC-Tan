@@ -2,18 +2,23 @@ package it.unibo.oop.cctan.model;
 
 import java.util.List;
 import java.util.Random;
-
 import javafx.geometry.Point2D;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * {@inheritDoc}.
+ */
 public class SquareGeneratorImpl extends Thread implements SquareGenerator {
 
     private final Model model;
     private final SquareRatio ratio;
     private final List<SquareAgent> squares;
-
+    /**
+     * Create a new thread that generates squares.
+     * @param model
+     *          it's the model of the application
+     */
     public SquareGeneratorImpl(final Model model) {
         super();
         this.model = model;
@@ -21,12 +26,18 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
         this.squares = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void start() {
         this.ratio.start();
         super.start();
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void run() {
         while (true) {
@@ -39,6 +50,9 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
         }
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public synchronized void removeSquare(final SquareAgent square) {
         if (!this.squares.isEmpty() && square != null) {
@@ -47,6 +61,10 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
         }
     }
 
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public synchronized List<SquareAgent> getSquareAgents() {
         return Collections.unmodifiableList(this.squares);
     }
