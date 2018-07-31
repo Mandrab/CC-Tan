@@ -10,7 +10,6 @@ public abstract class MovableItem extends FixedItem implements Runnable {
 
     private static final int REFRESH_RATIO = 20;
 
-    private double angle;
     private double speed;
     private boolean stop;
 
@@ -20,10 +19,10 @@ public abstract class MovableItem extends FixedItem implements Runnable {
      * @param builder
      *          the builder containing the desired parameters
      */
-    protected MovableItem(final AbstractBuilder builder) {
+    protected MovableItem(final AbstractBuilderMI builder) {
         super(builder);
-        this.angle = builder.angleDir;
         this.speed = builder.speedValue == 0 ? this.getDefaultSpeed() : builder.speedValue;
+        this.stop = false;
     }
 
     /**
@@ -83,31 +82,11 @@ public abstract class MovableItem extends FixedItem implements Runnable {
     }
 
     /**
-     * Get the movement angle of the object. The angle is the portion of area between x-axis
-     * and item trajectory.
-     * @return
-     *          the movement angle
-     */
-    protected synchronized double getAngle() {
-        return this.angle;
-    }
-
-    /**
-     * Set the movement angle of the item.
-     * @see #getAngle()
-     * @param angle
-     *          the new movement angle
-     */
-    protected synchronized void setAngle(final double angle) {
-        this.angle = angle;
-    }
-
-    /**
      * Update the current position according to movement speed and angle.
      */
     protected void updatePos() {
-        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(this.angle),
-                this.getPos().getY() + this.speed * Math.sin(this.angle)));
+        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(this.getAngle()),
+                this.getPos().getY() + this.speed * Math.sin(this.getAngle())));
         applyConstraints();
     }
 
@@ -125,24 +104,11 @@ public abstract class MovableItem extends FixedItem implements Runnable {
     protected abstract double getDefaultSpeed();
 
     /**
-     * A basic abstract builder for FixedItem abstract class.
+     * A basic abstract builder for (classes who extends from) MovableItem abstract class.
      */
-    public abstract static class AbstractBuilder extends FixedItem.AbstractBuilder {
+    public abstract static class AbstractBuilderMI extends FixedItem.AbstractBuilderFI {
 
-        private double angleDir;
         private double speedValue;
-
-        /**
-         * Set the direction of movement, with the angle between direction and x-axis.
-         * @param angle
-         *              the angle of movement
-         * @return
-         *              the current abstract builder for movable items
-         */
-        public AbstractBuilder angle(final double angle) {
-            this.angleDir = angle;
-            return this;
-        }
 
         /**
          * Set the speed of the item in the direction of movement.
@@ -151,13 +117,15 @@ public abstract class MovableItem extends FixedItem implements Runnable {
          * @return
          *              the current abstract builder for movable items
          */
-        public AbstractBuilder speed(final double speed) {
+        public AbstractBuilderMI speed(final double speed) {
             this.speedValue = speed;
             return this;
         }
 
-        /** 
-         * {@inheritDoc}
+        /**
+         * Builds the desired MovableItem object with the specified parameters.
+         * @return
+         *              the MovableItem object as wanted
          */
         public abstract MovableItem build();
     }

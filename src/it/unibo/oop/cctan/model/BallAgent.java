@@ -16,10 +16,17 @@ import it.unibo.oop.cctan.geometry.Side;
  */
 public final class BallAgent extends MovableItem {
 
+    /**
+     * The width of the ball.
+     */
     public static final double WIDTH = 0.05;
-    public static final double HEIGHT = 0.05;
-    private static final double DEFAULT_SPEED = 0.001;
 
+    /**
+     * The height of the ball.
+     */
+    public static final double HEIGHT = 0.05;
+
+    private static final double DEFAULT_SPEED = 0.001;
     private Optional<SquareAgent> lastCollision;
 
     private BallAgent(final BallBuilder builder) {
@@ -101,7 +108,7 @@ public final class BallAgent extends MovableItem {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class BallBuilder extends MovableItem.AbstractBuilder {
+    public static class BallBuilder extends MovableItem.AbstractBuilderMI {
 
         /** 
          * {@inheritDoc}

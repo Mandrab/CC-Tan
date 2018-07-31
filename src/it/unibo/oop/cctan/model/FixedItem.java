@@ -1,5 +1,4 @@
 package it.unibo.oop.cctan.model;
-
 import javafx.geometry.Point2D;
 
 /**
@@ -9,15 +8,17 @@ public abstract class FixedItem implements Item {
 
     private final Model model;
     private Point2D pos;
+    private double angle;
 
     /**
      * Put a new fixed item respecting the value specified inside the builder object.
      * @param builder
      *          the builder containing the desired parameters
      */
-    protected FixedItem(final AbstractBuilder builder) {
+    protected FixedItem(final AbstractBuilderFI builder) {
         this.model = builder.mod;
         this.pos = builder.pos;
+        this.angle = builder.angleDir;
     }
 
     /**
@@ -49,21 +50,46 @@ public abstract class FixedItem implements Item {
     }
 
     /**
+     * Get the angle of the object. The angle is the portion of area between x-axis
+     * and item axis.
+     * @return
+     *          the movement angle
+     */
+    public synchronized double getAngle() {
+        return this.angle;
+    }
+
+    /**
+     * Set the angle of the item axis.
+     * @see #getAngle()
+     * @param angle
+     *          the new movement angle
+     */
+    protected synchronized void setAngle(final double angle) {
+        this.angle = angle;
+    }
+
+    /**
      * Set the position of the item.
      * @param pos
      *          the new position
      */
     protected synchronized void setPos(final Point2D pos) { //Movable items can change their position
-        this.pos = pos;
+        if (this instanceof MovableItem) {
+            this.pos = pos;
+        } else {
+            throw new IllegalStateException("Can't change the position of fixed item");
+        }
     }
 
     /**
      * A basic abstract builder for FixedItem abstract class.
      */
-    public abstract static class AbstractBuilder {
+    public abstract static class AbstractBuilderFI {
 
         private Model mod;
         private Point2D pos;
+        private double angleDir;
 
         /**
          * Set the model of the application based on MVC pattern.
@@ -72,7 +98,7 @@ public abstract class FixedItem implements Item {
          * @return
          *              the current abstract builder for fixed items
          */
-        public AbstractBuilder model(final Model model) {
+        public AbstractBuilderFI model(final Model model) {
             this.mod = model;
             return this;
         }
@@ -84,8 +110,20 @@ public abstract class FixedItem implements Item {
          * @return
          *              the current abstract builder for fixed items
          */
-        public AbstractBuilder position(final Point2D startingPos) {
+        public AbstractBuilderFI position(final Point2D startingPos) {
             this.pos = startingPos;
+            return this;
+        }
+
+        /**
+         * Set the direction of movement, with the angle between direction and x-axis.
+         * @param angle
+         *              the angle of movement
+         * @return
+         *              the current abstract builder for movable items
+         */
+        public AbstractBuilderFI angle(final double angle) {
+            this.angleDir = angle;
             return this;
         }
 
@@ -98,7 +136,8 @@ public abstract class FixedItem implements Item {
 
         /**
          * Check that all fields are consistent to finally build the item.
-         * @throws IllegalStateException if at least one parameter value is not correct to build the item.
+         * @throws
+         *              IllegalStateException if at least one parameter value is not correct to build the item.
          */
         protected void validate() {
             if (this.mod == null || this.pos == null) {

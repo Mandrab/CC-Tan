@@ -20,4 +20,11 @@ public interface Item {
      *          the current position of the item
      */
     Point2D getPos();
+
+    /**
+     * Get the angle of the item: the angle between its axis and the x-axis.
+     * @return
+     *          the angle between item axis and x-axis.
+     */
+    double getAngle();
 }
