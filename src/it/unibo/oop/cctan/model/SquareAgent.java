@@ -77,7 +77,7 @@ public final class SquareAgent extends MovableItem  {
     /**
      * A basic builder for SquareAgent class.
      */
-    public static class SquareBuilder extends MovableItem.AbstractBuilderMI {
+    public static class SquareBuilder extends MovableItem.AbstractBuilderMI<SquareBuilder> {
 
         private int hp;
 

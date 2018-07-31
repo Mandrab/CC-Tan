@@ -109,7 +109,7 @@ public final class BallAgent extends MovableItem {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class BallBuilder extends MovableItem.AbstractBuilderMI {
+    public static class BallBuilder extends MovableItem.AbstractBuilderMI<BallBuilder> {
 
         /** 
          * {@inheritDoc}

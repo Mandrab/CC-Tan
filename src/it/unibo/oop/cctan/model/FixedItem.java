@@ -85,7 +85,8 @@ public abstract class FixedItem implements Item {
     /**
      * A basic abstract builder for FixedItem abstract class.
      */
-    public abstract static class AbstractBuilderFI {
+    @SuppressWarnings("unchecked")
+    public abstract static class AbstractBuilderFI<T extends AbstractBuilderFI<T>> {
 
         private Model mod;
         private Point2D pos;
@@ -98,9 +99,9 @@ public abstract class FixedItem implements Item {
          * @return
          *              the current abstract builder for fixed items
          */
-        public AbstractBuilderFI model(final Model model) {
+        public T model(final Model model) {
             this.mod = model;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -110,9 +111,9 @@ public abstract class FixedItem implements Item {
          * @return
          *              the current abstract builder for fixed items
          */
-        public AbstractBuilderFI position(final Point2D startingPos) {
+        public T position(final Point2D startingPos) {
             this.pos = startingPos;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -122,9 +123,9 @@ public abstract class FixedItem implements Item {
          * @return
          *              the current abstract builder for movable items
          */
-        public AbstractBuilderFI angle(final double angle) {
+        public T angle(final double angle) {
             this.angleDir = angle;
-            return this;
+            return (T) this;
         }
 
         /**
