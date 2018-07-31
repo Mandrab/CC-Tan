@@ -29,6 +29,7 @@ public final class BallAgent extends MovableItem {
     private static final double DEFAULT_SPEED = 0.001;
     private Optional<SquareAgent> lastCollision;
 
+
     private BallAgent(final BallBuilder builder) {
         super(builder);
     }

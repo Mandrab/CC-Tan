@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 
