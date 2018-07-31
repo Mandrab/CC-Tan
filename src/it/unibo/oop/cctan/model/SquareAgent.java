@@ -9,10 +9,17 @@ import java.awt.geom.Rectangle2D;
  */
 public final class SquareAgent extends MovableItem  {
 
+    /**
+     * The width of the ball.
+     */
     public static final double WIDTH = 0.18;
-    public static final double HEIGHT = 0.18;
-    private static final double DEFAULT_SPEED = 0.0005;
 
+    /**
+     * The height of the ball.
+     */
+    public static final double HEIGHT = 0.18;
+
+    private static final double DEFAULT_SPEED = 0.0005;
     private int hitPoints;
 
     private SquareAgent(final SquareBuilder builder) {
@@ -70,7 +77,7 @@ public final class SquareAgent extends MovableItem  {
     /**
      * A basic builder for SquareAgent class.
      */
-    public static class SquareBuilder extends MovableItem.AbstractBuilder {
+    public static class SquareBuilder extends MovableItem.AbstractBuilderMI {
 
         private int hp;
 
