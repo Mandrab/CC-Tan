@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 
@@ -86,7 +87,10 @@ class Loader {
      */
     public void setLoadImage(ImageIcon img) {
         containerLabel.setText("");
-        containerLabel.setIcon(img);
+        containerLabel.setIcon(new ImageIcon(img.getImage()
+                                                .getScaledInstance((int)windowSize.getWidth(), 
+                                                                   (int)windowSize.getHeight(), 
+                                                                   Image.SCALE_SMOOTH)));
     }
 
     /**

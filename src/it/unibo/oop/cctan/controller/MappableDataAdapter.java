@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jhotdraw.geom.Polygon2D;
@@ -13,6 +14,7 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.model.BallAgent;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.SquareAgent;
+import javafx.geometry.Point2D;
 
 public class MappableDataAdapter {
 
@@ -46,15 +48,18 @@ public class MappableDataAdapter {
         l.add(0, 
               new MappableDataImpl("", 
                                    Color.WHITE, 
-                                   model.getShuttle().getShape()));
-                                   /*new Polygon2D.Double(new double[] {model.getShuttle().getPointx1,
-                                                                      model.getShuttle().getPointx2,
-                                                                      model.getShuttle().getPointx3},
-                                                        new double[] {model.getShuttle().getPointy1,
-                                                                      model.getShuttle().getPointy2,
-                                                                      model.getShuttle().getPointy3},
-                                                        3)));*/
+                                   new Polygon2D.Double(getAxisPointArray(point -> point.getX()),
+                                                        getAxisPointArray(point -> point.getY()),
+                                                        3)));
         return l;
+    }
+
+    private double[] getAxisPointArray(Function<Point2D, Double> function) {
+        return model.getShuttle()
+                    .getShape()
+                    .stream()
+                    .mapToDouble(point -> function.apply(point).doubleValue())
+                    .toArray();
     }
 
     private Color calculateColor(int hp) {
