@@ -31,4 +31,11 @@ public interface Shuttle extends Item {
      *          a new Shape representing the Shuttle
      */
     List<Point2D> getShape();
+
+    /**
+     * Set the inclination of the shuttle between its and x axis.
+     * @param angle
+     *                  the new angle between item and x-axis
+     */
+    void setAngle(double angle);
 }
