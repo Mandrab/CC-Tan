@@ -15,7 +15,7 @@ public abstract class FixedItem implements Item {
      * @param builder
      *          the builder containing the desired parameters
      */
-    protected FixedItem(final AbstractBuilderFI builder) {
+    protected FixedItem(final AbstractBuilderFI<?> builder) {
         this.model = builder.mod;
         this.pos = builder.pos;
         this.angle = builder.angleDir;
@@ -74,16 +74,14 @@ public abstract class FixedItem implements Item {
      * @param pos
      *          the new position
      */
-    protected synchronized void setPos(final Point2D pos) { //Movable items can change their position
-        if (this instanceof MovableItem) {
-            this.pos = pos;
-        } else {
-            throw new IllegalStateException("Can't change the position of fixed item");
-        }
+    protected synchronized void setPos(final Point2D pos) { // Movable items can change their position
+        this.pos = pos;
     }
 
     /**
      * A basic abstract builder for FixedItem abstract class.
+     * @param <T>
+     *                  the current builder type
      */
     @SuppressWarnings("unchecked")
     public abstract static class AbstractBuilderFI<T extends AbstractBuilderFI<T>> {

@@ -1,6 +1,5 @@
 package it.unibo.oop.cctan.model;
 
-import it.unibo.oop.cctan.model.FixedItem.AbstractBuilderFI;
 import javafx.geometry.Point2D;
 
 /**
@@ -20,7 +19,7 @@ public abstract class MovableItem extends FixedItem implements Runnable {
      * @param builder
      *          the builder containing the desired parameters
      */
-    protected MovableItem(final AbstractBuilderMI builder) {
+    protected MovableItem(final AbstractBuilderMI<?> builder) {
         super(builder);
         this.speed = builder.speedValue == 0 ? this.getDefaultSpeed() : builder.speedValue;
         this.stop = false;
@@ -106,6 +105,8 @@ public abstract class MovableItem extends FixedItem implements Runnable {
 
     /**
      * A basic abstract builder for (classes who extends from) MovableItem abstract class.
+     * @param <T>
+     *                  the current builder type
      */
     @SuppressWarnings("unchecked")
     public abstract static class AbstractBuilderMI<T extends AbstractBuilderMI<T>>
