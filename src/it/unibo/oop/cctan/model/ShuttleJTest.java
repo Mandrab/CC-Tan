@@ -2,13 +2,10 @@ package it.unibo.oop.cctan.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import javafx.geometry.Point2D;
-
 
 /**
  * A test for basic operations on the Shuttle.
@@ -24,7 +21,6 @@ public class ShuttleJTest {
     @Test
     public void testRotationShuttle() {
         final double tollerance = 0.00001;
-        System.out.println("testRotationShuttle");
         final Model model = new ModelImpl();
         final Shuttle shuttle = model.getShuttle();
 
@@ -64,44 +60,6 @@ public class ShuttleJTest {
         expectedPoints = Arrays.asList(new Point2D(0, -0.5), new Point2D(0.5, 0.5), new Point2D(-0.5, 0.5));
         comparePointLists(expectedPoints, shapePoints, tollerance);
         printShuttleInfo(shuttle.getPos(), shapePoints);
-        System.out.println(SEPARATOR);
-    }
-
-    /**
-     * Test the library function scale around the shape center.
-     */
-    @Test
-    public void testScale() {
-        System.out.println("testScale");
-        final int maxCoord = 20, increment = 5, maxSize = 30;
-        final double scale = 0.5, tollerance = 0.00001;
-        for (Point2D pos = new Point2D(0, 0); pos.getX() < maxCoord; pos = new Point2D(pos.getX() + increment,
-                pos.getY())) {
-            for (; pos.getY() < maxCoord; pos = new Point2D(pos.getX(), pos.getY() + increment)) {
-                for (int width = increment; width < maxSize; width += increment) {
-                    for (int height = increment; height < maxSize; height += increment) {
-                        Rectangle2D rect = new Rectangle2D.Double(pos.getX(), pos.getY(), width, height);
-                        final AffineTransform tx = new AffineTransform();
-                        // tx.translate(pos.getX() + (width / 2) * (1 - factor),
-                        // pos.getY() + (height / 2) * (1 - factor));
-                        tx.translate((width * (1 - scale) + pos.getX()) / 2, (height * (1 - scale) + pos.getY()) / 2);
-                        tx.scale(scale, scale);
-                        rect = tx.createTransformedShape(rect).getBounds2D();
-                        assertEquals(pos.getX() + width * (1 - scale) / 2, rect.getX(), tollerance,
-                                "wrong X coord. " + pos + "; " + width + ", " + height + "; " + scale);
-                        assertEquals(pos.getY() + height * (1 - scale) / 2, rect.getY(), tollerance,
-                                "wrong Y coord. " + pos + "; " + width + ", " + height + "; " + scale);
-                        assertEquals(width * scale, rect.getWidth(), tollerance, "wrong width");
-                        assertEquals(height * scale, rect.getHeight(), tollerance, "wrong height");
-
-                        // System.out.println("Width: " + rect.getWidth() + "; Height: " +
-                        // rect.getHeight());
-                        // System.out.println("Coordinate: (" + rect.getX() + "; " + rect.getY() + ")");
-                        // System.out.println(SEPARATOR);
-                    }
-                }
-            }
-        }
         System.out.println(SEPARATOR);
     }
 
