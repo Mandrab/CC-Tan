@@ -25,17 +25,11 @@ public interface Shuttle extends Item {
     Area getImpactArea();
 
     /**
-     * Create on runtime a new Shape representing the Shuttle, that will be
-     * used by the View to draw it.
+     * Create, on runtime, a new list of points, composing the triangle representing the Shuttle,
+     * that will be used by the View to draw it.
      * @return
-     *          a new Shape representing the Shuttle
+     *          a new list of points representing the triangle (Shuttle).
+     *          The 3 points are returned in this order: the top, the left base vertex and the right base vertex.
      */
     List<Point2D> getShape();
-
-    /**
-     * Set the inclination of the shuttle between its and x axis.
-     * @param angle
-     *                  the new angle between item and x-axis
-     */
-    void setAngle(double angle);
 }
