@@ -33,7 +33,7 @@ public class ShuttleImpl extends FixedItem implements Shuttle {
         final double unitY = (this.getModel().getBounds().getY1() / INTERVALS);
         this.width = WIDTH * unitX;
         this.height = HEIGHT * unitY;
-        this.startingPos = new Point2D(-this.width / 2, this.height / 2);
+        this.startingPos = new Point2D(this.width / 2, this.height / 2);
         this.setPos(this.startingPos);
     }
 
@@ -72,10 +72,9 @@ public class ShuttleImpl extends FixedItem implements Shuttle {
     @Override
     public synchronized void setAngle(final double angle) {
         super.setAngle(angle);
-        final double centerX = this.startingPos.getX() + this.width / 2;
+        final double centerX = this.startingPos.getX() - this.width / 2;
         final double centerY = this.startingPos.getY() - this.height / 2;
-        // note: use -(90 - angle) = (angle - 90) because we consider positive angles like rotation clockwise
-        final double angleRad = Math.toRadians(angle - 90);
+        final double angleRad = Math.toRadians(angle);
         final double[] pt = { this.startingPos.getX(), this.startingPos.getY() };
         AffineTransform.getRotateInstance(angleRad, centerX, centerY).transform(pt, 0, pt, 0, 1);
         this.setPos(new Point2D(pt[0], pt[1]));
