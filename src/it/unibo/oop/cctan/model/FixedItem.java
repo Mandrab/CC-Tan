@@ -49,23 +49,17 @@ public abstract class FixedItem implements Item {
         return this.model;
     }
 
-    /**
-     * Get the angle of the object. The angle is the portion of area between x-axis
-     * and item axis.
-     * @return
-     *          the movement angle
+    /** 
+     * {@inheritDoc}
      */
     public synchronized double getAngle() {
         return this.angle;
     }
 
-    /**
-     * Set the angle of the item axis.
-     * @see #getAngle()
-     * @param angle
-     *          the new movement angle
+    /** 
+     * {@inheritDoc}
      */
-    protected synchronized void setAngle(final double angle) {
+    public synchronized void setAngle(final double angle) {
         this.angle = angle;
     }
 

@@ -27,4 +27,12 @@ public interface Item {
      *          the angle between item axis and x-axis.
      */
     double getAngle();
+
+    /**
+     * Set the angle of the item axis.
+     * @see #getAngle()
+     * @param angle
+     *          the new movement angle
+     */
+    void setAngle(double angle);
 }
