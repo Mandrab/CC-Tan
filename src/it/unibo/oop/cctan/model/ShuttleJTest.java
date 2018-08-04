@@ -27,7 +27,7 @@ public class ShuttleJTest {
         // now shuttle top should be on the right
         shuttle.setAngle(0);
         comparePoints(new Point2D(0.5, 0.5), shuttle.getPos(), tollerance);
-        List<Point2D> shapePoints = shuttle.getShape();
+        List<Point2D> shapePoints = shuttle.getShapePoints();
         List<Point2D> expectedPoints = Arrays.asList(new Point2D(0.5, 0), new Point2D(-0.5, 0.5),
                 new Point2D(-0.5, -0.5));
         comparePointLists(expectedPoints, shapePoints, tollerance);
@@ -37,7 +37,7 @@ public class ShuttleJTest {
         // now set angle to 90° (starting from x-axis), such that shuttle top should be in the up
         shuttle.setAngle(90);
         comparePoints(new Point2D(-0.5, 0.5), shuttle.getPos(), tollerance);
-        shapePoints = shuttle.getShape();
+        shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(0, 0.5), new Point2D(-0.5, -0.5), new Point2D(0.5, -0.5));
         comparePointLists(expectedPoints, shapePoints, tollerance);
         printShuttleInfo(shuttle.getPos(), shapePoints);
@@ -46,7 +46,7 @@ public class ShuttleJTest {
         // now set angle to 180° (starting from x-axis), such that shuttle top should be on the left
         shuttle.setAngle(180);
         comparePoints(new Point2D(-0.5, -0.5), shuttle.getPos(), tollerance);
-        shapePoints = shuttle.getShape();
+        shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(-0.5, 0), new Point2D(0.5, -0.5), new Point2D(0.5, 0.5));
         comparePointLists(expectedPoints, shapePoints, tollerance);
         printShuttleInfo(shuttle.getPos(), shapePoints);
@@ -56,7 +56,7 @@ public class ShuttleJTest {
         final double angle = 270;
         shuttle.setAngle(angle);
         comparePoints(new Point2D(0.5, -0.5), shuttle.getPos(), tollerance);
-        shapePoints = shuttle.getShape();
+        shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(0, -0.5), new Point2D(0.5, 0.5), new Point2D(-0.5, 0.5));
         comparePointLists(expectedPoints, shapePoints, tollerance);
         printShuttleInfo(shuttle.getPos(), shapePoints);

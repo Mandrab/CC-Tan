@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
@@ -12,7 +13,7 @@ import javafx.geometry.Point2D;
  * Represent the shuttle in the space, where balls get out from. When a square collide with it the game will ends.
  * The shuttle will rotate with mouse position.
  */
-public class ShuttleImpl extends FixedItem implements Shuttle {
+public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
     private static final int INTERVALS = 1; //6; //number of intervals in which split out the two dimensions. Use 1 in test
     private static final int HEIGHT = 1; //height of the rectangle containing the triangle, in terms of interval-unit
@@ -42,17 +43,7 @@ public class ShuttleImpl extends FixedItem implements Shuttle {
      */
     @Override
     public Area getImpactArea() {
-        final Path2D.Double path = new Path2D.Double();
-        final List<Point2D> points = this.getShape();
-        points.forEach(p -> {
-            if (points.indexOf(p) == 0) {
-                path.moveTo(p.getX(), p.getY());
-            } else {
-                path.lineTo(p.getX(), p.getY());
-            }
-        });
-        path.closePath();
-        return new Area(path);
+        return new Area(this.getShape());
     }
 
     /** 
@@ -84,12 +75,46 @@ public class ShuttleImpl extends FixedItem implements Shuttle {
      * {@inheritDoc}
      */
     @Override
-    public List<Point2D> getShape() {
+    public List<Point2D> getShapePoints() {
         final double angle = Math.toRadians(this.getAngle());
         final Point2D leftBase = new Point2D(this.getPos().getX() - this.height * Math.cos(angle),
                 this.getPos().getY() - this.height * Math.sin(angle));
         final Point2D rightBase = new Point2D(leftBase.getX() + this.width * Math.sin(angle),
                 leftBase.getY() - this.width * Math.cos(angle));
         return Arrays.asList(this.getTop(), leftBase, rightBase);
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Shape getShape() {
+        final Path2D.Double path = new Path2D.Double();
+        final List<Point2D> points = this.getShapePoints();
+        points.forEach(p -> {
+            if (points.indexOf(p) == 0) {
+                path.moveTo(p.getX(), p.getY());
+            } else {
+                path.lineTo(p.getX(), p.getY());
+            }
+        });
+        path.closePath();
+        return path;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public double getWidth() {
+        return this.getShape().getBounds2D().getWidth();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public double getHeight() {
+        return this.getShape().getBounds2D().getHeight();
     }
 }
