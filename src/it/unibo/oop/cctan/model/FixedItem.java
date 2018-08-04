@@ -1,141 +1,62 @@
 package it.unibo.oop.cctan.model;
+
+import java.awt.Shape;
+
 import javafx.geometry.Point2D;
 
 /**
- * Represent an abstract item that maintains its position during its life.
+ * Represents a generic item in the game area, such as Balls, Squares, Shuttle...
  */
-public abstract class FixedItem implements Item {
-
-    private final Model model;
-    private Point2D pos;
-    private double angle;
+public interface FixedItem {
 
     /**
-     * Put a new fixed item respecting the value specified inside the builder object.
-     * @param builder
-     *          the builder containing the desired parameters
+     * Get the model of the MVC application.
+     * @return
+     *          the model
      */
-    protected FixedItem(final AbstractBuilderFI<?> builder) {
-        this.model = builder.mod;
-        this.pos = builder.pos;
-        this.angle = builder.angleDir;
-    }
+    Model getModel();
 
     /**
-     * Put a new fixed item in the specified position.
-     * @param model
-     *          the model of the application
-     * @param startingPos
-     *          the starting position of the item
+     * Get the current left-upper bound position of the item.
+     * @return
+     *          the current position of the item
      */
-    protected FixedItem(final Model model, final Point2D startingPos) {
-        this.model = model;
-        this.pos = startingPos;
-    }
+    Point2D getPos();
 
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized Point2D getPos() {
-        return new Point2D(this.pos.getX(), this.pos.getY());
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public Model getModel() {
-        return this.model;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    public synchronized double getAngle() {
-        return this.angle;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    public synchronized void setAngle(final double angle) {
-        this.angle = angle;
-    }
 
     /**
-     * Set the position of the item.
-     * @param pos
-     *          the new position
+     * Get the item width.
+     * @return
+     *          the item width
      */
-    protected synchronized void setPos(final Point2D pos) { // Movable items can change their position
-        this.pos = pos;
-    }
+    double getWidth();
 
     /**
-     * A basic abstract builder for FixedItem abstract class.
-     * @param <T>
-     *                  the current builder type
+     * get the item height.
+     * @return
+     *          the item height
      */
-    @SuppressWarnings("unchecked")
-    public abstract static class AbstractBuilderFI<T extends AbstractBuilderFI<T>> {
+    double getHeight();
 
-        private Model mod;
-        private Point2D pos;
-        private double angleDir;
+    /**
+     * Get the angle of the item: the angle between its axis and the x-axis.
+     * @return
+     *          the angle between item axis and x-axis.
+     */
+    double getAngle();
 
-        /**
-         * Set the model of the application based on MVC pattern.
-         * @param model
-         *              the model of the application
-         * @return
-         *              the current abstract builder for fixed items
-         */
-        public T model(final Model model) {
-            this.mod = model;
-            return (T) this;
-        }
+    /**
+     * Get the shape representing the item.
+     * @return
+     *          a new Shape object representing the item
+     */
+    Shape getShape();
 
-        /**
-         * Set the starting position of the item.
-         * @param startingPos
-         *              the item starting position
-         * @return
-         *              the current abstract builder for fixed items
-         */
-        public T position(final Point2D startingPos) {
-            this.pos = startingPos;
-            return (T) this;
-        }
-
-        /**
-         * Set the direction of movement, with the angle between direction and x-axis.
-         * @param angle
-         *              the angle of movement
-         * @return
-         *              the current abstract builder for movable items
-         */
-        public T angle(final double angle) {
-            this.angleDir = angle;
-            return (T) this;
-        }
-
-        /**
-         * Builds the desired FixedItem object with the specified parameters.
-         * @return
-         *              the FixedItem object as wanted
-         */
-        public abstract FixedItem build();
-
-        /**
-         * Check that all fields are consistent to finally build the item.
-         * @throws
-         *              IllegalStateException if at least one parameter value is not correct to build the item.
-         */
-        protected void validate() {
-            if (this.mod == null || this.pos == null) {
-                throw new IllegalStateException();
-            }
-        }
-    }
+    /**
+     * Set the angle of the item axis.
+     * @see #getAngle()
+     * @param angle
+     *          the new movement angle
+     */
+    void setAngle(double angle);
 }
