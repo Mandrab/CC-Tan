@@ -1,20 +1,16 @@
 package it.unibo.oop.cctan.model;
 
-import java.awt.geom.Area;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
-import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.geometry.Side;
 
 /**
  * Represent a ball outgoing from the shuttle. They can also be considered like the shots of the shuttle.
  * Every time a ball hits a square, the square's hit points will be decreased by 1.
  */
-public final class BallAgent extends MovableItem {
+public final class BallAgent extends BulletImpl implements Bullet {
 
     /**
      * The width of the ball.
@@ -38,23 +34,32 @@ public final class BallAgent extends MovableItem {
      * {@inheritDoc}
      */
     @Override
-    protected void updatePos() {
-        super.updatePos();
-        checkIntersecate();
+    public double getWidth() {
+        return WIDTH;
     }
 
     /** 
      * {@inheritDoc}
      */
     @Override
-    protected void applyConstraints() {
-        final Boundary bounds = this.getModel().getBounds();
-        if (this.getPos().getX() + WIDTH < bounds.getX0() || this.getPos().getX() > bounds.getX1()
-                || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - HEIGHT > bounds.getY1()) {
-            synchronized (this.getModel()) {
-                this.getModel().removeBall(this);
-            }
-        }
+    public double getHeight() {
+        return HEIGHT;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Color getColor() {
+        return Color.WHITE;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Shape getShape() {
+        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(), WIDTH, HEIGHT);
     }
 
     /** 
@@ -65,28 +70,20 @@ public final class BallAgent extends MovableItem {
         return DEFAULT_SPEED;
     }
 
-    private void checkIntersecate() {
-        synchronized (this.getModel().getSquareAgents()) {
-            final List<SquareAgent> squares = new ArrayList<>(this.getModel().getSquareAgents());
-            squares.remove(this.lastCollision.orElse(null));
-            for (final SquareAgent squareAg : squares) {
-                synchronized (squareAg) {
-                    final Area ballArea = new Area(
-                            new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY() - HEIGHT, WIDTH, HEIGHT));
-                    ballArea.intersect(new Area(new Rectangle2D.Double(squareAg.getPos().getX(),
-                            squareAg.getPos().getY() - SquareAgent.HEIGHT, SquareAgent.WIDTH,
-                            SquareAgent.HEIGHT)));
-                    if (!ballArea.isEmpty()) {
-                        squareAg.hit();
-                        this.lastCollision = Optional.of(squareAg);
-                        this.updateAngle(squareAg);
-                    }
-                }
-            }
-        }
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    protected void updatePos() {
+        super.updatePos();
+        this.lastCollision = checkIntersecate(this.lastCollision);
     }
 
-    private void updateAngle(final SquareAgent rect) {
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    protected void updateAngle(final SquareAgent rect) {
         final Side side = this.collisionSide(rect);
         this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : Math.PI - this.getAngle());
     }
@@ -109,13 +106,13 @@ public final class BallAgent extends MovableItem {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class BallBuilder extends MovableItem.AbstractBuilderMI<BallBuilder> {
+    public static class BallBuilder extends BulletImpl.BulletBuilder {
 
         /** 
          * {@inheritDoc}
          */
         @Override
-        public MovableItem build() {
+        public MovableItemImpl build() {
             super.validate();
             return new BallAgent(this);
         }
