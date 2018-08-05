@@ -19,9 +19,9 @@ import javafx.geometry.Point2D;
 public class MappableDataAdapter {
 
     private Model model;
-    
+
     public List<MappableData> getListOfMappableData() {
-        
+
         //Add all the squares to the list of mappable data
         List<MappableData> l = model.getBallAgents()
                                     .stream()
@@ -32,7 +32,7 @@ public class MappableDataAdapter {
                                                                                          BallAgent.WIDTH, 
                                                                                          BallAgent.HEIGHT)))
                                     .collect(Collectors.toList());
-        
+
         //Add all the squares to the list of mappable data
         l.addAll(model.getSquareAgents()
                       .stream()
@@ -43,24 +43,24 @@ public class MappableDataAdapter {
                                                                              SquareAgent.WIDTH, 
                                                                              SquareAgent.HEIGHT)))
                       .collect(Collectors.toList()));
-        
+
         //Add shuttle to the list of mappable data
         l.add(0, 
               new MappableDataImpl("", 
-                                   Color.WHITE, 
-                                   new Polygon2D.Double(getAxisPointArray(point -> point.getX()),
-                                                        getAxisPointArray(point -> point.getY()),
-                                                        3)));
+                                   Color.WHITE, model.getShuttle().getShape()));
+                                   //new Polygon2D.Double(getAxisPointArray(point -> point.getX()),
+                                   //                     getAxisPointArray(point -> point.getY()),
+                                   //                     3)));
         return l;
     }
 
-    private double[] getAxisPointArray(Function<Point2D, Double> function) {
+    /*private double[] getAxisPointArray(Function<Point2D, Double> function) {
         return model.getShuttle()
                     .getShape()
                     .stream()
                     .mapToDouble(point -> function.apply(point).doubleValue())
                     .toArray();
-    }
+    }*/
 
     private Color calculateColor(int hp) {
         /*Color[] cols = new Color[n];
@@ -68,5 +68,5 @@ public class MappableDataAdapter {
             cols[i] = Color.getHSBColor((float) i / n, 1, 1);*/
         return null;
     }
-    
+
 }
