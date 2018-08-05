@@ -17,9 +17,9 @@ public class SquareRatio extends TimerRatio {
 
     private static final int MAX_RATIO = 50;
     private static final int DECREASE_RATIO = 2;
-    private static final double MAX_SPEED = 0.1;
+    private static final double MAX_SPEED = 0.01;
     private static final int INCREASE_POINTS = 2;
-    private static final double INCREASE_SPEED = 0.02;
+    private static final double INCREASE_SPEED = 0.002;
 
     private int ratio;
     private int points;

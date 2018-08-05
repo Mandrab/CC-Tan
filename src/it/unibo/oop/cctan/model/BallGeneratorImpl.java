@@ -41,7 +41,6 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     @Override
     public void run() {
         while (true) {
-            System.out.println("balllll");
             this.createNewBall();
             try {
                 Thread.sleep(this.ratio.getRatio());
@@ -67,9 +66,9 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      */
     @Override
     public synchronized List<BallAgent> getBallAgents() {
-        return Collections.unmodifiableList(this.balls);
+        return new ArrayList<>(this.balls);
     }
-
+    
     private synchronized void createNewBall() {
         final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
                 .angle(this.model.getShuttle().getAngle())

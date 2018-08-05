@@ -26,6 +26,7 @@ public class MappableDataAdapter {
 
     public List<MappableData> getListOfMappableData() {
         //Add all the squares to the list of mappable data
+        //System.out.println(model.getBallAgents());
         List<MappableData> l = model.getBallAgents()
                                     .stream()
                                     .map(ba -> new MappableDataImpl("", 

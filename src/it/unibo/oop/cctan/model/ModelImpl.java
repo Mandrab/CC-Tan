@@ -69,7 +69,7 @@ public class ModelImpl implements Model {
          * {@inheritDoc}
          */
         @Override
-        public List<BallAgent> getBallAgents() {
+        public synchronized List<BallAgent> getBallAgents() {
             return this.ballGenerator.getBallAgents();
         }
 

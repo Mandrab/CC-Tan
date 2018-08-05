@@ -18,6 +18,7 @@ public class ControllerImpl implements Controller {
     
     public ControllerImpl() {
         model = new ModelImpl();
+        model.launch();
         mappableDataAdapter = new MappableDataAdapter(model);
     }
     

@@ -19,24 +19,10 @@ public class GraphicJTest {
     
     @Test
     public void test() {
-        Model m = new ModelImpl();
-        m.launch();
         View v = new ViewImpl(new ControllerImpl());
         v.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
         try {
-            Thread.sleep(2000000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        m.getShuttle().setAngle(0);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        m.getShuttle().setAngle(90);
-        try {
-            Thread.sleep(5000);
+            Thread.sleep(200000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

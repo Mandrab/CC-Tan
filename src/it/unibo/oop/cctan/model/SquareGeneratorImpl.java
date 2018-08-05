@@ -66,7 +66,7 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
      */
     @Override
     public synchronized List<SquareAgent> getSquareAgents() {
-        return Collections.unmodifiableList(this.squares);
+        return new ArrayList<>(this.squares);
     }
 
     private synchronized void createNewSquare() {
