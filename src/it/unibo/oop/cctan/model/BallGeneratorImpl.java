@@ -30,9 +30,9 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      * {@inheritDoc}
      */
     @Override
-    public void start() {
+    public void launch() {
         this.ratio.start();
-        super.start();
+        this.start();
     }
 
     /**
@@ -41,6 +41,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     @Override
     public void run() {
         while (true) {
+            System.out.println("balllll");
             this.createNewBall();
             try {
                 Thread.sleep(this.ratio.getRatio());
@@ -78,7 +79,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
                 .model(this.model)
                 .build();
         this.balls.add(ball);
-        ball.run();
+        new Thread(ball).start();
     }
 
 }

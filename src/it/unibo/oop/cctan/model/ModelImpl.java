@@ -36,9 +36,9 @@ public class ModelImpl implements Model {
          * {@inheritDoc}
          */
         @Override
-        public void start() {
-            this.squareGenerator.start();
-            this.ballGenerator.start();
+        public void launch() {
+            this.squareGenerator.launch();
+            this.ballGenerator.launch();
         }
 
         /** 

@@ -10,7 +10,7 @@ public interface Model extends BallGenerator, SquareGenerator {
     /**
      * Start the Model, launching the two generators (both balls and squares).
      */
-    void start();
+    void launch();
 
     /**
      * Get the game area boundaries used by the model.

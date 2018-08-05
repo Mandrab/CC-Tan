@@ -15,7 +15,7 @@ import javafx.geometry.Point2D;
  */
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
-    private static final int INTERVALS = 1; //6; //number of intervals in which split out the two dimensions. Use 1 in test
+    private static final int INTERVALS = 6; //6; //number of intervals in which split out the two dimensions. Use 1 in test
     private static final int HEIGHT = 1; //height of the rectangle containing the triangle, in terms of interval-unit
     private static final int WIDTH = 1; //width of the rectangle, in terms of interval-unit
 

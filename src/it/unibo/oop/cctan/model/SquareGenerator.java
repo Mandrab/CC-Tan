@@ -11,7 +11,7 @@ public interface SquareGenerator {
     /**
      * This method allows to start the "SquareGeneratorImpl" thread and the "SquareRatio" thread.
      */
-    void start();
+    void launch();
 
     /**
      * Removes the square from the application.

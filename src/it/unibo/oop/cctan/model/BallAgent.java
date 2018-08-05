@@ -112,7 +112,7 @@ public final class BallAgent extends BulletImpl implements Bullet {
          * {@inheritDoc}
          */
         @Override
-        public MovableItemImpl build() {
+        public BallAgent build() {
             super.validate();
             return new BallAgent(this);
         }

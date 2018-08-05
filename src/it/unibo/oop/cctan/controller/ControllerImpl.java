@@ -6,15 +6,19 @@ import java.util.Optional;
 import javax.swing.ImageIcon;
 
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
 
 public class ControllerImpl implements Controller {
 
     private Optional<View> view;
+    private Model model;
     private MappableDataAdapter mappableDataAdapter;
     
     public ControllerImpl() {
-        mappableDataAdapter = new MappableDataAdapter();
+        model = new ModelImpl();
+        mappableDataAdapter = new MappableDataAdapter(model);
     }
     
     @Override

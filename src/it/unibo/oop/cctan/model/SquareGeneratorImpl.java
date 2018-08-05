@@ -30,7 +30,7 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
      * {@inheritDoc}.
      */
     @Override
-    public void start() {
+    public void launch() {
         this.ratio.start();
         super.start();
     }
@@ -79,7 +79,7 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
                 .model(this.model)
                 .build();
         this.squares.add(square);
-        square.run();
+        new Thread(square).start();
     }
 
     /*

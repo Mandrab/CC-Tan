@@ -42,7 +42,7 @@ class Drawer {
         aTransformation.translate(ratio.getKey().doubleValue() / ratio.getValue().doubleValue(),
                                        -ratio.getValue().doubleValue() / ratio.getKey().doubleValue());
         try {//SPOSTA IN CONTROLLER????
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(getClass().getClassLoader().getResource("res/subspace_font/SubspaceItalic.otf").getFile()));
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(Drawer.class.getResource("/subspace_font/SubspaceItalic.otf").getFile()));
             font = font.deriveFont(Font.BOLD, 30);
         } catch (Exception e) {
             font = new Font("Sans-Serif", Font.BOLD, 60);

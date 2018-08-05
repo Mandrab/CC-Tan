@@ -21,7 +21,7 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
     protected Optional<SquareAgent> checkIntersecate(final Optional<SquareAgent> lastCollision) {
         synchronized (this.getModel().getSquareAgents()) {
             final List<SquareAgent> squares = new ArrayList<>(this.getModel().getSquareAgents());
-            squares.remove(lastCollision.orElse(null));
+            //squares.remove(lastCollision.orElse(null));
             for (final SquareAgent squareAg : squares) {
                 synchronized (squareAg) {
                     final Area bulletArea = new Area(this.getShape());
