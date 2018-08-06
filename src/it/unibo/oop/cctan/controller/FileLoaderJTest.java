@@ -43,6 +43,9 @@ public class FileLoaderJTest {
             
             @Override
             public void advanceLoading(int value) {}
+
+            @Override
+            public void setMouseRelativePosition(double angle) {}
         });
     }
     

@@ -72,6 +72,9 @@ public class LoaderJTest {
             
             @Override
             public void addCommandsObserver(CommandsObserver commandsObserver) {}
+
+            @Override
+            public void setMouseRelativePosition(double mouseRelativePosition) {}
         };
         
         

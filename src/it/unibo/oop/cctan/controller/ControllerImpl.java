@@ -54,4 +54,9 @@ public class ControllerImpl implements Controller {
         }
     }
 
+    @Override
+    public void setMouseRelativePosition(double angle) {
+        model.setSpaceshipAngle(angle);
+    }
+
 }

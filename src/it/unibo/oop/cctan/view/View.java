@@ -53,7 +53,7 @@ public interface View {
      *         center of the window [center-right = lowerBound, top-center = ?, ...]
      */
     double getMouseRelativePositionInRange(double lowerBound, double upperBound);
-
+    
     /**
      * Allow to add a "command" observer.
      * 
@@ -107,5 +107,15 @@ public interface View {
      *            is the imageIcon that will be load in the background
      */
     public void setLoadImage(ImageIcon img);
+
+    /**
+     * Set the degrees of the mouse relatively at the center of the game window to the controller.
+     * 
+     * @return A double representing the position of the mouse relatively to the
+     *         center of the window [center-right = 0, top-center = 90, ...]
+     */
+    void setMouseRelativePosition(double mouseRelativePosition);
+    
+    
 
 }

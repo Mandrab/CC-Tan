@@ -18,6 +18,14 @@ public interface Controller {
      * @return The list of the MappableData
      */
     List<MappableData> getListOfMappableData();
+    
+    /**
+     * Pass the degrees of the mouse relatively at the center of the game window to the model.
+     * 
+     * @param A double representing the position of the mouse relatively to the
+     *         center of the window [center-right = 0, top-center = 90, ...]
+     */
+    void setMouseRelativePosition(double angle);
 
     int getScore();
 
