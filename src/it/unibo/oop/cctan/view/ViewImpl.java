@@ -39,7 +39,7 @@ public class ViewImpl implements View {
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
         
-        loader = new Loader();
+        //loader = new Loader();
         //Impostazioni
     }
 

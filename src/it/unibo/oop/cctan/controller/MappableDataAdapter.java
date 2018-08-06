@@ -20,9 +20,13 @@ public class MappableDataAdapter {
 
     private Model model;
     
+    public MappableDataAdapter(Model model) {
+        this.model = model;
+    }
+
     public List<MappableData> getListOfMappableData() {
-        
         //Add all the squares to the list of mappable data
+        //System.out.println(model.getBallAgents());
         List<MappableData> l = model.getBallAgents()
                                     .stream()
                                     .map(ba -> new MappableDataImpl("", 
@@ -47,7 +51,7 @@ public class MappableDataAdapter {
         //Add shuttle to the list of mappable data
         l.add(0, 
               new MappableDataImpl("", 
-                                   Color.WHITE, 
+                                   Color.WHITE,
                                    new Polygon2D.Double(getAxisPointArray(point -> point.getX()),
                                                         getAxisPointArray(point -> point.getY()),
                                                         3)));
@@ -56,7 +60,7 @@ public class MappableDataAdapter {
 
     private double[] getAxisPointArray(Function<Point2D, Double> function) {
         return model.getShuttle()
-                    .getShape()
+                    .getShapePoints()
                     .stream()
                     .mapToDouble(point -> function.apply(point).doubleValue())
                     .toArray();
@@ -68,5 +72,5 @@ public class MappableDataAdapter {
             cols[i] = Color.getHSBColor((float) i / n, 1, 1);*/
         return null;
     }
-    
+
 }

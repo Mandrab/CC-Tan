@@ -11,7 +11,7 @@ public interface BallGenerator {
     /**
      * This method allows to start the "BallGeneratorImpl" thread and the "BallRatio" thread.
      */
-    void start(); 
+    void launch(); 
 
     /**
      * Removes the ball from the application.

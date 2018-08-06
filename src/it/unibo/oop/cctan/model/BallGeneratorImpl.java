@@ -30,9 +30,9 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      * {@inheritDoc}
      */
     @Override
-    public void start() {
+    public void launch() {
         this.ratio.start();
-        super.start();
+        this.start();
     }
 
     /**
@@ -66,9 +66,9 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
      */
     @Override
     public synchronized List<BallAgent> getBallAgents() {
-        return Collections.unmodifiableList(this.balls);
+        return new ArrayList<>(this.balls);
     }
-
+    
     private synchronized void createNewBall() {
         final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
                 .angle(this.model.getShuttle().getAngle())
@@ -78,7 +78,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
                 .model(this.model)
                 .build();
         this.balls.add(ball);
-        ball.run();
+        new Thread(ball).start();
     }
 
 }
