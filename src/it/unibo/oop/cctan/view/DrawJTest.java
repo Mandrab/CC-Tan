@@ -76,6 +76,10 @@ class DrawJTest {
             @Override
             public void setLoadImage(ImageIcon img) {
             }
+
+            @Override
+            public void setMouseRelativePosition(double angle) {
+            }
         });
         view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
         Thread.sleep(TIME_BEFORE_JUNIT_TEST_END);
@@ -143,6 +147,10 @@ class DrawJTest {
 
         @Override
         public void setLoadImage(ImageIcon img) {
+        }
+
+        @Override
+        public void setMouseRelativePosition(double angle) {
         }
 
     }
