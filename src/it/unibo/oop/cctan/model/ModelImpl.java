@@ -10,8 +10,8 @@ public class ModelImpl implements Model {
 
         private final Boundary bound;
         private final Shuttle shuttle;
-        private final BallGenerator ballGenerator;
-        private final SquareGenerator squareGenerator;
+        private final ItemGeneratorImpl ballGenerator;
+        private final ItemGeneratorImpl squareGenerator;
 
         /**
          * Instance a new Model, creating the default game area boundaries, a new Shuttle
@@ -45,39 +45,24 @@ public class ModelImpl implements Model {
          * {@inheritDoc}
          */
         @Override
-        public void removeSquare(final SquareAgent square) {
-            this.squareGenerator.removeSquare(square);
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        @Override
-        public void removeBall(final BallAgent ball) {
-            this.ballGenerator.removeBall(ball);
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        @Override
-        public List<SquareAgent> getSquareAgents() {
-            return this.squareGenerator.getSquareAgents();
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        @Override
-        public synchronized List<BallAgent> getBallAgents() {
-            return this.ballGenerator.getBallAgents();
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        @Override
         public Shuttle getShuttle() {
             return this.shuttle;
         }
+
+        public void removeSquare(final SquareAgent square) {
+            this.squareGenerator.removeItem(square);
+        }
+
+        public void removeBall(final BallAgent ball) {
+            this.ballGenerator.removeItem(ball);
+        }
+
+        public List<MovableItem> getSquareAgents() {
+            return this.squareGenerator.getItems();
+        }
+
+        public synchronized List<MovableItem> getBallAgents() {
+            return this.ballGenerator.getItems();
+        }
+
 }

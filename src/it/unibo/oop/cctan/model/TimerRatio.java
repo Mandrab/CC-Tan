@@ -11,6 +11,29 @@ public abstract class TimerRatio extends Thread {
      * 60000 milliseconds. This value is used inside the sleep for this thread.
      */
     private static final int ONE_MINUTE = 60000;
+    /**
+     * This value specifies the speed of movement of the object.
+     */
+    private double speed;
+    /**
+     * This value is expressed in milliseconds. Indicates the sleep time of the 
+     * BallGeneratorImpl thread. Therefore, to increase the frequency with which the balls 
+     * are generated, we must decrease this value to decrease the sleep time.
+     */
+    private int ratio;
+
+    /**
+     * Create a new TimerRatio thread.
+     * @param speed
+     *          it's the initial speed of the item.
+     * @param ratio
+     *          it's the initial frequency with which the object is generated.
+     */
+    public TimerRatio(final double speed, final int ratio) {
+        super();
+        this.speed = speed;
+        this.ratio = ratio;
+    }
 
     /**
      * {@inheritDoc}
@@ -33,4 +56,39 @@ public abstract class TimerRatio extends Thread {
      *  movement of the various objects, or to increase the initial life of the squares.
      */
     public abstract void operationRatio();
+
+    /**
+     * Set the new speed.
+     * @param speed
+     *          it's the new speed of the item.
+     */
+    protected void setSpeed(final double speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * Set the new ratio field.
+     * @param ratio
+     *          it's the new ratio of the item.
+     */
+    protected void setRatio(final int ratio) {
+        this.ratio = ratio;
+    }
+
+    /**
+     * @return
+     *          speed field
+     */
+    public double getSpeed() {
+        return this.speed;
+    }
+
+    /**
+     * @return
+     *          ratio field
+     */
+    public int getRatio() {
+        return this.ratio;
+    }
+
 }
