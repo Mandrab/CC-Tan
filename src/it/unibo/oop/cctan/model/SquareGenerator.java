@@ -13,6 +13,7 @@ public interface SquareGenerator {
      */
     void launch();
 
+    void terminate();
     /**
      * Removes the square from the application.
      * @param square
