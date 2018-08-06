@@ -37,21 +37,11 @@ public class BallRatio extends TimerRatio {
      */
     private static final double INCREASE_SPEED = 0.02;
 
-    /*
-     * The "ratio" value is expressed in milliseconds. Indicates the sleep time of the 
-     * BallGeneratorImpl thread. Therefore, to increase the frequency with which the balls 
-     * are generated, we must decrease this value to decrease the sleep time.
-     */
-    private int ratio;
-    private double speed;
-
     /**
      * Set default values for the ratio and speed fields.
      */
     public BallRatio() {
-        super();
-        this.ratio = DEFAULT_RATIO;
-        this.speed = DEFAULT_SPEED;
+        super(DEFAULT_SPEED, DEFAULT_RATIO);
     }
 
     /**
@@ -60,27 +50,11 @@ public class BallRatio extends TimerRatio {
      */
     @Override
     public void operationRatio() {
-        if (this.ratio > MAX_RATIO) {
-            this.ratio = this.ratio - DECREASE_RATIO;
+        if (this.getRatio() > MAX_RATIO) {
+            this.setRatio(this.getRatio() - DECREASE_RATIO);
         }
-        if (this.speed < MAX_SPEED) {
-            this.speed = this.speed + INCREASE_SPEED;
+        if (this.getSpeed() < MAX_SPEED) {
+            this.setSpeed(this.getSpeed() + INCREASE_SPEED);
         }
-    }
-
-    /**
-     * @return
-     *          ratio field
-     */
-    public int getRatio() {
-        return this.ratio;
-    }
-
-    /**
-     * @return
-     *          speed field
-     */
-    public double getSpeed() {
-        return this.speed;
     }
 }

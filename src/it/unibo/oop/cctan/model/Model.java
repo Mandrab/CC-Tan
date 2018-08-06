@@ -5,7 +5,7 @@ import it.unibo.oop.cctan.geometry.Boundary;
 /**
  * The model of the MVC pattern, with methods to manage squares and balls.
  */
-public interface Model extends BallGenerator, SquareGenerator {
+public interface Model {
 
     /**
      * Start the Model, launching the two generators (both balls and squares).
@@ -25,4 +25,5 @@ public interface Model extends BallGenerator, SquareGenerator {
      *          the actual Shuttle item
      */
     Shuttle getShuttle();
+
 }

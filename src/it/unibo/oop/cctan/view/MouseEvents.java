@@ -2,13 +2,42 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
 
-class MouseEvents {
+import it.unibo.oop.cctan.interPackageComunication.Commands;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+
+class MouseEvents extends Thread implements CommandsObserver {
 
     private View view;
+    private boolean run;
 
     MouseEvents(final View view) {
         this.view = view;
+        start();
+    }
+    
+    @Override
+    public void run() {
+        while(run) {
+            view.setMouseRelativePosition(getMouseRelativePosition());
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                System.err.println("Error during mouse position detection!");
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    @Override
+    public void newCommand(Commands command) {
+        if (command == Commands.START || command == Commands.RESUME) {
+            run = true;
+            start();
+        } else
+            run = false;
     }
 
     double getMouseRelativePosition() {

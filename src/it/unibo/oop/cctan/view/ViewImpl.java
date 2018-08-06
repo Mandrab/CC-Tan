@@ -67,18 +67,6 @@ public class ViewImpl implements View {
 
     @Override
     /** {@inheritDoc} */
-    public double getMouseRelativePosition() {
-        return mouseEvents.getMouseRelativePosition();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public double getMouseRelativePositionInRange(final double lowerBound, final double upperBound) {
-        return mouseEvents.getMouseRelativePositionInRange(lowerBound, upperBound);
-    }
-
-    @Override
-    /** {@inheritDoc} */
     public void addCommandsObserver(final CommandsObserver commandsObserver) {
         commandsObservers.add(commandsObserver);
     }
@@ -111,6 +99,24 @@ public class ViewImpl implements View {
     /** {@inheritDoc} */
     public void setLoadImage(ImageIcon img) {
         loader.setLoadImage(img);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public double getMouseRelativePosition() {
+        return mouseEvents.getMouseRelativePosition();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public double getMouseRelativePositionInRange(double lowerBound, double upperBound) {
+        return mouseEvents.getMouseRelativePositionInRange(lowerBound, upperBound);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setMouseRelativePosition(double mouseRelativePosition) {
+        controller.setMouseRelativePosition(mouseRelativePosition);        
     }
 
 }

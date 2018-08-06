@@ -23,7 +23,8 @@ class MouseJTest {
 
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST = new ImmutablePair<Integer, Integer>(1, 1); // ratio of window
-
+    private double mousePositionAngle;
+    
     @Test
     void classicMouseTest() throws AWTException {
         View view = new ViewImpl(new ControllerJTest());
@@ -110,6 +111,10 @@ class MouseJTest {
 
         @Override
         public void setLoadImage(ImageIcon img) {
+        }
+
+        @Override
+        public void setMouseRelativePosition(double angle) {
         }
 
     }

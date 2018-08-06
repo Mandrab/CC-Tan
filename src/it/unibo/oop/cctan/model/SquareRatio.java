@@ -21,18 +21,14 @@ public class SquareRatio extends TimerRatio {
     private static final int INCREASE_POINTS = 2;
     private static final double INCREASE_SPEED = 0.002;
 
-    private int ratio;
     private int points;
-    private double speed;
 
     /**
      * Set default values for the points, ratio and speed fields.
      */
     public SquareRatio() {
-        super();
+        super(DEFAULT_SPEED, DEFAULT_RATIO);
         this.points = DEFAULT_POINTS;
-        this.ratio = DEFAULT_RATIO;
-        this.speed = DEFAULT_SPEED;
     }
 
     /**
@@ -41,21 +37,13 @@ public class SquareRatio extends TimerRatio {
      */
     @Override
     public void operationRatio() {
-        if (this.ratio > MAX_RATIO) {
-            this.ratio = this.ratio - DECREASE_RATIO;
+        if (this.getRatio() > MAX_RATIO) {
+            this.setRatio(this.getRatio() - DECREASE_RATIO);
         }
-        if (this.speed < MAX_SPEED) {
-            this.speed = this.speed + INCREASE_SPEED;
+        if (this.getSpeed() < MAX_SPEED) {
+            this.setSpeed(this.getSpeed() + INCREASE_SPEED);
         }
         this.points = this.points + INCREASE_POINTS;
-    }
-
-    /**
-     * @return
-     *          ratio field
-     */
-    public int getRatio() {
-        return this.ratio;
     }
 
     /**
@@ -64,14 +52,6 @@ public class SquareRatio extends TimerRatio {
      */
     public int getPoints() {
         return this.points;
-    }
-
-    /**
-     * @return
-     *          speed field
-     */
-    public double getSpeed() {
-        return this.speed;
     }
 
 }
