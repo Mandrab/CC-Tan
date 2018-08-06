@@ -13,6 +13,7 @@ public interface BallGenerator {
      */
     void launch(); 
 
+    void terminate();
     /**
      * Removes the ball from the application.
      * @param ball

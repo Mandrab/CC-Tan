@@ -13,6 +13,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     private final List<BallAgent> balls;
     private final BallRatio ratio;
     private final Model model;
+    private boolean stop;
 
     /**
      * Create a new thread that generates balls.
@@ -24,6 +25,7 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
         this.model = model;
         this.ratio = new BallRatio();
         this.balls = new ArrayList<>();
+        this.stop = false;
     }
 
     /**
@@ -35,12 +37,17 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
         this.start();
     }
 
+    @Override
+    public void terminate() {
+        this.stop = true;
+    }
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             this.createNewBall();
             try {
                 Thread.sleep(this.ratio.getRatio());
@@ -68,17 +75,16 @@ public class BallGeneratorImpl extends Thread implements BallGenerator {
     public synchronized List<BallAgent> getBallAgents() {
         return new ArrayList<>(this.balls);
     }
-    
+
     private synchronized void createNewBall() {
         final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
                 .angle(this.model.getShuttle().getAngle())
                 .speed(this.ratio.getSpeed())
-                .position(new Point2D(this.model.getShuttle().getTop().getX() - (BallAgent.WIDTH / 2),
-                        this.model.getShuttle().getTop().getY() + (BallAgent.HEIGHT / 2)))
+                .position(new Point2D(this.model.getShuttle().getTop().getX() /*-(BallAgent.WIDTH / 2) */,
+                        this.model.getShuttle().getTop().getY() /*+ (BallAgent.HEIGHT / 2) */))
                 .model(this.model)
                 .build();
         this.balls.add(ball);
         new Thread(ball).start();
     }
-
 }
