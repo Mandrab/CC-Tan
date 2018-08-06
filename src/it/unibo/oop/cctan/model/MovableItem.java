@@ -1,76 +1,18 @@
 package it.unibo.oop.cctan.model;
 
-import javafx.geometry.Point2D;
-
 /**
- * Represents any object capable of moving in the game area (i.e. ball, square)
- *
+ * Represent an item that can also change its position during his life.
  */
-public abstract class MovableItem extends FixedItem implements Runnable {
-
-    private static final int REFRESH_RATIO = 20;
-
-    private double angle;
-    private double speed;
-    private boolean stop;
+public interface MovableItem extends FixedItem {
 
     /**
-     * Put a new movable item respecting the value specified inside the builder object.
-     * If speed is not set, will be used the default speed for the current item.
-     * @param builder
-     *          the builder containing the desired parameters
-     */
-    protected MovableItem(final AbstractBuilder builder) {
-        super(builder);
-        this.angle = builder.angleDir;
-        this.speed = builder.speedValue == 0 ? this.getDefaultSpeed() : builder.speedValue;
-    }
-
-    /**
-     * Put a new movable item in the current position.
-     * @param model
-     *          the model of the application
-     * @param startingPos
-     *          the starting position of the item
-     */
-    protected MovableItem(final Model model, final Point2D startingPos) {
-        super(model, startingPos);
-        this.stop = false;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public void run() {
-        try {
-            while (!stop) {
-                updatePos();
-                Thread.sleep(REFRESH_RATIO);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Stop the item activity, terminating its thread execution.
-     */
-    public void terminate() {
-        this.stop = true;
-    }
-
-    /**
-     * Get the movement speed of the item express in units per refresh. In this
-     * implementation a unit is a percentage of the game area (in coordinate between -1
-     * and 1 for both directions). For example, 0.1 units means the item will be
-     * moved of 1/10 the window dimension every refresh.
+     * Get the movement speed of the item express in units per refresh. A unit is
+     * a percentage of the game area (in coordinate between -1 and 1 for both directions).
+     * For example, 0.1 units means the item will be moved of 1/10 the window dimension every refresh.
      * @return
      *          the current speed of the item
      */
-    public double getSpeed() {
-        return this.speed;
-    }
+    double getSpeed();
 
     /**
      * Set the speed of the item, express in units per refresh.
@@ -78,87 +20,11 @@ public abstract class MovableItem extends FixedItem implements Runnable {
      * @param speed
      *          the new speed
      */
-    public void setSpeed(final double speed) {
-        this.speed = speed;
-    }
+    void setSpeed(double speed);
 
     /**
-     * Get the movement angle of the object. The angle is the portion of area between x-axis
-     * and item trajectory.
-     * @return
-     *          the movement angle
+     * Stop the item activity, terminating its execution.
      */
-    protected synchronized double getAngle() {
-        return this.angle;
-    }
+    void terminate();
 
-    /**
-     * Set the movement angle of the item.
-     * @see #getAngle()
-     * @param angle
-     *          the new movement angle
-     */
-    protected synchronized void setAngle(final double angle) {
-        this.angle = angle;
-    }
-
-    /**
-     * Update the current position according to movement speed and angle.
-     */
-    protected void updatePos() {
-        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(this.angle),
-                this.getPos().getY() + this.speed * Math.sin(this.angle)));
-        applyConstraints();
-    }
-
-    /**
-     * After moving the item, this method will be used to check whether the current item should
-     * be destroyed.
-     */
-    protected abstract void applyConstraints();
-
-    /**
-     * Get the default speed of the current item.
-     * @return
-     *          the default speed of the item
-     */
-    protected abstract double getDefaultSpeed();
-
-    /**
-     * A basic abstract builder for FixedItem abstract class.
-     */
-    public abstract static class AbstractBuilder extends FixedItem.AbstractBuilder {
-
-        private double angleDir;
-        private double speedValue;
-
-        /**
-         * Set the direction of movement, with the angle between direction and x-axis.
-         * @param angle
-         *              the angle of movement
-         * @return
-         *              the current abstract builder for movable items
-         */
-        public AbstractBuilder angle(final double angle) {
-            this.angleDir = angle;
-            return this;
-        }
-
-        /**
-         * Set the speed of the item in the direction of movement.
-         * @param speed
-         *              the speed of the item
-         * @return
-         *              the current abstract builder for movable items
-         */
-        public AbstractBuilder speed(final double speed) {
-            this.speedValue = speed;
-            return this;
-        }
-
-        /** 
-         * {@inheritDoc}
-         */
-        public abstract MovableItem build();
-    }
 }

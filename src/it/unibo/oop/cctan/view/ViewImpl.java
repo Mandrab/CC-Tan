@@ -2,11 +2,15 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.ImageIcon;
+
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.controller.Controller;
 
@@ -17,10 +21,11 @@ public class ViewImpl implements View {
 
     private Controller controller;
     private MouseEvents mouseEvents;
+    private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Pair<Integer, Integer> screenRatio;
-    // private List<CommandsObserver> commandsObservers;
-    // private List<SizeObserver> sizeObervers;
+    private List<CommandsObserver> commandsObservers;
+    private List<SizeObserver> sizeObervers;
 
     /**
      * The constructor method that instantiate all the sub-classes of the view.
@@ -31,9 +36,11 @@ public class ViewImpl implements View {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
-        // commandsObservers = new ArrayList<>();
-        // sizeObervers = new ArrayList<>();
-        new Loader();
+        commandsObservers = new ArrayList<>();
+        sizeObervers = new ArrayList<>();
+        
+        //loader = new Loader();
+        //Impostazioni
     }
 
     @Override
@@ -71,13 +78,15 @@ public class ViewImpl implements View {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void addCommandsObserver(final CommandsObserver commandsObserver) {
-        // commandsObservers.add(commandsObserver);
+        commandsObservers.add(commandsObserver);
     }
 
     @Override
+    /** {@inheritDoc} */
     public void addSizeObserver(final SizeObserver sizeObserver) {
-        // sizeObervers.add(sizeObserver);
+        sizeObervers.add(sizeObserver);
     }
 
     @Override
@@ -87,8 +96,21 @@ public class ViewImpl implements View {
     }
 
     @Override
+    /** {@inheritDoc} */
     public int getScore() {
         return controller.getScore();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void advanceLoading(int value) {
+        loader.advanceLoading(value);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setLoadImage(ImageIcon img) {
+        loader.setLoadImage(img);
     }
 
 }

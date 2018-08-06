@@ -5,22 +5,29 @@ import java.awt.Shape;
 
 public class MappableDataImpl implements MappableData {
 
+    private String text;
+    private Color color;
+    private Shape shape;
+    
+    public MappableDataImpl(String text, Color color, Shape shape) {
+        this.text = text;
+        this.color = color;
+        this.shape = shape;
+    }
+    
     @Override
     public String getText() {
-        // TODO Auto-generated method stub
-        return null;
+        return text;
     }
 
     @Override
     public Color getColor() {
-        // TODO Auto-generated method stub
-        return null;
+        return color;
     }
 
     @Override
     public Shape getShape() {
-        // TODO Auto-generated method stub
-        return null;
+        return shape;
     }
 
 }

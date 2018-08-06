@@ -2,40 +2,57 @@ package it.unibo.oop.cctan.model;
 
 import java.util.List;
 import java.util.Random;
-
 import javafx.geometry.Point2D;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * {@inheritDoc}.
+ */
 public class SquareGeneratorImpl extends Thread implements SquareGenerator {
 
-    private static final int GENERATION_RATIO = 2000;
     private final Model model;
+    private final SquareRatio ratio;
     private final List<SquareAgent> squares;
-
+    /**
+     * Create a new thread that generates squares.
+     * @param model
+     *          it's the model of the application
+     */
     public SquareGeneratorImpl(final Model model) {
-        this.squares = new ArrayList<>();
+        super();
         this.model = model;
+        this.ratio = new SquareRatio();
+        this.squares = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
-    public void start() {
+    public void launch() {
+        this.ratio.start();
         super.start();
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public void run() {
         while (true) {
             this.createNewSquare();
             try {
-                Thread.sleep(GENERATION_RATIO);
+                Thread.sleep(this.ratio.getRatio());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    /**
+     * {@inheritDoc}.
+     */
     @Override
     public synchronized void removeSquare(final SquareAgent square) {
         if (!this.squares.isEmpty() && square != null) {
@@ -44,24 +61,33 @@ public class SquareGeneratorImpl extends Thread implements SquareGenerator {
         }
     }
 
+    /**
+     * {@inheritDoc}.
+     */
+    @Override
     public synchronized List<SquareAgent> getSquareAgents() {
-        return Collections.unmodifiableList(this.squares);
+        return new ArrayList<>(this.squares);
     }
 
     private synchronized void createNewSquare() {
         final Point2D randomPos = randomPosition();
         final SquareAgent square = (SquareAgent) new SquareAgent.SquareBuilder()
-                .hitPoints(new Random().nextInt(41) + 40)
+                .hitPoints(new Random().nextInt(SquareRatio.DEFAULT_POINTS) + this.ratio.getPoints())
                 .angle(Math.atan2(-randomPos.getY(), -randomPos.getX()))
-                .position(randomPosition()).model(this.model).build();
+                .speed(this.ratio.getSpeed())
+                .position(randomPosition())
+                .model(this.model)
+                .build();
         this.squares.add(square);
-        square.run();
+        new Thread(square).start();
     }
 
-    //0 è sopra e in questo caso la x è random e la y è +1.2,
-    //1 è sotto e in questo caso la x è random e la y è -1.2,
-    //2 è sinistra e in questo caso la x è -1.2 e la y è random,
-    //3 è destra e in questo caso la x è +1.2 e la y è random.
+    /*
+     * 0 è sopra e in questo caso la x è random e la y è +1.2,
+     * 1 è sotto e in questo caso la x è random e la y è -1.2,
+     * 2 è sinistra e in questo caso la x è -1.2 e la y è random,
+     * 3 è destra e in questo caso la x è +1.2 e la y è random.
+     */
     private Point2D randomPosition() {
         final Random rnd = new Random();
         //4 is the number of sides

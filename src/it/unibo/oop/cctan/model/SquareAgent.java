@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
@@ -7,39 +8,72 @@ import java.awt.geom.Rectangle2D;
  * Represent a square block in the map area. Every square has got different hit points, that are the number
  * of hits the square must receive to be destroyed.
  */
-public final class SquareAgent extends MovableItem  {
+public final class SquareAgent extends MovableItemImpl implements MovableItem, Hittable {
 
+    /**
+     * The width of the ball.
+     */
     public static final double WIDTH = 0.18;
-    public static final double HEIGHT = 0.18;
-    private static final double DEFAULT_SPEED = 0.0005;
 
-    private int hitPoints;
+    /**
+     * The height of the ball.
+     */
+    public static final double HEIGHT = 0.18;
+
+    private static final double DEFAULT_SPEED = 0.0005;
+    private final Hittable hittableItem;
 
     private SquareAgent(final SquareBuilder builder) {
         super(builder);
-        this.hitPoints = builder.hp;
+        this.hittableItem = new HittableImpl(builder.hp) {
+
+            @Override
+            protected void destroyed() {
+                synchronized (getModel()) {
+                    getModel().removeSquare(SquareAgent.this);
+                }
+            }
+        };
     }
 
-    /**
-     * Specify the current square has been hit and decrease its hit points by 1.
-     * If the new hit points value is 0 the square will be destroyed.
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public double getWidth() {
+        return WIDTH;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public double getHeight() {
+        return HEIGHT;
+    }
+
+    /** 
+     * {@inheritDoc}
+     * In this case, after removing the current square, will not be
+     * executed other operation.
      */
     public synchronized void hit() {
-        this.hitPoints--;
-        if (this.hitPoints <= 0) {
-            synchronized (this.getModel()) {
-                this.getModel().removeSquare(this);
-            }
-        }
+        this.hittableItem.hit();
     }
 
-    /**
-     * Get the remaining hit points of the square.
-     * @return
-     *          the remaining hit points of the square
+    /** 
+     * {@inheritDoc}
      */
     public synchronized int getHP() {
-        return this.hitPoints;
+        return this.hittableItem.getHP();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Shape getShape() {
+        return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(), WIDTH, HEIGHT);
     }
 
     /** 
@@ -48,12 +82,11 @@ public final class SquareAgent extends MovableItem  {
     @Override
     protected void applyConstraints() {
         synchronized (this.getModel()) {
-            final Area sqArea = new Area(new Rectangle2D.Double(this.getPos().getX(),
-                    this.getPos().getY() - HEIGHT, WIDTH, HEIGHT));
+            final Area sqArea = new Area(this.getShape());
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
+                System.out.println("Game-over!");
                 //JOptionPane.showMessageDialog(PANEL, "GAME OVER!");
-                this.getModel().removeSquare(this);
                 //System.exit(0);
             }
         }
@@ -70,7 +103,7 @@ public final class SquareAgent extends MovableItem  {
     /**
      * A basic builder for SquareAgent class.
      */
-    public static class SquareBuilder extends MovableItem.AbstractBuilder {
+    public static class SquareBuilder extends MovableItemImpl.AbstractBuilderMI<SquareBuilder> {
 
         private int hp;
 
@@ -90,7 +123,7 @@ public final class SquareAgent extends MovableItem  {
          * {@inheritDoc}
          */
         @Override
-        public MovableItem build() {
+        public SquareAgent build() {
             super.validate();
             if (this.hp <= 0) {
                 throw new IllegalArgumentException();
