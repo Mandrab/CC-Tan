@@ -12,11 +12,14 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.view.View;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileLoaderJTest {
 
     private FileLoader f;
@@ -44,9 +47,10 @@ public class FileLoaderJTest {
     }
     
     @Test
-    public void directoryCreation() {
+    public void directoryCreation() throws InterruptedException {
         deleteDirectory(System.getProperty("user.home") + "/.cctan");
         f.start();
+        f.join();
         assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan"), LinkOption.NOFOLLOW_LINKS));
         assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img"), LinkOption.NOFOLLOW_LINKS));
         assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/score"), LinkOption.NOFOLLOW_LINKS));
@@ -55,10 +59,12 @@ public class FileLoaderJTest {
     
     @Test
     public void svgConversion() throws InterruptedException {
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
         f.start();
         f.join();
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.svg"), LinkOption.NOFOLLOW_LINKS));
-        //deleteDirectory(System.getProperty("user.home") + "/.cc-tan");
+        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg"), LinkOption.NOFOLLOW_LINKS));
+        assertTrue(Files.isReadable(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg")));
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
     }
     
     private void deleteDirectory(String path) {
