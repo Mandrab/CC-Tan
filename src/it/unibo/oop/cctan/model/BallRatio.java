@@ -31,7 +31,7 @@ public class BallRatio extends TimerRatio {
      * Indicates the maximum speed of movement that can reach the balls. 
      * The balls in addition to this speed can not go.
      */
-    private static final double MAX_SPEED = 0.1;
+    private static final double MAX_SPEED = 0.01;
     /**
      * Fixed increment of the speed with which the balls move within the application.
      */

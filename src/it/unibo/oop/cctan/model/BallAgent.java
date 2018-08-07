@@ -79,22 +79,8 @@ public final class BallAgent extends BulletImpl implements Bullet {
     @Override
     protected void updatePos() {
         super.updatePos();
-        this.lastCollision = checkIntersecate(this.lastCollision);
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    //Da cancellare a astrarre meglio in BulletImpl...
-    @Override
-    protected void applyConstraints() {
-        final Boundary bounds = this.getModel().getBounds();
-        if (this.getPos().getX() + this.getWidth() < bounds.getX0() || this.getPos().getX() > bounds.getX1()
-                || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
-             synchronized (this.getModel()) {
-             this.getModel().removeBall(this);
-             }
-        }
+        Optional<SquareAgent> collision = checkIntersecate(this.lastCollision);
+        this.lastCollision = collision;
     }
     
     /** 

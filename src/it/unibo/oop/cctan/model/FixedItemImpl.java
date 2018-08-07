@@ -128,7 +128,7 @@ public abstract class FixedItemImpl implements FixedItem {
          * @return
          *              the FixedItem object as wanted
          */
-        public abstract FixedItemImpl build();
+        public abstract FixedItem build();
 
         /**
          * Check that all fields are consistent to finally build the item.

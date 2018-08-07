@@ -124,6 +124,6 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
          * @return
          *              the MovableItem object as wanted
          */
-        public abstract MovableItemImpl build();
+        public abstract MovableItem build();
     }
 }

@@ -19,11 +19,11 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
     }
 
     protected Optional<SquareAgent> checkIntersecate(final Optional<SquareAgent> lastCollision) {
-        synchronized (this.getModel().getSquareAgents()) {
+        //synchronized (this.getModel().getSquareAgents()) {
             final List<MovableItem> squares = new ArrayList<>(this.getModel().getSquareAgents());
             squares.remove(lastCollision.orElse(null));
             for (final MovableItem squareAg : squares) {
-                synchronized (squareAg) {
+                //synchronized (squareAg) {
                     final Area bulletArea = new Area(this.getShape());
                     bulletArea.intersect(new Area(squareAg.getShape()));
                     if (!bulletArea.isEmpty()) {
@@ -31,10 +31,10 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
                         this.updateAngle((SquareAgent) squareAg);
                         return Optional.of((SquareAgent) squareAg);
                     }
-                }
+                //}
             }
-            return Optional.empty();
-        }
+            return lastCollision;
+        //}
     }
 
     /** 
@@ -45,9 +45,9 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
         final Boundary bounds = this.getModel().getBounds();
         if (this.getPos().getX() + this.getWidth() < bounds.getX0() || this.getPos().getX() > bounds.getX1()
                 || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
-            // synchronized (this.getModel()) {
-            // this.getModel().removeBullet(this);
-            // }
+            synchronized (this.getModel()) {
+                this.getModel().removeBullet(this);
+            }
         }
     }
    
