@@ -25,9 +25,10 @@ public class MappableDataAdapter {
     }
 
     public List<MappableData> getListOfMappableData() {
-        //Add all the squares to the list of mappable data
+        //Add all the bullets to the list of mappable data
+        //usare il metodo getShape() per ottenere la shape giusta
         //System.out.println(model.getBallAgents());
-        List<MappableData> l = model.getBallAgents()
+        List<MappableData> l = model.getBulletAgents()
                                     .stream()
                                     .map(ba -> new MappableDataImpl("", 
                                                                     Color.RED, 

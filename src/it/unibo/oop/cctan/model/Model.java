@@ -35,14 +35,14 @@ public interface Model {
      * @param ball
      *          it's the ball that must be removed
      */
-    void removeBall(MovableItem ball);
+    void removeBullet(MovableItem ball);
 
     /**
      * Returns the list of the balls that are present in the application.
      * @return
      *          the current list of all the balls that are moving within the application
      */
-    List<MovableItem> getBallAgents();
+    List<MovableItem> getBulletAgents();
     
     /**
      * Removes the square from the application.

@@ -11,7 +11,7 @@ public class ModelImpl implements Model {
 
     private final Boundary bound;
     private final Shuttle shuttle;
-    private final ItemGenerator ballGenerator;
+    private final ItemGenerator bulletGenerator;
     private final ItemGenerator squareGenerator;
 
     /**
@@ -22,7 +22,7 @@ public class ModelImpl implements Model {
         this.bound = new Boundary(-1, -1, 1, 1);
         this.shuttle = new ShuttleImpl(this);
         this.squareGenerator = new SquareGeneratorImpl(this);
-        this.ballGenerator = new BulletGeneratorImpl(this);
+        this.bulletGenerator = new BulletGeneratorImpl(this);
     }
 
     /**
@@ -39,13 +39,13 @@ public class ModelImpl implements Model {
     @Override
     public void launch() {
         this.squareGenerator.launch();
-        this.ballGenerator.launch();
+        this.bulletGenerator.launch();
     }
 
     @Override
     public void terminate() {
         this.squareGenerator.terminate();
-        this.ballGenerator.terminate();
+        this.bulletGenerator.terminate();
     }
     
     /**
@@ -60,16 +60,16 @@ public class ModelImpl implements Model {
         this.squareGenerator.removeItem(square);
     }
 
-    public void removeBall(final MovableItem ball) {
-        this.ballGenerator.removeItem(ball);
+    public void removeBullet(final MovableItem ball) {
+        this.bulletGenerator.removeItem(ball);
     }
 
     public List<MovableItem> getSquareAgents() {
         return this.squareGenerator.getItems();
     }
 
-    public synchronized List<MovableItem> getBallAgents() {
-        return this.ballGenerator.getItems();
+    public synchronized List<MovableItem> getBulletAgents() {
+        return this.bulletGenerator.getItems();
     }
 
     @Override
