@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;;
 
 /**
@@ -83,6 +84,10 @@ class GameWindow extends JFrame implements SizeObserver {
 
     public int getScore() {
         return view.getScore();
+    }
+
+    public void addCommandsObserver(CommandsObserver commandsObserver) {
+        view.addCommandsObserver(commandsObserver);
     }
 
 }

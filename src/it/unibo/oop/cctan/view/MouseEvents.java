@@ -2,8 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.util.LinkedList;
-import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
@@ -11,20 +9,31 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 class MouseEvents extends Thread implements CommandsObserver {
 
     private View view;
-    private boolean run;
+    private boolean suspend;
+    private boolean terminated;
 
     MouseEvents(final View view) {
         this.view = view;
-        this.run = true;
+        view.addCommandsObserver(this);
+        suspend = false;
+        terminated = false;
         start();
     }
     
     @Override
     public void run() {
-        while(run) {
-            view.setMouseRelativePosition(getMouseRelativePosition());
+        while(!terminated) {
+            while(!suspend) {
+                view.setMouseRelativePosition(getMouseRelativePosition());
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    System.err.println("Error during mouse position detection!");
+                    e.printStackTrace();
+                }
+            }
             try {
-                Thread.sleep(200);
+                Thread.sleep(terminated ? 0 : 50);
             } catch (InterruptedException e) {
                 System.err.println("Error during mouse position detection!");
                 e.printStackTrace();
@@ -33,12 +42,17 @@ class MouseEvents extends Thread implements CommandsObserver {
     }
     
     @Override
-    public void newCommand(Commands command) {
-        if (command == Commands.START || command == Commands.RESUME) {
-            run = true;
-            start();
-        } else
-            run = false;
+    synchronized public void newCommand(Commands command) {
+        suspend = command == Commands.PAUSE || command == Commands.END;
+    }
+    
+    synchronized public void terminate() {
+        suspend = true;
+        terminated = true;
+    }
+    
+    public boolean isRunning() {
+        return !suspend;
     }
 
     double getMouseRelativePosition() {

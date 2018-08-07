@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -59,10 +60,26 @@ class Drawer {
         graphics.setColor(mappableData.getColor());
         Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
-        double diff = shape.getBounds2D().getWidth() - graphics.getFontMetrics().stringWidth(mappableData.getText());
-        graphics.drawString(mappableData.getText(), 
-                            (int) (shape.getBounds2D().getX() + diff / 2),
-                            (int) shape.getBounds2D().getCenterY());
+        drawString(mappableData.getText(),
+                   new Point((int) (shape.getBounds2D().getCenterX()), 
+                             (int) (shape.getBounds2D().getCenterY())));
+        //double diff = shape.getBounds2D().getWidth() - graphics.getFontMetrics().stringWidth(mappableData.getText());
+        //graphics.drawString(mappableData.getText(), 
+          //                  (int) (shape.getBounds2D().getX() + diff / 2),
+            //                (int) shape.getBounds2D().getCenterY());
+    }
+    
+    private void drawString(String text, Point textCenter) {
+        String[] strings = text.split("\n", -1);
+        int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
+        int textHeight = lineHeight * strings.length;
+        int yStartingPoint = (int) (textCenter.getY() - (textHeight / 2));
+        for (int index = 0; index < strings.length; index++) {
+            String string = strings[index];
+            graphics.drawString(string, 
+                                (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
+                                yStartingPoint + (1+index) * lineHeight);
+        }
     }
 
     void drawText(final Pair<Double, Double> screenPositionOnPercentage, final Color color, final String text) {
