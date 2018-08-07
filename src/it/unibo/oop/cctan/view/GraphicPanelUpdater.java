@@ -55,10 +55,10 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
         start();
         switch (command) {
         case PAUSE:
-            gpanel.redraw(gpanel.getListOfMappableData()
-                                .add(new MappableDataImpl("PAUSE", 
-                                                          Color.RED,
-                                                          new Rectangle2D.Double(-1, 1, 2, 2))));
+            //gpanel.redraw(gpanel.getListOfMappableData()
+              //                  .add(new MappableDataImpl("PAUSE", 
+                //                                          Color.RED,
+                  //                                        new Rectangle2D.Double(-1, 1, 2, 2))));
             
         }
     }

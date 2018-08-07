@@ -2,8 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.util.LinkedList;
-import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
@@ -15,7 +13,7 @@ class MouseEvents extends Thread implements CommandsObserver {
 
     MouseEvents(final View view) {
         this.view = view;
-        this.run = true;
+        this.stop = false;
         start();
     }
     
@@ -25,7 +23,7 @@ class MouseEvents extends Thread implements CommandsObserver {
             view.setMouseRelativePosition(getMouseRelativePosition());
             System.out.println("aggiorno mouse");
             try {
-                Thread.sleep(200);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 System.err.println("Error during mouse position detection!");
                 e.printStackTrace();
