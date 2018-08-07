@@ -9,6 +9,7 @@ import it.unibo.oop.cctan.geometry.Boundary;
  */
 public class ModelImpl implements Model {
 
+    private final Score score;
     private final Boundary bound;
     private final Shuttle shuttle;
     private final ItemGenerator bulletGenerator;
@@ -19,10 +20,11 @@ public class ModelImpl implements Model {
      * Shuttle and balls and squares generators.
      */
     public ModelImpl() {
+        this.score = Score.getScore();
         this.bound = new Boundary(-1, -1, 1, 1);
-        this.shuttle = new ShuttleImpl(this);
         this.squareGenerator = new SquareGeneratorImpl(this);
         this.bulletGenerator = new BulletGeneratorImpl(this);
+        this.shuttle = new ShuttleImpl(this);
     }
 
     /**
@@ -47,7 +49,7 @@ public class ModelImpl implements Model {
         this.squareGenerator.terminate();
         this.bulletGenerator.terminate();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -60,8 +62,8 @@ public class ModelImpl implements Model {
         this.squareGenerator.removeItem(square);
     }
 
-    public void removeBullet(final MovableItem ball) {
-        this.bulletGenerator.removeItem(ball);
+    public void removeBullet(final MovableItem bullet) {
+        this.bulletGenerator.removeItem(bullet);
     }
 
     public List<MovableItem> getSquareAgents() {
@@ -73,7 +75,17 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void setSpaceshipAngle(double angle) {
+    public void setSpaceshipAngle(final double angle) {
         this.shuttle.setAngle(angle);
+    }
+
+    @Override
+    public Score getScore() {
+        return this.score;
+    }
+
+    @Override
+    public ItemGenerator getBulletGenerator() {
+        return this.bulletGenerator;
     }
 }

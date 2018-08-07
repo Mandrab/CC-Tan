@@ -13,7 +13,7 @@ public interface Model {
      * Start the Model, launching the two generators (both balls and squares).
      */
     void launch();
-    
+
     void terminate();
 
     /**
@@ -29,7 +29,7 @@ public interface Model {
      *          the actual Shuttle item
      */
     Shuttle getShuttle();
-    
+
     /**
      * Removes the ball from the application.
      * @param ball
@@ -43,7 +43,7 @@ public interface Model {
      *          the current list of all the balls that are moving within the application
      */
     List<MovableItem> getBulletAgents();
-    
+
     /**
      * Removes the square from the application.
      * @param square
@@ -58,6 +58,9 @@ public interface Model {
      */
     List<MovableItem> getSquareAgents();
     
+    ItemGenerator getBulletGenerator();
+
     void setSpaceshipAngle(double angle);
 
+    Score getScore();
 }
