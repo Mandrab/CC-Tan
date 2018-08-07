@@ -1,34 +1,40 @@
 package it.unibo.oop.cctan.model;
 
+import java.util.function.Supplier;
+
 import javafx.geometry.Point2D;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@inheritDoc}.
  */
-public class BallGeneratorImpl extends ItemGeneratorImpl {
+public class BulletGeneratorImpl extends ItemGeneratorImpl {
 
+    private Supplier<BulletImpl.BulletBuilder> bullets;
+    
     /**
      * Create a new thread that generates balls.
      * @param model
      *          it's the model of the application
      */
-    public BallGeneratorImpl(final Model model) {
+    public BulletGeneratorImpl(final Model model) {
         super(model, new BallRatio());
+        bullets = () -> new BallAgent.BallBuilder();
     }
 
+    public void setBulletType(Supplier<BulletImpl.BulletBuilder> bullets) {
+        this.bullets = bullets;
+    }
+    
     @Override
     protected void createNewItem() {
-        final BallAgent ball = (BallAgent) new BallAgent.BallBuilder()
+        final Bullet bullet = (Bullet) this.bullets.get()
                 .angle(this.getModel().getShuttle().getAngle())
                 .speed(this.getRatio().getSpeed())
                 .position(new Point2D(this.getModel().getShuttle().getTop().getX() /*-(BallAgent.WIDTH / 2) */,
                         this.getModel().getShuttle().getTop().getY() /*+ (BallAgent.HEIGHT / 2) */))
                 .model(this.getModel())
                 .build();
-        this.addItemToList(ball);
-        new Thread(ball).start();
+        this.addItemToList(bullet);
+        new Thread(bullet).start();
     }
 }

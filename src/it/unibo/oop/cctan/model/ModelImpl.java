@@ -22,7 +22,7 @@ public class ModelImpl implements Model {
         this.bound = new Boundary(-1, -1, 1, 1);
         this.shuttle = new ShuttleImpl(this);
         this.squareGenerator = new SquareGeneratorImpl(this);
-        this.ballGenerator = new BallGeneratorImpl(this);
+        this.ballGenerator = new BulletGeneratorImpl(this);
     }
 
     /**
