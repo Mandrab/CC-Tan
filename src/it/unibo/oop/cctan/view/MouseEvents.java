@@ -15,6 +15,7 @@ class MouseEvents extends Thread implements CommandsObserver {
 
     MouseEvents(final View view) {
         this.view = view;
+        this.run = true;
         start();
     }
     
@@ -22,6 +23,7 @@ class MouseEvents extends Thread implements CommandsObserver {
     public void run() {
         while(run) {
             view.setMouseRelativePosition(getMouseRelativePosition());
+            System.out.println("aggiorno mouse");
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

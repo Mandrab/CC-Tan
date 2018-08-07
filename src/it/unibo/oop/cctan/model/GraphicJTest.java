@@ -23,14 +23,20 @@ public class GraphicJTest {
         Controller ctrl = new ControllerImpl();
         View v = new ViewImpl(ctrl);
         v.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
-        for(int angle = 0; true; angle = (angle + 2) % 360 ) {
-            ctrl.setMouseRelativePosition(angle);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            Thread.sleep(200000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        
+//        for(int angle = 0; true; angle = (angle + 2) % 360 ) {
+//            ctrl.setMouseRelativePosition(angle);
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
 }
