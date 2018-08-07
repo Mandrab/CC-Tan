@@ -9,5 +9,7 @@ public interface ItemGenerator {
     List<MovableItem> getItems();
 
     void removeItem(MovableItem item);
+    
+    void terminate();
 
 }

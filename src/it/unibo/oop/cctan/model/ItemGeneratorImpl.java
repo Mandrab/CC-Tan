@@ -11,17 +11,19 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
     private final Model model;
     private final TimerRatio ratio;
     private final List<MovableItem> items;
+    private boolean stop;
 
     public ItemGeneratorImpl(final Model model, final TimerRatio time) {
         super();
         this.ratio = time;
         this.model = model;
         this.items = new ArrayList<>();
+        this.stop = false;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             createNewItem();
             try {
                 Thread.sleep(ratio.getRatio());
@@ -41,6 +43,11 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
     public void launch() {
         this.ratio.start();
         super.start();
+    }
+    
+    @Override
+    public void terminate() {
+        this.stop = true;
     }
 
     @Override

@@ -33,16 +33,10 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl {
     }
 
     /*
-<<<<<<< HEAD
-     * 0 è sopra e in questo caso la x è random e la y è +1.2, 1 è sotto e in questo
-     * caso la x è random e la y è -1.2, 2 è sinistra e in questo caso la x è -1.2 e
-     * la y è random, 3 è destra e in questo caso la x è +1.2 e la y è random.
-=======
      * 0 is up ---> x is random and y is +1.2,
      * 1 is down ---> x is random and y is -1.2,
      * 2 is left ---> x is -1.2 and y is random,
      * 3 is right ---> x is +1.2 and y is random.
->>>>>>> e468abed7a9e9e3feb25498a45b6f2eb119c7f8c
      */
     private Point2D randomPosition() {
         final Random rnd = new Random();

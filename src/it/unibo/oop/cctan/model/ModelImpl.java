@@ -11,8 +11,8 @@ public class ModelImpl implements Model {
 
     private final Boundary bound;
     private final Shuttle shuttle;
-    private final ItemGeneratorImpl ballGenerator;
-    private final ItemGeneratorImpl squareGenerator;
+    private final ItemGenerator ballGenerator;
+    private final ItemGenerator squareGenerator;
 
     /**
      * Instance a new Model, creating the default game area boundaries, a new
@@ -42,6 +42,12 @@ public class ModelImpl implements Model {
         this.ballGenerator.launch();
     }
 
+    @Override
+    public void terminate() {
+        this.squareGenerator.terminate();
+        this.ballGenerator.terminate();
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -50,11 +56,11 @@ public class ModelImpl implements Model {
         return this.shuttle;
     }
 
-    public void removeSquare(final SquareAgent square) {
+    public void removeSquare(final MovableItem square) {
         this.squareGenerator.removeItem(square);
     }
 
-    public void removeBall(final BallAgent ball) {
+    public void removeBall(final MovableItem ball) {
         this.ballGenerator.removeItem(ball);
     }
 
@@ -64,5 +70,10 @@ public class ModelImpl implements Model {
 
     public synchronized List<MovableItem> getBallAgents() {
         return this.ballGenerator.getItems();
+    }
+
+    @Override
+    public void setSpaceshipAngle(double angle) {
+        this.shuttle.setAngle(angle);
     }
 }
