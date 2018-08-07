@@ -9,21 +9,31 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 class MouseEvents extends Thread implements CommandsObserver {
 
     private View view;
-    private boolean stop;
+    private boolean suspend;
+    private boolean terminated;
 
     MouseEvents(final View view) {
         this.view = view;
-        this.stop = false;
+        view.addCommandsObserver(this);
+        suspend = false;
+        terminated = false;
         start();
     }
     
     @Override
     public void run() {
-        while(!stop) {
-            view.setMouseRelativePosition(getMouseRelativePosition());
-            System.out.println("aggiorno mouse");
+        while(!terminated) {
+            while(!suspend) {
+                view.setMouseRelativePosition(getMouseRelativePosition());
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    System.err.println("Error during mouse position detection!");
+                    e.printStackTrace();
+                }
+            }
             try {
-                Thread.sleep(50);
+                Thread.sleep(terminated ? 0 : 50);
             } catch (InterruptedException e) {
                 System.err.println("Error during mouse position detection!");
                 e.printStackTrace();
@@ -32,12 +42,17 @@ class MouseEvents extends Thread implements CommandsObserver {
     }
     
     @Override
-    public void newCommand(Commands command) {
-        if (command == Commands.START || command == Commands.RESUME) {
-            stop = false;
-            start();
-        } else
-            stop = true;
+    synchronized public void newCommand(Commands command) {
+        suspend = command == Commands.PAUSE || command == Commands.END;
+    }
+    
+    synchronized public void terminate() {
+        suspend = true;
+        terminated = true;
+    }
+    
+    public boolean isRunning() {
+        return !suspend;
     }
 
     double getMouseRelativePosition() {

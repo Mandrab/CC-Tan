@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 class GraphicPanel extends JPanel {
@@ -59,6 +60,10 @@ class GraphicPanel extends JPanel {
 
     public int getScore() {
         return gameWindow.getScore();
+    }
+
+    public void addCommandsObserver(CommandsObserver commandsObserver) {
+        gameWindow.addCommandsObserver(commandsObserver);
     }
 
 }
