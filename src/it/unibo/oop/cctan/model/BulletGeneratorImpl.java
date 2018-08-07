@@ -17,21 +17,29 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl {
      *          it's the model of the application
      */
     public BulletGeneratorImpl(final Model model) {
-        super(model, new BallRatio());
+        super(model, new BulletRatio());
         bullets = () -> new BallAgent.BallBuilder();
     }
 
-    public void setBulletType(Supplier<BulletImpl.BulletBuilder> bullets) {
+    /*
+     * Utilizzo il pattern strategy per farmi dire il tipo di proiettile che devo generare 
+     */
+    public void setBulletType(final Supplier<BulletImpl.BulletBuilder> bullets) {
         this.bullets = bullets;
     }
-    
+
+    /*
+     * Questo metodo va bene per tutti i proiettili perchè sono tutti dei movableItem e io nella 
+     * lista devo aggiungere dei movableItem 
+     */
     @Override
     protected void createNewItem() {
+        final double angle = Math.toRadians(this.getModel().getShuttle().getAngle());
         final Bullet bullet = (Bullet) this.bullets.get()
                 .angle(this.getModel().getShuttle().getAngle())
-                .speed(this.getRatio().getSpeed())
-                .position(new Point2D(this.getModel().getShuttle().getTop().getX() /*-(BallAgent.WIDTH / 2) */,
-                        this.getModel().getShuttle().getTop().getY() /*+ (BallAgent.HEIGHT / 2) */))
+                .speed(((BulletRatio) this.getRatio()).getSpeed())
+                .position(new Point2D(this.getModel().getShuttle().getTop().getX() + (BallAgent.WIDTH / 2) * Math.cos(angle),
+                        this.getModel().getShuttle().getTop().getY() + (BallAgent.HEIGHT / 2) * Math.sin(angle)))
                 .model(this.getModel())
                 .build();
         this.addItemToList(bullet);

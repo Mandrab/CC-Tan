@@ -11,15 +11,15 @@ public class SquareRatio extends TimerRatio {
     /**
      * Indicates the life of squares when the application is started.
      */
-    public static final int DEFAULT_POINTS = 15;
-    private static final int DEFAULT_RATIO = 2000;
-    private static final double DEFAULT_SPEED = 0.001;
+    public static final int DEFAULT_POINTS = 8;
+    private static final int DEFAULT_RATIO = 3500;
+    private static final double DEFAULT_SPEED = 0.0003;
 
-    private static final int MAX_RATIO = 50;
-    private static final int DECREASE_RATIO = 1;
-    private static final double MAX_SPEED = 0.001;
-    private static final int INCREASE_POINTS = 2;
-    private static final double INCREASE_SPEED = 0.001;
+    private static final int MAX_RATIO = 1000;
+    private static final int DECREASE_RATIO = 50;
+    private static final double MAX_SPEED = 0.005;
+    private static final int INCREASE_POINTS = 3;
+    private static final double INCREASE_SPEED = 0.00005;
 
     private int points;
 

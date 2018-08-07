@@ -1,16 +1,10 @@
 package it.unibo.oop.cctan.model;
 
-import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-
 import it.unibo.oop.cctan.geometry.Boundary;
-import it.unibo.oop.cctan.model.BallAgent.BallBuilder;
-import javafx.geometry.Point2D;
 
 public abstract class BulletImpl extends MovableItemImpl implements Bullet {
 
@@ -19,22 +13,18 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
     }
 
     protected Optional<SquareAgent> checkIntersecate(final Optional<SquareAgent> lastCollision) {
-        //synchronized (this.getModel().getSquareAgents()) {
-            final List<MovableItem> squares = new ArrayList<>(this.getModel().getSquareAgents());
-            squares.remove(lastCollision.orElse(null));
-            for (final MovableItem squareAg : squares) {
-                //synchronized (squareAg) {
-                    final Area bulletArea = new Area(this.getShape());
-                    bulletArea.intersect(new Area(squareAg.getShape()));
-                    if (!bulletArea.isEmpty()) {
-                        ((SquareAgent) squareAg).hit();
-                        this.updateAngle((SquareAgent) squareAg);
-                        return Optional.of((SquareAgent) squareAg);
-                    }
-                //}
+        final List<MovableItem> squares = new ArrayList<>(this.getModel().getSquareAgents());
+        squares.remove(lastCollision.orElse(null));
+        for (final MovableItem squareAg : squares) {
+            final Area bulletArea = new Area(this.getShape());
+            bulletArea.intersect(new Area(squareAg.getShape()));
+            if (!bulletArea.isEmpty()) {
+                ((SquareAgent) squareAg).hit();
+                this.updateAngle((SquareAgent) squareAg);
+                return Optional.of((SquareAgent) squareAg);
             }
-            return lastCollision;
-        //}
+        }
+        return lastCollision;
     }
 
     /** 
@@ -45,6 +35,10 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
         final Boundary bounds = this.getModel().getBounds();
         if (this.getPos().getX() + this.getWidth() < bounds.getX0() || this.getPos().getX() > bounds.getX1()
                 || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
+            /*
+             * Prendo la mutua esclusione sul model, in modo che quando elimino un oggetto, nessun'altro
+             * può accedere al model in modo da evitare eventuali conflitti. 
+             */
             synchronized (this.getModel()) {
                 this.getModel().removeBullet(this);
             }
