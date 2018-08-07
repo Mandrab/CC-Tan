@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.util.Optional;
+
+import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.geometry.Side;
 
 /**
@@ -28,6 +30,7 @@ public final class BallAgent extends BulletImpl implements Bullet {
 
     private BallAgent(final BallBuilder builder) {
         super(builder);
+        this.lastCollision = Optional.empty();
     }
 
     /** 
@@ -82,10 +85,25 @@ public final class BallAgent extends BulletImpl implements Bullet {
     /** 
      * {@inheritDoc}
      */
+    //Da cancellare a astrarre meglio in BulletImpl...
+    @Override
+    protected void applyConstraints() {
+        final Boundary bounds = this.getModel().getBounds();
+        if (this.getPos().getX() + this.getWidth() < bounds.getX0() || this.getPos().getX() > bounds.getX1()
+                || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
+             synchronized (this.getModel()) {
+             this.getModel().removeBall(this);
+             }
+        }
+    }
+    
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     protected void updateAngle(final SquareAgent rect) {
         final Side side = this.collisionSide(rect);
-        this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : Math.PI - this.getAngle());
+        this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
     }
 
     private Side collisionSide(final SquareAgent square) {

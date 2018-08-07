@@ -40,8 +40,8 @@ public class MappableDataAdapter {
         //Add all the squares to the list of mappable data
         l.addAll(model.getSquareAgents()
                       .stream()
-                      .map(sa -> new MappableDataImpl("" + sa.getHP(), 
-                                                      calculateColor(sa.getHP()), 
+                      .map(sa -> new MappableDataImpl("" + ((SquareAgent) sa).getHP(), 
+                                                      calculateColor(((SquareAgent) sa).getHP()), 
                                                       new Rectangle2D.Double(sa.getPos().getX(), 
                                                                              sa.getPos().getY(), 
                                                                              SquareAgent.WIDTH, 

@@ -77,8 +77,9 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      * Update the current position according to movement speed and angle.
      */
     protected void updatePos() {
-        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(this.getAngle()),
-                this.getPos().getY() + this.speed * Math.sin(this.getAngle())));
+        double angle = Math.toRadians(this.getAngle());
+        this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(angle),
+                this.getPos().getY() + this.speed * Math.sin(angle)));
         applyConstraints();
     }
 

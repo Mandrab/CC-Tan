@@ -85,9 +85,11 @@ public final class SquareAgent extends MovableItemImpl implements MovableItem, H
             final Area sqArea = new Area(this.getShape());
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
+                this.getModel().removeSquare(this);
+//                this.getModel().getSquareAgents().forEach(sa -> this.getModel().removeSquare(sa));
+//                this.getModel().getBallAgents().forEach(ba -> this.getModel().removeBall(ba));
+//                this.getModel().terminate();
                 System.out.println("Game-over!");
-                //JOptionPane.showMessageDialog(PANEL, "GAME OVER!");
-                //System.exit(0);
             }
         }
     }
