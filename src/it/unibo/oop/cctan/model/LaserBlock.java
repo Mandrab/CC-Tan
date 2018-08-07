@@ -19,11 +19,10 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
 
     @Override
     public void use() {
-        // this.getModel().getBulletGenerator().setRatio(200);
-        // this.getModel().getBulletGenerator().setBullet(()->new LaserAgent.LaserBuilder());
-        // IDEA: a questo punto, avviare un thread-timer, che raggiunti X secondi
-        // fa terminare il power-up, richiamando
-        // this.getModel().getBulletGenerator().setBullet(()->new BallAgent.BallBuilder());
+         ((BulletGeneratorImpl) this.getModel().getBulletGenerator()).setBulletType(() -> new LaserAgent.LaserBuilder());
+         /*IDEA: a questo punto, avviare un thread-timer, che raggiunti X secondi
+         fa terminare il power-up, richiamando*/
+         ((BulletGeneratorImpl) this.getModel().getBulletGenerator()).setBulletType(() -> new BallAgent.BallBuilder());
     }
 
     @Override

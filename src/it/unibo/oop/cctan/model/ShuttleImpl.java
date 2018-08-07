@@ -30,7 +30,7 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      */
     public ShuttleImpl(final Model model) {
         super(model, new Point2D(0, 0));
-        final double unitX =  (this.getModel().getBounds().getX1() / INTERVALS);
+        final double unitX = (this.getModel().getBounds().getX1() / INTERVALS);
         final double unitY = (this.getModel().getBounds().getY1() / INTERVALS);
         this.width = WIDTH * unitX;
         this.height = HEIGHT * unitY;

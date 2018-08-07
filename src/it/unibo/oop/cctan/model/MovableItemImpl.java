@@ -21,7 +21,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     protected MovableItemImpl(final AbstractBuilderMI<?> builder) {
         super(builder);
-        this.speed = builder.speedValue == 0 ? this.getDefaultSpeed() : builder.speedValue;
+        this.speed = builder.speedValue <= 0 ? this.getDefaultSpeed() : builder.speedValue;
         this.stop = false;
     }
 
@@ -77,7 +77,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      * Update the current position according to movement speed and angle.
      */
     protected void updatePos() {
-        double angle = Math.toRadians(this.getAngle());
+        final double angle = Math.toRadians(this.getAngle());
         this.setPos(new Point2D(this.getPos().getX() + this.speed * Math.cos(angle),
                 this.getPos().getY() + this.speed * Math.sin(angle)));
         applyConstraints();

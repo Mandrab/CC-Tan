@@ -24,7 +24,7 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl {
         final SquareAgent square = (SquareAgent) new SquareAgent.SquareBuilder()
                 .hitPoints(new Random().nextInt(SquareRatio.DEFAULT_POINTS) + ((SquareRatio) this.getRatio()).getPoints())
                 .angle(Math.toDegrees(Math.atan2(-randomPos.getY(), -randomPos.getX())))
-                .speed(this.getRatio().getSpeed())
+                .speed(((SquareRatio) this.getRatio()).getSpeed())
                 .position(randomPos)
                 .model(this.getModel())
                 .build();

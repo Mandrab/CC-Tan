@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
  * Represent a square block in the map area. Every square has got different hit points, that are the number
  * of hits the square must receive to be destroyed.
  */
-public final class SquareAgent extends MovableItemImpl implements MovableItem, Hittable {
+public final class SquareAgent extends MovableItemImpl implements Hittable {
 
     /**
      * The width of the ball.
@@ -30,7 +30,9 @@ public final class SquareAgent extends MovableItemImpl implements MovableItem, H
             @Override
             protected void destroyed() {
                 synchronized (getModel()) {
+                    getModel().getScore().increment();
                     getModel().removeSquare(SquareAgent.this);
+                    System.out.println("Punteggio corrente: " + getModel().getScore().getPoints());
                 }
             }
         };

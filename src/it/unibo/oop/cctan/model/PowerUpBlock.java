@@ -6,8 +6,8 @@ import java.awt.geom.Ellipse2D;
 public abstract class PowerUpBlock extends FixedItemImpl implements PowerUp {
 
     private final Hittable hittableItem;
-    
-    protected PowerUpBlock(PowerUpBlockBuilder<?> builder) {
+
+    protected PowerUpBlock(final PowerUpBlockBuilder<?> builder) {
         super(builder);
         this.hittableItem = new HittableImpl(builder.hits) {
 
@@ -41,7 +41,7 @@ public abstract class PowerUpBlock extends FixedItemImpl implements PowerUp {
             extends FixedItemImpl.AbstractBuilderFI<PowerUpBlockBuilder<T>> {
 
         private int hits;
-        
+
         public T hitPoints(int hitPoints) {
             this.hits = hitPoints;
             return (T) this;
