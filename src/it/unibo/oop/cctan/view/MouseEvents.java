@@ -11,7 +11,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 class MouseEvents extends Thread implements CommandsObserver {
 
     private View view;
-    private boolean run;
+    private boolean stop;
 
     MouseEvents(final View view) {
         this.view = view;
@@ -20,7 +20,7 @@ class MouseEvents extends Thread implements CommandsObserver {
     
     @Override
     public void run() {
-        while(run) {
+        while(!stop) {
             view.setMouseRelativePosition(getMouseRelativePosition());
             try {
                 Thread.sleep(200);
@@ -34,10 +34,10 @@ class MouseEvents extends Thread implements CommandsObserver {
     @Override
     public void newCommand(Commands command) {
         if (command == Commands.START || command == Commands.RESUME) {
-            run = true;
+            stop = false;
             start();
         } else
-            run = false;
+            stop = true;
     }
 
     double getMouseRelativePosition() {
