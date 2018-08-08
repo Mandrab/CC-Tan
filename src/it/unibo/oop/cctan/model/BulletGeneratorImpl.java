@@ -10,7 +10,7 @@ import javafx.geometry.Point2D;
 public class BulletGeneratorImpl extends ItemGeneratorImpl {
 
     private Supplier<BulletImpl.BulletBuilder> bullets;
-    
+
     /**
      * Create a new thread that generates balls.
      * @param model
@@ -34,12 +34,11 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl {
      */
     @Override
     protected void createNewItem() {
-        final double angle = Math.toRadians(this.getModel().getShuttle().getAngle());
         final Bullet bullet = (Bullet) this.bullets.get()
                 .angle(this.getModel().getShuttle().getAngle())
                 .speed(((BulletRatio) this.getRatio()).getSpeed())
-                .position(new Point2D(this.getModel().getShuttle().getTop().getX() + (BallAgent.WIDTH / 2) * Math.cos(angle),
-                        this.getModel().getShuttle().getTop().getY() + (BallAgent.HEIGHT / 2) * Math.sin(angle)))
+                .position(new Point2D(this.getModel().getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
+                        this.getModel().getShuttle().getTop().getY() - BallAgent.HEIGHT / 2))
                 .model(this.getModel())
                 .build();
         this.addItemToList(bullet);
