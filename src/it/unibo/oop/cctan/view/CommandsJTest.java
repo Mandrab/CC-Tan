@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.List;
@@ -26,10 +27,15 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
 class CommandsJTest {
     
+    private static final int SLEEP_TIME = 2000;
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension GAME_WINDOW_SIZE = new Dimension(SCREEN_SIZE.height,
+                                                                    SCREEN_SIZE.height);
+    private static final Pair<Integer, Integer> SCREEN_RATEO = new ImmutablePair<Integer, Integer>(1, 1);
     CommandsObserver co;
     
     @Test
-    synchronized void MouseEventsJTest() {
+    void MouseEventsJTest() {
         MouseEvents me = new MouseEvents(new ViewJTest());
         assertTrue(me.isRunning());
         co.newCommand(Commands.PAUSE);
@@ -41,34 +47,18 @@ class CommandsJTest {
     }
     
     @Test
-    synchronized void GraphicPanelUpdaterJTest() {
+    void GraphicPanelUpdaterJTest() throws InterruptedException {
         GameWindow gw = new GameWindow(new ViewJTest());
-        gw.update(new Dimension(500, 500), new ImmutablePair<Integer, Integer>(1, 1));
+        gw.update(GAME_WINDOW_SIZE, SCREEN_RATEO);
         gw.setVisible(true);
         co.newCommand(Commands.START);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(SLEEP_TIME);
         co.newCommand(Commands.PAUSE);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(SLEEP_TIME);
         co.newCommand(Commands.RESUME);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(SLEEP_TIME);
         co.newCommand(Commands.END);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(SLEEP_TIME);
     }
     
     private class ViewJTest implements View {
@@ -84,11 +74,6 @@ class CommandsJTest {
 
         @Override
         public double getMouseRelativePosition() {
-            return 0;
-        }
-
-        @Override
-        public double getMouseRelativePositionInRange(double lowerBound, double upperBound) {
             return 0;
         }
 

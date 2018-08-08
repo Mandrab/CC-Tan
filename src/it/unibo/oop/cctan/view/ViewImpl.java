@@ -24,7 +24,6 @@ public class ViewImpl implements View {
     private MouseEvents mouseEvents;
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
-    private Pair<Integer, Integer> screenRatio;
     private List<CommandsObserver> commandsObservers;
     private List<SizeObserver> sizeObervers;
 
@@ -110,12 +109,6 @@ public class ViewImpl implements View {
     /** {@inheritDoc} */
     public double getMouseRelativePosition() {
         return mouseEvents.getMouseRelativePosition();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public double getMouseRelativePositionInRange(double lowerBound, double upperBound) {
-        return mouseEvents.getMouseRelativePositionInRange(lowerBound, upperBound);
     }
 
     @Override

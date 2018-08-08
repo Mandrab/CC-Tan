@@ -45,7 +45,8 @@ public class LoaderJTest {
     public class ViewJTest implements View {
         
         @Override
-        public void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio) {}
+        public void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio) {
+        }
         
         @Override
         public void setLoadImage(ImageIcon img) {
@@ -54,27 +55,28 @@ public class LoaderJTest {
         
         @Override
         public Optional<Point> getWindowLocation() {
-            return null;}
+            return Optional.empty();
+        }
         
         @Override
         public int getScore() {
-            return 0;}
-        
-        @Override
-        public double getMouseRelativePositionInRange(double lowerBound, double upperBound) {
-            return 0;}
+            return 0;
+        }
         
         @Override
         public double getMouseRelativePosition() {
-            return 0;}
+            return 0;
+        }
         
         @Override
         public List<MappableData> getListOfMappableData() {
-            return null;}
+            return null;
+        }
         
         @Override
         public Optional<Dimension> getDimension() {
-            return null;}
+            return Optional.empty();
+        }
         
         @Override
         public void advanceLoading(int value) {
@@ -82,17 +84,20 @@ public class LoaderJTest {
         }
         
         @Override
-        public void addSizeObserver(SizeObserver sizeObserver) {}
+        public void addSizeObserver(SizeObserver sizeObserver) {
+        }
         
         @Override
-        public void addCommandsObserver(CommandsObserver commandsObserver) {}
+        public void addCommandsObserver(CommandsObserver commandsObserver) {
+        }
 
         @Override
-        public void setMouseRelativePosition(double mouseRelativePosition) {}
+        public void setMouseRelativePosition(double mouseRelativePosition) {
+        }
 
         @Override
         public Optional<Dimension> getGameWindowDimension() {
-            return null;
+            return Optional.empty();
         }
 
         @Override

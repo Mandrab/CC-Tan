@@ -42,19 +42,6 @@ public interface View {
      *         center of the window [center-right = 0, top-center = 90, ...]
      */
     double getMouseRelativePosition();
-
-    /**
-     * Get the position of the mouse relatively at the center of the game window in
-     * a given range.
-     * 
-     * @param lowerBound
-     *            number representing the 0 in the radiant measure
-     * @param upperBound
-     *            number representing 2PI in the radiant measure
-     * @return A double representing the position of the mouse relatively to the
-     *         center of the window [center-right = lowerBound, top-center = ?, ...]
-     */
-    double getMouseRelativePositionInRange(double lowerBound, double upperBound);
     
     /**
      * Allow to add a "command" observer.
