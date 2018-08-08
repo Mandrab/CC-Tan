@@ -3,14 +3,9 @@ package it.unibo.oop.cctan.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -18,7 +13,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
-class GraphicPanel extends MotionPanel {
+class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7666161570364892169L;
     private GameWindow gameWindow;
@@ -29,7 +24,6 @@ class GraphicPanel extends MotionPanel {
     private int score;
 
     GraphicPanel(final GameWindow gw) {
-        super(gw);
         gameWindow = gw;
         dimension = gw.getDimension();
         mappableDatas = new LinkedList<>();
