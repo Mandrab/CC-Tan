@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 
 import javafx.geometry.Point2D;
@@ -51,6 +52,8 @@ public interface FixedItem {
      *          a new Shape object representing the item
      */
     Shape getShape();
+
+    Color getColor();
 
     /**
      * Set the angle of the item axis.

@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -21,6 +22,12 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
     public static final double HEIGHT = 0.18;
 
     private static final double DEFAULT_SPEED = 0.0005;
+    private static final int BLU_LIMIT = 10;
+    private static final int GREEN_LIMIT = 25;
+    private static final int YELLOW_LIMIT = 40;
+    private static final int ORANGE_LIMIT = 50;
+    private static final int RED_LIMIT = 70;
+    private static final int MAGENTA_LIMIT = 90;
     private final Hittable hittableItem;
 
     private SquareAgent(final SquareBuilder builder) {
@@ -78,6 +85,26 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
         return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(), WIDTH, HEIGHT);
     }
 
+    @Override
+    public Color getColor() {
+        final int hp = this.hittableItem.getHP();
+        if (hp >= 0 && hp < BLU_LIMIT) {
+            return Color.BLUE;
+        } else if (hp < GREEN_LIMIT) {
+            return Color.GREEN;
+        } else if (hp < YELLOW_LIMIT) {
+            return Color.YELLOW;
+        } else if (hp < ORANGE_LIMIT) {
+            return Color.ORANGE;
+        } else if (hp < RED_LIMIT) {
+            return Color.RED;
+        } else if (hp < MAGENTA_LIMIT) {
+            return Color.MAGENTA;
+        }
+        final int h = 287, s = 86, b = 70; // HSB components
+        return Color.getHSBColor(h, s, b); // purple
+    }
+    
     /** 
      * {@inheritDoc}
      */
@@ -104,6 +131,10 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
         return DEFAULT_SPEED;
     }
 
+    private boolean between(int value, int lowInclusive, int highExclusive) {
+        return value >= lowInclusive && value < highExclusive;
+    }
+    
     /**
      * A basic builder for SquareAgent class.
      */

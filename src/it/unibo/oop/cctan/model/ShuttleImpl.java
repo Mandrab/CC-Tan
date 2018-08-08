@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -116,5 +117,13 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public double getHeight() {
         return this.getShape().getBounds2D().getHeight();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public Color getColor() {
+        return Color.WHITE;
     }
 }
