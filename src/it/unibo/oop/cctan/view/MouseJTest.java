@@ -37,7 +37,7 @@ class MouseJTest {
         final Point2D.Double[] multiplier = { new Point2D.Double(0.5, -0.5), new Point2D.Double(0, -0.5),
                 new Point2D.Double(-0.5, -0.5), new Point2D.Double(-0.5, 0), new Point2D.Double(-0.5, 0.5),
                 new Point2D.Double(0, 0.5), new Point2D.Double(0.5, 0.5) };
-        final double delta = 5.0;
+        final double delta = 1.0;
 
         try {
             r.mouseMove((int) (view.getWindowLocation().x + view.getDimension().getWidth()),
@@ -53,6 +53,11 @@ class MouseJTest {
                     r.mouseMove((int) (xZero + (view.getDimension().getWidth() * pair.getRight().x)),
                                 (int) (yZero + (view.getDimension().getHeight() * pair.getRight().y)));
                     assertEquals(pair.getLeft(), view.getMouseRelativePosition(), delta);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 });
 
     }
