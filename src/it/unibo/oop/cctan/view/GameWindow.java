@@ -3,6 +3,9 @@ package it.unibo.oop.cctan.view;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -46,6 +49,9 @@ class GameWindow extends JFrame implements SizeObserver {
         gpanel = new GraphicPanel(this);
         getContentPane().add(gpanel, BorderLayout.CENTER);
         
+        //Image image = Toolkit.getDefaultToolkit().getImage("/home/paolo/Documenti/void_move.gif");
+        //Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image , new Point(0,0), "customCursor");
+        //setCursor(customCursor);
         pack();
         setResizable(false);
     }

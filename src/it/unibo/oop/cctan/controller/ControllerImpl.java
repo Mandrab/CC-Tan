@@ -29,8 +29,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public int getScore() {
-        // TODO Auto-generated method stub
-        return 0;
+        return model.getScore().getPoints();
     }
 
     @Override
