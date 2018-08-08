@@ -1,17 +1,26 @@
 package it.unibo.oop.cctan.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JRootPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.metal.MetalBorders;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;;
-
+import it.unibo.oop.cctan.interPackageComunication.MappableData;
 /**
  * Class that instance the component used to show the game to the user.
  */
@@ -45,8 +54,11 @@ class GameWindow extends JFrame implements SizeObserver {
         gpanel = new GraphicPanel(this);
         getContentPane().add(gpanel, BorderLayout.CENTER);
         
-        setUndecorated(true);
+        //setUndecorated(true);
+        //getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+       // BasicInternalFrameUI.
         pack();
+        
         setResizable(false);
     }
 

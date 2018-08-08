@@ -45,7 +45,7 @@ class GraphicPanel extends MotionPanel {
 
     public void paint(final Graphics graphics) {
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, dimension.width, dimension.height);
+        graphics.fillRect(0, 0, (int)(dimension.width * 1.1), (int)(dimension.height * 1.1));
         drawer.setGraphics(graphics);
         synchronized (this) {
             mappableDatas.forEach(drawer::draw);

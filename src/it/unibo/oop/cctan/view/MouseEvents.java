@@ -56,7 +56,6 @@ class MouseEvents extends Thread implements CommandsObserver {
     }
 
     double getMouseRelativePosition() {
-        System.out.println(getWindowCenter().y - MouseInfo.getPointerInfo().getLocation().y);
         return calculateDegrees(MouseInfo.getPointerInfo().getLocation().x - getWindowCenter().x,
                                 getWindowCenter().y - MouseInfo.getPointerInfo().getLocation().y);
     }
