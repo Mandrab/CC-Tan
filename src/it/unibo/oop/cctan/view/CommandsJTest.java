@@ -134,6 +134,11 @@ class CommandsJTest {
         public void setMouseRelativePosition(double mouseRelativePosition) {
         }
 
+        @Override
+        public Dimension getGameWindowDimension() {
+            return new Dimension(500, 500);
+        }
+
     }
 
 }

@@ -75,6 +75,11 @@ public class LoaderJTest {
 
             @Override
             public void setMouseRelativePosition(double mouseRelativePosition) {}
+
+            @Override
+            public Dimension getGameWindowDimension() {
+                return null;
+            }
         };
         
         

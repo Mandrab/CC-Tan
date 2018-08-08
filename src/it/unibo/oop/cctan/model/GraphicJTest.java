@@ -1,7 +1,5 @@
 package it.unibo.oop.cctan.model;
 
-import static org.junit.Assert.*;
-
 import java.awt.Dimension;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;

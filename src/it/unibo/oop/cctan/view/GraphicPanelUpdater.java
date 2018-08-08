@@ -36,9 +36,12 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
     public void run() {
         while (!terminated) {
             while(!suspend) {
-                gpanel.redraw(gpanel.getListOfMappableData());
+                synchronized (this) {
+                    if (!suspend)
+                        gpanel.redraw(gpanel.getListOfMappableData());
+                }
                 try {
-                    Thread.sleep(refreshTime);
+                    Thread.sleep(suspend ? 0 : refreshTime);
                 } catch (Exception ex) {
                     System.err.println("An error has occurred");
                     ex.printStackTrace();
@@ -62,7 +65,7 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
     }
 
     @Override
-    public void newCommand(Commands command) {
+    public synchronized void newCommand(Commands command) {
         if (suspend = command == Commands.PAUSE || command == Commands.END)
             gpanel.redraw(getPrintableText((command == Commands.PAUSE ? "PAUSE!" : "END GAME!") 
                                            + System.lineSeparator()

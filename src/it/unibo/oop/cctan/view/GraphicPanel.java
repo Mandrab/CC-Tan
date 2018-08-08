@@ -31,7 +31,8 @@ class GraphicPanel extends JPanel {
         setSize(dimension);
 
         drawer = new Drawer(dimension, gw.getScreenRatio());
-
+        
+        setPreferredSize(dimension);
         updater = new GraphicPanelUpdater(this);
         updater.start();
     }

@@ -85,8 +85,8 @@ class Drawer {
     void drawText(final Pair<Double, Double> screenPositionOnPercentage, final Color color, final String text) {
         graphics.setColor(color);
         graphics.drawString(text, 
-                            (float) (screenPositionOnPercentage.getKey() * gameWindowDim.getWidth()), 
-                            (float) (screenPositionOnPercentage.getValue() * -gameWindowDim.getHeight()));
+                            (float) (screenPositionOnPercentage.getKey() * gameWindowDim.getWidth() - graphics.getFontMetrics().stringWidth(text) / 2), 
+                            (float) (screenPositionOnPercentage.getValue() * gameWindowDim.getHeight() / 10));
     }
 
     /**

@@ -119,4 +119,9 @@ public class ViewImpl implements View {
         controller.setMouseRelativePosition(mouseRelativePosition);        
     }
 
+    @Override
+    public Dimension getGameWindowDimension() {
+        return gameWindow.isPresent() ? gameWindow.get().getSize() : getDimension();
+    }
+
 }

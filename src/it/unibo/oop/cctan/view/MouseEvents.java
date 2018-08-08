@@ -69,8 +69,8 @@ class MouseEvents extends Thread implements CommandsObserver {
     }
 
     private Point getWindowCenter() {
-        return new Point(view.getWindowLocation().x + view.getDimension().width / 2,
-                         view.getWindowLocation().x + view.getDimension().height / 2);
+        return new Point(view.getWindowLocation().x + view.getGameWindowDimension().width / 2,
+                         view.getWindowLocation().x + view.getGameWindowDimension().height / 2);
     }
 
 }

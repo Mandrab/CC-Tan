@@ -115,6 +115,8 @@ public interface View {
      *         center of the window [center-right = 0, top-center = 90, ...]
      */
     void setMouseRelativePosition(double mouseRelativePosition);
+
+    Dimension getGameWindowDimension();
     
     
 

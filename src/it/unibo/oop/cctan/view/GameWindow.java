@@ -1,6 +1,7 @@
 package it.unibo.oop.cctan.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.util.List;
 
@@ -44,8 +45,8 @@ class GameWindow extends JFrame implements SizeObserver {
 
         gpanel = new GraphicPanel(this);
         getContentPane().add(gpanel, BorderLayout.CENTER);
-
-        setSize(gameWindowSize);
+        
+        pack();
         setResizable(false);
     }
 
