@@ -27,6 +27,7 @@ public class FileLoader extends Thread {
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final String PATH = System.getProperty("user.home") + "/.cctan/";
     private final static float QUALITY = 1.0f;
+    private File fontFile;
     
     public FileLoader(Controller controller) {
         this.controller = controller;
@@ -53,7 +54,15 @@ public class FileLoader extends Thread {
             }
         }
         controller.setLoadImage(new ImageIcon(PATH + "img/cctan.jpg"));
-        controller.advanceLoading(40);        
+        controller.advanceLoading(40);
+        
+        fontFile = new File(FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile());
+        
+        controller.advanceLoading(50);
+    }
+    
+    public File getFontFile() {
+        return fontFile;
     }
 
     private void convertSvgToJpg(final String svgUri, final String jpgUri) throws Exception {

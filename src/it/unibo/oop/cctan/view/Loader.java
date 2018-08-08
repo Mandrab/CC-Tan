@@ -88,8 +88,8 @@ class Loader {
     public void setLoadImage(ImageIcon img) {
         containerLabel.setText("");
         containerLabel.setIcon(new ImageIcon(img.getImage()
-                                                .getScaledInstance((int)windowSize.getWidth(), 
-                                                                   (int)windowSize.getHeight(), 
+                                                .getScaledInstance(windowSize.width, 
+                                                                   windowSize.height, 
                                                                    Image.SCALE_SMOOTH)));
     }
 

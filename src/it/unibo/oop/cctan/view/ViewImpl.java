@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class ViewImpl implements View {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
+        controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
         
@@ -47,22 +49,25 @@ public class ViewImpl implements View {
     /** {@inheritDoc} */
     public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (!gameWindow.isPresent()) {
-            gameWindow = Optional.of(new GameWindow(this, gameWindowSize, screenRatio));
+            gameWindow = Optional.of(new GameWindow(this));
         }
+        gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
     }
 
     @Override
     /** {@inheritDoc} */
-    public Dimension getDimension() {//return optional or save value in view
-        return gameWindow.get().getDimension();
+    public Optional<Dimension> getDimension() {//return optional or save value in view
+        return gameWindow.isPresent() ? gameWindow.get().getDimension() : Optional.empty();
     }
 
     @Override
     /** {@inheritDoc} */
-    public Point getWindowLocation() {//return optional
-        return gameWindow.get().getLocation();
+    public Optional<Point> getWindowLocation() {//return optional
+        return gameWindow.isPresent() ? 
+               Optional.ofNullable(gameWindow.get().getLocation()) : 
+               Optional.empty();
     }
 
     @Override
@@ -120,8 +125,14 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public Dimension getGameWindowDimension() {
-        return gameWindow.isPresent() ? gameWindow.get().getSize() : getDimension();
+    public Optional<Dimension> getGameWindowDimension() {
+        return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
+    }
+
+    @Override
+    public File getFont() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

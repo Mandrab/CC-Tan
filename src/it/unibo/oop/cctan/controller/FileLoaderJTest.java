@@ -46,6 +46,11 @@ public class FileLoaderJTest {
 
             @Override
             public void setMouseRelativePosition(double angle) {}
+
+            @Override
+            public File getFont() {
+                return null;
+            }
         });
     }
     

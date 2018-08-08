@@ -2,7 +2,9 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
@@ -31,7 +33,7 @@ public interface View {
      * 
      * @return the x,y origin of the window.
      */
-    Point getWindowLocation();
+    Optional<Point> getWindowLocation();
 
     /**
      * Get the degrees of the mouse relatively at the center of the game window.
@@ -75,7 +77,7 @@ public interface View {
      * 
      * @return a dimension that stores width and height
      */
-    Dimension getDimension();
+    Optional<Dimension> getDimension();
 
     /**
      * Return a list of data that as to be mapped.
@@ -116,8 +118,8 @@ public interface View {
      */
     void setMouseRelativePosition(double mouseRelativePosition);
 
-    Dimension getGameWindowDimension();
-    
-    
+    Optional<Dimension> getGameWindowDimension();
 
+    File getFont();
+    
 }

@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -34,5 +35,7 @@ public interface Controller {
     void setView(View v);
     
     public void setLoadImage(ImageIcon img);
+
+    File getFont();
 
 }

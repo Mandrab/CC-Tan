@@ -7,7 +7,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -40,9 +42,8 @@ class CommandsJTest {
     
     @Test
     synchronized void GraphicPanelUpdaterJTest() {
-        GameWindow gw = new GameWindow(new ViewJTest(), 
-                                       new Dimension(500, 500), 
-                                       new ImmutablePair<Integer, Integer>(1, 1));
+        GameWindow gw = new GameWindow(new ViewJTest());
+        gw.update(new Dimension(500, 500), new ImmutablePair<Integer, Integer>(1, 1));
         gw.setVisible(true);
         co.newCommand(Commands.START);
         try {
@@ -77,8 +78,8 @@ class CommandsJTest {
         }
 
         @Override
-        public Point getWindowLocation() {
-            return new Point(0, 0);
+        public Optional<Point> getWindowLocation() {
+            return Optional.of(new Point(0, 0));
         }
 
         @Override
@@ -98,11 +99,6 @@ class CommandsJTest {
 
         @Override
         public void addSizeObserver(SizeObserver sizeObserver) {
-        }
-
-        @Override
-        public Dimension getDimension() {
-            return new Dimension(500, 500);
         }
 
         @Override
@@ -135,8 +131,18 @@ class CommandsJTest {
         }
 
         @Override
-        public Dimension getGameWindowDimension() {
-            return new Dimension(500, 500);
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.of(new Dimension(500, 500));
+        }
+
+        @Override
+        public File getFont() {
+            return null;
+        }
+
+        @Override
+        public Optional<Dimension> getDimension() {
+            return Optional.of(new Dimension(500, 500));
         }
 
     }

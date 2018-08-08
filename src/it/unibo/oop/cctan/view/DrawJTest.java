@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,6 +81,11 @@ class DrawJTest {
             @Override
             public void setMouseRelativePosition(double angle) {
             }
+
+            @Override
+            public File getFont() {
+                return null;
+            }
         });
         view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
         Thread.sleep(TIME_BEFORE_JUNIT_TEST_END);
@@ -151,6 +157,11 @@ class DrawJTest {
 
         @Override
         public void setMouseRelativePosition(double angle) {
+        }
+
+        @Override
+        public File getFont() {
+            return null;
         }
 
     }

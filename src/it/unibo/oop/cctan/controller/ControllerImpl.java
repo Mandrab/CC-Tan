@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class ControllerImpl implements Controller {
     private Optional<View> view;
     private Model model;
     private MappableDataAdapter mappableDataAdapter;
+    private FileLoader fileLoader;
     
     public ControllerImpl() {
         model = new ModelImpl();
@@ -42,7 +44,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void setView(View v) {
         this.view = Optional.of(v);
-        FileLoader fileLoader = new FileLoader(this);
+        fileLoader = new FileLoader(this);
         fileLoader.start();
     }
 
@@ -56,6 +58,11 @@ public class ControllerImpl implements Controller {
     @Override
     public void setMouseRelativePosition(double angle) {
         model.setSpaceshipAngle(angle);
+    }
+
+    @Override
+    public File getFont() {
+        return fileLoader.getFontFile();
     }
 
 }
