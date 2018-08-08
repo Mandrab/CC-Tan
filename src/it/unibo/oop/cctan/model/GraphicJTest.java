@@ -26,15 +26,6 @@ public class GraphicJTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
-//        for(int angle = 0; true; angle = (angle + 2) % 360 ) {
-//            ctrl.setMouseRelativePosition(angle);
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
 }

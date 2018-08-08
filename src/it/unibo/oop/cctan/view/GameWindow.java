@@ -49,9 +49,6 @@ class GameWindow extends JFrame implements SizeObserver {
         gpanel = new GraphicPanel(this);
         getContentPane().add(gpanel, BorderLayout.CENTER);
         
-        //Image image = Toolkit.getDefaultToolkit().getImage("/home/paolo/Documenti/void_move.gif");
-        //Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(image , new Point(0,0), "customCursor");
-        //setCursor(customCursor);
         pack();
         setResizable(false);
     }
