@@ -32,8 +32,8 @@ public class MenuWindow {
         mainFrame.setMaximumSize(new Dimension(400, 400));
 
         mainFrame.setLayout(new BorderLayout());
-        
-      //TODO settare l'indirizzo giusto
+
+        // TODO settare l'indirizzo giusto
         String path = new File(FILE_NAME).getAbsolutePath();
 
         JLabel background = new JLabel(new ImageIcon(path));
@@ -119,6 +119,11 @@ public class MenuWindow {
         startBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
+                /*
+                 * creare key listenercommand nella view e da quella fare un metodo che richiami
+                 * lo start command e rihiamarlo qui per avvisare tutti
+                 */
+
             }
         });
         soundsBtn.addActionListener(new ActionListener() {
@@ -126,7 +131,6 @@ public class MenuWindow {
             // utilizzare una classe come commands che avvisa chi di dovere per avviare o
             // bloccare il sounds
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 if (pBGD.getClipMenu().isRunning()) {
                     pBGD.getClipMenu().stop();
                 } else {
