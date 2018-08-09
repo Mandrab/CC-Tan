@@ -25,6 +25,7 @@ public class ViewImpl implements View {
     private MouseEvents mouseEvents;
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
+    private Optional<SettingsWindow> settingsWindow = Optional.empty();
     private List<CommandsObserver> commandsObservers;
     private List<SizeObserver> sizeObervers;
 
@@ -54,6 +55,14 @@ public class ViewImpl implements View {
         gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
+    }
+    
+    public void showSettingsWindow() {
+        if (!settingsWindow.isPresent()) {
+            settingsWindow = Optional.of(new SettingsWindow(this));
+        }else {
+            settingsWindow.get().show();
+        }
     }
 
     @Override
