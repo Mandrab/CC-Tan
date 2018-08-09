@@ -52,6 +52,13 @@ public interface View {
     void addCommandsObserver(CommandsObserver commandsObserver);
 
     /**
+     * Get the copy of list of CommandsObservers.
+     * 
+     * @return A copy of list of CommandsObservers.
+     */
+    List<CommandsObserver> getCommandsObserversList();
+    
+    /**
      * Allow to add a "size" observer.
      * 
      * @param sizeObserver

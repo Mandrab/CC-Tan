@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +127,14 @@ public class ViewImpl implements View {
     public File getFont() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<CommandsObserver> getCommandsObserversList() {
+        List<CommandsObserver> copia = new ArrayList<>();
+        copia.addAll(commandsObservers);
+        return copia;
     }
 
 }
