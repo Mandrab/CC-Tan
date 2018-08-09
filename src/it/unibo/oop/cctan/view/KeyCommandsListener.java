@@ -38,19 +38,21 @@ public class KeyCommandsListener {
                     if (actualState.equals(Commands.START) || actualState.equals(Commands.RESUME)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
+                            actualState=Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
 
                         }
                     } else if (actualState.equals(Commands.PAUSE)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
+                            actualState=Commands.RESUME;
                             c.newCommand(Commands.RESUME);
                         }
-                        // changedState(new CommandsObserverImpl(Commands.PAUSE));
                         // se lo stato attuale del gioco è in corso allora metti pausa e se è in pausa
                         // metti in corso
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
+                            actualState=Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
                         }
                     }

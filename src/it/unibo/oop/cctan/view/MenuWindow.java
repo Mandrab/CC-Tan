@@ -32,7 +32,8 @@ public class MenuWindow {
         mainFrame.setMaximumSize(new Dimension(400, 400));
 
         mainFrame.setLayout(new BorderLayout());
-
+        
+      //TODO settare l'indirizzo giusto
         String path = new File(FILE_NAME).getAbsolutePath();
 
         JLabel background = new JLabel(new ImageIcon(path));

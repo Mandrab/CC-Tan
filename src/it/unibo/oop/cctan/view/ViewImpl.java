@@ -57,10 +57,12 @@ public class ViewImpl implements View {
         mouseEvents = new MouseEvents(this);
     }
     
+    @Override
+    /** {@inheritDoc} */
     public void showSettingsWindow() {
         if (!settingsWindow.isPresent()) {
             settingsWindow = Optional.of(new SettingsWindow(this));
-        }else {
+        } else {
             settingsWindow.get().show();
         }
     }
@@ -145,5 +147,7 @@ public class ViewImpl implements View {
         copia.addAll(commandsObservers);
         return copia;
     }
+
+    
 
 }

@@ -191,6 +191,18 @@ class MouseJTest {
             return null;
         }
 
+        @Override
+        public void showSettingsWindow() {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public List<CommandsObserver> getCommandsObserversList() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
 }

@@ -27,6 +27,11 @@ public interface View {
      *            represent the ratio between x and y edge (eg:: 16:9, 4:3)
      */
     void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio);
+    
+   /**
+    * Setup and show the setting window if not present yes, show it if is present.
+    */
+    void showSettingsWindow();
 
     /**
      * Get the top-left point of the window.
@@ -115,5 +120,6 @@ public interface View {
     Optional<Dimension> getGameWindowDimension();
 
     File getFont();
+
     
 }

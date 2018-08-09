@@ -27,6 +27,8 @@ public class SettingsWindow {
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String FILE_NAME = "./res//background2.jpg";
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final String SONG_NAME = "./res//musicGame.wav";
     private static Optional<Clip> clip = Optional.empty();
     private final View view;
 
@@ -36,6 +38,8 @@ public class SettingsWindow {
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());
+        
+        //TODO settare l'indirizzo giusto
         String path = new File(FILE_NAME).getAbsolutePath();
 
         JLabel background = new JLabel(new ImageIcon(path));
@@ -72,11 +76,28 @@ public class SettingsWindow {
         c.gridx = 0;
         c.gridy = 3;
         background.add(nickText, c);
+        
+        JLabel ratioLabl = new JLabel();
+        ratioLabl.setText("Select screen ratio:");
+        c.gridx = 0;
+        c.gridy = 4;
+        ratioLabl.setHorizontalAlignment(JLabel.CENTER);
+        background.add(ratioLabl, c);
+        JComboBox<String> ratio = new JComboBox<String>();
+        ratio.addItem("-- SELECT --");
+        ratio.addItem("1:1");
+        ratio.addItem("4:3");
+        ratio.addItem("16:9");
+        c.gridx = 0;
+        c.gridy = 5;
+        background.add(ratio, c);
+        
+       
 
         JLabel dimensionLabl = new JLabel();
         dimensionLabl.setText("Select window size:");
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 6;
         dimensionLabl.setHorizontalAlignment(JLabel.CENTER);
         background.add(dimensionLabl, c);
 
@@ -86,23 +107,53 @@ public class SettingsWindow {
         dimension.addItem("640x480");
         dimension.addItem("1024x768");
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 7;
         background.add(dimension, c);
 
-        JLabel ratioLabl = new JLabel();
-        ratioLabl.setText("Select screen ratio:");
-        c.gridx = 0;
-        c.gridy = 6;
-        ratioLabl.setHorizontalAlignment(JLabel.CENTER);
-        background.add(ratioLabl, c);
-        JComboBox<String> ratio = new JComboBox<String>();
-        ratio.addItem("-- SELECT --");
-        ratio.addItem("1:1");
-        ratio.addItem("4:3");
-        ratio.addItem("16:9");
-        c.gridx = 0;
-        c.gridy = 7;
-        background.add(ratio, c);
+        //TODO
+        ratio.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                    if (!ratio.getSelectedItem().equals("-- SELECT --")) {
+                            dimension.setEnabled(true);
+                            dimension.removeAllItems();
+                            dimension.addItem("-- SELECT --");
+                            double height = SCREEN_SIZE.getHeight();
+                            double width = SCREEN_SIZE.getWidth();
+                            if (ratio.getSelectedItem().equals("1:1")) {
+                                    String StringRatio = String.valueOf((int) height) + ":" + String.valueOf((int) height);
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (height * 0.75)) + ":"
+                                                    + String.valueOf((int) (height * 0.75));
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (height * 0.5)) + ":" + String.valueOf((int) (height * 0.5));
+                                    dimension.addItem(StringRatio);
+
+                            } else if (ratio.getSelectedItem().equals("4:3")) {
+                                    String StringRatio = String.valueOf((int) (height * 1.33)) + ":" + String.valueOf((int) height);
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (height * 0.75 * 1.33)) + ":" + String.valueOf((int) (height * 0.75));
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (height * 0.5 * 1.33)) + ":" + String.valueOf((int) (height * 0.5));
+                                    dimension.addItem(StringRatio);
+                            } else {
+                                    String StringRatio = String.valueOf((int) width) + ":" + String.valueOf((int) (width * 0.5625));
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (width * 0.75)) + ":" + String.valueOf((int) (width * 0.75 * 0.5625));
+                                    dimension.addItem(StringRatio);
+                                    StringRatio = String.valueOf((int) (width * 0.5)) + ":" + String.valueOf((int) (width * 0.5 * 0.5625));
+                                    dimension.addItem(StringRatio);
+                            }
+                    } else {
+                            dimension.setEnabled(false);
+                            dimension.removeAllItems();
+                            dimension.addItem("-- SELECT --");
+                    }
+
+            }
+    });
+        
 
         JButton doneBtn = new JButton("done");
         c.gridx = 1;
@@ -163,9 +214,9 @@ public class SettingsWindow {
     // TODO rendere la clip stoppabile e avviabile i
     public static void music() {
         try {
-            if (!clip.isPresent()) {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\TUCCIO\\eclipse-workspace\\StartSettings\\res\\musicGame.wav")
-                                .getAbsoluteFile());
+            if (!clip.isPresent()) {String path = new File(SONG_NAME).getAbsolutePath();
+            System.out.println(path);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
                 clip = Optional.of(AudioSystem.getClip());
                 clip.get().open(audioInputStream);
                 clip.get().loop(Clip.LOOP_CONTINUOUSLY);

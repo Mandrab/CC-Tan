@@ -130,6 +130,15 @@ class CommandsJTest {
             return Optional.of(new Dimension(500, 500));
         }
 
+        @Override
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public List<CommandsObserver> getCommandsObserversList() {
+            return null;
+        }
+
     }
 
 }
