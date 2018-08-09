@@ -25,9 +25,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import javafx.util.Pair;
 
 public class SettingsWindow {
     private static String playerNick = "not set";
@@ -253,12 +255,12 @@ public class SettingsWindow {
             int el0 = Integer.parseInt(s.substring(0, 1));
             int el1 = Integer.parseInt(s.substring(2, 3));
             System.out.println(el0 + "  " + el1);
-            p = new Pair<>(el0, el1);
+            p = new ImmutablePair<>(el0, el1);
         } else {
             int el0 = Integer.parseInt(s.substring(0, 2));
             int el1 = Integer.parseInt(s.substring(3, 4));
             System.out.println(el0 + "  " + el1);
-            p = new Pair<>(el0, el1);
+            p = new ImmutablePair<>(el0, el1);
         }
         return p;
     }
