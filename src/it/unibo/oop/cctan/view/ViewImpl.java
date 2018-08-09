@@ -37,11 +37,11 @@ public class ViewImpl implements View {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
+        loader = new Loader();
         controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
         
-        //loader = new Loader();
         //Impostazioni
     }
 
