@@ -174,8 +174,8 @@ public class SettingsWindow {
 
         settings.setSize(font.getSize() * 4, font.getSize() * 5);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        settings.setLocation(dim.width / 2 - settings.getSize().width / 2,
-                dim.height / 2 - settings.getSize().height / 2);
+        settings.setLocationRelativeTo(null);
+        settings.setResizable(false);
         settings.setVisible(true);
 
         doneBtn.addActionListener(new ActionListener() {

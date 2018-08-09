@@ -25,8 +25,13 @@ public class FileLoader extends Thread {
 
     private Controller controller;
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final String PATH = System.getProperty("user.home") + "/.cctan/";
-    private final static float QUALITY = 1.0f;
+    private static final String PATH = System.getProperty("user.home") + "/.cctan";
+    private static final String DIRECTORY_IMG = "/img";
+    private static final String DIRECTORY_SCORE = "/score";
+    private static final String IMG_JPG_BACKGROUND = "/cctan.jpg";
+    private static final String IMG_SVG_BACKGROUND = "/cctan.svg";
+    private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile();
+    private static final float QUALITY = 1.0f;
     private File fontFile;
     
     public FileLoader(Controller controller) {
@@ -36,33 +41,39 @@ public class FileLoader extends Thread {
     @Override
     public void run() {
         //check/create the game directory
-        if(!new File(PATH + "img").mkdirs())
-            System.out.println("The directory img already exist or has occurred an error");
-        if(!new File(PATH + "score").mkdirs())
-            System.out.println("The directory img already exist or has occurred an error");
+        createDirectories(PATH, new String[] {DIRECTORY_IMG, DIRECTORY_SCORE});
         controller.advanceLoading(10);
         
         //convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PATH, "img/cctan.jpg"), LinkOption.NOFOLLOW_LINKS)) {
-            controller.setLoadImage(new ImageIcon(FileLoader.class.getResource("/cctan.jpg")));
+        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_BACKGROUND), 
+                                    LinkOption.NOFOLLOW_LINKS)) {
+            controller.setLoadImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_BACKGROUND)));
             try {
-                convertSvgToJpg(FileLoader.class.getResource("/cctan.svg").toString(), 
-                                PATH + "img/cctan.jpg");
+                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_BACKGROUND).toString(), 
+                                PATH + DIRECTORY_IMG + IMG_JPG_BACKGROUND);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        controller.setLoadImage(new ImageIcon(PATH + "img/cctan.jpg"));
+        controller.setLoadImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_BACKGROUND));
         controller.advanceLoading(40);
         
-        fontFile = new File(FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile());
+        fontFile = new File(FONT_SUBSPACE);
         
         controller.advanceLoading(100);
     }
     
     public File getFontFile() {
         return fontFile;
+    }
+    
+    private void createDirectories(String path, String[] names) {
+        for (String name : names) {
+            if(!new File(path + name).mkdirs() 
+                    && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS))
+                System.err.println("An error as occurred during " + name + " directory creation!");
+        }
     }
 
     private void convertSvgToJpg(final String svgUri, final String jpgUri) throws Exception {

@@ -133,8 +133,10 @@ public class MenuWindow {
             public void actionPerformed(ActionEvent e) {
                 if (pBGD.getClipMenu().isRunning()) {
                     pBGD.getClipMenu().stop();
+                    soundsBtn.setText("Unmute");
                 } else {
                     pBGD.getClipMenu().start();
+                    soundsBtn.setText("Mute");
                 }
             }
         });

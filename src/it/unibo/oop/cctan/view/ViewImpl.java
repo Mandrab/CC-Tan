@@ -42,7 +42,7 @@ public class ViewImpl implements View {
         controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
-        
+        SettingsWindow settingsWindow = new SettingsWindow(this);
         //Impostazioni
     }
 
