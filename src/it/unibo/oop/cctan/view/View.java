@@ -64,6 +64,13 @@ public interface View {
     List<CommandsObserver> getCommandsObserversList();
     
     /**
+     * Get the copy of list of SizeObserver.
+     * 
+     * @return A copy of list of SizeObserver.
+     */
+    List<SizeObserver> getSizeObserversList();
+    
+    /**
      * Allow to add a "size" observer.
      * 
      * @param sizeObserver

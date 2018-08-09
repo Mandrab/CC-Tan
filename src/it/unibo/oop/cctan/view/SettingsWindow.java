@@ -10,6 +10,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import javax.sound.sampled.AudioInputStream;
@@ -22,6 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import it.unibo.oop.cctan.interPackageComunication.Commands;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import javafx.util.Pair;
 
 public class SettingsWindow {
     private static String playerNick = "not set";
@@ -38,8 +44,8 @@ public class SettingsWindow {
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());
-        
-        //TODO settare l'indirizzo giusto
+
+        // TODO settare l'indirizzo giusto
         String path = new File(FILE_NAME).getAbsolutePath();
 
         JLabel background = new JLabel(new ImageIcon(path));
@@ -76,7 +82,7 @@ public class SettingsWindow {
         c.gridx = 0;
         c.gridy = 3;
         background.add(nickText, c);
-        
+
         JLabel ratioLabl = new JLabel();
         ratioLabl.setText("Select screen ratio:");
         c.gridx = 0;
@@ -91,8 +97,6 @@ public class SettingsWindow {
         c.gridx = 0;
         c.gridy = 5;
         background.add(ratio, c);
-        
-       
 
         JLabel dimensionLabl = new JLabel();
         dimensionLabl.setText("Select window size:");
@@ -110,50 +114,52 @@ public class SettingsWindow {
         c.gridy = 7;
         background.add(dimension, c);
 
-        //TODO
         ratio.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                    if (!ratio.getSelectedItem().equals("-- SELECT --")) {
-                            dimension.setEnabled(true);
-                            dimension.removeAllItems();
-                            dimension.addItem("-- SELECT --");
-                            double height = SCREEN_SIZE.getHeight();
-                            double width = SCREEN_SIZE.getWidth();
-                            if (ratio.getSelectedItem().equals("1:1")) {
-                                    String StringRatio = String.valueOf((int) height) + ":" + String.valueOf((int) height);
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (height * 0.75)) + ":"
-                                                    + String.valueOf((int) (height * 0.75));
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (height * 0.5)) + ":" + String.valueOf((int) (height * 0.5));
-                                    dimension.addItem(StringRatio);
+                if (!ratio.getSelectedItem().equals("-- SELECT --")) {
+                    dimension.setEnabled(true);
+                    dimension.removeAllItems();
+                    dimension.addItem("-- SELECT --");
+                    double height = SCREEN_SIZE.getHeight();
+                    double width = SCREEN_SIZE.getWidth();
+                    if (ratio.getSelectedItem().equals("1:1")) {
+                        String stringRatio = String.valueOf((int) height) + ":" + String.valueOf((int) height);
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (height * 0.75)) + ":"
+                                + String.valueOf((int) (height * 0.75));
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (height * 0.5)) + ":" + String.valueOf((int) (height * 0.5));
+                        dimension.addItem(stringRatio);
 
-                            } else if (ratio.getSelectedItem().equals("4:3")) {
-                                    String StringRatio = String.valueOf((int) (height * 1.33)) + ":" + String.valueOf((int) height);
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (height * 0.75 * 1.33)) + ":" + String.valueOf((int) (height * 0.75));
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (height * 0.5 * 1.33)) + ":" + String.valueOf((int) (height * 0.5));
-                                    dimension.addItem(StringRatio);
-                            } else {
-                                    String StringRatio = String.valueOf((int) width) + ":" + String.valueOf((int) (width * 0.5625));
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (width * 0.75)) + ":" + String.valueOf((int) (width * 0.75 * 0.5625));
-                                    dimension.addItem(StringRatio);
-                                    StringRatio = String.valueOf((int) (width * 0.5)) + ":" + String.valueOf((int) (width * 0.5 * 0.5625));
-                                    dimension.addItem(StringRatio);
-                            }
+                    } else if (ratio.getSelectedItem().equals("4:3")) {
+                        String stringRatio = String.valueOf((int) (height * 1.33)) + ":" + String.valueOf((int) height);
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (height * 0.75 * 1.33)) + ":"
+                                + String.valueOf((int) (height * 0.75));
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (height * 0.5 * 1.33)) + ":"
+                                + String.valueOf((int) (height * 0.5));
+                        dimension.addItem(stringRatio);
                     } else {
-                            dimension.setEnabled(false);
-                            dimension.removeAllItems();
-                            dimension.addItem("-- SELECT --");
+                        String stringRatio = String.valueOf((int) width) + ":" + String.valueOf((int) (width * 0.5625));
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (width * 0.75)) + ":"
+                                + String.valueOf((int) (width * 0.75 * 0.5625));
+                        dimension.addItem(stringRatio);
+                        stringRatio = String.valueOf((int) (width * 0.5)) + ":"
+                                + String.valueOf((int) (width * 0.5 * 0.5625));
+                        dimension.addItem(stringRatio);
                     }
+                } else {
+                    dimension.setEnabled(false);
+                    dimension.removeAllItems();
+                    dimension.addItem("-- SELECT --");
+                }
 
             }
-    });
-        
+        });
 
         JButton doneBtn = new JButton("done");
         c.gridx = 1;
@@ -179,6 +185,17 @@ public class SettingsWindow {
                     // TODO
                     music();
                     showMenu();
+                    
+                    //usare stringToDim((String)dimension.getSelectedItem()); per ottenere la Dimension da passare all'observer
+                    //usare stringToPair((String)ratio.getSelectedItem()) per ottenere il Pair da passare all'observer
+                    Dimension dim = stringToDim((String)dimension.getSelectedItem());
+                    Pair<Integer,Integer> rat =stringToPair((String)ratio.getSelectedItem());
+                    List<SizeObserver> observers = view.getSizeObserversList();
+                    for (Iterator<SizeObserver> i = observers.iterator(); i.hasNext();) {
+                        SizeObserver sO = i.next();
+                        sO.update(dim, rat);
+
+                    }
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Please, fill the Fields", "Notice",
                             JOptionPane.ERROR_MESSAGE);
@@ -214,9 +231,10 @@ public class SettingsWindow {
     // TODO rendere la clip stoppabile e avviabile i
     public static void music() {
         try {
-            if (!clip.isPresent()) {String path = new File(SONG_NAME).getAbsolutePath();
-            System.out.println(path);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+            if (!clip.isPresent()) {
+                String path = new File(SONG_NAME).getAbsolutePath();
+                System.out.println(path);
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
                 clip = Optional.of(AudioSystem.getClip());
                 clip.get().open(audioInputStream);
                 clip.get().loop(Clip.LOOP_CONTINUOUSLY);
@@ -227,6 +245,36 @@ public class SettingsWindow {
             ex.printStackTrace();
         }
 
+    }
+    
+    public Pair<Integer, Integer> stringToPair(String s) {
+        Pair<Integer, Integer> p;
+        if (s.length() == 3) {
+            int el0 = Integer.parseInt(s.substring(0, 1));
+            int el1 = Integer.parseInt(s.substring(2, 3));
+            System.out.println(el0 + "  " + el1);
+            p = new Pair<>(el0, el1);
+        } else {
+            int el0 = Integer.parseInt(s.substring(0, 2));
+            int el1 = Integer.parseInt(s.substring(3, 4));
+            System.out.println(el0 + "  " + el1);
+            p = new Pair<>(el0, el1);
+        }
+        return p;
+    }
+
+    public Dimension stringToDim(String s) {
+        if (s.length() == 7) {
+            int width = Integer.parseInt(s.substring(0, 3));
+            int height = Integer.parseInt(s.substring(4, 7));
+            System.out.println(width + "  " + height);
+            Dimension dim = new Dimension(width, height);
+
+            return dim;
+        } else {
+            System.out.println("errore la stringa è troppo piccola");
+        }
+        return null;
     }
 
 }

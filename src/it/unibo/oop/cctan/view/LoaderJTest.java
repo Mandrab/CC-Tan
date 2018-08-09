@@ -113,7 +113,11 @@ public class LoaderJTest {
 
         @Override
         public List<CommandsObserver> getCommandsObserversList() {
-            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<SizeObserver> getSizeObserversList() {
             return null;
         }
     };

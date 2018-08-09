@@ -147,7 +147,13 @@ public class ViewImpl implements View {
         copia.addAll(commandsObservers);
         return copia;
     }
-
     
+    /** {@inheritDoc} */
+    @Override
+    public List<SizeObserver> getSizeObserversList() {
+        List<SizeObserver> copia = new ArrayList<>();
+        copia.addAll(sizeObervers);
+        return copia;
+    }
 
 }

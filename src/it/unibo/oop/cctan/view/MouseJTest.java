@@ -203,6 +203,12 @@ class MouseJTest {
             return null;
         }
 
+        @Override
+        public List<SizeObserver> getSizeObserversList() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
 }

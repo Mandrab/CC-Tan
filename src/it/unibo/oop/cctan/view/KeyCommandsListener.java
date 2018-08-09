@@ -10,26 +10,26 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 
 public class KeyCommandsListener {
 
-    KeyListener ls;
-    View view;
-    Commands actualState = Commands.END;
+    private KeyListener ls;
+    private View view;
+    private Commands actualState = Commands.END;
 
     public KeyCommandsListener(View view) {
         this.view = view;
         ls = new KeyListener() {
 
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(final KeyEvent e) {
 
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(final KeyEvent e) {
 
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(final KeyEvent e) {
                 List<CommandsObserver> observers = view.getCommandsObserversList();
 
                 // int id = e.getID();
@@ -38,21 +38,21 @@ public class KeyCommandsListener {
                     if (actualState.equals(Commands.START) || actualState.equals(Commands.RESUME)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
-                            actualState=Commands.PAUSE;
+                            actualState = Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
 
                         }
                     } else if (actualState.equals(Commands.PAUSE)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
-                            actualState=Commands.RESUME;
+                            actualState = Commands.RESUME;
                             c.newCommand(Commands.RESUME);
                         }
                         // se lo stato attuale del gioco è in corso allora metti pausa e se è in pausa
                         // metti in corso
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
-                            actualState=Commands.PAUSE;
+                            actualState = Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
                         }
                     }
@@ -66,9 +66,10 @@ public class KeyCommandsListener {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
                             c.newCommand(Commands.PAUSE);
-                            // TODO avvia schermata ESC
+                            actualState = Commands.PAUSE;
+                            
                         }
-
+                     // TODO avvia schermata ESC
                         System.out.println("esc pressed");
 
                         // changedState(new CommandsObserverImpl(Commands.START));
@@ -81,5 +82,32 @@ public class KeyCommandsListener {
                 }
             }
         };
+    }
+    
+    public boolean endCommand() {
+        List<CommandsObserver> observers = view.getCommandsObserversList();
+        if (!actualState.equals(Commands.END)) {
+            for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
+                CommandsObserver c = i.next();
+                c.newCommand(Commands.END);
+                actualState = Commands.END;
+                //TODO fare partire la schermata finale con score e tutto
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean startCommand() {
+        List<CommandsObserver> observers = view.getCommandsObserversList();
+        if (actualState.equals(Commands.END)) {
+            for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
+                CommandsObserver c = i.next();
+                c.newCommand(Commands.START);
+                actualState = Commands.START;
+                return true;
+            }
+        }
+        return false;
     }
 }

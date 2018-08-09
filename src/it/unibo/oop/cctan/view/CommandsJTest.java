@@ -139,6 +139,11 @@ class CommandsJTest {
             return null;
         }
 
+        @Override
+        public List<SizeObserver> getSizeObserversList() {
+            return null;
+        }
+
     }
 
 }
