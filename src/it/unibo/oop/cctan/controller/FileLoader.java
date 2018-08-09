@@ -30,49 +30,52 @@ public class FileLoader extends Thread {
     private static final String DIRECTORY_SCORE = "/score";
     private static final String IMG_JPG_LOGO = "/cctan.jpg";
     private static final String IMG_SVG_LOGO = "/cctan.svg";
-    private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile();
+    private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf")
+            .getFile();
     private static final float QUALITY = 1.0f;
+    private ImageIcon jpgLogo;
     private File fontFile;
-    
-    public FileLoader(Controller controller) {
+
+    public FileLoader(final Controller controller) {
         this.controller = controller;
     }
 
     @Override
+    /** {@inheritDoc} */
     public void run() {
-        //check/create the game directory
-        createDirectories(PATH, new String[] {DIRECTORY_IMG, DIRECTORY_SCORE});
+        // check/create the game directory
+        createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
         controller.advanceLoading(10);
-        
-        //convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), 
-                                    LinkOption.NOFOLLOW_LINKS)) {
+
+        // convert svg to jpg. if jpg file already exists will do nothing
+        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
             controller.setLoadImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
             try {
-                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(), 
-                                PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
+                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
+                        PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        controller.setLoadImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
+        jpgLogo = new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
+        controller.setLoadImage(jpgLogo);
         controller.advanceLoading(40);
-        
+
         fontFile = new File(FONT_SUBSPACE);
-        
+
         controller.advanceLoading(100);
     }
-    
+
     public File getFontFile() {
         return fontFile;
     }
-    
-    private void createDirectories(String path, String[] names) {
+
+    private void createDirectories(final String path, final String[] names) {
         for (String name : names) {
-            if(!new File(path + name).mkdirs() 
-                    && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS))
+            if (!new File(path + name).mkdirs() && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
                 System.err.println("An error as occurred during " + name + " directory creation!");
+            }
         }
     }
 
@@ -87,7 +90,7 @@ public class FileLoader extends Thread {
         TranscoderInput input = new TranscoderInput(svgUri);
         OutputStream ostream = new FileOutputStream(jpgUri);
         TranscoderOutput output = new TranscoderOutput(ostream);
-        
+
         // Save the image.
         converter.transcode(input, output);
 
@@ -96,13 +99,13 @@ public class FileLoader extends Thread {
         ostream.close();
     }
 
-    private float getAdaptedWidth(String svgUri) throws JDOMException, IOException {
+    private float getAdaptedWidth(final String svgUri) throws JDOMException, IOException {
         final SAXBuilder builder = new SAXBuilder();
         Document document = builder.build(svgUri);
 
         Element root = document.getRootElement();
-        float svgRateo = Float.valueOf(root.getAttributeValue("width")) / 
-                         Float.valueOf(root.getAttributeValue("height"));
+        float svgRateo = Float.valueOf(root.getAttributeValue("width"))
+                / Float.valueOf(root.getAttributeValue("height"));
         double deltaX = screenSize.getWidth() - Double.valueOf(root.getAttributeValue("width"));
         double deltaY = screenSize.getHeight() - Double.valueOf(root.getAttributeValue("height"));
         return deltaX < deltaY ? svgRateo * screenSize.height : screenSize.width;
