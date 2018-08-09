@@ -18,6 +18,8 @@ import java.util.Comparator;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 public class Records {
 
     private ArrayList<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
@@ -74,8 +76,8 @@ public class Records {
         int best = 0;
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getElement0().equals(player) && leaderBoard.get(i).getElement1() > best) {
-                best = leaderBoard.get(i).getElement1();
+            if (leaderBoard.get(i).getLeft().equals(player) && leaderBoard.get(i).getMiddle() > best) {
+                best = leaderBoard.get(i).getMiddle();
             }
         }
         return best;
@@ -87,8 +89,8 @@ public class Records {
         int i = 0;
         double avg = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getElement0().equals(player)) {
-                sum += leaderBoard.get(i).getElement1();
+            if (leaderBoard.get(i).getLeft().equals(player)) {
+                sum += leaderBoard.get(i).getMiddle();
                 num++;
             }
         }
@@ -105,7 +107,7 @@ public class Records {
         leaderBoard.sort(new Comparator<Triple<String, Integer, Date>>() {
             @Override
             public int compare(Triple<String, Integer, Date> o1, Triple<String, Integer, Date> o2) {
-                return o2.getElement1() - o1.getElement1();
+                return o2.getMiddle() - o1.getMiddle();
             }
         });
         sobstisuteScores();
@@ -174,8 +176,8 @@ public class Records {
     private boolean isDuplicate(Triple<String, Integer, Date> p) {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getElement0().equals(p.getElement0())
-                    && leaderBoard.get(i).getElement1().equals(p.getElement1())) {
+            if (leaderBoard.get(i).getLeft().equals(p.getLeft())
+                    && leaderBoard.get(i).getMiddle().equals(p.getMiddle())) {
                 return true;
             }
         }
@@ -186,9 +188,9 @@ public class Records {
         String s = "";
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
-            s = s + "[" + String.valueOf(leaderBoard.get(i).getElement0()) + ":"
-                    + String.valueOf(leaderBoard.get(i).getElement1()) + ":"
-                    + sdf.format(leaderBoard.get(i).getElement2()) + "]";
+            s = s + "[" + String.valueOf(leaderBoard.get(i).getLeft()) + ":"
+                    + String.valueOf(leaderBoard.get(i).getMiddle()) + ":"
+                    + sdf.format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }

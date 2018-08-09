@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 public class LeaderBoardTable {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
     private static Records r;
@@ -61,9 +63,9 @@ public class LeaderBoardTable {
             }
             for (i = 0; i < s; i++) {
                     Vector<Object> vector = new Vector<Object>();
-                    vector.add(l.get(i).getElement0());
-                    vector.add(l.get(i).getElement1());
-                    vector.add(sdf.format(l.get(i).getElement2()));
+                    vector.add(l.get(i).getLeft());
+                    vector.add(l.get(i).getMiddle());
+                    vector.add(sdf.format(l.get(i).getRight()));
                     data.add(vector);
             }
             JTable tab = new JTable(data, columnNames) {
