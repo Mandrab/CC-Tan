@@ -28,8 +28,8 @@ public class FileLoader extends Thread {
     private static final String PATH = System.getProperty("user.home") + "/.cctan";
     private static final String DIRECTORY_IMG = "/img";
     private static final String DIRECTORY_SCORE = "/score";
-    private static final String IMG_JPG_BACKGROUND = "/cctan.jpg";
-    private static final String IMG_SVG_BACKGROUND = "/cctan.svg";
+    private static final String IMG_JPG_LOGO = "/cctan.jpg";
+    private static final String IMG_SVG_LOGO = "/cctan.svg";
     private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile();
     private static final float QUALITY = 1.0f;
     private File fontFile;
@@ -45,18 +45,18 @@ public class FileLoader extends Thread {
         controller.advanceLoading(10);
         
         //convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_BACKGROUND), 
+        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), 
                                     LinkOption.NOFOLLOW_LINKS)) {
-            controller.setLoadImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_BACKGROUND)));
+            controller.setLoadImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
             try {
-                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_BACKGROUND).toString(), 
-                                PATH + DIRECTORY_IMG + IMG_JPG_BACKGROUND);
+                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(), 
+                                PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        controller.setLoadImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_BACKGROUND));
+        controller.setLoadImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
         controller.advanceLoading(40);
         
         fontFile = new File(FONT_SUBSPACE);
