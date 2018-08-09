@@ -32,14 +32,14 @@ public class FileLoader extends Thread {
     public FileLoader(Controller controller) {
         this.controller = controller;
     }
-    
+
     @Override
     public void run() {
         //check/create the game directory
-        if (!new File(PATH + "img").mkdirs())
-            System.err.println("Error during img folder creation!");
-        if (!new File(PATH + "score").mkdirs())
-            System.err.println("Error during score folder creation!");
+        if(!new File(PATH + "img").mkdirs())
+            System.out.println("The directory img already exist or has occurred an error");
+        if(!new File(PATH + "score").mkdirs())
+            System.out.println("The directory img already exist or has occurred an error");
         controller.advanceLoading(10);
         
         //convert svg to jpg. if jpg file already exists will do nothing
@@ -58,7 +58,7 @@ public class FileLoader extends Thread {
         
         fontFile = new File(FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf").getFile());
         
-        controller.advanceLoading(50);
+        controller.advanceLoading(100);
     }
     
     public File getFontFile() {

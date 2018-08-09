@@ -76,6 +76,14 @@ class Loader {
         if (0 <= value && value <= 100) {
             progressBar.setValue(value);
             pBarPercentage.setText(value.toString() + "%");
+            if (value == 100) {
+                try {
+                    Thread.sleep(2000);
+                    window.setVisible(false);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
