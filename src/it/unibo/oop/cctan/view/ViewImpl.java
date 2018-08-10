@@ -27,6 +27,7 @@ public class ViewImpl implements View {
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
     private List<CommandsObserver> commandsObservers;
     private List<SizeObserver> sizeObervers;
+    private KeyCommandsListener keyCommandsListener;
 
     /**
      * The constructor method that instantiate all the sub-classes of the view.
@@ -41,7 +42,7 @@ public class ViewImpl implements View {
         controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
-        SettingsWindow settingsWindow = new SettingsWindow(this);
+        this.keyCommandsListener= new KeyCommandsListener(this);
         //Impostazioni
     }
 
@@ -54,6 +55,16 @@ public class ViewImpl implements View {
         gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
+    }
+    
+    @Override
+    /** {@inheritDoc} */
+    public Optional<String> getPlayerName() {
+        if (settingsWindow.isPresent()) {
+            return Optional.of(settingsWindow.get().getPlayerName());
+        } else {
+            return Optional.empty();
+        }
     }
     
     @Override
@@ -155,4 +166,9 @@ public class ViewImpl implements View {
         return copia;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public KeyCommandsListener getKeyCommandsListener() {
+        return keyCommandsListener;
+    }
 }

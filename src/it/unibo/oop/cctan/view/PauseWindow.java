@@ -10,30 +10,33 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Optional;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class MenuWindow {
+import org.apache.commons.lang3.tuple.ImmutableTriple;
 
+public class PauseWindow {
     static final private String FILE_NAME = "./res//background2.jpg";
-    private Optional<LeaderBoardTable> leaderboard = Optional.empty();
-    private SettingsWindow pBGD;
+    private int score;
+    private View view;
 
-    public MenuWindow(SettingsWindow pBG) {
+    public PauseWindow(View view) {
 
-        this.pBGD = pBG;
+        // TODO usare metodo per ottenere lo score tramite view o controller?
+        this.score = 123;
+        this.view = view;
 
-        JFrame mainFrame = new JFrame("oop17-cctan Main Menù");
+        JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
+        
+        //TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setMaximumSize(new Dimension(400, 400));
 
         mainFrame.setLayout(new BorderLayout());
 
-        // TODO settare l'indirizzo giusto
         String path = new File(FILE_NAME).getAbsolutePath();
 
         JLabel background = new JLabel(new ImageIcon(path));
@@ -46,7 +49,7 @@ public class MenuWindow {
         Font font = new Font("Serif", 18, 60);
         JLabel title = new JLabel();
         title.setFont(font);
-        title.setText("CC-TAN");
+        title.setText("PAUSE");
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
@@ -58,7 +61,7 @@ public class MenuWindow {
         background.add(new JLabel("           "), c);
 
         JLabel nickLabl = new JLabel();
-        nickLabl.setText("Player name : " + pBGD.getPlayerName());
+        nickLabl.setText("Your score : " + this.score);
         c.gridx = 0;
         c.gridy = 2;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
@@ -67,29 +70,25 @@ public class MenuWindow {
         c.insets = new Insets(10, 5, 0, 5);
         c.gridwidth = 1;
 
-        JButton startBtn = new JButton("START");
+        JButton restartBtn = new JButton("Restart");
         c.gridx = 0;
-        c.gridy = 3;
-        background.add(startBtn, c);
+        c.gridy = 6;
+        background.add(restartBtn, c);
 
         JButton settingsBtn = new JButton("Settings");
         c.gridx = 0;
         c.gridy = 4;
         background.add(settingsBtn, c);
 
-        JButton scoresBtn = new JButton("View Leaderboard");
-        c.gridx = 0;
-        c.gridy = 5;
-        background.add(scoresBtn, c);
-
         JButton exitBtn = new JButton("Exit");
         c.gridx = 0;
-        c.gridy = 6;
+        c.gridy = 5;
         background.add(exitBtn, c);
-        JButton soundsBtn = new JButton("Mute");
-        c.gridx = 1;
-        c.gridy = 6;
-        background.add(soundsBtn, c);
+
+        JButton resumeBtn = new JButton("Resume");
+        c.gridx = 0;
+        c.gridy = 3;
+        background.add(resumeBtn, c);
 
         mainFrame.setSize(font.getSize() * 4, font.getSize() * 5);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -97,18 +96,41 @@ public class MenuWindow {
                 dim.height / 2 - mainFrame.getSize().height / 2);
         mainFrame.setVisible(true);
 
-        scoresBtn.addActionListener(new ActionListener() {
+        restartBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showLeaderBoard();
-                // new LeaderBoardTable();
-                // leaderboard.get().addObserver(this);
+                if (view.getPlayerName().isPresent()) {
+                    String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    Records rec = new Records();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+                    
+                    //MANDARE IL VOMANDO reset end e start
+                   KeyCommandsListener c = view.getKeyCommandsListener();
+                   c.setReset(true);
+                   c.endCommand();
+                   //TODO mettere una sleep?
+                   c.startCommand();
+
+                    mainFrame.dispose();
+                }
             }
         });
 
         settingsBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                pBG.show();
-                mainFrame.dispose();
+                if (view.getPlayerName().isPresent()) {
+                    String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    Records rec = new Records();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+                    
+                    // MANDARE IL VOMANDO END
+                    KeyCommandsListener c = view.getKeyCommandsListener();
+                    c.setReset(true);
+                    c.endCommand();
+                    view.showSettingsWindow();
+                    mainFrame.dispose();
+                }
             }
         });
         exitBtn.addActionListener(new ActionListener() {
@@ -116,46 +138,12 @@ public class MenuWindow {
                 System.exit(0);
             }
         });
-        startBtn.addActionListener(new ActionListener() {
+        resumeBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
-                /*
-                 * creare key listenercommand nella view e da quella fare un metodo che richiami
-                 * lo start command e rihiamarlo qui per avvisare tutti
-                 */
-
+                // richiama il metodo resume del keyCommandLustener
+                mainFrame.dispose();
             }
         });
-        soundsBtn.addActionListener(new ActionListener() {
-
-            // utilizzare una classe come commands che avvisa chi di dovere per avviare o
-            // bloccare il sounds
-            public void actionPerformed(ActionEvent e) {
-                if (pBGD.getClipMenu().isRunning()) {
-                    pBGD.getClipMenu().stop();
-                    soundsBtn.setText("Unmute");
-                } else {
-                    pBGD.getClipMenu().start();
-                    soundsBtn.setText("Mute");
-                }
-            }
-        });
-
-    }
-    
-    public String getPlayerName() {
-        return pBGD.getPlayerName();
-    }
-
-    public void removeLeaderBoard() {
-        if (leaderboard.isPresent()) {
-            leaderboard = Optional.empty();
-        }
-    }
-
-    public void showLeaderBoard() {
-        if (!leaderboard.isPresent()) {
-            leaderboard = Optional.of(new LeaderBoardTable(this));
-        }
     }
 }
