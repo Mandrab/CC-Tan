@@ -29,8 +29,8 @@ class CommandsJTest {
     
     private static final int SLEEP_TIME = 2000;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final Dimension GAME_WINDOW_SIZE = new Dimension(SCREEN_SIZE.height,
-                                                                    SCREEN_SIZE.height);
+    private static final Dimension GAME_WINDOW_SIZE = new Dimension(SCREEN_SIZE.height / 2,
+                                                                    SCREEN_SIZE.height / 2);
     private static final Pair<Integer, Integer> SCREEN_RATEO = new ImmutablePair<Integer, Integer>(1, 1);
     CommandsObserver co;
     
@@ -141,6 +141,19 @@ class CommandsJTest {
 
         @Override
         public List<SizeObserver> getSizeObserversList() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            // TODO Auto-generated method stub
             return null;
         }
 

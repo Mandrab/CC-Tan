@@ -43,6 +43,7 @@ public class ViewImpl implements View {
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
         this.keyCommandsListener= new KeyCommandsListener(this);
+        settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
     }
 

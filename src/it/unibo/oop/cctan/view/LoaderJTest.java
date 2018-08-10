@@ -120,6 +120,18 @@ public class LoaderJTest {
         public List<SizeObserver> getSizeObserversList() {
             return null;
         }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     };
 
 }
