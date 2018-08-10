@@ -13,9 +13,11 @@ public class KeyCommandsListener {
     private KeyListener ls;
     private View view;
     private Commands actualState = Commands.END;
+    private boolean reset;
 
     public KeyCommandsListener(View view) {
         this.view = view;
+        this.reset = false;
         ls = new KeyListener() {
 
             @Override
@@ -40,6 +42,7 @@ public class KeyCommandsListener {
                             CommandsObserver c = i.next();
                             actualState = Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
+                            
 
                         }
                     } else if (actualState.equals(Commands.PAUSE)) {
@@ -48,18 +51,9 @@ public class KeyCommandsListener {
                             actualState = Commands.RESUME;
                             c.newCommand(Commands.RESUME);
                         }
-                        // se lo stato attuale del gioco è in corso allora metti pausa e se è in pausa
-                        // metti in corso
-                        for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
-                            CommandsObserver c = i.next();
-                            actualState = Commands.PAUSE;
-                            c.newCommand(Commands.PAUSE);
-                        }
                     }
 
-                    System.out.println("è stato premuto il tasto p o SPACE per la pausa");
-                    System.out.println(
-                            "se lo stato attuale del gioco è in corso allora metti pausa e se è in pausa metti in corso");
+                    System.out.println("è stato premuto il tasto p o SPACE per la pausa/resume");
 
                 } else if (keyCode == 27) {
                     if (actualState.equals(Commands.START) || actualState.equals(Commands.RESUME)) {
@@ -69,7 +63,8 @@ public class KeyCommandsListener {
                             actualState = Commands.PAUSE;
                             
                         }
-                     // TODO avvia schermata ESC
+                     //  avvia schermata ESC
+                        new PauseWindow(view);
                         System.out.println("esc pressed");
 
                         // changedState(new CommandsObserverImpl(Commands.START));
@@ -77,7 +72,6 @@ public class KeyCommandsListener {
                         // mostra una finestra per la conferma della chiusura del gioco e magari anche
                         // bottone per tornare al main menu
                         // se preme ok chiudi system.exit
-                        // se preme cancel riprendi il gioco
                     }
                 }
             }
@@ -91,7 +85,11 @@ public class KeyCommandsListener {
                 CommandsObserver c = i.next();
                 c.newCommand(Commands.END);
                 actualState = Commands.END;
-                //TODO fare partire la schermata finale con score e tutto
+                if(!reset) {
+                // fare partire la schermata finale con score e tutto
+                    new EndWindow(this.view);
+                }
+                reset = false;
                 return true;
             }
         }
@@ -110,4 +108,16 @@ public class KeyCommandsListener {
         }
         return false;
     }
+    
+    /**
+     * set the reset variable that indicate if the end command is used to reset or to show the endWindow.
+     * @param reset 
+     *            boolean variable that indicate if the end command will act as reset or not.
+     */
+    
+    public void setReset(boolean reset) {
+        this.reset = reset;
+    }
+    
+    
 }

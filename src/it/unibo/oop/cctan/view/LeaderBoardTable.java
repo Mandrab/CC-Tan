@@ -30,7 +30,7 @@ public class LeaderBoardTable {
             boolean show = true;
 
             //TODO
-            String player = SettingsWindow.getPlayerName();
+            String player = mg.getPlayerName();
 
             JFrame mainFrame = new JFrame("LeaderBoard");
             mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

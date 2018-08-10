@@ -128,5 +128,18 @@ public interface View {
 
     File getFont();
 
+    /**
+     * Allow to get the actual Player name if present
+     * 
+     * @return a optional of string if present, otherwise return an optional empty 
+     */
+    Optional<String> getPlayerName();
+
+    /**
+     * allow to get the keyCommandListener
+     * @return the keyCommandListener
+     */
+    KeyCommandsListener getKeyCommandsListener();
+
     
 }

@@ -214,7 +214,7 @@ public class SettingsWindow {
         settings.setVisible(true);
     }
 
-    public static String getPlayerName() {
+    public String getPlayerName() {
         return playerNick;
     }
 
