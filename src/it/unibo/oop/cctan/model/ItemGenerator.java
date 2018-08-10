@@ -13,6 +13,13 @@ public interface ItemGenerator {
     void launch();
 
     /**
+     * This method is used to add to the list the new MovableItem that has just been created.
+     * @param item
+     *          It's the MovableItem object that must be add to the application.
+     */
+    void addItemToList(MovableItem item);
+
+    /**
      * Get a new list containing all MovableItem that have been generated 
      * up to that moment.
      * @return
@@ -34,4 +41,10 @@ public interface ItemGenerator {
      */
     void terminate();
 
+    /**
+     * Get the model of the MVC application.
+     * @return
+     *          The model.
+     */
+    Model getModel();
 }
