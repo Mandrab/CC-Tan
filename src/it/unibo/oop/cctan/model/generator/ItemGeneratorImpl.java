@@ -1,16 +1,20 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.oop.cctan.model.FixedItem;
+import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.MovableItem;
+
 /**
  * To do.
  */
-public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator {
+public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
     private final Model model;
     private final TimerRatio ratio;
-    private final List<MovableItem> items;
+    private final List<T> items;
     private boolean stop;
 
     public ItemGeneratorImpl(final Model model, final TimerRatio time) {
@@ -35,7 +39,7 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
 
     protected abstract void createNewItem();
 
-    protected void addItemToList(final MovableItem item) {
+    protected void addItemToList(final T item) {
         this.items.add(item);
     }
 
@@ -51,15 +55,14 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
     }
 
     @Override
-    public void removeItem(final MovableItem item) {
+    public void removeItem(final T item) {
         if (!this.items.isEmpty() && item != null) {
-            item.terminate();
             this.items.remove(item);
         }
     }
 
     @Override
-    public List<MovableItem> getItems() {
+    public List<T> getItems() {
         return new ArrayList<>(this.items);
     }
 

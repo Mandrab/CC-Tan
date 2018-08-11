@@ -1,12 +1,16 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 import java.util.Random;
+
+import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.SquareAgent;
+import it.unibo.oop.cctan.model.SquareAgent.SquareBuilder;
 import javafx.geometry.Point2D;
 
 /**
  * {@inheritDoc}.
  */
-public class SquareGeneratorImpl extends ItemGeneratorImpl {
+public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
 
     /**
      * Create a new thread that generates squares.
@@ -29,6 +33,7 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl {
                 .model(this.getModel())
                 .build();
         this.addItemToList(square);
+        //System.out.println("Nuovo quadrato in: " + square.getPos());
         new Thread(square).start();
     }
 
@@ -45,12 +50,12 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl {
         if (side == 0 || side == 1) {
             return (new Point2D(
                     rnd.nextDouble() * Math.abs(this.getModel().getBounds().getX0() - this.getModel().getBounds().getX1())
-                            - this.getModel().getBounds().getX1(),
-                    side == 0 ? this.getModel().getBounds().getY1() : this.getModel().getBounds().getY0())); // 1.2 : -1.2
+                            - this.getModel().getBounds().getX1() - SquareAgent.WIDTH,
+                    side == 0 ? this.getModel().getBounds().getY1() : this.getModel().getBounds().getY0() - SquareAgent.HEIGHT));
         } else {
-            return (new Point2D(side == 2 ? this.getModel().getBounds().getX0() : this.getModel().getBounds().getX1(),
+            return (new Point2D(side == 2 ? this.getModel().getBounds().getX0() - SquareAgent.WIDTH : this.getModel().getBounds().getX1(),
                     rnd.nextDouble() * Math.abs(this.getModel().getBounds().getY0() - this.getModel().getBounds().getY1())
-                            - this.getModel().getBounds().getY1())); // -1.2 : 1.2
+                            - this.getModel().getBounds().getY1() - SquareAgent.HEIGHT)); // -1.2 : 1.2
         }
     }
 

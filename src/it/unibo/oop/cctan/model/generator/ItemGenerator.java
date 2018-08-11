@@ -1,14 +1,16 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 import java.util.List;
 
-public interface ItemGenerator {
+import it.unibo.oop.cctan.model.FixedItem;
+
+public interface ItemGenerator<T extends FixedItem> {
 
     void launch();
 
-    List<MovableItem> getItems();
+    List<T> getItems();
 
-    void removeItem(MovableItem item);
+    void removeItem(T item);
     
     void terminate();
 
