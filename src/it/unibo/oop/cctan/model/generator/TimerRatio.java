@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 /**
  * This abstract class is a kind of timer that executes the operationRatio method 
@@ -41,12 +41,12 @@ public abstract class TimerRatio extends Thread {
     @Override
     public void run() {
         while (true) {
-            operationRatio();
             try {
                 Thread.sleep(ONE_MINUTE);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            operationRatio();
         }
     }
 

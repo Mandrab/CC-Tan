@@ -1,17 +1,21 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.unibo.oop.cctan.model.FixedItem;
+import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.MovableItem;
 
 /**
  *  Represents a generic generator of MovableItem. This object is also a thread because 
  *  it must always remain running in order to continuously generate new MovableItem.
  */
-public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator {
+public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
     private final Model model;
     private final TimerRatio ratio;
-    private final List<MovableItem> items;
+    private final List<T> items;
     private boolean stop;
 
     /**
@@ -57,10 +61,10 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
     protected abstract void createNewItem();
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} 
      */
-    @Override
-    public void addItemToList(final MovableItem item) {
+    public void addItemToList(final T item) {
+
         this.items.add(item);
     }
 
@@ -86,9 +90,8 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
      * {@inheritDoc} 
      */
     @Override
-    public void removeItem(final MovableItem item) {
+    public void removeItem(final T item) {
         if (!this.items.isEmpty() && item != null) {
-            item.terminate();
             this.items.remove(item);
         }
     }
@@ -97,16 +100,8 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
      * {@inheritDoc}
      */
     @Override
-    public List<MovableItem> getItems() {
+    public List<T> getItems() {
         return new ArrayList<>(this.items);
-    }
-
-    /**
-     * {@inheritDoc} 
-     */
-    @Override
-    public Model getModel() {
-        return this.model;
     }
 
     /**
@@ -115,6 +110,11 @@ public abstract class ItemGeneratorImpl extends Thread implements ItemGenerator 
      */
     public TimerRatio getRatio() {
         return this.ratio;
+    }
+    
+    @Override
+    public Model getModel() {
+        return this.model;
     }
 
 }

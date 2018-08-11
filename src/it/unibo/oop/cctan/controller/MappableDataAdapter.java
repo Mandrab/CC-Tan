@@ -40,6 +40,14 @@ public class MappableDataAdapter {
                                    Color.WHITE,
                                    model.getShuttle()
                                         .getShape()));
+        
+      //Add all the powerup to the list of mappable data
+        l.addAll(model.getPowerUpBlocks()
+                      .stream()
+                      .map(pu -> new MappableDataImpl(pu.getSymbol() + " " + pu.getHP(), 
+                                                      pu.getColor(), 
+                                                      pu.getShape()))
+                      .collect(Collectors.toList()));
         return l;
     }
 

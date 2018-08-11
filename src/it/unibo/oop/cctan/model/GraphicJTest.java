@@ -37,13 +37,13 @@ public class GraphicJTest {
         View v = new ViewImpl(ctrl);
         v.showGameWindow(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
     
-    @Test
+   // @Test
     synchronized public void xOverwhelm() {
         Controller ctrl = new ControllerImpl();
         View v = new ViewImpl(ctrl);
@@ -55,7 +55,7 @@ public class GraphicJTest {
         }
     }
     
-    @Test
+    //@Test
     synchronized public void yOverwhelm() {
         Controller ctrl = new ControllerImpl();
         View v = new ViewImpl(ctrl);

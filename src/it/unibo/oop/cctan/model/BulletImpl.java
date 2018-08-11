@@ -4,27 +4,41 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+
 import it.unibo.oop.cctan.geometry.Boundary;
 
 public abstract class BulletImpl extends MovableItemImpl implements Bullet {
 
+    private Optional<SquareAgent> lastCollision;
+    
     protected BulletImpl(BulletBuilder builder) {
         super(builder);
+        this.lastCollision = Optional.empty();
     }
 
-    protected Optional<SquareAgent> checkIntersecate(final Optional<SquareAgent> lastCollision) {
-        final List<MovableItem> squares = new ArrayList<>(this.getModel().getSquareAgents());
-        squares.remove(lastCollision.orElse(null));
-        for (final MovableItem squareAg : squares) {
-            final Area bulletArea = new Area(this.getShape());
-            bulletArea.intersect(new Area(squareAg.getShape()));
-            if (!bulletArea.isEmpty()) {
-                ((SquareAgent) squareAg).hit();
-                this.updateAngle((SquareAgent) squareAg);
-                return Optional.of((SquareAgent) squareAg);
+    protected Optional<FixedItem> checkIntersecate(final Optional<FixedItem> lastCollision) {
+        synchronized (this.getModel().getSquareAgents()) {
+
+            // System.out.println("check...");
+            final List<FixedItem> items = new ArrayList<>(this.getModel().getSquareAgents());
+            items.addAll(this.getModel().getPowerUpBlocks());
+            items.remove(lastCollision.orElse(null));
+            for (final FixedItem it : items) {
+                synchronized (it) {
+                    if (this.intersectsWith(it)) {
+                        if (it instanceof Hittable) {
+                            ((Hittable) it).hit();
+                        }
+                        if (it instanceof SquareAgent) {
+                            this.updateAngle((SquareAgent) it);
+                        }
+                        return Optional.of(it);
+                    }
+                }
             }
-        }
-        return lastCollision;
+            return lastCollision;
+       }
     }
 
     /** 
@@ -40,12 +54,23 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
              * può accedere al model in modo da evitare eventuali conflitti. 
              */
             synchronized (this.getModel()) {
+                this.terminate();
                 this.getModel().removeBullet(this);
             }
         }
     }
-   
-    protected abstract void updateAngle(final SquareAgent rect);
+
+    protected Optional<SquareAgent> getLastCollision(){
+        return this.lastCollision;
+    }
+    
+    protected boolean intersectsWith(final FixedItem item) {
+        final Area bulletArea = new Area(this.getShape());
+        bulletArea.intersect(new Area(item.getShape()));
+        return !bulletArea.isEmpty();
+    }
+
+    protected abstract void updateAngle(final SquareAgent item);
     
     /**
      * A basic builder for BallAgent class.

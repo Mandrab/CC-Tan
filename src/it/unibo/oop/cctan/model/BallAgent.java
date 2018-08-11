@@ -2,10 +2,12 @@ package it.unibo.oop.cctan.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
-import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.geometry.Side;
 
 /**
@@ -25,8 +27,7 @@ public final class BallAgent extends BulletImpl implements Bullet {
     public static final double HEIGHT = 0.05;
 
     private static final double DEFAULT_SPEED = 0.001;
-    private Optional<SquareAgent> lastCollision;
-
+    private Optional<FixedItem> lastCollision;
 
     private BallAgent(final BallBuilder builder) {
         super(builder);
@@ -79,32 +80,34 @@ public final class BallAgent extends BulletImpl implements Bullet {
     @Override
     protected void updatePos() {
         super.updatePos();
-        Optional<SquareAgent> collision = checkIntersecate(this.lastCollision);
-        this.lastCollision = collision;
+        this.lastCollision = this.checkIntersecate(this.lastCollision);
     }
-    
+
     /** 
      * {@inheritDoc}
      */
     @Override
     protected void updateAngle(final SquareAgent rect) {
-        final Side side = this.collisionSide(rect);
-        this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
-    }
-
-    private Side collisionSide(final SquareAgent square) {
-        final double ballCenterX = this.getPos().getX() + WIDTH / 2;
-        if (ballCenterX > square.getPos().getX() + SquareAgent.WIDTH) {
-            return Side.RIGHT;
+        final Side side;
+        switch (rect.getShape().getBounds2D().outcode(this.getPos().getX() + WIDTH / 2,
+                this.getPos().getY() + HEIGHT / 2)) {
+        case Rectangle2D.OUT_LEFT:
+            side = Side.LEFT;
+            break;
+        case Rectangle2D.OUT_RIGHT:
+            side = Side.RIGHT;
+            break;
+        case Rectangle2D.OUT_BOTTOM:
+            side = Side.BELOW;
+            break;
+        case Rectangle2D.OUT_TOP:
+            side = Side.ABOVE;
+            break;
+        default:
+            side = Side.CORNER;
         }
-        if (ballCenterX < square.getPos().getX()) {
-            return Side.LEFT;
-        }
-        final double ballCenterY = this.getPos().getY() - HEIGHT / 2;
-        if (ballCenterY > square.getPos().getY()) {
-            return Side.ABOVE;
-        }
-        return Side.BELOW;
+        this.setAngle(side == Side.CORNER ? this.getAngle() + 180
+                : side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
     }
 
     /**

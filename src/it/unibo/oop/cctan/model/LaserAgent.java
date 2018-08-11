@@ -2,14 +2,20 @@ package it.unibo.oop.cctan.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Optional;
+
+import com.sun.javafx.geom.transform.GeneralTransform3D;
 
 import javafx.geometry.Point2D;
 
 public class LaserAgent extends BulletImpl implements Bullet {
 
     private static final double DEFAULT_SPEED = 0.005;
+    private static final double DEFAULT_LENGTH = 0.125;
     private double width;
     private double height;
 
@@ -23,13 +29,26 @@ public class LaserAgent extends BulletImpl implements Bullet {
      */
     @Override
     public Color getColor() {
-        return Color.LIGHT_GRAY;
+        return Color.RED;
     }
-
+    
+    @Override
+    protected boolean intersectsWith(final FixedItem item) {
+        return this.getShape().intersects(item.getShape().getBounds2D());
+    }
+    
     @Override
     public Shape getShape() {
-        //to implement... 
-        return new Line2D.Double();
+        final double angle = Math.toRadians(this.getAngle());
+//        Path2D.Double path = new Path2D.Double();
+//        path.moveTo(this.getPos().getX(), this.getPos().getY());
+//        path.lineTo(this.getPos().getX() + DEFAULT_LENGTH * Math.cos(angle),
+//                this.getPos().getY() + DEFAULT_LENGTH * Math.sin(angle));
+//        path.closePath();
+//        return path;
+        return new Line2D.Double(this.getPos().getX(), this.getPos().getY(),
+                this.getPos().getX() + DEFAULT_LENGTH * Math.cos(angle),
+                this.getPos().getY() + DEFAULT_LENGTH * Math.sin(angle));
     }
 
     @Override
@@ -45,7 +64,8 @@ public class LaserAgent extends BulletImpl implements Bullet {
     @Override
     protected void updatePos() {
         super.updatePos();
-        Rectangle2D shape = this.getShape().getBounds2D();
+        checkIntersecate(Optional.empty());
+        final Rectangle2D shape = this.getShape().getBounds2D();
         this.width = shape.getWidth();
         this.height = shape.getHeight();
     }

@@ -3,15 +3,17 @@ package it.unibo.oop.cctan.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.util.function.Supplier;
 
+import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import javafx.geometry.Point2D;
 
 public class LaserBlock extends PowerUpBlock implements PowerUp {
 
     private static final String NAME = "Laser";
     private static final String SYMBOL = "X";
-    private static final double WIDTH = 0.075;
-    private static final double HEIGHT = 0.075;
+    private static final double WIDTH = 0.1;
+    private static final double HEIGHT = 0.1;
 
     protected LaserBlock(LaserBlockBuilder builder) {
         super(builder);
@@ -19,15 +21,37 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
 
     @Override
     public void use() {
-         ((BulletGeneratorImpl) this.getModel().getBulletGenerator()).setBulletType(() -> new LaserAgent.LaserBuilder());
-         /*IDEA: a questo punto, avviare un thread-timer, che raggiunti X secondi
-         fa terminare il power-up, richiamando*/
-         ((BulletGeneratorImpl) this.getModel().getBulletGenerator()).setBulletType(() -> new BallAgent.BallBuilder());
+
+        this.setBulletGenerator(() -> new LaserAgent.LaserBuilder(), () -> this.getModel().getShuttle().getTop());
+        /*
+         * IDEA: a questo punto, avviare un thread-timer, che raggiunti X secondi fa
+         * terminare il power-up, richiamando
+         */
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                LaserBlock.this.setBulletGenerator(() -> new BallAgent.BallBuilder(),
+                        () -> new Point2D(getModel().getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
+                                getModel().getShuttle().getTop().getY() - BallAgent.HEIGHT / 2));
+            }
+        }).start();
     }
 
+    private void setBulletGenerator(final Supplier<BulletImpl.BulletBuilder> bulletType, Supplier<Point2D> startingPos) {
+        ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
+                .setBulletType(bulletType);
+        ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
+                .setRetrievingPos(startingPos);
+    }
     @Override
     public Color getColor() {
-        return Color.LIGHT_GRAY;
+        return Color.RED;
     }
 
     @Override

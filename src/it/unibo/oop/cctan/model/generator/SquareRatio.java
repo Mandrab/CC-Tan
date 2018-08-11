@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.model;
+package it.unibo.oop.cctan.model.generator;
 
 /**
  * The task of this class is to increase the difficulty of play by acting on the squares that are 
@@ -11,15 +11,15 @@ public class SquareRatio extends TimerRatio {
     /**
      * Indicates the life of squares when the application is started.
      */
-    public static final int DEFAULT_POINTS = 8;
+    public static final int DEFAULT_POINTS = 15;
     private static final int DEFAULT_RATIO = 3500;
-    private static final double DEFAULT_SPEED = 0.0003;
+    private static final double DEFAULT_SPEED = 0.0007; //3
 
-    private static final int MAX_RATIO = 1000;
+    private static final int MAX_RATIO = 800;
     private static final int DECREASE_RATIO = 50;
-    private static final double MAX_SPEED = 0.005;
-    private static final int INCREASE_POINTS = 3;
-    private static final double INCREASE_SPEED = 0.00005;
+    private static final double MAX_SPEED = 0.0009;
+    private static final int INCREASE_POINTS = 6;
+    private static final double INCREASE_SPEED = 0.00008;
 
     private int points;
 
@@ -28,7 +28,7 @@ public class SquareRatio extends TimerRatio {
      */
     public SquareRatio() {
         super(DEFAULT_SPEED, DEFAULT_RATIO);
-        this.points = DEFAULT_POINTS;
+        this.points = 1;
     }
 
     /**
