@@ -7,7 +7,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 
 public class CommandsObserversManager {
     private List<CommandsObserver> commandsObservers;
-    
+
     public CommandsObserversManager() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }
@@ -20,7 +20,7 @@ public class CommandsObserversManager {
     public void addCommandsObserver(final CommandsObserver commandsObserver) {
         commandsObservers.add(commandsObserver);
     }
-    
+
     /**
      * Get the copy of list of CommandsObservers.
      * 
