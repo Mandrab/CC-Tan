@@ -31,22 +31,16 @@ public class MappableDataAdapter {
         List<MappableData> l = model.getBulletAgents()
                                     .stream()
                                     .map(ba -> new MappableDataImpl("", 
-                                                                    Color.RED, 
-                                                                    new Ellipse2D.Double(ba.getPos().getX(), 
-                                                                                         ba.getPos().getY(), 
-                                                                                         BallAgent.WIDTH, 
-                                                                                         BallAgent.HEIGHT)))
+                                                                    ba.getColor(),
+                                                                    ba.getShape()))
                                     .collect(Collectors.toList());
         
         //Add all the squares to the list of mappable data
         l.addAll(model.getSquareAgents()
                       .stream()
                       .map(sa -> new MappableDataImpl("" + ((SquareAgent) sa).getHP(), 
-                                                      calculateColor(((SquareAgent) sa).getHP()), 
-                                                      new Rectangle2D.Double(sa.getPos().getX(), 
-                                                                             sa.getPos().getY(), 
-                                                                             SquareAgent.WIDTH, 
-                                                                             SquareAgent.HEIGHT)))
+                                                      ((SquareAgent) sa).getColor(),
+                                                      sa.getShape()))
                       .collect(Collectors.toList()));
         
         //Add shuttle to the list of mappable data
@@ -56,6 +50,11 @@ public class MappableDataAdapter {
                                    new Polygon2D.Double(getAxisPointArray(point -> point.getX()),
                                                         getAxisPointArray(point -> point.getY()),
                                                         3)));
+        l.addAll(model.getPowerUpBlocks()
+                .stream()
+                .map(pu -> new MappableDataImpl(pu.getSymbol() + " " + pu.getHP(), 
+                                                pu.getColor(), pu.getShape()))
+                .collect(Collectors.toList()));
         return l;
     }
 
