@@ -42,7 +42,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
-        this.keyCommandsListener= new KeyCommandsListener(this);
+        this.keyCommandsListener = new KeyCommandsListener(this);
         settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
     }
@@ -80,16 +80,16 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public Optional<Dimension> getDimension() {//return optional or save value in view
+    public Optional<Dimension> getDimension() { //return optional or save value in view
         return gameWindow.isPresent() ? gameWindow.get().getDimension() : Optional.empty();
     }
 
     @Override
     /** {@inheritDoc} */
-    public Optional<Point> getWindowLocation() {//return optional
-        return gameWindow.isPresent() ? 
-               Optional.ofNullable(gameWindow.get().getLocation()) : 
-               Optional.empty();
+    public Optional<Point> getWindowLocation() { //return optional
+        return gameWindow.isPresent() 
+               ? Optional.ofNullable(gameWindow.get().getLocation()) 
+               : Optional.empty();
     }
 
     @Override
@@ -106,13 +106,13 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public void advanceLoading(int value) {
+    public void advanceLoading(final int value) {
         loader.advanceLoading(value);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void setLoadImage(ImageIcon img) {
+    public void setLoadImage(final ImageIcon img) {
         loader.setLoadImage(img);
     }
 
@@ -124,8 +124,8 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public void setMouseRelativePosition(double mouseRelativePosition) {
-        controller.setMouseRelativePosition(mouseRelativePosition);        
+    public void setMouseRelativePosition(final double mouseRelativePosition) {
+        controller.setMouseRelativePosition(mouseRelativePosition);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         copia.addAll(commandsObservers);
         return copia;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public List<SizeObserver> getSizeObserversList() {

@@ -4,21 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
-public class CommandsObserversManager {
+public class CommandsObserversManager implements CommandsObserverSource{
     private List<CommandsObserver> commandsObservers;
 
     public CommandsObserversManager() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }
-    /**
-     * Allow to add a "command" observer.
-     * 
-     * @param commandsObserver
-     *            is a class that implements CommandsObserver interface
-     */
+
+    @Override
+    /** {@inheritDoc} */
     public void addCommandsObserver(final CommandsObserver commandsObserver) {
         commandsObservers.add(commandsObserver);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void removeCommandsObserver(final CommandsObserver commandsObserver) {
+        commandsObservers.remove(commandsObserver);
     }
 
     /**
