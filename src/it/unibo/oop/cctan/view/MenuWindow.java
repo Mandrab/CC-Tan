@@ -21,15 +21,16 @@ public class MenuWindow {
 
     static final private String FILE_NAME = "./res//background2.jpg";
     private Optional<LeaderBoardTable> leaderboard = Optional.empty();
+    private View view;
     private SettingsWindow pBGD;
 
-    public MenuWindow(SettingsWindow pBG) {
+    public MenuWindow(View view, SettingsWindow pBG) {
 
+        this.view = view;
         this.pBGD = pBG;
 
         JFrame mainFrame = new JFrame("oop17-cctan Main Menù");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setMaximumSize(new Dimension(400, 400));
 
         mainFrame.setLayout(new BorderLayout());
 
@@ -58,7 +59,7 @@ public class MenuWindow {
         background.add(new JLabel("           "), c);
 
         JLabel nickLabl = new JLabel();
-        nickLabl.setText("Player name : " + pBGD.getPlayerName());
+        nickLabl.setText("Player name : " + view.getPlayerName().get());
         c.gridx = 0;
         c.gridy = 2;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
@@ -98,7 +99,7 @@ public class MenuWindow {
         mainFrame.setVisible(true);
 
         scoresBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 showLeaderBoard();
                 // new LeaderBoardTable();
                 // leaderboard.get().addObserver(this);
@@ -106,23 +107,22 @@ public class MenuWindow {
         });
 
         settingsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                pBG.show();
+            public void actionPerformed(final ActionEvent e) {
+                view.showSettingsWindow();
                 mainFrame.dispose();
             }
         });
         exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }
         });
         startBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                /*
-                 * creare key listenercommand nella view e da quella fare un metodo che richiami
-                 * lo start command e rihiamarlo qui per avvisare tutti
-                 */
+            public void actionPerformed(final ActionEvent e) {
+                view.getKeyCommandsListener().startCommand();
+                System.out.println("start");
+                //TODO decommentare sotto alla fine del
+                //mainFrame.dispose();
 
             }
         });
@@ -130,7 +130,7 @@ public class MenuWindow {
 
             // utilizzare una classe come commands che avvisa chi di dovere per avviare o
             // bloccare il sounds
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (pBGD.getClipMenu().isRunning()) {
                     pBGD.getClipMenu().stop();
                     soundsBtn.setText("Unmute");
@@ -144,7 +144,7 @@ public class MenuWindow {
     }
     
     public String getPlayerName() {
-        return pBGD.getPlayerName();
+        return view.getPlayerName().get();
     }
 
     public void removeLeaderBoard() {
