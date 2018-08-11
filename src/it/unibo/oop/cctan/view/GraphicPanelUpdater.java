@@ -16,7 +16,8 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 class GraphicPanelUpdater extends Thread implements CommandsObserver {
 
     private static final int REFRESH_TIME = 20;
-    private boolean suspend = false;
+    private static final int OPACITY_VALUE = 127; // [0 - 127]; 0 = transparent, 255 = normal
+    private boolean suspended = false;
     private boolean terminated = false;
     private GraphicPanel gpanel;
 
@@ -28,23 +29,24 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
      */
     GraphicPanelUpdater(final GraphicPanel gpanel) {
         this.gpanel = gpanel;
-        gpanel.addCommandsObserver(this);
+        gpanel.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
     }
 
     @Override
+    /** {@inheritDoc} */
     public void run() {
         while (!terminated) {
             try {
                 synchronized (this) {
-                    if (suspend) {
+                    if (suspended) {
                         wait();
                     }
                     gpanel.redraw(gpanel.getListOfMappableData());
                 }
                 Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e) {      
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-            } 
+            }
         }
     }
 
@@ -52,34 +54,40 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
      * Stop the execution of GraphicPanelUpdater (the game window will not be
      * updated again).
      */
-    public void terminate() {
+    public synchronized void terminate() {
+        gpanel.getCommandsObserverSource().ifPresent(s -> s.removeCommandsObserver(this));
+        if (suspended) {
+            suspended = false;
+            notify();
+        }
         terminated = true;
     }
 
     @Override
-    public synchronized void newCommand(Commands command) {
-        if (suspend = command == Commands.PAUSE || command == Commands.END) {
-            gpanel.redraw(getPrintableText((command == Commands.PAUSE ? "PAUSE!" : "END GAME!") 
-                                           + System.lineSeparator()
-                                           + "Score: " + gpanel.getScore()));
+    /** {@inheritDoc} */
+    public synchronized void newCommand(final Commands command) {
+        suspended = command == Commands.PAUSE || command == Commands.END;
+        if (suspended) {
+            gpanel.redraw(getPrintableText((command == Commands.PAUSE ? "PAUSE!" : "END GAME!") + System.lineSeparator()
+                    + "Score: " + gpanel.getScore()));
         } else {
             notify();
         }
     }
 
-    private List<MappableData> getPrintableText(String text) {
-        List<MappableData> l = gpanel.getListOfMappableData()
-                                     .stream()
-                                     .map(e -> new MappableDataImpl(e.getText(),
-                                                                    new Color(e.getColor().getRed(), 
-                                                                              e.getColor().getGreen(), 
-                                                                              e.getColor().getBlue(), 
-                                                                              127), 
-                                                                    e.getShape()))
-                                     .collect(Collectors.toList());
-        l.add(new MappableDataImpl(text, 
-                                   Color.RED,
-                                   new Rectangle2D.Double(-1, -1, 2d, 2d)));
+    /**
+     * Modifies the mappable data list to show a centered message. The other object
+     * will become opacities.
+     * 
+     * @param text
+     *            The message to be printed.
+     * @return The new list that now include the message
+     */
+    private List<MappableData> getPrintableText(final String text) {
+        List<MappableData> l = gpanel.getListOfMappableData().stream().map(e -> new MappableDataImpl(e.getText(),
+                new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
+                e.getShape())).collect(Collectors.toList());
+        l.add(new MappableDataImpl(text, Color.RED, new Rectangle2D.Double(-1, -1, 2d, 2d)));
         return l;
     }
 

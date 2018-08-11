@@ -16,7 +16,7 @@ import it.unibo.oop.cctan.interPackageComunication.MappableData;
 /**
  * State what a View implementation must implements.
  */
-public interface View {
+public interface View extends SizeAndControlChainOfResponsibility {
 
     /**
      * Setup and show the game window.
@@ -27,10 +27,10 @@ public interface View {
      *            represent the ratio between x and y edge (eg:: 16:9, 4:3)
      */
     void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio);
-    
-   /**
-    * Setup and show the setting window if not present yes, show it if is present.
-    */
+
+    /**
+     * Setup and show the setting window if not present yes, show it if is present.
+     */
     void showSettingsWindow();
 
     /**
@@ -47,14 +47,6 @@ public interface View {
      *         center of the window [center-right = 0, top-center = 90, ...]
      */
     double getMouseRelativePosition();
-    
-    /**
-     * Allow to add a "command" observer.
-     * 
-     * @param commandsObserver
-     *            is a class that implements CommandsObserver interface
-     */
-    void addCommandsObserver(CommandsObserver commandsObserver);
 
     /**
      * Get the copy of list of CommandsObservers.
@@ -62,21 +54,13 @@ public interface View {
      * @return A copy of list of CommandsObservers.
      */
     List<CommandsObserver> getCommandsObserversList();
-    
+
     /**
      * Get the copy of list of SizeObserver.
      * 
      * @return A copy of list of SizeObserver.
      */
     List<SizeObserver> getSizeObserversList();
-    
-    /**
-     * Allow to add a "size" observer.
-     * 
-     * @param sizeObserver
-     *            is a class that implements SizeObserver interface
-     */
-    void addSizeObserver(SizeObserver sizeObserver);
 
     /**
      * Return the dimension of the game window.
@@ -114,13 +98,13 @@ public interface View {
      * @param img
      *            is the imageIcon that will be load in the background
      */
-    public void setLoadImage(ImageIcon img);
+    void setLoadImage(ImageIcon img);
 
     /**
-     * Set the degrees of the mouse relatively at the center of the game window to the controller.
+     * Set the degrees of the mouse relatively at the center of the game window to
+     * the controller.
      * 
-     * @return A double representing the position of the mouse relatively to the
-     *         center of the window [center-right = 0, top-center = 90, ...]
+     * @param mouseRelativePosition The degrees to pass
      */
     void setMouseRelativePosition(double mouseRelativePosition);
 
@@ -129,17 +113,17 @@ public interface View {
     File getFont();
 
     /**
-     * Allow to get the actual Player name if present
+     * Allow to get the actual Player name if present.
      * 
-     * @return a optional of string if present, otherwise return an optional empty 
+     * @return a optional of string if present, otherwise return an optional empty
      */
     Optional<String> getPlayerName();
 
     /**
-     * allow to get the keyCommandListener
+     * allow to get the keyCommandListener.
+     * 
      * @return the keyCommandListener
      */
     KeyCommandsListener getKeyCommandsListener();
 
-    
 }

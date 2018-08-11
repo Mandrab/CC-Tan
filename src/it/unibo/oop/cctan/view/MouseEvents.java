@@ -2,57 +2,89 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
 class MouseEvents extends Thread implements CommandsObserver {
 
+    private static final int REFRESH_TIME = 50;
     private View view;
-    private boolean suspend;
+    private boolean suspended;
     private boolean terminated;
+    private boolean observing;
 
     MouseEvents(final View view) {
         this.view = view;
-        view.addCommandsObserver(this);
-        suspend = false;
+        addCommandsObserver();
+        suspended = false;
         terminated = false;
         start();
     }
-    
+
     @Override
     public void run() {
-        while(!terminated) {
-            while(!suspend) {
-                view.setMouseRelativePosition(getMouseRelativePosition());
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    System.err.println("Error during mouse position detection!");
-                    e.printStackTrace();
-                }
-            }
+        while (!terminated) {
             try {
-                Thread.sleep(terminated ? 0 : 50);
+                synchronized (this) {
+                    if (suspended) {
+                        wait();
+                    }
+                    if (!observing) {
+                        addCommandsObserver();
+                    }
+                    view.setMouseRelativePosition(getMouseRelativePosition());
+                }
+                Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
-                System.err.println("Error during mouse position detection!");
                 e.printStackTrace();
             }
         }
     }
-    
-    @Override
-    synchronized public void newCommand(Commands command) {
-        suspend = command == Commands.PAUSE || command == Commands.END;
-    }
-    
-    synchronized public void terminate() {
-        suspend = true;
+
+    public synchronized void terminate() {
+        if (observing) {
+            removeCommandsObserver();
+        }
+        if (suspended) {
+            suspended = false;
+            notify();
+        }
         terminated = true;
     }
-    
-    public boolean isRunning() {
-        return !suspend;
+
+    public synchronized boolean isRunning() {
+        return !suspended;
+    }
+
+    private void addCommandsObserver() {
+        workOnCommandsObserver(s -> {
+            s.addCommandsObserver(this); 
+            observing = true;
+        });
+    }
+
+    private void removeCommandsObserver() {
+        workOnCommandsObserver(s -> {
+            s.removeCommandsObserver(this); 
+            observing = false;
+        });
+    }
+
+    private void workOnCommandsObserver(final Consumer<CommandsObserverSource> c) {
+        Optional<CommandsObserverSource> commandsObserverSource = view.getCommandsObserverSource();
+        commandsObserverSource.ifPresent(s -> c.accept(s));
+    }
+
+    @Override
+    public synchronized void newCommand(final Commands command) {
+        suspended = command == Commands.PAUSE || command == Commands.END;
+        if (!suspended) {
+            notify();
+        }
     }
 
     double getMouseRelativePosition() {

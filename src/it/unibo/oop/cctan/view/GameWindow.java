@@ -10,18 +10,21 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 /**
  * Class that instance the component used to show the game to the user.
  */
-class GameWindow extends JFrame implements SizeObserver {
+class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility, SizeObserver {
 
-    private static final long serialVersionUID = -4110471158542881589L;
+    private static final long serialVersionUID = 3126913839407712312L;
     private final View view;
     private GraphicPanel gpanel;
     private Optional<Dimension> gameWindowSize;
     private Optional<Pair<Integer, Integer>> screenRatio;
+    private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
+    private Optional<CommandsObserverChainOfResponsibility> commandsSuccessor = Optional.empty();
 
     /**
      * The constructor of GameWindow class.
@@ -37,7 +40,8 @@ class GameWindow extends JFrame implements SizeObserver {
     GameWindow(final View view) {
         setTitle("CC-Tan!");
         this.view = view;
-        view.addSizeObserver(this);
+        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+        setCommandsSuccessor(view);
 
         gpanel = new GraphicPanel(this, view.getFont());
         getContentPane().add(gpanel, BorderLayout.CENTER);
@@ -85,16 +89,31 @@ class GameWindow extends JFrame implements SizeObserver {
         return view.getScore();
     }
 
-    public void addCommandsObserver(CommandsObserver commandsObserver) {
-        view.addCommandsObserver(commandsObserver);
-    }
-    
     @Override
-    public void setVisible(boolean b) {
-        if(!gameWindowSize.isPresent() || !screenRatio.isPresent())
+    public void setVisible(final boolean cond) {
+        if (!gameWindowSize.isPresent() || !screenRatio.isPresent()) {
             throw new IllegalArgumentException();
-        else 
-            super.setVisible(b);
+        }
+        super.setVisible(cond);
     }
 
+    @Override
+    /** {@inheritDoc} */
+    public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility commandsSuccessor) {
+        this.commandsSuccessor = commandsSuccessor != null ? Optional.of(commandsSuccessor) : Optional.empty();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
+        this.commandsObserverSource = commandsObserverSource != null ? Optional.of(commandsObserverSource)
+                : Optional.empty();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public Optional<CommandsObserverSource> getCommandsObserverSource() {
+        return commandsObserverSource.isPresent() ? commandsObserverSource
+                : commandsSuccessor.isPresent() ? commandsSuccessor.get().getCommandsObserverSource() : Optional.empty();
+    }
 }
