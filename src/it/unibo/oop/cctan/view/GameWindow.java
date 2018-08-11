@@ -3,6 +3,7 @@ package it.unibo.oop.cctan.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -17,10 +18,10 @@ import it.unibo.oop.cctan.interPackageComunication.MappableData;
 class GameWindow extends JFrame implements SizeObserver {
 
     private static final long serialVersionUID = -4110471158542881589L;
-    private Dimension gameWindowSize;
-    private Pair<Integer, Integer> screenRatio;
-    private View view;
+    private final View view;
     private GraphicPanel gpanel;
+    private Optional<Dimension> gameWindowSize;
+    private Optional<Pair<Integer, Integer>> screenRatio;
 
     /**
      * The constructor of GameWindow class.
@@ -33,19 +34,17 @@ class GameWindow extends JFrame implements SizeObserver {
      * @param screenRatio
      *            The ratio of the window of the game (e.g.: 1:1, 4:3, 16:9,...)
      */
-    GameWindow(final View view, final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+    GameWindow(final View view) {
         setTitle("CC-Tan!");
         this.view = view;
-        this.gameWindowSize = gameWindowSize;
-        this.screenRatio = screenRatio;
         view.addSizeObserver(this);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        gpanel = new GraphicPanel(this);
+        gpanel = new GraphicPanel(this, view.getFont());
         getContentPane().add(gpanel, BorderLayout.CENTER);
-        
+
         pack();
         setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
@@ -53,8 +52,8 @@ class GameWindow extends JFrame implements SizeObserver {
      * 
      * @return Dimension class that contains the dimension of the window
      */
-    Dimension getDimension() {
-        return gameWindowSize;
+    Optional<Dimension> getDimension() {
+        return gameWindowSize.isPresent() ? gameWindowSize : Optional.empty();
     }
 
     /**
@@ -62,14 +61,15 @@ class GameWindow extends JFrame implements SizeObserver {
      * 
      * @return Pair class that contains the screen ratio of the window
      */
-    Pair<Integer, Integer> getScreenRatio() {
-        return screenRatio;
+    Optional<Pair<Integer, Integer>> getScreenRatio() {
+        return screenRatio.isPresent() ? screenRatio : Optional.empty();
     }
 
-    @Override
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
-        this.gameWindowSize = gameWindowSize;
-        this.screenRatio = screenRatio;
+        this.gameWindowSize = Optional.of(gameWindowSize);
+        this.screenRatio = Optional.of(screenRatio);
+        gpanel.update(gameWindowSize, screenRatio);
+        pack();
     }
 
     /**
@@ -87,6 +87,14 @@ class GameWindow extends JFrame implements SizeObserver {
 
     public void addCommandsObserver(CommandsObserver commandsObserver) {
         view.addCommandsObserver(commandsObserver);
+    }
+    
+    @Override
+    public void setVisible(boolean b) {
+        if(!gameWindowSize.isPresent() || !screenRatio.isPresent())
+            throw new IllegalArgumentException();
+        else 
+            super.setVisible(b);
     }
 
 }

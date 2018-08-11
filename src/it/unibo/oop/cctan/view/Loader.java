@@ -76,6 +76,14 @@ class Loader {
         if (0 <= value && value <= 100) {
             progressBar.setValue(value);
             pBarPercentage.setText(value.toString() + "%");
+            if (value == 100) {
+                try {
+                    Thread.sleep(2000);
+                    window.setVisible(false);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -88,8 +96,8 @@ class Loader {
     public void setLoadImage(ImageIcon img) {
         containerLabel.setText("");
         containerLabel.setIcon(new ImageIcon(img.getImage()
-                                                .getScaledInstance((int)windowSize.getWidth(), 
-                                                                   (int)windowSize.getHeight(), 
+                                                .getScaledInstance(windowSize.width, 
+                                                                   windowSize.height, 
                                                                    Image.SCALE_SMOOTH)));
     }
 

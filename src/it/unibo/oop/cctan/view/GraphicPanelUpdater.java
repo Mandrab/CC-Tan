@@ -2,7 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,7 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
  */
 class GraphicPanelUpdater extends Thread implements CommandsObserver {
 
-    private final int refreshTime = 20;
+    private static final int REFRESH_TIME = 20;
     private boolean suspend = false;
     private boolean terminated = false;
     private GraphicPanel gpanel;
@@ -35,24 +34,17 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
     @Override
     public void run() {
         while (!terminated) {
-            while(!suspend) {
-                synchronized (this) {
-                    if (!suspend)
-                        gpanel.redraw(gpanel.getListOfMappableData());
-                }
-                try {
-                    Thread.sleep(suspend ? 0 : refreshTime);
-                } catch (Exception ex) {
-                    System.err.println("An error has occurred");
-                    ex.printStackTrace();
-                }
-            }
             try {
-                Thread.sleep(terminated ? 0 : refreshTime);
-            } catch (Exception ex) {
-                System.err.println("An error has occurred");
-                ex.printStackTrace();
-            }
+                synchronized (this) {
+                    if (suspend) {
+                        wait();
+                    }
+                    gpanel.redraw(gpanel.getListOfMappableData());
+                }
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {      
+                e.printStackTrace();
+            } 
         }
     }
 
@@ -66,10 +58,13 @@ class GraphicPanelUpdater extends Thread implements CommandsObserver {
 
     @Override
     public synchronized void newCommand(Commands command) {
-        if (suspend = command == Commands.PAUSE || command == Commands.END)
+        if (suspend = command == Commands.PAUSE || command == Commands.END) {
             gpanel.redraw(getPrintableText((command == Commands.PAUSE ? "PAUSE!" : "END GAME!") 
                                            + System.lineSeparator()
                                            + "Score: " + gpanel.getScore()));
+        } else {
+            notify();
+        }
     }
 
     private List<MappableData> getPrintableText(String text) {

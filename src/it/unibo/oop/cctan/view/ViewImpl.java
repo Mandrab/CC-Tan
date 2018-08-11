@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +24,10 @@ public class ViewImpl implements View {
     private MouseEvents mouseEvents;
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
-    private Pair<Integer, Integer> screenRatio;
+    private Optional<SettingsWindow> settingsWindow = Optional.empty();
     private List<CommandsObserver> commandsObservers;
     private List<SizeObserver> sizeObervers;
+    private KeyCommandsListener keyCommandsListener;
 
     /**
      * The constructor method that instantiate all the sub-classes of the view.
@@ -36,10 +38,12 @@ public class ViewImpl implements View {
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
+        loader = new Loader();
+        controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
-        
-        //loader = new Loader();
+        this.keyCommandsListener= new KeyCommandsListener(this);
+        settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
     }
 
@@ -47,22 +51,45 @@ public class ViewImpl implements View {
     /** {@inheritDoc} */
     public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (!gameWindow.isPresent()) {
-            gameWindow = Optional.of(new GameWindow(this, gameWindowSize, screenRatio));
+            gameWindow = Optional.of(new GameWindow(this));
         }
+        gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
     }
-
+    
     @Override
     /** {@inheritDoc} */
-    public Dimension getDimension() {//return optional or save value in view
-        return gameWindow.get().getDimension();
+    public Optional<String> getPlayerName() {
+        if (settingsWindow.isPresent()) {
+            return Optional.of(settingsWindow.get().getPlayerName());
+        } else {
+            return Optional.empty();
+        }
+    }
+    
+    @Override
+    /** {@inheritDoc} */
+    public void showSettingsWindow() {
+        if (!settingsWindow.isPresent()) {
+            settingsWindow = Optional.of(new SettingsWindow(this));
+        } else {
+            settingsWindow.get().show();
+        }
     }
 
     @Override
     /** {@inheritDoc} */
-    public Point getWindowLocation() {//return optional
-        return gameWindow.get().getLocation();
+    public Optional<Dimension> getDimension() {//return optional or save value in view
+        return gameWindow.isPresent() ? gameWindow.get().getDimension() : Optional.empty();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public Optional<Point> getWindowLocation() {//return optional
+        return gameWindow.isPresent() ? 
+               Optional.ofNullable(gameWindow.get().getLocation()) : 
+               Optional.empty();
     }
 
     @Override
@@ -109,19 +136,40 @@ public class ViewImpl implements View {
 
     @Override
     /** {@inheritDoc} */
-    public double getMouseRelativePositionInRange(double lowerBound, double upperBound) {
-        return mouseEvents.getMouseRelativePositionInRange(lowerBound, upperBound);
-    }
-
-    @Override
-    /** {@inheritDoc} */
     public void setMouseRelativePosition(double mouseRelativePosition) {
         controller.setMouseRelativePosition(mouseRelativePosition);        
     }
 
     @Override
-    public Dimension getGameWindowDimension() {
-        return gameWindow.isPresent() ? gameWindow.get().getSize() : getDimension();
+    public Optional<Dimension> getGameWindowDimension() {
+        return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
     }
 
+    @Override
+    public File getFont() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<CommandsObserver> getCommandsObserversList() {
+        List<CommandsObserver> copia = new ArrayList<>();
+        copia.addAll(commandsObservers);
+        return copia;
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public List<SizeObserver> getSizeObserversList() {
+        List<SizeObserver> copia = new ArrayList<>();
+        copia.addAll(sizeObervers);
+        return copia;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public KeyCommandsListener getKeyCommandsListener() {
+        return keyCommandsListener;
+    }
 }

@@ -1,14 +1,13 @@
-package it.unibo.oop.cctan.model.generator;
+package it.unibo.oop.cctan.model;
 
 import java.util.List;
 
-import it.unibo.oop.cctan.model.FixedItem;
-import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.MovableItem;
 
 /**
  * Represents a generic generator of MovableItem.
  */
-public interface ItemGenerator<T extends FixedItem> {
+public interface ItemGenerator {
 
     /**
      * This method is used to start the thread that generates MovableItem.
@@ -20,7 +19,7 @@ public interface ItemGenerator<T extends FixedItem> {
      * @param item
      *          It's the MovableItem object that must be add to the application.
      */
-    void addItemToList(T item);
+    void addItemToList(MovableItem item);
 
     /**
      * Get a new list containing all MovableItem that have been generated 
@@ -28,7 +27,7 @@ public interface ItemGenerator<T extends FixedItem> {
      * @return
      *          New list containing all MovableItem.
      */
-    List<T> getItems();
+    List<MovableItem> getItems();
 
     /**
      * This method is used to remove a MovableItem that don't serve 
@@ -37,17 +36,10 @@ public interface ItemGenerator<T extends FixedItem> {
      *          It's the MovableItem object that must be removed from
      *          the application.
      */
-    void removeItem(T item);
+    void removeItem(MovableItem item);
 
     /**
      * This method is used to stop the thread that generates MovableItem.
      */
     void terminate();
-
-    /**
-     * Get the model of the MVC application.
-     * @return
-     *          the model
-     */
-    Model getModel();
 }

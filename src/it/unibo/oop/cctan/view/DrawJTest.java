@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,11 +14,15 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
+import org.junit.runners.MethodSorters;
 
 import it.unibo.oop.cctan.controller.Controller;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class DrawJTest {
 
     private static final int TIME_BEFORE_JUNIT_TEST_END = 5000; // Ms
@@ -25,10 +30,15 @@ class DrawJTest {
     private static final double SQUARE_EDGE_SIZE = 0.5;
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST = new ImmutablePair<Integer, Integer>(1, 1); // ratio of window
+    private static final String TEXT = "Testo linea 1" 
+                                       + System.lineSeparator() 
+                                       + "Testo linea 2" 
+                                       + System.lineSeparator() 
+                                       + "Testo linea 3";
     private int everyCallInitialValue;
 
     @Test
-    synchronized void staticSquareTest() throws InterruptedException {
+    void staticSquareTest() throws InterruptedException {
         everyCallInitialValue = 900;
         View view = new ViewImpl(new ControllerJTest(() -> everyCallInitialValue));
         view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
@@ -36,7 +46,7 @@ class DrawJTest {
     }
 
     @Test
-    synchronized void movingSquareTest() throws InterruptedException {
+    void movingSquareTest() throws InterruptedException {
         everyCallInitialValue = 0;
         View view = new ViewImpl(new ControllerJTest(new Supplier<Integer>() {
 
@@ -52,34 +62,18 @@ class DrawJTest {
     }
 
     @Test
-    synchronized void drawTextTest() throws InterruptedException {
-        View view = new ViewImpl(new Controller() {
+    void drawTextTest() throws InterruptedException {
+        View view = new ViewImpl(new ControllerJTest() {
 
             @Override
             public List<MappableData> getListOfMappableData() {
-                return new LinkedList<>();
+                List<MappableData> l = new LinkedList<>();
+                l.add(new MappableDataImpl(TEXT, 
+                        Color.RED,
+                        new Rectangle2D.Double(-1, -1, 2d, 2d)));
+                return l;
             }
-
-            @Override
-            public int getScore() {
-                return 0;
-            }
-
-            @Override
-            public void advanceLoading(int i) {
-            }
-
-            @Override
-            public void setView(View v) {
-            }
-
-            @Override
-            public void setLoadImage(ImageIcon img) {
-            }
-
-            @Override
-            public void setMouseRelativePosition(double angle) {
-            }
+            
         });
         view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
         Thread.sleep(TIME_BEFORE_JUNIT_TEST_END);
@@ -91,6 +85,9 @@ class DrawJTest {
 
         ControllerJTest(final Supplier<Integer> everyCall) {
             this.everyCall = everyCall;
+        }
+        
+        public ControllerJTest() {
         }
 
         @Override
@@ -151,6 +148,11 @@ class DrawJTest {
 
         @Override
         public void setMouseRelativePosition(double angle) {
+        }
+
+        @Override
+        public File getFont() {
+            return null;
         }
 
     }

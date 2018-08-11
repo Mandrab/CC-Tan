@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.io.File;
+import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -22,32 +23,31 @@ class Drawer {
 
     private Graphics2D graphics;
     private Font font;
-    private Dimension gameWindowDim;
-    private final AffineTransform aTransformation;
+    private Optional<Dimension> gameWindowSize;
+    private AffineTransform aTransformation;
 
     /**
      * The constructor of Drawer class.
-     * 
-     * @param gameWindowDim
-     *            The dimension of the window of the game (eg: 320x240, 640x480,
-     *            1024x768,...);
-     * @param ratio
-     *            The ratio of the window of the game (eg: 1:1, 4:3, 16:9,...)
      */
-    Drawer(final Dimension gameWindowDim, final Pair<Integer, Integer> ratio) {
-        this.gameWindowDim = gameWindowDim;
+    Drawer(File fontFile) {
         aTransformation = new AffineTransform();
-        aTransformation.scale(
-                        gameWindowDim.width * (ratio.getValue().doubleValue()) / (2 * ratio.getKey().doubleValue()),
-                        -gameWindowDim.height * (ratio.getKey().doubleValue()) / (2 * ratio.getValue().doubleValue()));
-        aTransformation.translate(ratio.getKey().doubleValue() / ratio.getValue().doubleValue(),
-                                       -ratio.getValue().doubleValue() / ratio.getKey().doubleValue());
-        try {//SPOSTA IN CONTROLLER????
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(Drawer.class.getResource("/subspace_font/SubspaceItalic.otf").getFile()));
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
             font = font.deriveFont(Font.BOLD, 30);
         } catch (Exception e) {
-            font = new Font("Sans-Serif", Font.BOLD, 60);
+            font = new Font("Sans-Serif", Font.BOLD, 30);
         }
+    }
+    
+    synchronized public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+        if (gameWindowSize == null || screenRatio == null)
+            throw new IllegalArgumentException();
+        this.gameWindowSize = Optional.of(gameWindowSize);
+        aTransformation = new AffineTransform();
+        aTransformation.scale(gameWindowSize.width / (2 * screenRatio.getKey()),//(ratio.getValue().doubleValue()) / (2 * ratio.getKey().doubleValue()),
+                              -gameWindowSize.height / (2 * screenRatio.getValue()));//* (ratio.getKey().doubleValue()) / (2 * ratio.getValue().doubleValue()));
+        aTransformation.translate(screenRatio.getKey().doubleValue(),// / ratio.getValue().doubleValue(),
+                                  -screenRatio.getValue().doubleValue());//-ratio.getValue().doubleValue() / ratio.getKey().doubleValue());
     }
 
     /**
@@ -63,10 +63,6 @@ class Drawer {
         drawString(mappableData.getText(),
                    new Point((int) (shape.getBounds2D().getCenterX()), 
                              (int) (shape.getBounds2D().getCenterY())));
-        //double diff = shape.getBounds2D().getWidth() - graphics.getFontMetrics().stringWidth(mappableData.getText());
-        //graphics.drawString(mappableData.getText(), 
-          //                  (int) (shape.getBounds2D().getX() + diff / 2),
-            //                (int) shape.getBounds2D().getCenterY());
     }
     
     private void drawString(String text, Point textCenter) {
@@ -83,10 +79,15 @@ class Drawer {
     }
 
     void drawText(final Pair<Double, Double> screenPositionOnPercentage, final Color color, final String text) {
-        graphics.setColor(color);
-        graphics.drawString(text, 
-                            (float) (screenPositionOnPercentage.getKey() * gameWindowDim.getWidth() - graphics.getFontMetrics().stringWidth(text) / 2), 
-                            (float) (screenPositionOnPercentage.getValue() * gameWindowDim.getHeight() / 10));
+        if (gameWindowSize.isPresent()) {
+            graphics.setColor(color);
+            graphics.drawString(text, 
+                                (float) (screenPositionOnPercentage.getKey() 
+                                         * gameWindowSize.get().getWidth() 
+                                         - graphics.getFontMetrics().stringWidth(text) / 2), 
+                                (float) (screenPositionOnPercentage.getValue() 
+                                         * gameWindowSize.get().getHeight() / 10));
+        }
     }
 
     /**

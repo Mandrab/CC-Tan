@@ -2,7 +2,9 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
@@ -25,13 +27,18 @@ public interface View {
      *            represent the ratio between x and y edge (eg:: 16:9, 4:3)
      */
     void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio);
+    
+   /**
+    * Setup and show the setting window if not present yes, show it if is present.
+    */
+    void showSettingsWindow();
 
     /**
      * Get the top-left point of the window.
      * 
      * @return the x,y origin of the window.
      */
-    Point getWindowLocation();
+    Optional<Point> getWindowLocation();
 
     /**
      * Get the degrees of the mouse relatively at the center of the game window.
@@ -40,19 +47,6 @@ public interface View {
      *         center of the window [center-right = 0, top-center = 90, ...]
      */
     double getMouseRelativePosition();
-
-    /**
-     * Get the position of the mouse relatively at the center of the game window in
-     * a given range.
-     * 
-     * @param lowerBound
-     *            number representing the 0 in the radiant measure
-     * @param upperBound
-     *            number representing 2PI in the radiant measure
-     * @return A double representing the position of the mouse relatively to the
-     *         center of the window [center-right = lowerBound, top-center = ?, ...]
-     */
-    double getMouseRelativePositionInRange(double lowerBound, double upperBound);
     
     /**
      * Allow to add a "command" observer.
@@ -62,6 +56,20 @@ public interface View {
      */
     void addCommandsObserver(CommandsObserver commandsObserver);
 
+    /**
+     * Get the copy of list of CommandsObservers.
+     * 
+     * @return A copy of list of CommandsObservers.
+     */
+    List<CommandsObserver> getCommandsObserversList();
+    
+    /**
+     * Get the copy of list of SizeObserver.
+     * 
+     * @return A copy of list of SizeObserver.
+     */
+    List<SizeObserver> getSizeObserversList();
+    
     /**
      * Allow to add a "size" observer.
      * 
@@ -75,7 +83,7 @@ public interface View {
      * 
      * @return a dimension that stores width and height
      */
-    Dimension getDimension();
+    Optional<Dimension> getDimension();
 
     /**
      * Return a list of data that as to be mapped.
@@ -116,8 +124,22 @@ public interface View {
      */
     void setMouseRelativePosition(double mouseRelativePosition);
 
-    Dimension getGameWindowDimension();
-    
-    
+    Optional<Dimension> getGameWindowDimension();
 
+    File getFont();
+
+    /**
+     * Allow to get the actual Player name if present
+     * 
+     * @return a optional of string if present, otherwise return an optional empty 
+     */
+    Optional<String> getPlayerName();
+
+    /**
+     * allow to get the keyCommandListener
+     * @return the keyCommandListener
+     */
+    KeyCommandsListener getKeyCommandsListener();
+
+    
 }
