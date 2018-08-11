@@ -1,11 +1,9 @@
 package it.unibo.oop.cctan.model.generator;
 
-import java.util.Random;
-
-import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.SquareAgent;
-import it.unibo.oop.cctan.model.SquareAgent.SquareBuilder;
+import it.unibo.oop.cctan.model.Model;
 import javafx.geometry.Point2D;
+import java.util.Random;
 
 /**
  * {@inheritDoc}.
@@ -33,7 +31,6 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
                 .model(this.getModel())
                 .build();
         this.addItemToList(square);
-        //System.out.println("Nuovo quadrato in: " + square.getPos());
         new Thread(square).start();
     }
 

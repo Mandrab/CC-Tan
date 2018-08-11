@@ -1,11 +1,9 @@
 package it.unibo.oop.cctan.model.generator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.unibo.oop.cctan.model.FixedItem;
 import it.unibo.oop.cctan.model.Model;
-import it.unibo.oop.cctan.model.MovableItem;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  Represents a generic generator of MovableItem. This object is also a thread because 
@@ -111,7 +109,10 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     public TimerRatio getRatio() {
         return this.ratio;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Model getModel() {
         return this.model;

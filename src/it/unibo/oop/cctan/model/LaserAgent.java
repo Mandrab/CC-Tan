@@ -2,15 +2,9 @@ package it.unibo.oop.cctan.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Area;
 import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
-
-import com.sun.javafx.geom.transform.GeneralTransform3D;
-
-import javafx.geometry.Point2D;
 
 public class LaserAgent extends BulletImpl implements Bullet {
 

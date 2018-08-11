@@ -22,49 +22,50 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
 class CommandsJTest {
-    
+
     private static final int SLEEP_TIME = 2000;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension GAME_WINDOW_SIZE = new Dimension(SCREEN_SIZE.height / 2,
                                                                     SCREEN_SIZE.height / 2);
     private static final Pair<Integer, Integer> SCREEN_RATEO = new ImmutablePair<Integer, Integer>(1, 1);
-    CommandsObserver co;
-    
+    private CommandsObserver commandsObserver;
+
     @Test
-    void MouseEventsJTest() {
+    void mouseEventsJTest() {
         MouseEvents me = new MouseEvents(new ViewJTest());
         assertTrue(me.isRunning());
-        co.newCommand(Commands.PAUSE);
+        commandsObserver.newCommand(Commands.PAUSE);
         assertFalse(me.isRunning());
-        co.newCommand(Commands.RESUME);
+        commandsObserver.newCommand(Commands.RESUME);
         assertTrue(me.isRunning());
-        co.newCommand(Commands.END);
+        commandsObserver.newCommand(Commands.END);
         assertFalse(me.isRunning());
     }
-    
+
     @Test
-    void GraphicPanelUpdaterJTest() throws InterruptedException {
+    void graphicPanelUpdaterJTest() throws InterruptedException {
         GameWindow gw = new GameWindow(new ViewJTest());
         gw.update(GAME_WINDOW_SIZE, SCREEN_RATEO);
         gw.setVisible(true);
-        co.newCommand(Commands.START);
+        commandsObserver.newCommand(Commands.START);
         Thread.sleep(SLEEP_TIME);
-        co.newCommand(Commands.PAUSE);
+        commandsObserver.newCommand(Commands.PAUSE);
         Thread.sleep(SLEEP_TIME);
-        co.newCommand(Commands.RESUME);
+        commandsObserver.newCommand(Commands.RESUME);
         Thread.sleep(SLEEP_TIME);
-        co.newCommand(Commands.END);
+        commandsObserver.newCommand(Commands.END);
         Thread.sleep(SLEEP_TIME);
     }
-    
-    private class ViewJTest implements View {
+
+    private class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
 
         @Override
-        public void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio) {
+        public void showGameWindow(final Dimension resolution, final Pair<Integer, Integer> screenRatio) {
         }
 
         @Override
@@ -75,15 +76,6 @@ class CommandsJTest {
         @Override
         public double getMouseRelativePosition() {
             return 0;
-        }
-
-        @Override
-        public void addCommandsObserver(CommandsObserver commandsObserver) {
-            co = commandsObserver;
-        }
-
-        @Override
-        public void addSizeObserver(SizeObserver sizeObserver) {
         }
 
         @Override
@@ -141,20 +133,39 @@ class CommandsJTest {
 
         @Override
         public List<SizeObserver> getSizeObserversList() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public Optional<String> getPlayerName() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public KeyCommandsListener getKeyCommandsListener() {
-            // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public Optional<CommandsObserverSource> getCommandsObserverSource() {
+            return Optional.of(new CommandsObserverSource() {
+
+                @Override
+                public void addCommandsObserver(final CommandsObserver co) {
+                    commandsObserver = co;
+                }
+
+                @Override
+                public void removeCommandsObserver(final CommandsObserver co) {
+                    commandsObserver = null;
+                }
+
+            });
+        }
+
+        @Override
+        public Optional<SizeObserverSource> getSizeObserverSource() {
+            return Optional.empty();
         }
 
     }
