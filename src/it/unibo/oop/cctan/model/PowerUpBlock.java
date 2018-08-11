@@ -13,6 +13,7 @@ public abstract class PowerUpBlock extends FixedItemImpl implements PowerUp {
 
             @Override
             protected void destroyed() {
+                getModel().removePowerUp(PowerUpBlock.this);
                 use();
             }
         };

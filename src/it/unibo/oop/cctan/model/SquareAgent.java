@@ -14,7 +14,7 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 0.18;
+    public static final double WIDTH = 0.18; //0.18
 
     /**
      * The height of the ball.
@@ -36,11 +36,9 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
 
             @Override
             protected void destroyed() {
-                synchronized (getModel()) {
-                    getModel().getScore().increment();
-                    getModel().removeSquare(SquareAgent.this);
-                    System.out.println("Punteggio corrente: " + getModel().getScore().getPoints());
-                }
+                getModel().getScore().increment();
+                SquareAgent.this.terminate();
+                getModel().removeSquare(SquareAgent.this);
             }
         };
     }
@@ -115,9 +113,9 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
                 this.getModel().removeSquare(this);
+                this.terminate();
 //                this.getModel().getSquareAgents().forEach(sa -> this.getModel().removeSquare(sa));
-//                this.getModel().getBallAgents().forEach(ba -> this.getModel().removeBall(ba));
-//                this.getModel().terminate();
+//                this.getModel().getBallAgents().forEach(ba -> this.getModel().removeBall(ba)); 
                 System.out.println("Game-over!");
             }
         }
@@ -129,10 +127,6 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
     @Override
     protected double getDefaultSpeed() {
         return DEFAULT_SPEED;
-    }
-
-    private boolean between(int value, int lowInclusive, int highExclusive) {
-        return value >= lowInclusive && value < highExclusive;
     }
     
     /**
