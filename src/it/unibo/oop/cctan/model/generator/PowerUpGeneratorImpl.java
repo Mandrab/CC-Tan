@@ -41,13 +41,13 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
                 .build();
         this.addItemToList(powerUp);
     }
-    
+
     private Point2D randomPoint() {
-        Random r = new Random();
+        final Random r = new Random();
         final double percentageSpawn = 0.75;
-        double length = percentageSpawn * Math.abs(this.getModel().getBounds().getX1()
+        final double length = percentageSpawn * Math.abs(this.getModel().getBounds().getX1()
                 - this.getModel().getBounds().getX0());
-        double height = percentageSpawn * Math.abs(this.getModel().getBounds().getY1()
+        final double height = percentageSpawn * Math.abs(this.getModel().getBounds().getY1()
                 - this.getModel().getBounds().getY0());
         return new Point2D(length * r.nextDouble() - length / 2, height * r.nextDouble() - height / 2);
     }
