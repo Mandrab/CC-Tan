@@ -3,6 +3,7 @@ package it.unibo.oop.cctan.model;
 import java.util.List;
 
 import it.unibo.oop.cctan.geometry.Boundary;
+import it.unibo.oop.cctan.model.generator.ItemGenerator;
 
 /**
  * The model of the MVC pattern, with methods to manage squares and balls.
@@ -35,30 +36,34 @@ public interface Model {
      * @param ball
      *          it's the ball that must be removed
      */
-    void removeBullet(MovableItem ball);
+    void removeBullet(Bullet bullet);
+    
+    void removePowerUp(PowerUp powerup);
 
     /**
      * Returns the list of the balls that are present in the application.
      * @return
      *          the current list of all the balls that are moving within the application
      */
-    List<MovableItem> getBulletAgents();
+    List<Bullet> getBulletAgents();
 
     /**
      * Removes the square from the application.
      * @param square
      *          it's the square that must be removed
      */
-    void removeSquare(MovableItem square);
+    void removeSquare(SquareAgent square);
 
     /**
      * Returns the list of the squares that are present in the application.
      * @return
      *          the current list of all the squares that are moving within the application
      */
-    List<MovableItem> getSquareAgents();
+    List<SquareAgent> getSquareAgents();
     
-    ItemGenerator getBulletGenerator();
+    List<PowerUp> getPowerUpBlocks();
+    
+    ItemGenerator<Bullet> getBulletGenerator();
 
     void setSpaceshipAngle(double angle);
 

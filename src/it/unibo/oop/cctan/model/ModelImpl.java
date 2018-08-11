@@ -2,6 +2,10 @@ package it.unibo.oop.cctan.model;
 
 import java.util.List;
 import it.unibo.oop.cctan.geometry.Boundary;
+import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
+import it.unibo.oop.cctan.model.generator.ItemGenerator;
+import it.unibo.oop.cctan.model.generator.PowerUpGeneratorImpl;
+import it.unibo.oop.cctan.model.generator.SquareGeneratorImpl;
 
 /**
  * The implementation of Model interface, with operations to work with balls and
@@ -12,8 +16,9 @@ public class ModelImpl implements Model {
     private final Score score;
     private final Boundary bound;
     private final Shuttle shuttle;
-    private final ItemGenerator bulletGenerator;
-    private final ItemGenerator squareGenerator;
+    private final ItemGenerator<Bullet> bulletGenerator;
+    private final ItemGenerator<SquareAgent> squareGenerator;
+    private final ItemGenerator<PowerUp> powerupGenerator;
 
     /**
      * Instance a new Model, creating the default game area boundaries, a new
@@ -24,6 +29,7 @@ public class ModelImpl implements Model {
         this.bound = new Boundary(-1, -1, 1, 1);
         this.squareGenerator = new SquareGeneratorImpl(this);
         this.bulletGenerator = new BulletGeneratorImpl(this);
+        this.powerupGenerator = new PowerUpGeneratorImpl(this);
         this.shuttle = new ShuttleImpl(this);
     }
 
@@ -42,12 +48,14 @@ public class ModelImpl implements Model {
     public void launch() {
         this.squareGenerator.launch();
         this.bulletGenerator.launch();
+        this.powerupGenerator.launch();
     }
 
     @Override
     public void terminate() {
         this.squareGenerator.terminate();
         this.bulletGenerator.terminate();
+        this.powerupGenerator.terminate();
     }
 
     /**
@@ -58,19 +66,19 @@ public class ModelImpl implements Model {
         return this.shuttle;
     }
 
-    public void removeSquare(final MovableItem square) {
+    public void removeSquare(final SquareAgent square) {
         this.squareGenerator.removeItem(square);
     }
 
-    public void removeBullet(final MovableItem bullet) {
+    public void removeBullet(final Bullet bullet) {
         this.bulletGenerator.removeItem(bullet);
     }
 
-    public List<MovableItem> getSquareAgents() {
+    public List<SquareAgent> getSquareAgents() {
         return this.squareGenerator.getItems();
     }
 
-    public synchronized List<MovableItem> getBulletAgents() {
+    public synchronized List<Bullet> getBulletAgents() {
         return this.bulletGenerator.getItems();
     }
 
@@ -85,7 +93,17 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public ItemGenerator getBulletGenerator() {
+    public ItemGenerator<Bullet> getBulletGenerator() {
         return this.bulletGenerator;
+    }
+
+    @Override
+    public void removePowerUp(PowerUp powerup) {
+        this.powerupGenerator.removeItem(powerup);
+    }
+
+    @Override
+    public List<PowerUp> getPowerUpBlocks() {
+        return this.powerupGenerator.getItems();
     }
 }
