@@ -19,49 +19,18 @@ public class GraphicJTest {
                                             ? SCREEN_SIZE.height 
                                             : SCREEN_SIZE.width;
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST1 
-        = new ImmutablePair<Integer, Integer> (1, 1); // ratio of window
+        = new ImmutablePair<Integer, Integer>(1, 1); // ratio of window
     private static final Dimension GAME_WINDOW_DIMENSION_TEST1 
         = new Dimension(SHORTER_EDGE / 2, SHORTER_EDGE / 2); // dimension of the window
-    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST2 
-        = new ImmutablePair<Integer, Integer>(2, 1);
-    private static final Dimension GAME_WINDOW_DIMENSION_TEST2 
-        = new Dimension(SHORTER_EDGE, SHORTER_EDGE / 2);
-    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST3 
-        = new ImmutablePair<Integer, Integer>(1, 2);
-    private static final Dimension GAME_WINDOW_DIMENSION_TEST3 
-        = new Dimension(SHORTER_EDGE / 2, SHORTER_EDGE);
-    
+    private static final int SLEEP_BALANCED_RATEO_MILLISEC = 1000000;
+
     @Test
-    synchronized public void balancedRateo() {
+    public void balancedRateo() {
         Controller ctrl = new ControllerImpl();
         View v = new ViewImpl(ctrl);
         v.showGameWindow(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
         try {
-            Thread.sleep(1000000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    
-   // @Test
-    synchronized public void xOverwhelm() {
-        Controller ctrl = new ControllerImpl();
-        View v = new ViewImpl(ctrl);
-        v.showGameWindow(GAME_WINDOW_DIMENSION_TEST2, GAME_WINDOW_RATIO_TEST2);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    //@Test
-    synchronized public void yOverwhelm() {
-        Controller ctrl = new ControllerImpl();
-        View v = new ViewImpl(ctrl);
-        v.showGameWindow(GAME_WINDOW_DIMENSION_TEST3, GAME_WINDOW_RATIO_TEST3);
-        try {
-            Thread.sleep(10000);
+            Thread.sleep(SLEEP_BALANCED_RATEO_MILLISEC);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
