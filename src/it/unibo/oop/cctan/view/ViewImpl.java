@@ -18,7 +18,7 @@ import it.unibo.oop.cctan.controller.Controller;
 /**
  * A class that implements View interface.
  */
-public class ViewImpl implements View {
+public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements View {
 
     private Controller controller;
     private MouseEvents mouseEvents;
@@ -42,7 +42,7 @@ public class ViewImpl implements View {
         controller.setView(this);
         commandsObservers = new ArrayList<>();
         sizeObervers = new ArrayList<>();
-        this.keyCommandsListener = new KeyCommandsListener(this);
+        this.keyCommandsListener= new KeyCommandsListener(this);
         settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
     }
@@ -57,7 +57,7 @@ public class ViewImpl implements View {
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
     }
-    
+
     @Override
     /** {@inheritDoc} */
     public Optional<String> getPlayerName() {
@@ -67,7 +67,7 @@ public class ViewImpl implements View {
             return Optional.empty();
         }
     }
-    
+
     @Override
     /** {@inheritDoc} */
     public void showSettingsWindow() {
@@ -90,18 +90,6 @@ public class ViewImpl implements View {
         return gameWindow.isPresent() ? 
                Optional.ofNullable(gameWindow.get().getLocation()) : 
                Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void addCommandsObserver(final CommandsObserver commandsObserver) {
-        commandsObservers.add(commandsObserver);
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void addSizeObserver(final SizeObserver sizeObserver) {
-        sizeObervers.add(sizeObserver);
     }
 
     @Override

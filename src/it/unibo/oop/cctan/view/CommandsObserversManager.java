@@ -5,10 +5,12 @@ import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 
-public class CommandsObserversMenager {
-    
+public class CommandsObserversManager {
     private List<CommandsObserver> commandsObservers;
     
+    public CommandsObserversManager() {
+        commandsObservers = new ArrayList<CommandsObserver>();
+    }
     /**
      * Allow to add a "command" observer.
      * 
@@ -29,5 +31,4 @@ public class CommandsObserversMenager {
         copia.addAll(commandsObservers);
         return copia;
     }
-
 }
