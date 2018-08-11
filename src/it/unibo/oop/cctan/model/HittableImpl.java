@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.model;
 
-public abstract class HittableImpl implements Hittable {
+public abstract class HittableImpl  implements Hittable {
 
     private int hitPoints;
     

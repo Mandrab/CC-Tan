@@ -19,5 +19,9 @@ public enum Side {
     /**
      * The left side of the element.
      */
-    LEFT;
+    LEFT,
+    /**
+     * The corner (a vertex).
+     */
+    CORNER;
 }
