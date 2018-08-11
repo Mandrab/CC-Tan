@@ -20,15 +20,16 @@ import javax.swing.JLabel;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 public class PauseWindow {
-    static final private String FILE_NAME = "./res//background2.jpg";
-    private int score;
-    private View view;
+    private static final String FILE_NAME = "./res//background2.jpg";
+    private final int score;
+    private final View view;
 
-    public PauseWindow(View view) {
+    public PauseWindow(final View view) {
 
         // TODO usare metodo per ottenere lo score tramite view o controller?
-        this.score = 123;
+       
         this.view = view;
+        this.score = this.view.getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
         
@@ -97,7 +98,7 @@ public class PauseWindow {
         mainFrame.setVisible(true);
 
         restartBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (view.getPlayerName().isPresent()) {
                     String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
@@ -117,7 +118,7 @@ public class PauseWindow {
         });
 
         settingsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (view.getPlayerName().isPresent()) {
                     String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
@@ -134,12 +135,12 @@ public class PauseWindow {
             }
         });
         exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }
         });
         resumeBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 // TODO Auto-generated method stub
                 // richiama il metodo resume del keyCommandLustener
                 mainFrame.dispose();

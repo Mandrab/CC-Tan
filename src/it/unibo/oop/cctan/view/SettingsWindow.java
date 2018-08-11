@@ -40,7 +40,7 @@ public class SettingsWindow {
     private static Optional<Clip> clip = Optional.empty();
     private final View view;
 
-    public SettingsWindow(View v) {
+    public SettingsWindow(final View v) {
         this.view = v;
         settings = new JFrame("Settings");
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,12 +109,11 @@ public class SettingsWindow {
 
         JComboBox<String> dimension = new JComboBox<String>();
         dimension.addItem("-- SELECT --");
-        dimension.addItem("320x240");
-        dimension.addItem("640x480");
-        dimension.addItem("1024x768");
         c.gridx = 0;
         c.gridy = 7;
         background.add(dimension, c);
+
+        dimension.setEnabled(false);
 
         ratio.addActionListener(new ActionListener() {
 
@@ -193,6 +192,9 @@ public class SettingsWindow {
                     Dimension dim = stringToDim((String)dimension.getSelectedItem());
                     Pair<Integer,Integer> rat =stringToPair((String)ratio.getSelectedItem());
                     List<SizeObserver> observers = view.getSizeObserversList();
+                    System.out.println(rat+"      "+dim);
+                    System.out.println(ratio.getSelectedItem()+"           "+dimension.getSelectedItem());
+                    
                     for (Iterator<SizeObserver> i = observers.iterator(); i.hasNext();) {
                         SizeObserver sO = i.next();
                         sO.update(dim, rat);
@@ -207,7 +209,7 @@ public class SettingsWindow {
     }
 
     public void showMenu() {
-        new MenuWindow(this);
+        new MenuWindow(view,this);
     }
 
     public void show() {
@@ -273,8 +275,13 @@ public class SettingsWindow {
             Dimension dim = new Dimension(width, height);
 
             return dim;
-        } else {
-            System.out.println("errore la stringa è troppo piccola");
+        } else if(s.length() == 8){
+            int width = Integer.parseInt(s.substring(0, 4));
+            int height = Integer.parseInt(s.substring(5, 8));
+            System.out.println(width + "  " + height);
+            Dimension dim = new Dimension(width, height);
+            
+            return dim;
         }
         return null;
     }

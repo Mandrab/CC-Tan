@@ -47,7 +47,7 @@ public interface ItemGenerator<T extends FixedItem> {
     /**
      * Get the model of the MVC application.
      * @return
-     *          the model
+     *          The model of the MVC application.
      */
     Model getModel();
 }

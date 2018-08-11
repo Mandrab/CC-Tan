@@ -11,11 +11,15 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 public class KeyCommandsListener {
 
     private KeyListener ls;
-    private View view;
+    private final View view;
     private Commands actualState = Commands.END;
     private boolean reset;
 
-    public KeyCommandsListener(View view) {
+    private static final int P_KEY_VALUE = 80;
+    private static final int SPACE_KEY_VALUE = 32;
+    private static final int ESC_KEY_VALUE = 27;
+
+    public KeyCommandsListener(final View view) {
         this.view = view;
         this.reset = false;
         ls = new KeyListener() {
@@ -33,16 +37,14 @@ public class KeyCommandsListener {
             @Override
             public void keyPressed(final KeyEvent e) {
                 List<CommandsObserver> observers = view.getCommandsObserversList();
-
                 // int id = e.getID();
                 int keyCode = e.getKeyCode();
-                if (keyCode == 80 || keyCode == 32) {
+                if (keyCode == KeyCommandsListener.P_KEY_VALUE || keyCode == KeyCommandsListener.SPACE_KEY_VALUE) {
                     if (actualState.equals(Commands.START) || actualState.equals(Commands.RESUME)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
                             actualState = Commands.PAUSE;
                             c.newCommand(Commands.PAUSE);
-                            
 
                         }
                     } else if (actualState.equals(Commands.PAUSE)) {
@@ -55,29 +57,23 @@ public class KeyCommandsListener {
 
                     System.out.println("è stato premuto il tasto p o SPACE per la pausa/resume");
 
-                } else if (keyCode == 27) {
+                } else if (keyCode == KeyCommandsListener.ESC_KEY_VALUE) {
                     if (actualState.equals(Commands.START) || actualState.equals(Commands.RESUME)) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
                             c.newCommand(Commands.PAUSE);
                             actualState = Commands.PAUSE;
-                            
+
                         }
                      //  avvia schermata ESC
                         new PauseWindow(view);
                         System.out.println("esc pressed");
-
-                        // changedState(new CommandsObserverImpl(Commands.START));
-                        // metti pausa
-                        // mostra una finestra per la conferma della chiusura del gioco e magari anche
-                        // bottone per tornare al main menu
-                        // se preme ok chiudi system.exit
                     }
                 }
             }
         };
     }
-    
+
     public boolean endCommand() {
         List<CommandsObserver> observers = view.getCommandsObserversList();
         if (!actualState.equals(Commands.END)) {
@@ -85,7 +81,7 @@ public class KeyCommandsListener {
                 CommandsObserver c = i.next();
                 c.newCommand(Commands.END);
                 actualState = Commands.END;
-                if(!reset) {
+                if (!reset) {
                 // fare partire la schermata finale con score e tutto
                     new EndWindow(this.view);
                 }
@@ -108,16 +104,18 @@ public class KeyCommandsListener {
         }
         return false;
     }
-    
+
     /**
      * set the reset variable that indicate if the end command is used to reset or to show the endWindow.
      * @param reset 
      *            boolean variable that indicate if the end command will act as reset or not.
      */
-    
-    public void setReset(boolean reset) {
+
+    public void setReset(final boolean reset) {
         this.reset = reset;
     }
-    
-    
+
+    public Commands getActualState() {
+        return this.actualState;
+    }
 }

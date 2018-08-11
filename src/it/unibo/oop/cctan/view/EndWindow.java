@@ -20,18 +20,16 @@ import javax.swing.JLabel;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 public class EndWindow {
-    static final private String FILE_NAME = "./res//background2.jpg";
-    private int score;
-    private View view;
+    private static final String FILE_NAME = "./res//background2.jpg";
+    private final int score;
+    private final View view;
 
-    public EndWindow(View view) {
-
-        // TODO usare metodo per ottenere lo score tramite view o controller?
-        this.score = 123;
+    public EndWindow(final View view) {
         this.view = view;
+        this.score = this.view.getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Conclusion Menù");
-      //TODO impostare sicuro di volr uscire dal gioco?
+        // TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainFrame.setLayout(new BorderLayout());
@@ -91,18 +89,18 @@ public class EndWindow {
         mainFrame.setVisible(true);
 
         restartBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (view.getPlayerName().isPresent()) {
-                    String nick = view.getPlayerName().get();
+                    final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
                     Records rec = new Records();
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
-                    
-                  //MANDARE IL VOMANDO reset end e start
+
+                    // MANDARE IL VOMANDO reset end e start
                     KeyCommandsListener c = view.getKeyCommandsListener();
                     c.setReset(true);
                     c.endCommand();
-                    //TODO mettere una sleep?
+                    // TODO mettere una sleep?
                     c.startCommand();
 
                     mainFrame.dispose();
@@ -111,15 +109,14 @@ public class EndWindow {
         });
 
         settingsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if (view.getPlayerName().isPresent()) {
-                    String nick = view.getPlayerName().get();
+                    final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
                     Records rec = new Records();
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
-                    
-                    
-                    //non mostrare la endwindow
+
+                    // non mostrare la endwindow
                     KeyCommandsListener c = view.getKeyCommandsListener();
                     c.setReset(true);
                     c.endCommand();
@@ -131,10 +128,9 @@ public class EndWindow {
             }
         });
         exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }
         });
     }
 }
-
