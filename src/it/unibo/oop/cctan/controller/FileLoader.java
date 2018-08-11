@@ -21,6 +21,9 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+
 public class FileLoader {
 
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -60,8 +63,8 @@ public class FileLoader {
         controller.advanceLoading(100);
     }
 
-    public File getFontFile() {
-        return fontFile;
+    public LoadedFiles getLoadedFiles() {
+        return new LoadedFilesImpl(fontFile, jpgLogo, null);
     }
 
     private void createDirectories(final String path, final String[] names) {

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
@@ -60,8 +61,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public File getFont() {
-        return fileLoader.getFontFile();
+    public LoadedFiles getLoadedFiles() {
+        return fileLoader.getLoadedFiles();
     }
 
 }

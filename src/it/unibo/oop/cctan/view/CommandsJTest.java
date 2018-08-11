@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
@@ -113,11 +114,6 @@ class CommandsJTest {
         }
 
         @Override
-        public File getFont() {
-            return null;
-        }
-
-        @Override
         public Optional<Dimension> getDimension() {
             return Optional.of(new Dimension(500, 500));
         }
@@ -166,6 +162,12 @@ class CommandsJTest {
         @Override
         public Optional<SizeObserverSource> getSizeObserverSource() {
             return Optional.empty();
+        }
+
+        @Override
+        public LoadedFiles getLoadedFiles() {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }

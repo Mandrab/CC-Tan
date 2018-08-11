@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.view.View;
 
@@ -19,7 +20,7 @@ public interface Controller {
      * @return The list of the MappableData
      */
     List<MappableData> getListOfMappableData();
-    
+
     /**
      * Pass the degrees of the mouse relatively at the center of the game window to the model.
      * 
@@ -33,9 +34,9 @@ public interface Controller {
     void advanceLoading(int value);
 
     void setView(View v);
-    
+
     public void setLoadImage(ImageIcon img);
 
-    File getFont();
+    LoadedFiles getLoadedFiles();
 
 }

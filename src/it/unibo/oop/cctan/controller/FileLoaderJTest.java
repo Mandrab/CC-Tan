@@ -16,6 +16,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.view.View;
 
@@ -73,7 +74,8 @@ public class FileLoaderJTest {
             }
 
             @Override
-            public File getFont() {
+            public LoadedFiles getLoadedFiles() {
+                // TODO Auto-generated method stub
                 return null;
             }
         });

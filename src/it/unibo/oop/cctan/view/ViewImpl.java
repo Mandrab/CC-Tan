@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.controller.Controller;
 
@@ -134,8 +135,8 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     }
 
     @Override
-    public File getFont() {
-        return controller.getFont();
+    public LoadedFiles getLoadedFiles() {
+        return controller.getLoadedFiles();
     }
 
     /** {@inheritDoc} */

@@ -43,7 +43,7 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
         setCommandsSuccessor(view);
 
-        gpanel = new GraphicPanel(this, view.getFont());
+        gpanel = new GraphicPanel(this, view.getLoadedFiles().getFontFile());
         getContentPane().add(gpanel, BorderLayout.CENTER);
 
         pack();

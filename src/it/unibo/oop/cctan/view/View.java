@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 /**
@@ -110,7 +111,7 @@ public interface View extends SizeAndControlChainOfResponsibility {
 
     Optional<Dimension> getGameWindowDimension();
 
-    File getFont();
+    public LoadedFiles getLoadedFiles();
 
     /**
      * Allow to get the actual Player name if present.

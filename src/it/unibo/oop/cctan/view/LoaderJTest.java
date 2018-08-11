@@ -15,6 +15,7 @@ import it.unibo.oop.cctan.controller.FileLoader;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 /**
@@ -105,11 +106,6 @@ public class LoaderJTest {
         }
 
         @Override
-        public File getFont() {
-            return null;
-        }
-
-        @Override
         public void showSettingsWindow() {
             // TODO Auto-generated method stub
 
@@ -133,6 +129,12 @@ public class LoaderJTest {
 
         @Override
         public KeyCommandsListener getKeyCommandsListener() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public LoadedFiles getLoadedFiles() {
             // TODO Auto-generated method stub
             return null;
         }

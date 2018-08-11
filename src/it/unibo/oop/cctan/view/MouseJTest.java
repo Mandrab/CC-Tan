@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 
 class MouseJTest {
@@ -162,12 +163,6 @@ class MouseJTest {
         }
 
         @Override
-        public File getFont() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
         public void showSettingsWindow() {
             // TODO Auto-generated method stub
 
@@ -206,6 +201,12 @@ class MouseJTest {
         public Optional<SizeObserverSource> getSizeObserverSource() {
             // TODO Auto-generated method stub
             return Optional.empty();
+        }
+
+        @Override
+        public LoadedFiles getLoadedFiles() {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }

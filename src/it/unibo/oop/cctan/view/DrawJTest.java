@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +21,7 @@ import org.junit.runners.MethodSorters;
 import it.unibo.oop.cctan.controller.Controller;
 import it.unibo.oop.cctan.controller.ControllerImpl;
 import it.unibo.oop.cctan.controller.FileLoader;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
@@ -183,8 +183,8 @@ class DrawJTest {
         }
 
         @Override
-        public File getFont() {
-            return fileLoader.getFontFile();
+        public LoadedFiles getLoadedFiles() {
+            return fileLoader.getLoadedFiles();
         }
 
     }
