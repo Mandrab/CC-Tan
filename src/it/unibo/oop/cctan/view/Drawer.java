@@ -29,7 +29,7 @@ class Drawer {
     /**
      * The constructor of Drawer class.
      */
-    Drawer(File fontFile) {
+    Drawer(final File fontFile) {
         aTransformation = new AffineTransform();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -38,7 +38,7 @@ class Drawer {
             font = new Font("Sans-Serif", Font.BOLD, 30);
         }
     }
-    
+
     synchronized public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (gameWindowSize == null || screenRatio == null)
             throw new IllegalArgumentException();
@@ -62,10 +62,12 @@ class Drawer {
         graphics.draw(shape);
         drawString(mappableData.getText(),
                    new Point((int) (shape.getBounds2D().getCenterX()), 
-                             (int) (shape.getBounds2D().getCenterY())));
+                             (int) (shape.getBounds2D().getCenterY())),
+                   new Dimension(shape.getBounds().width, shape.getBounds().height));
     }
-    
-    private void drawString(String text, Point textCenter) {
+
+    private void drawString(final String text, final Point textCenter, final Dimension border) {
+        graphics.setFont(getAdaptedFont(border));
         String[] strings = text.split("\n", -1);
         int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
         int textHeight = lineHeight * strings.length;
@@ -76,6 +78,10 @@ class Drawer {
                                 (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
                                 yStartingPoint + (1+index) * lineHeight);
         }
+    }
+
+    private Font getAdaptedFont(final Dimension border) {
+        return font.deriveFont(border.width > border.height ? border.height/2.5f : border.width/2.5f);
     }
 
     void drawText(final Pair<Double, Double> screenPositionOnPercentage, final Color color, final String text) {

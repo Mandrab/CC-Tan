@@ -135,8 +135,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     public File getFont() {
-        // TODO Auto-generated method stub
-        return null;
+        return controller.getFont();
     }
 
     /** {@inheritDoc} */

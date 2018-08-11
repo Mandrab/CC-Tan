@@ -45,7 +45,6 @@ public class ControllerImpl implements Controller {
     public void setView(View v) {
         this.view = Optional.of(v);
         fileLoader = new FileLoader(this);
-        fileLoader.start();
     }
 
     @Override

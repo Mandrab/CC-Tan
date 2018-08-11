@@ -21,7 +21,7 @@ public class GraphicJTest {
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST1 
         = new ImmutablePair<Integer, Integer>(1, 1); // ratio of window
     private static final Dimension GAME_WINDOW_DIMENSION_TEST1 
-        = new Dimension((int)(SHORTER_EDGE / 1.2), (int)(SHORTER_EDGE /1.2)); // dimension of the window
+        = new Dimension((int) (SHORTER_EDGE / 1.2), (int) (SHORTER_EDGE / 1.2)); // dimension of the window
     private static final int SLEEP_BALANCED_RATEO_MILLISEC = 1000000;
 
     @Test

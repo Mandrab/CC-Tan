@@ -21,6 +21,7 @@ import org.junit.runners.MethodSorters;
 
 import it.unibo.oop.cctan.controller.Controller;
 import it.unibo.oop.cctan.controller.ControllerImpl;
+import it.unibo.oop.cctan.controller.FileLoader;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 
@@ -111,12 +112,14 @@ class DrawJTest {
     private class ControllerJTest implements Controller {
 
         private Supplier<Integer> everyCall;
+        private FileLoader fileLoader;
 
         ControllerJTest(final Supplier<Integer> everyCall) {
             this.everyCall = everyCall;
         }
 
-        public ControllerJTest() {
+        ControllerJTest() {
+            fileLoader = new FileLoader(this);
         }
 
         @Override
@@ -164,24 +167,24 @@ class DrawJTest {
         }
 
         @Override
-        public void advanceLoading(int i) {
+        public void advanceLoading(final int i) {
         }
 
         @Override
-        public void setView(View v) {
+        public void setView(final View v) {
         }
 
         @Override
-        public void setLoadImage(ImageIcon img) {
+        public void setLoadImage(final ImageIcon img) {
         }
 
         @Override
-        public void setMouseRelativePosition(double angle) {
+        public void setMouseRelativePosition(final double angle) {
         }
 
         @Override
         public File getFont() {
-            return null;
+            return fileLoader.getFontFile();
         }
 
     }

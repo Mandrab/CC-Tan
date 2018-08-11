@@ -21,9 +21,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-public class FileLoader extends Thread {
+public class FileLoader {
 
-    private Controller controller;
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static final String PATH = System.getProperty("user.home") + "/.cctan";
     private static final String DIRECTORY_IMG = "/img";
@@ -37,12 +36,6 @@ public class FileLoader extends Thread {
     private File fontFile;
 
     public FileLoader(final Controller controller) {
-        this.controller = controller;
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void run() {
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
         controller.advanceLoading(10);

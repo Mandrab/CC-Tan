@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,29 +23,54 @@ import it.unibo.oop.cctan.view.View;
 public class FileLoaderJTest {
 
     private FileLoader f;
-    
-    public FileLoaderJTest() {
+
+    @Test
+    public void directoryCreation() throws InterruptedException {
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+        createFileLoader();
+        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan"), LinkOption.NOFOLLOW_LINKS));
+        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img"), LinkOption.NOFOLLOW_LINKS));
+        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/score"), LinkOption.NOFOLLOW_LINKS));
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+    }
+
+    @Test
+    public void svgConversion() throws InterruptedException {
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+        createFileLoader();
+        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg"), LinkOption.NOFOLLOW_LINKS));
+        assertTrue(Files.isReadable(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg")));
+        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+    }
+
+    private void createFileLoader() {
         f = new FileLoader(new Controller() {
-            
-            @Override
-            public void setView(View v) {}
-            
-            @Override
-            public void setLoadImage(ImageIcon img) {}
-            
-            @Override
-            public int getScore() {
-                return 0;}
-            
-            @Override
-            public List<MappableData> getListOfMappableData() {
-                return null;}
-            
-            @Override
-            public void advanceLoading(int value) {}
 
             @Override
-            public void setMouseRelativePosition(double angle) {}
+            public void setView(final View v) {
+            }
+
+            @Override
+            public void setLoadImage(final ImageIcon img) {
+            }
+
+            @Override
+            public int getScore() {
+                return 0;
+            }
+
+            @Override
+            public List<MappableData> getListOfMappableData() {
+                return null;
+            }
+
+            @Override
+            public void advanceLoading(final int value) {
+            }
+
+            @Override
+            public void setMouseRelativePosition(final double angle) {
+            }
 
             @Override
             public File getFont() {
@@ -53,29 +78,8 @@ public class FileLoaderJTest {
             }
         });
     }
-    
-    @Test
-    public void directoryCreation() throws InterruptedException {
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-        f.start();
-        f.join();
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan"), LinkOption.NOFOLLOW_LINKS));
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img"), LinkOption.NOFOLLOW_LINKS));
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/score"), LinkOption.NOFOLLOW_LINKS));
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-    }
-    
-    @Test
-    public void svgConversion() throws InterruptedException {
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-        f.start();
-        f.join();
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg"), LinkOption.NOFOLLOW_LINKS));
-        assertTrue(Files.isReadable(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg")));
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-    }
-    
-    private void deleteDirectory(String path) {
+
+    private void deleteDirectory(final String path) {
         try {
             if (Files.exists(Paths.get(path))) {
                 FileUtils.deleteDirectory(new File(path));
