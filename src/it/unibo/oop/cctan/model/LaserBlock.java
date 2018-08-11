@@ -6,6 +6,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.function.Supplier;
 
 import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
+import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl.BulletGeneratorSettings;
 import javafx.geometry.Point2D;
 
 public class LaserBlock extends PowerUpBlock implements PowerUp {
@@ -14,6 +15,7 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
     private static final String SYMBOL = "X";
     private static final double WIDTH = 0.1;
     private static final double HEIGHT = 0.1;
+    private static final int DURATION = 10000;
 
     protected LaserBlock(LaserBlockBuilder builder) {
         super(builder);
@@ -22,33 +24,24 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
     @Override
     public void use() {
 
-        this.setBulletGenerator(() -> new LaserAgent.LaserBuilder(), () -> this.getModel().getShuttle().getTop());
-        /*
-         * IDEA: a questo punto, avviare un thread-timer, che raggiunti X secondi fa
-         * terminare il power-up, richiamando
-         */
+        ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
+                .setBulletSettings(BulletGeneratorSettings.LASER);
+
         new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(DURATION);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                LaserBlock.this.setBulletGenerator(() -> new BallAgent.BallBuilder(),
-                        () -> new Point2D(getModel().getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
-                                getModel().getShuttle().getTop().getY() - BallAgent.HEIGHT / 2));
+                ((BulletGeneratorImpl) getModel().getBulletGenerator())
+                        .setBulletSettings(BulletGeneratorSettings.BALLS);
             }
         }).start();
     }
 
-    private void setBulletGenerator(final Supplier<BulletImpl.BulletBuilder> bulletType, Supplier<Point2D> startingPos) {
-        ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
-                .setBulletType(bulletType);
-        ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
-                .setRetrievingPos(startingPos);
-    }
     @Override
     public Color getColor() {
         return Color.RED;

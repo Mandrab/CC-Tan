@@ -16,8 +16,7 @@ import javafx.geometry.Point2D;
  */
 public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
 
-    private Supplier<BulletImpl.BulletBuilder> bullets;
-    private Supplier<Point2D> startingPos;
+    private BulletGeneratorSettings bulletSettings;
 
     /**
      * Create a new thread that generates balls.
@@ -26,20 +25,14 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
      */
     public BulletGeneratorImpl(final Model model) {
         super(model, new BulletRatio());
-        bullets = () -> new BallAgent.BallBuilder();
-        startingPos = () -> new Point2D(this.getModel().getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
-                this.getModel().getShuttle().getTop().getY() - BallAgent.HEIGHT / 2);
+        this.bulletSettings = BulletGeneratorSettings.BALLS;
     }
 
     /*
      * Utilizzo il pattern strategy per farmi dire il tipo di proiettile che devo generare 
      */
-    public void setBulletType(final Supplier<BulletImpl.BulletBuilder> bullets) {
-        this.bullets = bullets;
-    }
-    
-    public void setRetrievingPos(final Supplier<Point2D> initialPos) {
-        this.startingPos = initialPos;
+    public void setBulletSettings(final BulletGeneratorSettings bulletSettings) {
+        this.bulletSettings = bulletSettings;
     }
 
     /*
@@ -48,13 +41,40 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
      */
     @Override
     protected void createNewItem() {
-        final Bullet bullet = (Bullet) this.bullets.get()
+        final Bullet bullet = (Bullet) this.bulletSettings.getBulletBuilder()
                 .angle(this.getModel().getShuttle().getAngle())
                 .speed(((BulletRatio) this.getRatio()).getSpeed())
-                .position(this.startingPos.get())
+                .position(this.bulletSettings.getStartingPoint(this.getModel()))
                 .model(this.getModel())
                 .build();
         this.addItemToList(bullet);
         new Thread(bullet).start();
+    }
+    
+    public static enum BulletGeneratorSettings {
+
+        BALLS(new BallAgent.BallBuilder()), LASER(new LaserAgent.LaserBuilder());
+
+        BulletGeneratorSettings(final BulletImpl.BulletBuilder bulletBuilder) {
+            this.bulletBuilder = bulletBuilder;
+        }
+
+        public BulletImpl.BulletBuilder getBulletBuilder() {
+            return this.bulletBuilder;
+        }
+
+        private BulletImpl.BulletBuilder bulletBuilder;
+
+        public Point2D getStartingPoint(final Model model) {
+            switch (this) {
+            case BALLS:
+                return new Point2D(model.getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
+                        model.getShuttle().getTop().getY() - BallAgent.HEIGHT / 2);
+            case LASER:
+                return model.getShuttle().getTop();
+            default:
+                throw new IllegalStateException();
+            }
+        }
     }
 }

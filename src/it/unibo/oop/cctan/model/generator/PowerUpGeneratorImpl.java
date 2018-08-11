@@ -37,7 +37,7 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
         final PowerUp powerUp = (PowerUp) type.get()
                 .position(randomPoint())
                 .model(this.getModel())
-                .hitPoints(5 + new Random().nextInt(26))
+                .hitPoints(5 + new Random().nextInt(20))
                 .build();
         this.addItemToList(powerUp);
     }
