@@ -181,12 +181,6 @@ class MouseJTest {
         }
 
         @Override
-        public SizeObserversManager getSizeObserversManager() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
         public ModelData getModelData() {
             // TODO Auto-generated method stub
             return null;

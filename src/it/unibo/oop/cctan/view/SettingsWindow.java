@@ -28,17 +28,21 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class SettingsWindow {
+public class SettingsWindow extends SizeObserversSourceImpl {
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String FILE_NAME = "./res//background2.jpg";
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final String SONG_NAME = "./res//musicGame.wav";
     private static Optional<Clip> clip = Optional.empty();
+    private Optional<Dimension> gameWindowSize;
+    private Optional<Pair<Integer, Integer>> gameWindowRatio;
     private final View view;
 
     public SettingsWindow(final View v) {
         this.view = v;
+        gameWindowSize = Optional.empty();
+        gameWindowRatio = Optional.empty();
         settings = new JFrame("Settings");
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -191,7 +195,9 @@ public class SettingsWindow {
                     // passare all'observer
                     Dimension dim = stringToDim((String) dimension.getSelectedItem());
                     Pair<Integer, Integer> rat = stringToPair((String) ratio.getSelectedItem());
-                    List<SizeObserver> observers = view.getSizeObserversManager().getSizeObservers();
+                    gameWindowSize = Optional.of(dim);
+                    gameWindowRatio = Optional.of(rat);
+                    List<SizeObserver> observers = getSizeObservers();
                     // view.getSizeObserverSource().get().
                     System.out.println(rat + "      " + dim);
                     System.out.println(ratio.getSelectedItem() + "           " + dimension.getSelectedItem());
@@ -218,6 +224,16 @@ public class SettingsWindow {
 
     public String getPlayerName() {
         return playerNick;
+    }
+    
+     @Override
+    public Optional<Dimension> getDimension() {
+         return gameWindowSize;
+    }
+     
+    @Override
+    public Optional<Pair<Integer, Integer>> getRatio() {
+        return gameWindowRatio;
     }
 
     /**
@@ -252,38 +268,17 @@ public class SettingsWindow {
     }
 
     public Pair<Integer, Integer> stringToPair(String s) {
-        Pair<Integer, Integer> p;
-        if (s.length() == 3) {
-            int el0 = Integer.parseInt(s.substring(0, 1));
-            int el1 = Integer.parseInt(s.substring(2, 3));
-            System.out.println(el0 + "  " + el1);
-            p = new ImmutablePair<>(el0, el1);
-        } else {
-            int el0 = Integer.parseInt(s.substring(0, 2));
-            int el1 = Integer.parseInt(s.substring(3, 4));
-            System.out.println(el0 + "  " + el1);
-            p = new ImmutablePair<>(el0, el1);
-        }
-        return p;
+        String[] strings = s.split(":");
+        int x = Integer.parseInt(strings[0]);
+        int y = Integer.parseInt(strings[1]);
+        return new ImmutablePair<>(x, y);
     }
 
     public Dimension stringToDim(String s) {
-        if (s.length() == 7) {
-            int width = Integer.parseInt(s.substring(0, 3));
-            int height = Integer.parseInt(s.substring(4, 7));
-            System.out.println(width + "  " + height);
-            Dimension dim = new Dimension(width, height);
-
-            return dim;
-        } else if (s.length() == 8) {
-            int width = Integer.parseInt(s.substring(0, 4));
-            int height = Integer.parseInt(s.substring(5, 8));
-            System.out.println(width + "  " + height);
-            Dimension dim = new Dimension(width, height);
-
-            return dim;
-        }
-        return null;
+        String[] strings = s.split(":");
+        int width = Integer.parseInt(strings[0]);
+        int height = Integer.parseInt(strings[1]);
+        return new Dimension(width, height);
     }
 
 }

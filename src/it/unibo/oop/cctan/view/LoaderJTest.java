@@ -135,12 +135,6 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public SizeObserversManager getSizeObserversManager() {
-            return null;
-        }
-
-        @Override
-        /** {@inheritDoc} */
         public ModelData getModelData() {
             return null;
         }

@@ -122,7 +122,7 @@ public class MenuWindow {
                 view.getKeyCommandsListener().startCommand();
                 System.out.println("start");
                 mainFrame.dispose();
-                view.showGameWindow(dimension, screenRatio);
+                view.showGameWindow(pBG.getDimension().get(), pBG.getRatio().get());
             }
         });
         soundsBtn.addActionListener(new ActionListener() {

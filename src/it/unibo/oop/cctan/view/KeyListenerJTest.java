@@ -20,6 +20,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 public class KeyListenerJTest {
     
@@ -144,24 +145,6 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public List<MappableData> getListOfMappableData() {
-            return null;
-        }
-
-        @Override
-        public int getScore() {
-            return 0;
-        }
-
-        @Override
-        public void advanceLoading(final int value) {
-        }
-
-        @Override
-        public void setLoadImage(final ImageIcon img) {
-        }
-
-        @Override
         public void setMouseRelativePosition(final double mouseRelativePosition) {
         }
 
@@ -205,8 +188,15 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public SizeObserversManager getSizeObserversManager() {
+        public ModelData getModelData() {
+            // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public void refreshGui() {
+            // TODO Auto-generated method stub
+            
         }
 
     }

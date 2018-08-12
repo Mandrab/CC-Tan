@@ -56,13 +56,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
     CommandsObserversManager getCommandsObserversManager();
 
     /**
-     * Get the sizeObserverManager that allow to manage the list of SizeObservers.
-     * 
-     * @return A SizeObserverMAnager.
-     */
-    SizeObserversManager getSizeObserversManager();
-
-    /**
      * Return the dimension of the game window.
      * 
      * @return a dimension that stores width and height

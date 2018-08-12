@@ -21,7 +21,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
     private CommandsObserversManager commandsObserversManager;
-    private SizeObserversManager sizeObserversManager;
     private KeyCommandsListener keyCommandsListener;
 
     /**
@@ -36,7 +35,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         loader = new Loader(this);
         controller.setView(this);
         commandsObserversManager = new CommandsObserversManager();
-        sizeObserversManager = new SizeObserversManager();
         this.keyCommandsListener = new KeyCommandsListener(this);
         //settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
@@ -119,12 +117,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     @Override
     public CommandsObserversManager getCommandsObserversManager() {
         return commandsObserversManager;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public SizeObserversManager getSizeObserversManager() {
-        return sizeObserversManager;
     }
 
     @Override
