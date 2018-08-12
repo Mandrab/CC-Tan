@@ -21,6 +21,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void setView(View v) {
+        model = new ModelImpl();
         fileLoader = new FileLoader(this);
         this.view = Optional.of(v);
         fileLoader.start();
@@ -45,7 +46,6 @@ public class ControllerImpl implements Controller {
     public void newCommand(final Commands command) {
         switch (command) {
             case START:
-                model = new ModelImpl();
                 model.launch();
                 viewUpdater = new ViewUpdater(view.get(), model);
                 break;

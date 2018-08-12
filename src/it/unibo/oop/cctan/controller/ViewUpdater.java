@@ -52,7 +52,7 @@ class ViewUpdater extends Thread implements CommandsObserver {
 
     ModelData getModelData() {
         return new ModelDataImpl(mappableDataAdapter.getListOfMappableData(),
-                                 model.getScore(),
+                                 model.getScore().getPoints(),
                                  model.getGameStatus());
     }
 

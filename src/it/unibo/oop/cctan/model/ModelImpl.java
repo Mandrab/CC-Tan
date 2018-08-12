@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.model;
 
 import java.util.List;
 import it.unibo.oop.cctan.geometry.Boundary;
+import it.unibo.oop.cctan.interPackageComunication.ModelData.GameStatus;
 import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
 import it.unibo.oop.cctan.model.generator.PowerUpGeneratorImpl;
@@ -19,6 +20,7 @@ public class ModelImpl implements Model {
     private final Shuttle shuttle;
     private final Boundary bound;
     private final Score score;
+    private GameStatus gameStatus;
 
     /**
      * Instance a new Model, creating the default game area boundaries, a new
@@ -49,6 +51,7 @@ public class ModelImpl implements Model {
         this.squareGenerator.launch();
         this.bulletGenerator.launch();
         this.powerupGenerator.launch();
+        gameStatus = GameStatus.RUNNING;
     }
 
     @Override
@@ -56,6 +59,7 @@ public class ModelImpl implements Model {
         this.squareGenerator.terminate();
         this.bulletGenerator.terminate();
         this.powerupGenerator.terminate();
+        gameStatus = GameStatus.ENDED;
     }
 
     /**
@@ -112,6 +116,7 @@ public class ModelImpl implements Model {
         this.bulletGenerator.getItems().forEach(b->b.pause());
         this.squareGenerator.getItems().forEach(s->s.pause());
         //mettere in pausa i singoli generatori...
+        gameStatus = GameStatus.PAUSED;
     }
 
     @Override
@@ -119,5 +124,11 @@ public class ModelImpl implements Model {
         this.bulletGenerator.getItems().forEach(b->b.resume());
         this.squareGenerator.getItems().forEach(s->s.resume());
         //riprendere l'esecuzione dei singoli generatori...
+        gameStatus = GameStatus.RUNNING;
+    }
+
+    @Override
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 }

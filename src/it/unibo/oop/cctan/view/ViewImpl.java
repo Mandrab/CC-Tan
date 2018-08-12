@@ -36,8 +36,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         controller.setView(this);
         commandsObserversManager = new CommandsObserversManager();
         this.keyCommandsListener = new KeyCommandsListener(this);
-        //settingsWindow = Optional.of(new SettingsWindow(this));
-        //Impostazioni
     }
 
     @Override
