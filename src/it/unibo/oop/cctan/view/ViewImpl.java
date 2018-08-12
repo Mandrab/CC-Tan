@@ -26,8 +26,10 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
-    private List<CommandsObserver> commandsObservers;
-    private List<SizeObserver> sizeObervers;
+    //private List<CommandsObserver> commandsObservers;
+    //private List<SizeObserver> sizeObervers;
+    private CommandsObserversManager commandsObserversManager;
+    private SizeObserversManager sizeObserversManager;
     private KeyCommandsListener keyCommandsListener;
 
     /**
@@ -41,8 +43,10 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         this.controller = controller;
         loader = new Loader();
         controller.setView(this);
-        commandsObservers = new ArrayList<>();
-        sizeObervers = new ArrayList<>();
+        commandsObserversManager = new CommandsObserversManager();
+        sizeObserversManager = new SizeObserversManager();
+        //commandsObservers = new ArrayList<>();
+        //sizeObervers = new ArrayList<>();
         this.keyCommandsListener = new KeyCommandsListener(this);
         settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
@@ -139,25 +143,37 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         return controller.getLoadedFiles();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public List<CommandsObserver> getCommandsObserversList() {
-        List<CommandsObserver> copia = new ArrayList<>();
-        copia.addAll(commandsObservers);
-        return copia;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public List<SizeObserver> getSizeObserversList() {
-        List<SizeObserver> copia = new ArrayList<>();
-        copia.addAll(sizeObervers);
-        return copia;
-    }
+//    /** {@inheritDoc} */
+//    @Override
+//    public List<CommandsObserver> getCommandsObserversList() {
+//        List<CommandsObserver> copia = new ArrayList<>();
+//        copia.addAll(commandsObservers);
+//        return copia;
+//    }
+//
+//    /** {@inheritDoc} */
+//    @Override
+//    public List<SizeObserver> getSizeObserversList() {
+//        List<SizeObserver> copia = new ArrayList<>();
+//        copia.addAll(sizeObervers);
+//        return copia;
+//    }
 
     /** {@inheritDoc} */
     @Override
     public KeyCommandsListener getKeyCommandsListener() {
         return keyCommandsListener;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public CommandsObserversManager getCommandsObserversManager() {
+        return commandsObserversManager;
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public SizeObserversManager getSizeObserversManager() {
+        return sizeObserversManager;
     }
 }

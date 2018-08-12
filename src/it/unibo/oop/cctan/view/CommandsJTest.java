@@ -123,16 +123,6 @@ class CommandsJTest {
         }
 
         @Override
-        public List<CommandsObserver> getCommandsObserversList() {
-            return null;
-        }
-
-        @Override
-        public List<SizeObserver> getSizeObserversList() {
-            return null;
-        }
-
-        @Override
         public Optional<String> getPlayerName() {
             return null;
         }
@@ -166,6 +156,18 @@ class CommandsJTest {
 
         @Override
         public LoadedFiles getLoadedFiles() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public CommandsObserversManager getCommandsObserversManager() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public SizeObserversManager getSizeObserversManager() {
             // TODO Auto-generated method stub
             return null;
         }

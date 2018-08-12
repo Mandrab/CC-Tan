@@ -169,18 +169,6 @@ class MouseJTest {
         }
 
         @Override
-        public List<CommandsObserver> getCommandsObserversList() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public List<SizeObserver> getSizeObserversList() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
         public Optional<String> getPlayerName() {
             // TODO Auto-generated method stub
             return Optional.empty();
@@ -205,6 +193,18 @@ class MouseJTest {
 
         @Override
         public LoadedFiles getLoadedFiles() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public CommandsObserversManager getCommandsObserversManager() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public SizeObserversManager getSizeObserversManager() {
             // TODO Auto-generated method stub
             return null;
         }

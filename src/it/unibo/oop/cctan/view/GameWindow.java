@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.view;
 
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -38,6 +39,7 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
      *            The ratio of the window of the game (e.g.: 1:1, 4:3, 16:9,...)
      */
     GameWindow(final View view) {
+        this.addKeyListener(view.getKeyCommandsListener().getKeyListener());
         setTitle("CC-Tan!");
         this.view = view;
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
@@ -45,6 +47,8 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
 
         gpanel = new GraphicPanel(this, view.getLoadedFiles().getFontFile());
         getContentPane().add(gpanel, BorderLayout.CENTER);
+        gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());
+        gpanel.requestFocus();
 
         pack();
         setResizable(false);

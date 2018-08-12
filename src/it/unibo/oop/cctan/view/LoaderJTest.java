@@ -112,16 +112,6 @@ public class LoaderJTest {
         }
 
         @Override
-        public List<CommandsObserver> getCommandsObserversList() {
-            return null;
-        }
-
-        @Override
-        public List<SizeObserver> getSizeObserversList() {
-            return null;
-        }
-
-        @Override
         public Optional<String> getPlayerName() {
             // TODO Auto-generated method stub
             return null;
@@ -135,6 +125,18 @@ public class LoaderJTest {
 
         @Override
         public LoadedFiles getLoadedFiles() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public CommandsObserversManager getCommandsObserversManager() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public SizeObserversManager getSizeObserversManager() {
             // TODO Auto-generated method stub
             return null;
         }

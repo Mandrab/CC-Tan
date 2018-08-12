@@ -191,7 +191,8 @@ public class SettingsWindow {
                     //usare stringToPair((String)ratio.getSelectedItem()) per ottenere il Pair da passare all'observer
                     Dimension dim = stringToDim((String)dimension.getSelectedItem());
                     Pair<Integer,Integer> rat =stringToPair((String)ratio.getSelectedItem());
-                    List<SizeObserver> observers = view.getSizeObserversList();
+                    List<SizeObserver> observers = view.getSizeObserversManager().getSizeObservers();
+                    //view.getSizeObserverSource().get().
                     System.out.println(rat+"      "+dim);
                     System.out.println(ratio.getSelectedItem()+"           "+dimension.getSelectedItem());
                     

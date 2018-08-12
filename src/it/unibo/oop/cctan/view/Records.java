@@ -23,13 +23,15 @@ import org.apache.commons.lang3.tuple.Triple;
 public class Records {
 
     private ArrayList<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-    DecimalFormat df = new DecimalFormat("0,00");
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/M/yyyy");
+    private static final DecimalFormat DF = new DecimalFormat("0,00");
 
-    static final private String FILE_NAME = "./res//Scores";
-    String path = new File(FILE_NAME).getAbsolutePath();
+    private static final String FILE_NAME = "./res//Scores";
+    private final String path;
 
     public Records() {
+
+        path = new File(FILE_NAME).getAbsolutePath();
 
         try {
             File file = new File(path);
@@ -44,14 +46,14 @@ public class Records {
             e.printStackTrace();
         }
         // inserimento in records
-        try (final InputStream file2 = new FileInputStream(path);
-                final InputStream bstream2 = new BufferedInputStream(file2);) {
+        try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
             if (bstream2.available() >= 1) {
                 final ObjectInputStream ostream2 = new ObjectInputStream(bstream2);
                 @SuppressWarnings("unchecked")
                 ArrayList<Triple<String, Integer, Date>> lr = (ArrayList<Triple<String, Integer, Date>>) ostream2
                         .readObject();
                 leaderBoard.addAll(lr);
+                ostream2.close();
                 System.out.println(this.toString());
             } else {
                 leaderBoard.clear();
@@ -106,7 +108,7 @@ public class Records {
     public void orderRecordList() {
         leaderBoard.sort(new Comparator<Triple<String, Integer, Date>>() {
             @Override
-            public int compare(Triple<String, Integer, Date> o1, Triple<String, Integer, Date> o2) {
+            public int compare(Triple<String, Integer, Date> o1, final Triple<String, Integer, Date> o2) {
                 return o2.getMiddle() - o1.getMiddle();
             }
         });
@@ -160,9 +162,9 @@ public class Records {
                 // File file = new File(classLoader.getResource("Scores"));
                 // new FileOutputStream(arg0)
 
-                final OutputStream fileS = new FileOutputStream(path);
-                final OutputStream bstream = new BufferedOutputStream(fileS);
-                final ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
+                OutputStream fileS = new FileOutputStream(path);
+                OutputStream bstream = new BufferedOutputStream(fileS);
+                ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             // ostream . writeObject ( new java . util . Date () ); // Classe serializ .
             ostream.writeObject(leaderBoard);
         } catch (FileNotFoundException e) {
@@ -173,7 +175,7 @@ public class Records {
         }
     }
 
-    private boolean isDuplicate(Triple<String, Integer, Date> p) {
+    private boolean isDuplicate(final Triple<String, Integer, Date> p) {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             if (leaderBoard.get(i).getLeft().equals(p.getLeft())
@@ -189,8 +191,8 @@ public class Records {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             s = s + "[" + String.valueOf(leaderBoard.get(i).getLeft()) + ":"
-                    + String.valueOf(leaderBoard.get(i).getMiddle()) + ":"
-                    + sdf.format(leaderBoard.get(i).getRight()) + "]";
+                    + String.valueOf(leaderBoard.get(i).getMiddle()) + ":" + SDF.format(leaderBoard.get(i).getRight())
+                    + "]";
         }
         return s;
     }
