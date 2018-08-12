@@ -22,4 +22,6 @@ public interface CommandsObserverSource {
      */
     void removeCommandsObserver(CommandsObserver commandsObserver);
 
+    void forceCommand(Commands command);
+
 }

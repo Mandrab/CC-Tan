@@ -20,7 +20,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfRespon
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelData.GameStatus;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
 class GraphicPanel extends JPanel {
 

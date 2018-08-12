@@ -4,16 +4,6 @@ import java.util.List;
 
 public interface ModelData {
 
-    enum GameStatus {
-
-        RUNNING,
-
-        PAUSED,
-
-        ENDED;
-
-    }
-
     /**
      * Return a list of data that as to be mapped.
      * 

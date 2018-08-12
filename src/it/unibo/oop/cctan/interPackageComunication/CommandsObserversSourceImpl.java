@@ -1,11 +1,8 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
 public abstract class CommandsObserversSourceImpl implements CommandsObserverSource{
     
@@ -33,6 +30,8 @@ public abstract class CommandsObserversSourceImpl implements CommandsObserverSou
      * @return A defencive copy of list of CommandsObservers.
      */
     public synchronized List<CommandsObserver> getCommandsObservers() {
-        return Collections.unmodifiableList(this.commandsObservers);
+        return Collections.unmodifiableList(commandsObservers);
     }
+
+    public abstract void forceCommand(Commands command);
 }

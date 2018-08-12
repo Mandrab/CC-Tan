@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -43,6 +44,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         if (!gameWindow.isPresent()) {
             gameWindow = Optional.of(new GameWindow(this));
         }
+        gameWindow.get().addKeyListener(keyCommandsListener.getKeyListener());
         gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
@@ -62,7 +64,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     /** {@inheritDoc} */
     public void showSettingsWindow() {
         if (!settingsWindow.isPresent()) {
-            settingsWindow = Optional.of(new SettingsWindow(this, keyCommandsListener));
+            settingsWindow = Optional.of(new SettingsWindow(this));
         }
         settingsWindow.get().show();
     }

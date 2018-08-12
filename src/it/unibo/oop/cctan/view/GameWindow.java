@@ -34,14 +34,13 @@ class GameWindow extends JFrame implements SizeObserver {
      *            The ratio of the window of the game (e.g.: 1:1, 4:3, 16:9,...)
      */
     GameWindow(final View view) {
-        this.addKeyListener(view.getKeyCommandsListener().getKeyListener());
         setTitle("CC-Tan!");
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
 
         gpanel = new GraphicPanel(this, view.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
         getContentPane().add(gpanel, BorderLayout.CENTER);
-        gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
-        gpanel.requestFocus();                                                  //SPOSTO?
+        //gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
+        //gpanel.requestFocus();                                                  //SPOSTO?
 
         pack();
         setResizable(false);
