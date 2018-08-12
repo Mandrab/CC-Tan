@@ -106,4 +106,18 @@ public class ModelImpl implements Model {
     public List<PowerUp> getPowerUpBlocks() {
         return this.powerupGenerator.getItems();
     }
+
+    @Override
+    public void pause() {
+        this.bulletGenerator.getItems().forEach(b->b.pause());
+        this.squareGenerator.getItems().forEach(s->s.pause());
+        //mettere in pausa i singoli generatori...
+    }
+
+    @Override
+    public void resume() {
+        this.bulletGenerator.getItems().forEach(b->b.resume());
+        this.squareGenerator.getItems().forEach(s->s.resume());
+        //riprendere l'esecuzione dei singoli generatori...
+    }
 }

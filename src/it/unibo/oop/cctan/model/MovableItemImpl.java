@@ -12,6 +12,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
 
     private double speed;
     private boolean stop;
+    private boolean pause;
 
     /**
      * Put a new movable item respecting the value specified inside the builder object.
@@ -23,6 +24,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
         super(builder);
         this.speed = builder.speedValue <= 0 ? this.getDefaultSpeed() : builder.speedValue;
         this.stop = false;
+        this.pause = false;
     }
 
     /**
@@ -42,13 +44,20 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void run() {
-        try {
-            while (!stop) {
-                updatePos();
+        while (!stop) {
+            try {
+                synchronized (this) {
+                    if (pause) {
+                        wait();
+                    }
+                    if (!stop) { //magari nel mentre il gioco è terminato...
+                        updatePos();
+                    }
+                }
                 Thread.sleep(REFRESH_RATIO);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -56,7 +65,26 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      * {@inheritDoc}
      */
     public void terminate() {
+        if (this.pause) {
+            this.pause = false;
+        }
         this.stop = true;
+        notifyAll();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    public void pause() {
+        this.pause = true;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    public void resume() {
+        this.pause = false;
+        notifyAll();
     }
 
     /** 
