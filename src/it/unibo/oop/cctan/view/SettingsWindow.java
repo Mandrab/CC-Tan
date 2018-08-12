@@ -186,20 +186,21 @@ public class SettingsWindow {
                     // TODO
                     music();
                     showMenu();
-                    
-                    //usare stringToDim((String)dimension.getSelectedItem()); per ottenere la Dimension da passare all'observer
-                    //usare stringToPair((String)ratio.getSelectedItem()) per ottenere il Pair da passare all'observer
-                    Dimension dim = stringToDim((String)dimension.getSelectedItem());
-                    Pair<Integer,Integer> rat =stringToPair((String)ratio.getSelectedItem());
+
+                    // usare stringToDim((String)dimension.getSelectedItem()); per ottenere la
+                    // Dimension da passare all'observer
+                    // usare stringToPair((String)ratio.getSelectedItem()) per ottenere il Pair da
+                    // passare all'observer
+                    Dimension dim = stringToDim((String) dimension.getSelectedItem());
+                    Pair<Integer, Integer> rat = stringToPair((String) ratio.getSelectedItem());
                     List<SizeObserver> observers = view.getSizeObserversManager().getSizeObservers();
-                    //view.getSizeObserverSource().get().
-                    System.out.println(rat+"      "+dim);
-                    System.out.println(ratio.getSelectedItem()+"           "+dimension.getSelectedItem());
-                    
+                    // view.getSizeObserverSource().get().
+                    System.out.println(rat + "      " + dim);
+                    System.out.println(ratio.getSelectedItem() + "           " + dimension.getSelectedItem());
+
                     for (Iterator<SizeObserver> i = observers.iterator(); i.hasNext();) {
                         SizeObserver sO = i.next();
                         sO.update(dim, rat);
-
                     }
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Please, fill the Fields", "Notice",
@@ -210,7 +211,7 @@ public class SettingsWindow {
     }
 
     public void showMenu() {
-        new MenuWindow(view,this);
+        new MenuWindow(view, this);
     }
 
     public void show() {
@@ -251,7 +252,7 @@ public class SettingsWindow {
         }
 
     }
-    
+
     public Pair<Integer, Integer> stringToPair(String s) {
         Pair<Integer, Integer> p;
         if (s.length() == 3) {
@@ -276,12 +277,12 @@ public class SettingsWindow {
             Dimension dim = new Dimension(width, height);
 
             return dim;
-        } else if(s.length() == 8){
+        } else if (s.length() == 8) {
             int width = Integer.parseInt(s.substring(0, 4));
             int height = Integer.parseInt(s.substring(5, 8));
             System.out.println(width + "  " + height);
             Dimension dim = new Dimension(width, height);
-            
+
             return dim;
         }
         return null;

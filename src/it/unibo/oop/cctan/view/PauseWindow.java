@@ -143,6 +143,9 @@ public class PauseWindow {
             public void actionPerformed(final ActionEvent e) {
                 // TODO Auto-generated method stub
                 // richiama il metodo resume del keyCommandLustener
+                KeyCommandsListener c = view.getKeyCommandsListener();
+                c.keyEscPaused(false);
+                c.resumeCommand();
                 mainFrame.dispose();
             }
         });

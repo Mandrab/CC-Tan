@@ -121,8 +121,7 @@ public class MenuWindow {
             public void actionPerformed(final ActionEvent e) {
                 view.getKeyCommandsListener().startCommand();
                 System.out.println("start");
-                //TODO decommentare sotto alla fine del
-                //mainFrame.dispose();
+                mainFrame.dispose();
 
             }
         });
