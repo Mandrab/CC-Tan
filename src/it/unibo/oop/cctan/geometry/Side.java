@@ -21,7 +21,23 @@ public enum Side {
      */
     LEFT,
     /**
-     * The corner (a vertex).
+     * A generic corner.
      */
-    CORNER;
+    CORNER,
+    /**
+     * The left upper corner.
+     */
+    LEFT_TOP_CORNER,
+    /**
+     * The right upper corner.
+     */
+    RIGHT_TOP_CORNER,
+    /**
+     * The left bottom corner.
+     */
+    LEFT_BOTTOM_CORNER,
+    /**
+     * The right bottom corner.
+     */
+    RIGHT_BOTTOM_CORNER;
 }

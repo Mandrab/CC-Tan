@@ -2,13 +2,24 @@ package it.unibo.oop.cctan.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NavigableSet;
 import java.util.Optional;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.geometry.Side;
+import javafx.geometry.Point2D;
 
 /**
  * Represent a ball outgoing from the shuttle. They can also be considered like the shots of the shuttle.
@@ -88,27 +99,57 @@ public final class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     protected void updateAngle(final SquareAgent rect) {
-        final Side side;
+        Side side = getImpactSide(rect);
+        final double ballCenterX = this.getPos().getX() + WIDTH / 2;
+        final double ballCenterY = this.getPos().getY() + HEIGHT / 2;
+
+        if (side != Side.CORNER) {
+            this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
+        } else {
+            List<Double> distances = this.getDistancesFromPoint(new Point2D(ballCenterX, ballCenterY),
+                    rect.getShape().getPathIterator(null));
+            NavigableSet<Pair<Side, Double>> vertexDistances =  new TreeSet<>(Arrays.asList(
+                    new ImmutablePair<>(Side.RIGHT_BOTTOM_CORNER, distances.get(0)),
+                    new ImmutablePair<>(Side.RIGHT_TOP_CORNER, distances.get(1)),
+                    new ImmutablePair<>(Side.LEFT_TOP_CORNER, distances.get(2)),
+                    new ImmutablePair<>(Side.LEFT_BOTTOM_CORNER, distances.get(3))));
+            side = Collections.min(vertexDistances, (v1, v2) -> Double.compare(v1.getRight(), v2.getRight())).getLeft();
+            this.setAngle(side == Side.LEFT_TOP_CORNER || side == Side.RIGHT_BOTTOM_CORNER ? 90 - this.getAngle()
+                    : -90 - this.getAngle());
+        }
+    }
+
+    private Side getImpactSide(final SquareAgent rect) {
         switch (rect.getShape().getBounds2D().outcode(this.getPos().getX() + WIDTH / 2,
                 this.getPos().getY() + HEIGHT / 2)) {
         case Rectangle2D.OUT_LEFT:
-            side = Side.LEFT;
-            break;
+            return Side.LEFT;
         case Rectangle2D.OUT_RIGHT:
-            side = Side.RIGHT;
-            break;
+            return Side.RIGHT;
         case Rectangle2D.OUT_BOTTOM:
-            side = Side.BELOW;
-            break;
+            return Side.BELOW;
         case Rectangle2D.OUT_TOP:
-            side = Side.ABOVE;
-            break;
+            return Side.ABOVE;
         default:
-            side = Side.CORNER;
+            return Side.CORNER;
         }
-        this.setAngle(side == Side.CORNER ? this.getAngle() + 180
-                : side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
     }
+    
+    //Vertexes in rectangle path iterators are slide counterclockwise, from right-bottom ones to left-bottom
+    private List<Double> getDistancesFromPoint(final Point2D point, final PathIterator pathIterator) {
+        final int length = 6;
+        final double[] coordinates = new double[length];
+        final List<Double> points = new ArrayList<>();
+        while (!pathIterator.isDone()) {
+            pathIterator.next();
+            if (pathIterator.currentSegment(coordinates) != PathIterator.SEG_CLOSE) {
+                points.add(point.distance(new Point2D(coordinates[0], coordinates[1])));
+            } else {
+                break;
+            }
+        }
+        return points;
+      }
 
     /**
      * A basic builder for BallAgent class.
