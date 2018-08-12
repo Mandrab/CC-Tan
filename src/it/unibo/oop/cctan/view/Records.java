@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,15 +19,22 @@ import java.util.Date;
 
 import org.apache.commons.lang3.tuple.Triple;
 
+/**
+ * A class that handle the records of the game.
+ * 
+ * @author Sutera Lorenzo
+ *
+ */
 public class Records {
 
-    private ArrayList<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/M/yyyy");
-    private static final DecimalFormat DF = new DecimalFormat("0,00");
-
+    private final ArrayList<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
+    private final SimpleDateFormat sDateDormat = new SimpleDateFormat("dd/M/yyyy");
     private static final String FILE_NAME = "./res//Scores";
     private final String path;
 
+    /**
+     * The constructor of SizeObserverManager class.
+     */
     public Records() {
 
         path = new File(FILE_NAME).getAbsolutePath();
@@ -68,13 +74,23 @@ public class Records {
         }
     }
 
+    /**
+     * Return the list of Records.
+     * 
+     * @return a arrayList of a triplet composed of Name,Score,Date.
+     */
     public ArrayList<Triple<String, Integer, Date>> getRecordList() {
         ArrayList<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
         list.addAll(leaderBoard);
         return list;
     }
 
-    public int getBestScore(String player) {
+    /**
+     * A method that return the Best score of a player.
+     * @param player that need to know his Best score.
+     * @return  the best score of the player.
+     */
+    public int getBestScore(final String player) {
         int best = 0;
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
@@ -85,7 +101,12 @@ public class Records {
         return best;
     }
 
-    public double getAvgScore(String player) {
+    /**
+     * A method that return the average score of a player.
+     * @param player that need to know his avarage score.
+     * @return  the average score of the player.
+     */
+    public double getAvgScore(final String player) {
         int sum = 0;
         int num = 0;
         int i = 0;
@@ -105,10 +126,13 @@ public class Records {
         return avg;
     }
 
+    /**
+     * A method that order the list by score first.
+     */
     public void orderRecordList() {
         leaderBoard.sort(new Comparator<Triple<String, Integer, Date>>() {
             @Override
-            public int compare(Triple<String, Integer, Date> o1, final Triple<String, Integer, Date> o2) {
+            public int compare(final Triple<String, Integer, Date> o1, final Triple<String, Integer, Date> o2) {
                 return o2.getMiddle() - o1.getMiddle();
             }
         });
@@ -117,12 +141,12 @@ public class Records {
 
     /**
      * A method that allow to add a score of a player if it is not already in the
-     * leaderboard
+     * leaderboard.
      * 
-     * @param p
-     * @return true if the argument is not already in the leaderboard list
+     * @param p the triple that will be add if it is not a duplicate already in the record list.
+     * @return true if the argument is not already in the leaderboard list.
      */
-    public boolean addWithNoDuplicate(Triple<String, Integer, Date> p) {
+    public boolean addWithNoDuplicate(final Triple<String, Integer, Date> p) {
         if (isDuplicate(p)) {
             return false;
         } else {
@@ -165,7 +189,6 @@ public class Records {
                 OutputStream fileS = new FileOutputStream(path);
                 OutputStream bstream = new BufferedOutputStream(fileS);
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
-            // ostream . writeObject ( new java . util . Date () ); // Classe serializ .
             ostream.writeObject(leaderBoard);
         } catch (FileNotFoundException e) {
             System.out.println("aggiungere file Scores in res");
@@ -186,13 +209,18 @@ public class Records {
         return false;
     }
 
+    /**
+     * Return the list as a string.
+     * 
+     * @return A string composed of triple, each triplet is subdivided like this :
+     *         [NICKNAME:SCORE:DATE].
+     */
     public String toString() {
         String s = "";
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
-            s = s + "[" + String.valueOf(leaderBoard.get(i).getLeft()) + ":"
-                    + String.valueOf(leaderBoard.get(i).getMiddle()) + ":" + SDF.format(leaderBoard.get(i).getRight())
-                    + "]";
+            s = s + "[" + leaderBoard.get(i).getLeft() + ":" + leaderBoard.get(i).getMiddle() + ":"
+                    + this.sDateDormat.format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }

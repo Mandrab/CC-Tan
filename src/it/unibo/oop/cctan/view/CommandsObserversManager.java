@@ -7,9 +7,17 @@ import java.util.List;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
-public class CommandsObserversManager implements CommandsObserverSource{
+/**
+ * A class created to handle the commandsObservers list.
+ * @author Sutera Lorenzo
+ *
+ */
+public class CommandsObserversManager implements CommandsObserverSource {
     private List<CommandsObserver> commandsObservers;
 
+    /**
+     * The constructor of CommandsObserverManager class.
+     */
     public CommandsObserversManager() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }

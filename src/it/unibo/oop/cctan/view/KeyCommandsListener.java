@@ -8,6 +8,11 @@ import java.util.List;
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 
+/**
+ * A class created to handle the received keyEvents and send a Command by the newCommand method to the CommandsObservers.
+ * @author Sutera Lorenzo
+ *
+ */
 public class KeyCommandsListener {
 
     private KeyListener keyListener;
@@ -20,6 +25,12 @@ public class KeyCommandsListener {
     private static final int SPACE_KEY_VALUE = 32;
     private static final int ESC_KEY_VALUE = 27;
 
+    /**
+     * The constructor of KeyCommandsListener class.
+     * 
+     *  @param view
+     *            A reference to the view (parents).
+     */
     public KeyCommandsListener(final View view) {
         this.view = view;
         this.reset = false;
@@ -38,7 +49,6 @@ public class KeyCommandsListener {
 
             @Override
             public void keyPressed(final KeyEvent e) {
-                //TODO VEDERE SE EUSARE MANAGER O SOURCE
                 List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
                 // int id = e.getID();
                 int keyCode = e.getKeyCode();
@@ -49,7 +59,7 @@ public class KeyCommandsListener {
                             c.newCommand(Commands.PAUSE);
                         }
                         actualState = Commands.PAUSE;
-                    } else if (actualState.equals(Commands.PAUSE) && escPaused == false) {
+                    } else if (actualState.equals(Commands.PAUSE) && !escPaused) {
                         for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                             CommandsObserver c = i.next();
                             c.newCommand(Commands.RESUME);
@@ -78,13 +88,17 @@ public class KeyCommandsListener {
         };
     }
 
+    /**
+     * Send the END command to all the CommandsObservers if internal conditions are respected.
+     * @return
+     *          A boolean value that indicate if the command is sent or not.
+     */
     public boolean endCommand() {
-        //TODO
         List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
         if (!actualState.equals(Commands.END)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                 CommandsObserver c = i.next();
-                c.newCommand(Commands.END);      
+                c.newCommand(Commands.END);
             }
             actualState = Commands.END;
             if (!reset) {
@@ -97,6 +111,11 @@ public class KeyCommandsListener {
         return false;
     }
 
+    /**
+     * Send the START command to all the CommandsObservers if internal conditions are respected.
+     * @return
+     *          A boolean value that indicate if the command is sent or not.
+     */
     public boolean startCommand() {
         List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
         if (actualState.equals(Commands.END)) {
@@ -121,18 +140,38 @@ public class KeyCommandsListener {
         this.reset = reset;
     }
 
+    /**
+     * Return the actual state of the class, so the last command sent to the commands Observers.
+     * @return
+     *          a Command that rappresent the actual state of the class.
+     */
     public Commands getActualState() {
         return this.actualState;
     }
-    
+
+    /**
+     * Return the keyListener that have to be applied to the jComponents of the gameWindow.
+     * @return
+     *          a KeyListener that recive the P, SPACE and ESC key events and send commands.
+     */
     public KeyListener getKeyListener() {
         return keyListener;
     }
-    
-    public void keyEscPaused(boolean escPaused) {
+
+    /**
+     * Set a variable that will be used as a part of a condition that if it is true the P keyboard pressed event can not send the resume command.
+     * @param escPaused
+     *                  a boolean variable that set the possibility or not for the P button to resume in pause state.
+     */
+    public void keyEscPaused(final boolean escPaused) {
         this.escPaused = escPaused;
     }
 
+    /**
+     * Send the RESUME command to all the CommandsObservers if internal conditions are respected.
+     * @return
+     *          A boolean value that indicate if the command is sent or not.
+     */
     public boolean resumeCommand() {
         List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
         if (actualState.equals(Commands.PAUSE)) {

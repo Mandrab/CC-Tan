@@ -1,14 +1,20 @@
 package it.unibo.oop.cctan.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A class created to handle the sizeObservers list.
+ * @author Sutera Lorenzo
+ */
 public class SizeObserversManager implements SizeObserverSource {
 
     private List<SizeObserver> sizesObservers;
 
+    /**
+     * The constructor of SizeObserverManager class.
+     */
     public SizeObserversManager() {
         sizesObservers = new ArrayList<SizeObserver>();
     }
