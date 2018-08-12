@@ -29,7 +29,7 @@ public class PauseWindow {
         // TODO usare metodo per ottenere lo score tramite view o controller?
        
         this.view = view;
-        this.score = this.view.getScore();
+        this.score = this.view.getModelData().getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
         

@@ -24,6 +24,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 class MouseJTest {
 
@@ -128,30 +129,6 @@ class MouseJTest {
         }
 
         @Override
-        public List<MappableData> getListOfMappableData() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public int getScore() {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public void advanceLoading(final int value) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void setLoadImage(final ImageIcon img) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
         public void setMouseRelativePosition(final double mouseRelativePosition) {
             // TODO Auto-generated method stub
 
@@ -207,6 +184,17 @@ class MouseJTest {
         public SizeObserversManager getSizeObserversManager() {
             // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public ModelData getModelData() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public void refreshGui() {
+            // TODO Auto-generated method stub
         }
 
     }

@@ -24,9 +24,9 @@ import org.jdom2.input.SAXBuilder;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 
-public class FileLoader {
+public class FileLoader extends Thread {
 
-    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static final String PATH = System.getProperty("user.home") + "/.cctan";
     private static final String DIRECTORY_IMG = "/img";
     private static final String DIRECTORY_SCORE = "/score";
@@ -35,17 +35,26 @@ public class FileLoader {
     private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf")
             .getFile();
     private static final float QUALITY = 1.0f;
-    private ImageIcon jpgLogo;
-    private File fontFile;
+    private Controller controller;
+    private LoadedFiles loadedFiles;
+    private int percentage;
 
     public FileLoader(final Controller controller) {
+        this.controller = controller;
+    }
+
+    @Override
+    public void run() {
+        loadedFiles = new LoadedFilesImpl(0);
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
-        controller.advanceLoading(10);
+        percentage = 10;
+        controller.refreshGui();
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            controller.setLoadImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
+            loadedFiles.setLogo(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
+            controller.refreshGui();
             try {
                 convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
                         PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
@@ -54,17 +63,18 @@ public class FileLoader {
                 e.printStackTrace();
             }
         }
-        jpgLogo = new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
-        controller.setLoadImage(jpgLogo);
-        controller.advanceLoading(40);
+        loadedFiles.setLogo(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
+        percentage = 40;
+        controller.refreshGui();
 
-        fontFile = new File(FONT_SUBSPACE);
-
-        controller.advanceLoading(100);
+        loadedFiles.setFontFile(new File(FONT_SUBSPACE));
+        percentage = 100;
+        controller.refreshGui();
     }
 
     public LoadedFiles getLoadedFiles() {
-        return new LoadedFilesImpl(fontFile, jpgLogo, null);
+        loadedFiles.setPercentage(percentage);
+        return loadedFiles;
     }
 
     private void createDirectories(final String path, final String[] names) {

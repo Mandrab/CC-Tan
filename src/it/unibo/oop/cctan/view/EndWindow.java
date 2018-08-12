@@ -26,7 +26,7 @@ public class EndWindow {
 
     public EndWindow(final View view) {
         this.view = view;
-        this.score = this.view.getScore();
+        this.score = this.view.getModelData().getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Conclusion Menù");
         // TODO impostare sicuro di volr uscire dal gioco?

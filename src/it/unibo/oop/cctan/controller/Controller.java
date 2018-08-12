@@ -5,21 +5,16 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.view.View;
 
 /**
  * Interface that allow the communication between controller and view.
  */
-public interface Controller {
-
-    /**
-     * Return a list of data that as to be mapped.
-     * 
-     * @return The list of the MappableData
-     */
-    List<MappableData> getListOfMappableData();
+public interface Controller extends CommandsObserver {
 
     /**
      * Pass the degrees of the mouse relatively at the center of the game window to the model.
@@ -29,14 +24,12 @@ public interface Controller {
      */
     void setMouseRelativePosition(double angle);
 
-    int getScore();
-
-    void advanceLoading(int value);
-
     void setView(View v);
 
-    public void setLoadImage(ImageIcon img);
-
     LoadedFiles getLoadedFiles();
+
+    ModelData getModelData();
+
+    void refreshGui();
 
 }

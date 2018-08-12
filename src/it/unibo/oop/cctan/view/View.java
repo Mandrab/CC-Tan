@@ -2,7 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +9,9 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 /**
  * State what a View implementation must implements.
@@ -71,37 +70,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
     Optional<Dimension> getDimension();
 
     /**
-     * Return a list of data that as to be mapped.
-     * 
-     * @return The list of the MappableData
-     */
-    List<MappableData> getListOfMappableData();
-
-    /**
-     * Obtain the actual score in the game.
-     * 
-     * @return the actual score
-     */
-    int getScore();
-
-    /**
-     * Sets the percentage of advance of a loading. If the number is less than 0 or
-     * exceeds 100, the change is ignored.
-     * 
-     * @param value
-     *            the percentage (es. 1 -> 1%, 40 -> 40%)
-     */
-    void advanceLoading(int value);
-
-    /**
-     * Sets the loaded backgroud image of the loader screen.
-     * 
-     * @param img
-     *            is the imageIcon that will be load in the background
-     */
-    void setLoadImage(ImageIcon img);
-
-    /**
      * Set the degrees of the mouse relatively at the center of the game window to
      * the controller.
      * 
@@ -126,5 +94,9 @@ public interface View extends SizeAndControlChainOfResponsibility {
      * @return the keyCommandListener
      */
     KeyCommandsListener getKeyCommandsListener();
+
+    ModelData getModelData();
+    
+    void refreshGui();
 
 }

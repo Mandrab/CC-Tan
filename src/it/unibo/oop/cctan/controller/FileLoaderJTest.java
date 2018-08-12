@@ -23,8 +23,6 @@ import it.unibo.oop.cctan.view.View;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileLoaderJTest {
 
-    private FileLoader f;
-
     @Test
     public void directoryCreation() throws InterruptedException {
         deleteDirectory(System.getProperty("user.home") + "/.cctan");
@@ -45,7 +43,7 @@ public class FileLoaderJTest {
     }
 
     private void createFileLoader() {
-        f = new FileLoader(new Controller() {
+        new FileLoader(new Controller() {
 
             @Override
             public void setView(final View v) {
