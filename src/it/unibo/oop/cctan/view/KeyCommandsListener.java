@@ -79,7 +79,7 @@ public class KeyCommandsListener extends CommandsObserversSourceImpl {
         };
     }
 
-    public boolean endCommand() {
+    public synchronized boolean endCommand() {
         //TODO
         List<CommandsObserver> observers = getCommandsObservers();
         if (!actualState.equals(Commands.END)) {
@@ -98,7 +98,7 @@ public class KeyCommandsListener extends CommandsObserversSourceImpl {
         return false;
     }
 
-    public boolean startCommand() {
+    public synchronized boolean startCommand() {
         List<CommandsObserver> observers = getCommandsObservers();
         if (actualState.equals(Commands.END)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
@@ -118,23 +118,23 @@ public class KeyCommandsListener extends CommandsObserversSourceImpl {
      *            boolean variable that indicate if the end command will act as reset or not.
      */
 
-    public void setReset(final boolean reset) {
+    public synchronized void setReset(final boolean reset) {
         this.reset = reset;
     }
 
-    public Commands getActualState() {
+    public synchronized Commands getActualState() {
         return this.actualState;
     }
     
-    public KeyListener getKeyListener() {
+    public synchronized KeyListener getKeyListener() {
         return keyListener;
     }
     
-    public void keyEscPaused(boolean escPaused) {
+    public synchronized void keyEscPaused(boolean escPaused) {
         this.escPaused = escPaused;
     }
 
-    public boolean resumeCommand() {
+    public synchronized boolean resumeCommand() {
         List<CommandsObserver> observers = getCommandsObservers();
         if (actualState.equals(Commands.PAUSE)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
@@ -147,8 +147,8 @@ public class KeyCommandsListener extends CommandsObserversSourceImpl {
         }
         return false;
     }
-    
-    void forceCommand(Commands command) {
+
+    synchronized void forceCommand(Commands command) {
         switch (command) {
             case START:
                 startCommand();

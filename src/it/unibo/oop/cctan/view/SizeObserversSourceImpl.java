@@ -18,13 +18,13 @@ public abstract class SizeObserversSourceImpl implements SizeObserverSource {
 
     @Override
     /** {@inheritDoc} */
-    public void addSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void addSizeObserver(final SizeObserver sizeObserver) {
         sizesObservers.add(sizeObserver);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void removeSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void removeSizeObserver(final SizeObserver sizeObserver) {
         sizesObservers.remove(sizeObserver);
     }
 
@@ -41,7 +41,7 @@ public abstract class SizeObserversSourceImpl implements SizeObserverSource {
      * 
      * @return A defencive copy of list of SizeObserver.
      */
-    public List<SizeObserver> getSizeObservers() {
+    public synchronized List<SizeObserver> getSizeObservers() {
         return Collections.unmodifiableList(this.sizesObservers);
     }
 

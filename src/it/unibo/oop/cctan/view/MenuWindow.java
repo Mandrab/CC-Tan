@@ -123,7 +123,7 @@ public class MenuWindow {
         });
         startBtn.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                view.getKeyCommandsListener().startCommand();
+                //view.getKeyCommandsListener().startCommand();
                 System.out.println("start");
                 mainFrame.dispose();
                 view.showGameWindow(pBG.getDimension().get(), pBG.getRatio().get()); // da togliere

@@ -5,6 +5,8 @@ import java.util.Optional;
 import javax.swing.ImageIcon;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibilityImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -12,15 +14,20 @@ import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
 
-public class ControllerImpl implements Controller {
+public class ControllerImpl implements Controller, CommandsObserver {
 
     private Optional<View> view = Optional.empty();
     private Model model;
     private FileLoader fileLoader;
     private ViewUpdater viewUpdater;
 
+    public ControllerImpl() {
+        // TODO Auto-generated constructor stub
+    }
+    
     @Override
     public void setView(View v) {
+        v.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
         model = new ModelImpl();
         fileLoader = new FileLoader(this);
         this.view = Optional.of(v);
@@ -51,13 +58,13 @@ public class ControllerImpl implements Controller {
                 viewUpdater.start();
                 break;
             case PAUSE:
-                //model pausa (se non lo fa da solo)
+                model.pause();
                 break;
             case RESUME:
-                //model resume (se non lo fa da solo)
+                model.resume();
                 break;
             case END:
-                //model end (se non lo fa da solo)
+                model.terminate();
                 viewUpdater.terminate();
                 break;
             default:

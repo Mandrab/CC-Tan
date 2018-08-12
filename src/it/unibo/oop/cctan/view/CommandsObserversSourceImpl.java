@@ -17,13 +17,13 @@ public abstract class CommandsObserversSourceImpl implements CommandsObserverSou
 
     @Override
     /** {@inheritDoc} */
-    public void addCommandsObserver(final CommandsObserver commandsObserver) {
+    public synchronized void addCommandsObserver(final CommandsObserver commandsObserver) {
         commandsObservers.add(commandsObserver);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void removeCommandsObserver(final CommandsObserver commandsObserver) {
+    public synchronized void removeCommandsObserver(final CommandsObserver commandsObserver) {
         commandsObservers.remove(commandsObserver);
     }
 
@@ -32,7 +32,7 @@ public abstract class CommandsObserversSourceImpl implements CommandsObserverSou
      * 
      * @return A defencive copy of list of CommandsObservers.
      */
-    public List<CommandsObserver> getCommandsObservers() {
+    public synchronized List<CommandsObserver> getCommandsObservers() {
         return Collections.unmodifiableList(this.commandsObservers);
     }
 }

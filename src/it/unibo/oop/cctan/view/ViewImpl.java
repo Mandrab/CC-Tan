@@ -32,6 +32,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     public ViewImpl(final Controller controller) {
         this.controller = controller;
         keyCommandsListener = new KeyCommandsListener(this);
+        setCommandsObserverSource(keyCommandsListener);
         loader = new Loader(this);
         controller.setView(this);
     }
