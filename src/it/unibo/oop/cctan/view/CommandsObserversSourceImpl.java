@@ -7,10 +7,11 @@ import java.util.List;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
-public class CommandsObserversManager implements CommandsObserverSource{
+public abstract class CommandsObserversSourceImpl implements CommandsObserverSource{
+    
     private List<CommandsObserver> commandsObservers;
 
-    public CommandsObserversManager() {
+    public CommandsObserversSourceImpl() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }
 

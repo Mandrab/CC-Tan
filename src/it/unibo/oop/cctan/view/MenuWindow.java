@@ -17,15 +17,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import it.unibo.oop.cctan.interPackageComunication.Commands;
+
 public class MenuWindow {
 
     static final private String FILE_NAME = "./res//background2.jpg";
     private Optional<LeaderBoardTable> leaderboard = Optional.empty();
     private View view;
     private SettingsWindow pBGD;
+    private KeyCommandsListener kCL;
 
-    public MenuWindow(View view, SettingsWindow pBG) {
+    public MenuWindow(KeyCommandsListener kCL, View view, SettingsWindow pBG) {
 
+        this.kCL = kCL;
         this.view = view;
         this.pBGD = pBG;
 
@@ -122,7 +126,8 @@ public class MenuWindow {
                 view.getKeyCommandsListener().startCommand();
                 System.out.println("start");
                 mainFrame.dispose();
-                view.showGameWindow(pBG.getDimension().get(), pBG.getRatio().get());
+                view.showGameWindow(pBG.getDimension().get(), pBG.getRatio().get()); // da togliere
+                kCL.forceCommand(Commands.START);
             }
         });
         soundsBtn.addActionListener(new ActionListener() {

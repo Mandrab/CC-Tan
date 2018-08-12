@@ -41,11 +41,11 @@ public class FileLoader extends Thread {
 
     public FileLoader(final Controller controller) {
         this.controller = controller;
+        loadedFiles = new LoadedFilesImpl(0);
     }
 
     @Override
     public void run() {
-        loadedFiles = new LoadedFilesImpl(0);
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
         percentage = 10;

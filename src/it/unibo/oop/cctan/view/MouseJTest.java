@@ -175,7 +175,7 @@ class MouseJTest {
         }
 
         @Override
-        public CommandsObserversManager getCommandsObserversManager() {
+        public CommandsObserversSourceImpl getCommandsObserversManager() {
             // TODO Auto-generated method stub
             return null;
         }

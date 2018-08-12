@@ -39,7 +39,7 @@ public class SettingsWindow extends SizeObserversSourceImpl {
     private Optional<Pair<Integer, Integer>> gameWindowRatio;
     private final View view;
 
-    public SettingsWindow(final View v) {
+    public SettingsWindow(final View v, KeyCommandsListener kCL) {
         this.view = v;
         gameWindowSize = Optional.empty();
         gameWindowRatio = Optional.empty();
@@ -187,7 +187,7 @@ public class SettingsWindow extends SizeObserversSourceImpl {
                     settings.setVisible(false);
                     // TODO
                     music();
-                    showMenu();
+                    showMenu(kCL);
 
                     // usare stringToDim((String)dimension.getSelectedItem()); per ottenere la
                     // Dimension da passare all'observer
@@ -214,8 +214,8 @@ public class SettingsWindow extends SizeObserversSourceImpl {
         });
     }
 
-    public void showMenu() {
-        new MenuWindow(view, this);
+    public void showMenu(KeyCommandsListener kCL) {
+        new MenuWindow(kCL, view, this);
     }
 
     public void show() {

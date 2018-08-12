@@ -129,7 +129,7 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public CommandsObserversManager getCommandsObserversManager() {
+        public CommandsObserversSourceImpl getCommandsObserversManager() {
             return null;
         }
 

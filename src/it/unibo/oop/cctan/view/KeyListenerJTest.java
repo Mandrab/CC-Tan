@@ -34,7 +34,7 @@ public class KeyListenerJTest {
     private Optional<GameWindow> gameWindow = Optional.empty();
     private View view;
     private KeyCommandsListener keyCommandsListener;
-    private CommandsObserversManager commandsObserversManager;
+    private CommandsObserversSourceImpl commandsObserversManager;
     private boolean setuped = false;
     
     @Test
@@ -89,7 +89,7 @@ public class KeyListenerJTest {
         System.out.println("imposto la view");
         this.view = new ViewJTest();
         System.out.println("imposto la commandibservermanager");
-        this.commandsObserversManager = new CommandsObserversManager();
+        this.commandsObserversManager = new CommandsObserversSourceImpl();
         System.out.println("imposto la keycommandlistener");
         this.keyCommandsListener = new KeyCommandsListener(view);
         
@@ -183,7 +183,7 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public CommandsObserversManager getCommandsObserversManager() {
+        public CommandsObserversSourceImpl getCommandsObserversManager() {
             return commandsObserversManager;
         }
 

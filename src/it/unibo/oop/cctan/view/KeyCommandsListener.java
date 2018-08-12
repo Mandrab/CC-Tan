@@ -7,8 +7,9 @@ import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
-public class KeyCommandsListener {
+public class KeyCommandsListener extends CommandsObserversSourceImpl {
 
     private KeyListener keyListener;
     private final View view;
@@ -39,7 +40,7 @@ public class KeyCommandsListener {
             @Override
             public void keyPressed(final KeyEvent e) {
                 //TODO VEDERE SE EUSARE MANAGER O SOURCE
-                List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
+                List<CommandsObserver> observers = getCommandsObservers();
                 // int id = e.getID();
                 int keyCode = e.getKeyCode();
                 if (keyCode == KeyCommandsListener.P_KEY_VALUE || keyCode == KeyCommandsListener.SPACE_KEY_VALUE) {
@@ -80,7 +81,7 @@ public class KeyCommandsListener {
 
     public boolean endCommand() {
         //TODO
-        List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
+        List<CommandsObserver> observers = getCommandsObservers();
         if (!actualState.equals(Commands.END)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                 CommandsObserver c = i.next();
@@ -98,7 +99,7 @@ public class KeyCommandsListener {
     }
 
     public boolean startCommand() {
-        List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
+        List<CommandsObserver> observers = getCommandsObservers();
         if (actualState.equals(Commands.END)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                 CommandsObserver c = i.next();
@@ -134,7 +135,7 @@ public class KeyCommandsListener {
     }
 
     public boolean resumeCommand() {
-        List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
+        List<CommandsObserver> observers = getCommandsObservers();
         if (actualState.equals(Commands.PAUSE)) {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                 CommandsObserver c = i.next();
@@ -146,4 +147,22 @@ public class KeyCommandsListener {
         }
         return false;
     }
+    
+    void forceCommand(Commands command) {
+        switch (command) {
+            case START:
+                startCommand();
+                break;
+            case PAUSE:
+                // todo
+                break;
+            case RESUME:
+                resumeCommand();
+                break;
+            case END:
+                endCommand();
+                break;
+        }
+    }
+
 }

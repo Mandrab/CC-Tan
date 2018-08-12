@@ -49,13 +49,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
     double getMouseRelativePosition();
 
     /**
-     * Get the commandObserverManager that allow to manage the list of CommandsObservers.
-     * 
-     * @return A commandObserverManager.
-     */
-    CommandsObserversManager getCommandsObserversManager();
-
-    /**
      * Return the dimension of the game window.
      * 
      * @return a dimension that stores width and height

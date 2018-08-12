@@ -48,6 +48,7 @@ public class ControllerImpl implements Controller {
             case START:
                 model.launch();
                 viewUpdater = new ViewUpdater(view.get(), model);
+                viewUpdater.start();
                 break;
             case PAUSE:
                 //model pausa (se non lo fa da solo)
