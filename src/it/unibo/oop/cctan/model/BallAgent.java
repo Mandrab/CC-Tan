@@ -106,16 +106,16 @@ public final class BallAgent extends BulletImpl implements Bullet {
         if (side != Side.CORNER) {
             this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
         } else {
-            List<Double> distances = this.getDistancesFromPoint(new Point2D(ballCenterX, ballCenterY),
+            final List<Double> distances = this.getDistancesFromPoint(new Point2D(ballCenterX, ballCenterY),
                     rect.getShape().getPathIterator(null));
-            NavigableSet<Pair<Side, Double>> vertexDistances =  new TreeSet<>(Arrays.asList(
+            final NavigableSet<Pair<Side, Double>> vertexDistances =  new TreeSet<>(Arrays.asList(
                     new ImmutablePair<>(Side.RIGHT_BOTTOM_CORNER, distances.get(0)),
                     new ImmutablePair<>(Side.RIGHT_TOP_CORNER, distances.get(1)),
                     new ImmutablePair<>(Side.LEFT_TOP_CORNER, distances.get(2)),
                     new ImmutablePair<>(Side.LEFT_BOTTOM_CORNER, distances.get(3))));
             side = Collections.min(vertexDistances, (v1, v2) -> Double.compare(v1.getRight(), v2.getRight())).getLeft();
             this.setAngle(side == Side.LEFT_TOP_CORNER || side == Side.RIGHT_BOTTOM_CORNER ? 90 - this.getAngle()
-                    : -90 - this.getAngle());
+                    : -(90 + this.getAngle()));
         }
     }
 
