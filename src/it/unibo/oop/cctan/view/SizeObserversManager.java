@@ -1,6 +1,8 @@
 package it.unibo.oop.cctan.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SizeObserversManager implements SizeObserverSource {
@@ -26,12 +28,10 @@ public class SizeObserversManager implements SizeObserverSource {
     /**
      * Get the copy of list of SizeObserver.
      * 
-     * @return A copy of list of SizeObserver.
+     * @return A defencive copy of list of SizeObserver.
      */
     public List<SizeObserver> getSizeObservers() {
-        List<SizeObserver> copia = new ArrayList<>();
-        copia.addAll(sizesObservers);
-        return copia;
+        return Collections.unmodifiableList(this.sizesObservers);
     }
 
 }
