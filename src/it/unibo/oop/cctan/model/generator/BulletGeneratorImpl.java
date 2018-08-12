@@ -28,9 +28,6 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
         this.bulletSettings = BulletGeneratorSettings.BALLS;
     }
 
-    /*
-     * Utilizzo il pattern strategy per farmi dire il tipo di proiettile che devo generare 
-     */
     public void setBulletSettings(final BulletGeneratorSettings bulletSettings) {
         this.bulletSettings = bulletSettings;
     }
@@ -53,17 +50,17 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
     
     public static enum BulletGeneratorSettings {
 
-        BALLS(new BallAgent.BallBuilder()), LASER(new LaserAgent.LaserBuilder());
+        BALLS(() -> new BallAgent.BallBuilder()), LASER(() -> new LaserAgent.LaserBuilder());
 
-        BulletGeneratorSettings(final BulletImpl.BulletBuilder bulletBuilder) {
+        BulletGeneratorSettings(final Supplier<BulletImpl.BulletBuilder> bulletBuilder) {
             this.bulletBuilder = bulletBuilder;
         }
 
         public BulletImpl.BulletBuilder getBulletBuilder() {
-            return this.bulletBuilder;
+            return this.bulletBuilder.get();
         }
 
-        private BulletImpl.BulletBuilder bulletBuilder;
+        private Supplier<BulletImpl.BulletBuilder> bulletBuilder;
 
         public Point2D getStartingPoint(final Model model) {
             switch (this) {

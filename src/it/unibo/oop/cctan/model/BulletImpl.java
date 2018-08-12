@@ -20,7 +20,6 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
     protected Optional<FixedItem> checkIntersecate(final Optional<FixedItem> lastCollision) {
         synchronized (this.getModel().getSquareAgents()) {
 
-            // System.out.println("check...");
             final List<FixedItem> items = new ArrayList<>(this.getModel().getSquareAgents());
             items.addAll(this.getModel().getPowerUpBlocks());
             items.remove(lastCollision.orElse(null));
