@@ -3,6 +3,7 @@ package it.unibo.oop.cctan.model.generator;
 import java.util.Random;
 import java.util.function.Supplier;
 
+import it.unibo.oop.cctan.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.LaserBlock;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.PowerUp;
@@ -37,19 +38,19 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
         final PowerUp powerUp = (PowerUp) type.get()
                 .position(randomPoint())
                 .model(this.getModel())
-                .hitPoints(5 + new Random().nextInt(20))
+                .hitPoints(RandomUtility.intInRange(5, 25))
                 .build();
         this.addItemToList(powerUp);
     }
 
     private Point2D randomPoint() {
-        final Random r = new Random();
         final double percentageSpawn = 0.75;
         final double length = percentageSpawn * Math.abs(this.getModel().getBounds().getX1()
                 - this.getModel().getBounds().getX0());
         final double height = percentageSpawn * Math.abs(this.getModel().getBounds().getY1()
                 - this.getModel().getBounds().getY0());
-        return new Point2D(length * r.nextDouble() - length / 2, height * r.nextDouble() - height / 2);
+        return new Point2D(RandomUtility.doubleInRange(-length / 2, length / 2),
+                RandomUtility.doubleInRange(-height / 2, height / 2));
     }
 
 }

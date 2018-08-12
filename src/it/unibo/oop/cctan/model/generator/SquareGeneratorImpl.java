@@ -1,6 +1,7 @@
 package it.unibo.oop.cctan.model.generator;
 
 import it.unibo.oop.cctan.model.SquareAgent;
+import it.unibo.oop.cctan.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.Model;
 import javafx.geometry.Point2D;
 import java.util.Random;
@@ -41,18 +42,17 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
      * 3 is right ---> x is +1.2 and y is random.
      */
     private Point2D randomPosition() {
-        final Random rnd = new Random();
         // 4 is the number of sides
         final int side = new Random().nextInt(4);
         if (side == 0 || side == 1) {
             return (new Point2D(
-                    rnd.nextDouble() * Math.abs(this.getModel().getBounds().getX0() - this.getModel().getBounds().getX1())
-                            - this.getModel().getBounds().getX1() - SquareAgent.WIDTH,
+                    RandomUtility.doubleInRange(this.getModel().getBounds().getX0() - SquareAgent.WIDTH,
+                            this.getModel().getBounds().getX1()),
                     side == 0 ? this.getModel().getBounds().getY1() : this.getModel().getBounds().getY0() - SquareAgent.HEIGHT));
         } else {
             return (new Point2D(side == 2 ? this.getModel().getBounds().getX0() - SquareAgent.WIDTH : this.getModel().getBounds().getX1(),
-                    rnd.nextDouble() * Math.abs(this.getModel().getBounds().getY0() - this.getModel().getBounds().getY1())
-                            - this.getModel().getBounds().getY1() - SquareAgent.HEIGHT)); // -1.2 : 1.2
+                    RandomUtility.doubleInRange(this.getModel().getBounds().getY0() - SquareAgent.HEIGHT,
+                            this.getModel().getBounds().getY1()))); // -1.2 : 1.2
         }
     }
 
