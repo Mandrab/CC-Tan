@@ -2,18 +2,12 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
-import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.controller.Controller;
 
 /**
@@ -41,14 +35,14 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
-        loader = new Loader();
+        loader = new Loader(this);
         controller.setView(this);
         commandsObserversManager = new CommandsObserversManager();
         sizeObserversManager = new SizeObserversManager();
         //commandsObservers = new ArrayList<>();
         //sizeObervers = new ArrayList<>();
         this.keyCommandsListener = new KeyCommandsListener(this);
-        settingsWindow = Optional.of(new SettingsWindow(this));
+        //settingsWindow = Optional.of(new SettingsWindow(this));
         //Impostazioni
     }
 
@@ -95,30 +89,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         return gameWindow.isPresent() 
                ? Optional.ofNullable(gameWindow.get().getLocation()) 
                : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public List<MappableData> getListOfMappableData() {
-        return controller.getListOfMappableData();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public int getScore() {
-        return controller.getScore();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void advanceLoading(final int value) {
-        loader.advanceLoading(value);
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void setLoadImage(final ImageIcon img) {
-        loader.setLoadImage(img);
     }
 
     @Override
@@ -170,10 +140,21 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     public CommandsObserversManager getCommandsObserversManager() {
         return commandsObserversManager;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public SizeObserversManager getSizeObserversManager() {
         return sizeObserversManager;
     }
+
+    @Override
+    public void refreshGui() {
+        gameWindow.ifPresentOrElse(gw -> gw.refresh(controller.getModelData()), () -> loader.refresh());
+    }
+
+    @Override
+    public ModelData getModelData() {
+        return controller.getModelData();
+    }
+
 }

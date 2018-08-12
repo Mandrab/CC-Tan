@@ -28,9 +28,6 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-
 public class SettingsWindow {
     private static String playerNick = "not set";
     private static JFrame settings;
@@ -176,6 +173,7 @@ public class SettingsWindow {
         settings.setLocationRelativeTo(null);
         settings.setResizable(false);
         settings.setVisible(true);
+        settings.toFront();
 
         doneBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -3,7 +3,7 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.List;
+import java.io.File;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -11,21 +11,16 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 /**
  * Class that instance the component used to show the game to the user.
  */
-class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility, SizeObserver {
+class GameWindow extends JFrame implements SizeObserver {
 
     private static final long serialVersionUID = 3126913839407712312L;
-    private final View view;
     private GraphicPanel gpanel;
     private Optional<Dimension> gameWindowSize;
     private Optional<Pair<Integer, Integer>> screenRatio;
-    private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
-    private Optional<CommandsObserverChainOfResponsibility> commandsSuccessor = Optional.empty();
 
     /**
      * The constructor of GameWindow class.
@@ -41,14 +36,12 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
     GameWindow(final View view) {
         this.addKeyListener(view.getKeyCommandsListener().getKeyListener());
         setTitle("CC-Tan!");
-        this.view = view;
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
-        setCommandsSuccessor(view);
 
-        gpanel = new GraphicPanel(this, view.getLoadedFiles().getFontFile());
+        gpanel = new GraphicPanel(this, view.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
         getContentPane().add(gpanel, BorderLayout.CENTER);
-        gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());
-        gpanel.requestFocus();
+        gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
+        gpanel.requestFocus();                                                  //SPOSTO?
 
         pack();
         setResizable(false);
@@ -80,19 +73,6 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
         pack();
     }
 
-    /**
-     * A method that return a list of data that as to be mapped.
-     * 
-     * @return The list of the MappableData
-     */
-    public List<MappableData> getListOfMappableData() {
-        return view.getListOfMappableData();
-    }
-
-    public int getScore() {
-        return view.getScore();
-    }
-
     @Override
     public void setVisible(final boolean cond) {
         if (!gameWindowSize.isPresent() || !screenRatio.isPresent()) {
@@ -101,23 +81,8 @@ class GameWindow extends JFrame implements CommandsObserverChainOfResponsibility
         super.setVisible(cond);
     }
 
-    @Override
-    /** {@inheritDoc} */
-    public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility commandsSuccessor) {
-        this.commandsSuccessor = commandsSuccessor != null ? Optional.of(commandsSuccessor) : Optional.empty();
+    public void refresh(final ModelData modelData) {
+        gpanel.refresh(modelData);
     }
 
-    @Override
-    /** {@inheritDoc} */
-    public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
-        this.commandsObserverSource = commandsObserverSource != null ? Optional.of(commandsObserverSource)
-                : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public Optional<CommandsObserverSource> getCommandsObserverSource() {
-        return commandsObserverSource.isPresent() ? commandsObserverSource
-                : commandsSuccessor.isPresent() ? commandsSuccessor.get().getCommandsObserverSource() : Optional.empty();
-    }
 }
