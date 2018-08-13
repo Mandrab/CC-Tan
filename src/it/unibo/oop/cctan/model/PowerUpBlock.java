@@ -1,51 +1,28 @@
 package it.unibo.oop.cctan.model;
 
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-
-public abstract class PowerUpBlock extends FixedItemImpl implements PowerUp {
-
-    private final Hittable hittableItem;
-
-    protected PowerUpBlock(final PowerUpBlockBuilder<?> builder) {
-        super(builder);
-        this.hittableItem = new HittableImpl(builder.hits) {
-
-            @Override
-            protected void destroyed() {
-                getModel().removePowerUp(PowerUpBlock.this);
-                use();
-            }
-        };
-    }
-
-    @Override
-    public int getHP() {
-        return this.hittableItem.getHP();
-    }
-
-    @Override
-    public void hit() {
-        this.hittableItem.hit();
-    }
-
-    @Override
-    public Shape getShape() {
-        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(), this.getWidth(), this.getHeight());
-    }
+/**
+ * Represent a generic power-up block that spawns in the game area.
+ * When it will be destroyed, its power will be activated.
+ */
+public interface PowerUpBlock extends FixedItem, Hittable {
 
     /**
-     * A basic builder for BallAgent class.
+     * When power-up block's hit points reach 0, this method will be called to
+     * use it immediately.
      */
-    @SuppressWarnings("unchecked")
-    public abstract static class PowerUpBlockBuilder<T extends PowerUpBlockBuilder<T>>
-            extends FixedItemImpl.AbstractBuilderFI<PowerUpBlockBuilder<T>> {
+    void use();
 
-        private int hits;
+    /**
+     * Get the power-up name, that specify what it ability.
+     * @return
+     *          a short name of the power-up
+     */
+    String getName();
 
-        public T hitPoints(int hitPoints) {
-            this.hits = hitPoints;
-            return (T) this;
-        }
-    }
+    /**
+     * Get a symbol (an ASCII character) that represent the power-up.
+     * @return
+     *          the symbol representing the power-up
+     */
+    String getSymbol();
 }

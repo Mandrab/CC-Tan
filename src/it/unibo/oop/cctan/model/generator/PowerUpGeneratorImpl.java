@@ -6,14 +6,14 @@ import java.util.function.Supplier;
 import it.unibo.oop.cctan.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.LaserBlock;
 import it.unibo.oop.cctan.model.Model;
-import it.unibo.oop.cctan.model.PowerUp;
 import it.unibo.oop.cctan.model.PowerUpBlock;
+import it.unibo.oop.cctan.model.PowerUpBlockImpl;
 import javafx.geometry.Point2D;
 
-public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
+public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
     
     private static final int DEFAULT_RATIO = 40000;
-    private static Supplier<PowerUpBlock.PowerUpBlockBuilder<?>> type = () -> new LaserBlock.LaserBlockBuilder();
+    private static Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type = () -> new LaserBlock.LaserBlockBuilder();
 
     public PowerUpGeneratorImpl(Model model) {
         super(model, new TimerRatio(0, DEFAULT_RATIO) {
@@ -35,7 +35,7 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
 
     @Override
     protected void createNewItem() {
-        final PowerUp powerUp = (PowerUp) type.get()
+        final PowerUpBlock powerUp = (PowerUpBlock) type.get()
                 .position(randomPoint())
                 .model(this.getModel())
                 .hitPoints(RandomUtility.intInRange(5, 25))
