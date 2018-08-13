@@ -4,7 +4,7 @@ public interface Commands {
 
     void pause();
 
-    void resume();
+    void resumeGame();
 
     void terminate();
 }
