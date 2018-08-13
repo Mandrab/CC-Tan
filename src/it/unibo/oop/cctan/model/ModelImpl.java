@@ -1,5 +1,8 @@
 package it.unibo.oop.cctan.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
@@ -14,6 +17,12 @@ import it.unibo.oop.cctan.model.generator.SquareGeneratorImpl;
  */
 public class ModelImpl implements Model {
 
+    /*
+     * Questa lista deve contenere tutti i Builder di tutti i powerUp che sono 
+     * all'interno dell'applicazione in modo che vengano generati sempre dei power up diversi.
+     */
+    private static final List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> POWER_UP_TYPES = Arrays.asList(
+            new LaserBlock.LaserBlockBuilder());
     private final ItemGenerator<SquareAgent> squareGenerator;
     private final ItemGenerator<PowerUpBlock> powerupGenerator;
     private final ItemGenerator<Bullet> bulletGenerator;
@@ -139,5 +148,10 @@ public class ModelImpl implements Model {
     @Override
     public GameStatus getGameStatus() {
         return gameStatus;
+    }
+
+    @Override
+    public List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes() {
+        return Collections.unmodifiableList(ModelImpl.POWER_UP_TYPES);
     }
 }
