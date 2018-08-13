@@ -17,10 +17,10 @@ public class ModelImpl implements Model {
     private final ItemGenerator<SquareAgent> squareGenerator;
     private final ItemGenerator<PowerUp> powerupGenerator;
     private final ItemGenerator<Bullet> bulletGenerator;
+    private GameStatus gameStatus;
     private final Shuttle shuttle;
     private final Boundary bound;
     private final Score score;
-    private GameStatus gameStatus;
 
     /**
      * Instance a new Model, creating the default game area boundaries, a new

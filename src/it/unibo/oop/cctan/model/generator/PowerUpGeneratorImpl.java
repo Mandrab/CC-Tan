@@ -1,8 +1,6 @@
 package it.unibo.oop.cctan.model.generator;
 
-import java.util.Random;
 import java.util.function.Supplier;
-
 import it.unibo.oop.cctan.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.LaserBlock;
 import it.unibo.oop.cctan.model.Model;
@@ -11,7 +9,7 @@ import it.unibo.oop.cctan.model.PowerUpBlock;
 import javafx.geometry.Point2D;
 
 public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
-    
+
     private static final int DEFAULT_RATIO = 40000;
     private static Supplier<PowerUpBlock.PowerUpBlockBuilder<?>> type = () -> new LaserBlock.LaserBlockBuilder();
 
