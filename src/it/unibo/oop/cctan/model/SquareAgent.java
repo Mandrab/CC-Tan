@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  * Represent a square block in the map area. Every square has got different hit points, that are the number
  * of hits the square must receive to be destroyed.
  */
-public final class SquareAgent extends MovableItemImpl implements Hittable {
+public class SquareAgent extends MovableItemImpl implements Hittable, MovableItem {
 
     /**
      * The width of the ball.
@@ -30,7 +30,12 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
     private static final int MAGENTA_LIMIT = 90;
     private final Hittable hittableItem;
 
-    private SquareAgent(final SquareBuilder builder) {
+    /**
+     * Create a new SquareAgeng using values contained in the specified builder.
+     * @param builder
+     *                  the builder to construct the square agent
+     */
+    protected SquareAgent(final SquareBuilder builder) {
         super(builder);
         this.hittableItem = new HittableImpl(builder.hp) {
 
@@ -64,8 +69,8 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
      * In this case, after removing the current square, will not be
      * executed other operation.
      */
-    public synchronized void hit() {
-        this.hittableItem.hit();
+    public synchronized void hit(final int damage) {
+        this.hittableItem.hit(damage);
     }
 
     /** 
@@ -83,6 +88,9 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
         return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(), WIDTH, HEIGHT);
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public Color getColor() {
         final int hp = this.hittableItem.getHP();
@@ -102,7 +110,7 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
         final int h = 287, s = 86, b = 70; // HSB components
         return Color.getHSBColor(h, s, b); // purple
     }
-    
+
     /** 
      * {@inheritDoc}
      */
@@ -128,7 +136,7 @@ public final class SquareAgent extends MovableItemImpl implements Hittable {
     protected double getDefaultSpeed() {
         return DEFAULT_SPEED;
     }
-    
+
     /**
      * A basic builder for SquareAgent class.
      */
