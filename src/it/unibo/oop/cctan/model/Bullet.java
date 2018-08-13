@@ -1,13 +1,8 @@
 package it.unibo.oop.cctan.model;
 
-import java.awt.Color;
-
+/**
+ * Represent a generic bullet, that can be ball, laser or what else.
+ */
 public interface Bullet extends MovableItem, Runnable {
 
-    /**
-     * Get the color of the bullets to use in game area.
-     * @return
-     *          the color of the bullets
-     */
-    Color getColor();
 }
