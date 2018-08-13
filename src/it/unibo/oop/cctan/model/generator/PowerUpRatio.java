@@ -1,5 +1,9 @@
 package it.unibo.oop.cctan.model.generator;
 
+/**
+ * The task of this class is to increase the frequency with which the power-ups are generated 
+ * and also increase the points needed to take the power-up.
+ */
 public class PowerUpRatio extends HittableRatio {
 
     private static final int DEFAULT_RATIO = 45000;
@@ -10,10 +14,17 @@ public class PowerUpRatio extends HittableRatio {
     private static final int MAX_RATIO = 20000;
     private static final int MAX_POINTS = 30;
 
+    /**
+     * Set default values for the ratio, speed and points power-up fields.
+     */
     public PowerUpRatio() {
         super(DEFAULT_SPEED, DEFAULT_RATIO, DEFAULT_POINTS);
     }
 
+    /**
+     * Increases the frequency with which power-ups are generated and increases 
+     * the points necessary to get the powerUp.
+     */
     @Override
     public void operationRatio() {
         if (this.getRatio() >= MAX_RATIO + DECREASE_RATIO) {

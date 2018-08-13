@@ -31,9 +31,9 @@ public abstract class TimerRatio extends Thread implements Commands {
     /**
      * Create a new TimerRatio thread.
      * @param speed
-     *          it's the initial speed of the item.
+     *          It's the initial speed of the item.
      * @param ratio
-     *          it's the initial frequency with which the object is generated.
+     *          It's the initial frequency with which the object is generated.
      */
     public TimerRatio(final double speed, final int ratio) {
         super();
