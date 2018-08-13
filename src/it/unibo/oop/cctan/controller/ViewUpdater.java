@@ -39,10 +39,10 @@ class ViewUpdater extends Thread implements CommandsObserver {
         while (!terminated) {
             try {
                 synchronized (this) {
+                    view.refreshGui(Component.GAME_WINDOW);
                     if (suspended) {
                         wait();
                     }
-                    view.refreshGui(Component.GAME_WINDOW);
                 }
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {

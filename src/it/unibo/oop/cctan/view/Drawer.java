@@ -24,6 +24,7 @@ class Drawer {
     private Graphics2D graphics;
     private Font font;
     private Optional<Dimension> gameWindowSize;
+    private Optional<Pair<Integer, Integer>> screenRatio;
     private AffineTransform aTransformation;
 
     /**
@@ -66,7 +67,7 @@ class Drawer {
                    new Dimension(shape.getBounds().width, shape.getBounds().height));
     }
 
-    private void drawString(final String text, final Point textCenter, final Dimension border) {
+    synchronized void drawString(final String text, final Point textCenter, final Dimension border) {
         graphics.setFont(getAdaptedFont(border));
         String[] strings = text.split("\n", -1);
         int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
