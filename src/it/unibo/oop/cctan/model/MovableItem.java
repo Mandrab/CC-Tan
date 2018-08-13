@@ -35,6 +35,6 @@ public interface MovableItem extends FixedItem, Commands {
     /**
      * Resume the item activity, continuing its execution.
      */
-    void resume();
+    void resumeGame();
 
 }
