@@ -2,21 +2,18 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.io.File;
-import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntSupplier;
+
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import it.unibo.oop.cctan.controller.FileLoader;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 /**
  * Loader class test.
@@ -24,121 +21,127 @@ import it.unibo.oop.cctan.interPackageComunication.MappableData;
 public class LoaderJTest {
 
     private static final int SLEEP_TIME = 1500;
-    private static final AtomicInteger AI = new AtomicInteger();
-    private static final int ADVANCE_VALUE = AI.addAndGet(10);
-    private static final int LAST_VALUE = 100;
-    private Loader l = new Loader();
+    private int cicle = 0;
+    private int setImgCicle = 3;
+    private final IntSupplier getAdvance = () -> 10 * cicle++;
+    private Loader l;
 
     @Test
     /**
      * Load-bar visual test.
      */
     public void visualLoad() {
-        View v = new ViewJTest();
+        View v = new ViewJTest() {
+
+            @Override
+            public LoadedFiles getLoadedFiles() {
+                int actual = getAdvance.getAsInt();
+                LoadedFiles lf = new LoadedFilesImpl(actual);
+                if (actual > 10 * setImgCicle) {
+                    lf.setLogo(new ImageIcon(FileLoader.class.getResource("/cctan.jpg")));
+                }
+                return lf;
+            }
+
+        };
+        l = new Loader(v);
 
         try {
-            v.advanceLoading(0);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
-            v.setLoadImage(new ImageIcon(FileLoader.class.getResource("/cctan.jpg")));
-            v.advanceLoading(ADVANCE_VALUE);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
-            v.advanceLoading(ADVANCE_VALUE);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
-            v.advanceLoading(ADVANCE_VALUE);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
-            v.advanceLoading(ADVANCE_VALUE);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
-            v.advanceLoading(LAST_VALUE);
+            l.refresh();
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    /** 
+     * Scheleton class.
+     */
     public class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
 
         @Override
-        public void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio) {
+        /** {@inheritDoc} */
+        public void showGameWindow(final Dimension resolution, final Pair<Integer, Integer> screenRatio) {
         }
 
         @Override
-        public void setLoadImage(ImageIcon img) {
-            l.setLoadImage(img);
-        }
-
-        @Override
+        /** {@inheritDoc} */
         public Optional<Point> getWindowLocation() {
             return Optional.empty();
         }
 
         @Override
-        public int getScore() {
-            return 0;
-        }
-
-        @Override
+        /** {@inheritDoc} */
         public double getMouseRelativePosition() {
             return 0;
         }
 
         @Override
-        public List<MappableData> getListOfMappableData() {
-            return null;
-        }
-
-        @Override
+        /** {@inheritDoc} */
         public Optional<Dimension> getDimension() {
             return Optional.empty();
         }
 
         @Override
-        public void advanceLoading(int value) {
-            l.advanceLoading(value);
+        /** {@inheritDoc} */
+        public void setMouseRelativePosition(final double mouseRelativePosition) {
         }
 
         @Override
-        public void setMouseRelativePosition(double mouseRelativePosition) {
-        }
-
-        @Override
+        /** {@inheritDoc} */
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
         }
 
         @Override
+        /** {@inheritDoc} */
         public void showSettingsWindow() {
-            // TODO Auto-generated method stub
 
         }
 
         @Override
+        /** {@inheritDoc} */
         public Optional<String> getPlayerName() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
+        /** {@inheritDoc} */
         public KeyCommandsListener getKeyCommandsListener() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
+        /** {@inheritDoc} */
         public LoadedFiles getLoadedFiles() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
+        /** {@inheritDoc} */
         public CommandsObserversManager getCommandsObserversManager() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public SizeObserversManager getSizeObserversManager() {
-            // TODO Auto-generated method stub
+        /** {@inheritDoc} */
+        public ModelData getModelData() {
             return null;
+        }
+
+        @Override
+        /** {@inheritDoc} */
+        public void refreshGui() {
         }
     };
 

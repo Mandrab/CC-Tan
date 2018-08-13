@@ -40,7 +40,7 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
     protected void createNewItem() {
         final Bullet bullet = (Bullet) this.bulletSettings.getBulletBuilder()
                 .angle(this.getModel().getShuttle().getAngle())
-                .speed(((BulletRatio) this.getRatio()).getSpeed())
+                .speed(this.bulletSettings.getSpeed(this.getRatio()))
                 .position(this.bulletSettings.getStartingPoint(this.getModel()))
                 .model(this.getModel())
                 .build();
@@ -69,6 +69,18 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
                         model.getShuttle().getTop().getY() - BallAgent.HEIGHT / 2);
             case LASER:
                 return model.getShuttle().getTop();
+            default:
+                throw new IllegalStateException();
+            }
+        }
+
+        public double getSpeed(final TimerRatio timer) {
+            final double defaultSpeed = 0.018;
+            switch (this) {
+            case BALLS:
+                return timer.getSpeed();
+            case LASER:
+                return defaultSpeed;
             default:
                 throw new IllegalStateException();
             }

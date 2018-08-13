@@ -26,6 +26,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 class CommandsJTest {
 
@@ -34,6 +35,7 @@ class CommandsJTest {
     private static final Dimension GAME_WINDOW_SIZE = new Dimension(SCREEN_SIZE.height / 2,
                                                                     SCREEN_SIZE.height / 2);
     private static final Pair<Integer, Integer> SCREEN_RATEO = new ImmutablePair<Integer, Integer>(1, 1);
+    private GameWindow gw;
     private CommandsObserver commandsObserver;
 
     @Test
@@ -48,9 +50,9 @@ class CommandsJTest {
         assertFalse(me.isRunning());
     }
 
-    @Test
+    /*@Test
     void graphicPanelUpdaterJTest() throws InterruptedException {
-        GameWindow gw = new GameWindow(new ViewJTest());
+        gw = new GameWindow(new ViewJTest());
         gw.update(GAME_WINDOW_SIZE, SCREEN_RATEO);
         gw.setVisible(true);
         commandsObserver.newCommand(Commands.START);
@@ -61,7 +63,7 @@ class CommandsJTest {
         Thread.sleep(SLEEP_TIME);
         commandsObserver.newCommand(Commands.END);
         Thread.sleep(SLEEP_TIME);
-    }
+    }*/
 
     private class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
 
@@ -79,8 +81,7 @@ class CommandsJTest {
             return 0;
         }
 
-        @Override
-        public List<MappableData> getListOfMappableData() {
+        private List<MappableData> getListOfMappableData() {
             return IntStream.range(0, 10)
                             .mapToObj(e -> new MappableDataImpl("Ciao", 
                                                                 Color.RED, 
@@ -91,21 +92,12 @@ class CommandsJTest {
                             .collect(Collectors.toList());
         }
 
-        @Override
-        public int getScore() {
+        private int getScore() {
             return (int) (Math.random() * 100);
         }
 
         @Override
-        public void advanceLoading(int value) {
-        }
-
-        @Override
-        public void setLoadImage(ImageIcon img) {
-        }
-
-        @Override
-        public void setMouseRelativePosition(double mouseRelativePosition) {
+        public void setMouseRelativePosition(final double mouseRelativePosition) {
         }
 
         @Override
@@ -167,9 +159,13 @@ class CommandsJTest {
         }
 
         @Override
-        public SizeObserversManager getSizeObserversManager() {
+        public ModelData getModelData() {
             // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public void refreshGui() {
         }
 
     }

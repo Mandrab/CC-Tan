@@ -8,14 +8,12 @@ import it.unibo.oop.cctan.model.generator.ItemGenerator;
 /**
  * The model of the MVC pattern, with methods to manage squares and balls.
  */
-public interface Model {
+public interface Model extends Commands {
 
     /**
      * Start the Model, launching the two generators (both balls and squares).
      */
     void launch();
-
-    void terminate();
 
     /**
      * Get the game area boundaries used by the model.
@@ -33,7 +31,7 @@ public interface Model {
 
     /**
      * Removes the ball from the application.
-     * @param ball
+     * @param bullet
      *          it's the ball that must be removed
      */
     void removeBullet(Bullet bullet);

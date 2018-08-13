@@ -1,12 +1,15 @@
 package it.unibo.oop.cctan.interPackageComunication;
 
 import java.io.File;
+import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+
 public interface LoadedFiles {
 
-    enum ImageReturn {
+    public enum ImageReturn {
 
         LOGO,
 
@@ -14,8 +17,26 @@ public interface LoadedFiles {
 
     }
 
-    File getFontFile();
+    Optional<File> getFontFile();
 
-    ImageIcon getImage(ImageReturn type);
+    Optional<ImageIcon> getImage(ImageReturn type);
     
+    public void setBackground(ImageIcon background);
+
+    public void setLogo(ImageIcon logo);
+
+    public void setFontFile(File fontFile);
+    
+    public int getPercentage();
+    
+    /**
+     * Sets the percentage of advance of loading. If the number is less than 0 or
+     * exceeds 100, the change is ignored.
+     * 
+     * @param percentage
+     *            the percentage (es. 1 -> 1%, 40 -> 40%)
+     */
+    void setPercentage(int percentage);
+
+
 }

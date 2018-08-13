@@ -3,7 +3,7 @@ package it.unibo.oop.cctan.model;
 /**
  * Represent an item that can also change its position during his life.
  */
-public interface MovableItem extends FixedItem {
+public interface MovableItem extends FixedItem, Commands {
 
     /**
      * Get the movement speed of the item express in units per refresh. A unit is
@@ -26,5 +26,15 @@ public interface MovableItem extends FixedItem {
      * Stop the item activity, terminating its execution.
      */
     void terminate();
+
+    /**
+     * Pause the item activity, locking its execution.
+     */
+    void pause();
+
+    /**
+     * Resume the item activity, continuing its execution.
+     */
+    void resume();
 
 }

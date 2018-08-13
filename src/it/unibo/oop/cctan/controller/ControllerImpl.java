@@ -1,58 +1,29 @@
 package it.unibo.oop.cctan.controller;
 
-import java.io.File;
-import java.util.List;
 import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
 
 public class ControllerImpl implements Controller {
 
-    private Optional<View> view;
+    private Optional<View> view = Optional.empty();
     private Model model;
-    private MappableDataAdapter mappableDataAdapter;
     private FileLoader fileLoader;
-    
-    public ControllerImpl() {
-        model = new ModelImpl();
-        model.launch();
-        mappableDataAdapter = new MappableDataAdapter(model);
-    }
-    
-    @Override
-    public List<MappableData> getListOfMappableData() {
-        return mappableDataAdapter.getListOfMappableData();
-    }
-
-    @Override
-    public int getScore() {
-        return model.getScore().getPoints();
-    }
-
-    @Override
-    public void advanceLoading(int value) {
-        if(view.isPresent()) {
-            view.get().advanceLoading(value);
-        }
-    }
+    private ViewUpdater viewUpdater;
 
     @Override
     public void setView(View v) {
-        this.view = Optional.of(v);
         fileLoader = new FileLoader(this);
-    }
-
-    @Override
-    public void setLoadImage(ImageIcon img) {
-        if(view.isPresent()) {
-            view.get().setLoadImage(img);
-        }
+        this.view = Optional.of(v);
+        fileLoader.start();
     }
 
     @Override
@@ -63,6 +34,39 @@ public class ControllerImpl implements Controller {
     @Override
     public LoadedFiles getLoadedFiles() {
         return fileLoader.getLoadedFiles();
+    }
+
+    @Override
+    public ModelData getModelData() {
+        return viewUpdater.getModelData();
+    }
+
+    @Override
+    public void newCommand(final Commands command) {
+        switch (command) {
+            case START:
+                model = new ModelImpl();
+                model.launch();
+                viewUpdater = new ViewUpdater(view.get(), model);
+                break;
+            case PAUSE:
+                //model pausa (se non lo fa da solo)
+                break;
+            case RESUME:
+                //model resume (se non lo fa da solo)
+                break;
+            case END:
+                //model end (se non lo fa da solo)
+                viewUpdater.terminate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void refreshGui() {
+        view.ifPresent(v -> v.refreshGui());
     }
 
 }

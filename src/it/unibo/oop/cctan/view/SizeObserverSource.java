@@ -1,5 +1,10 @@
 package it.unibo.oop.cctan.view;
 
+import java.awt.Dimension;
+import java.util.Optional;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * An interface that specifies the method that a SizeObserverSource class must
  * implement.
@@ -21,5 +26,9 @@ interface SizeObserverSource {
      *            is a class that implements SizeObserver interface
      */
     void removeSizeObserver(SizeObserver sizeObserver);
+
+    Optional<Dimension> getDimension();
+
+    Optional<Pair<Integer, Integer>> getRatio();
 
 }

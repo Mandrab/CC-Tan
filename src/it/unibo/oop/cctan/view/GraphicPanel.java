@@ -3,10 +3,12 @@ package it.unibo.oop.cctan.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -16,12 +18,15 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
+import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interPackageComunication.ModelData.GameStatus;
 
-class GraphicPanel extends JPanel implements CommandsObserverChainOfResponsibility {
+class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7947210167853025169L;
+    private static final int OPACITY_VALUE = 127; // [0 - 127]; 0 = transparent, 255 = normal
     private GameWindow gameWindow;
-    private GraphicPanelUpdater updater;
     private Drawer drawer;
     private Optional<Dimension> dimension;
     private List<MappableData> mappableDatas;
@@ -31,14 +36,10 @@ class GraphicPanel extends JPanel implements CommandsObserverChainOfResponsibili
 
     GraphicPanel(final GameWindow gw, final File file) {
         gameWindow = gw;
-        setCommandsSuccessor(gw);
         mappableDatas = new LinkedList<>();
         score = 0;
 
         drawer = new Drawer(file);
-
-        updater = new GraphicPanelUpdater(this);
-        updater.start();
     }
 
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
@@ -63,42 +64,36 @@ class GraphicPanel extends JPanel implements CommandsObserverChainOfResponsibili
         }
     }
 
-    void redraw(final List<MappableData> mappableDatas) {
+    void redraw(final List<MappableData> mappableDatas, final int score) {
         synchronized (this) {
             this.mappableDatas = mappableDatas;
         }
-        this.score = gameWindow.getScore();
+        this.score = score;
         repaint();
     }
 
-    public List<MappableData> getListOfMappableData() {
-        return gameWindow.getListOfMappableData();
+    public void refresh(ModelData modelData) {
+        if (modelData.getGameStatus() == GameStatus.RUNNING) {
+            redraw(modelData.getMappableDatas(), modelData.getScore());
+        } else {
+            redraw(addPrintableText(modelData, modelData.getGameStatus().name() + "!" + System.lineSeparator() + modelData.getScore()), modelData.getScore());
+        }
     }
 
-    public int getScore() {
-        return gameWindow.getScore();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility successor) {
-        this.commandsObserverTransitiveSource = successor != null ? Optional.of(successor) : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
-        this.commandsObserverSource = commandsObserverSource != null ? Optional.of(commandsObserverSource)
-                : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public Optional<CommandsObserverSource> getCommandsObserverSource() {
-        return commandsObserverSource.isPresent() ? commandsObserverSource
-                : commandsObserverTransitiveSource.isPresent()
-                        ? commandsObserverTransitiveSource.get().getCommandsObserverSource()
-                        : Optional.empty();
+    /**
+     * Modifies the mappable data list to show a centered message. The other object
+     * will become opacities.
+     * 
+     * @param text
+     *            The message to be printed.
+     * @return The new list that now include the message
+     */
+    private List<MappableData> addPrintableText(final ModelData modelData, final String text) {
+        List<MappableData> l = modelData.getMappableDatas().stream().map(e -> new MappableDataImpl(e.getText(),
+                new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
+                e.getShape())).collect(Collectors.toList());
+        l.add(new MappableDataImpl(text, Color.RED, new Rectangle2D.Double(-1, -1, 2d, 2d)));
+        return l;
     }
 
 }

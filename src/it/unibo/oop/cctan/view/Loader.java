@@ -15,12 +15,15 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+
 /**
  * A class that takes care to show the loading percentage of the application. 
  */
-class Loader {
+class Loader extends JWindow {
 
-    private JWindow window;
+    private View view;
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension windowSize = new Dimension((int) (screenSize.getWidth() / 5),
                                                               (int) (screenSize.getHeight() / 5));
@@ -28,11 +31,11 @@ class Loader {
     private JProgressBar progressBar;
     private JLabel pBarPercentage;
 
-    public Loader() {
-        window = new JWindow();
-        window.setMinimumSize(windowSize);
-        window.setMaximumSize(windowSize);
-        centerWindow(window);
+    public Loader(View view) {
+        this.view = view;
+        setMinimumSize(windowSize);
+        setMaximumSize(windowSize);
+        centerWindow(this);
 
         containerLabel = new JLabel("Loading...", SwingConstants.CENTER);
         containerLabel.setBackground(Color.BLACK);
@@ -60,9 +63,9 @@ class Loader {
         gbc.weighty = 1.0;
         containerLabel.add(Box.createGlue(), gbc);
 
-        window.add(containerLabel);
-        window.pack();
-        window.setVisible(true);
+        add(containerLabel);
+        pack();
+        setVisible(true);
     }
 
     /**
@@ -72,14 +75,15 @@ class Loader {
      * @param value
      *            the percentage (es. 1 -> 1%, 40 -> 40%)
      */
-    public void advanceLoading(Integer value) {
+    private void advanceLoading(Integer value) {
         if (0 <= value && value <= 100) {
             progressBar.setValue(value);
             pBarPercentage.setText(value.toString() + "%");
             if (value == 100) {
                 try {
                     Thread.sleep(2000);
-                    window.setVisible(false);
+                    setVisible(false);
+                    view.showSettingsWindow();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -93,7 +97,7 @@ class Loader {
      * @param img
      *            is the imageIcon that will be load in the background
      */
-    public void setLoadImage(ImageIcon img) {
+    private void setLoadImage(ImageIcon img) {
         containerLabel.setText("");
         containerLabel.setIcon(new ImageIcon(img.getImage()
                                                 .getScaledInstance(windowSize.width, 
@@ -108,7 +112,13 @@ class Loader {
      *            the window to be centered
      */
     private void centerWindow(JWindow window) {
-        window.setLocation((int) ((screenSize.getWidth() - windowSize.getWidth()) / 2),
-                           (int) ((screenSize.getHeight() - windowSize.getHeight()) / 2));
+        setLocation((int) ((screenSize.getWidth() - windowSize.getWidth()) / 2),
+                    (int) ((screenSize.getHeight() - windowSize.getHeight()) / 2));
+    }
+
+    public void refresh() {
+        LoadedFiles loadedFiles = view.getLoadedFiles();
+        advanceLoading(loadedFiles.getPercentage());
+        loadedFiles.getImage(ImageReturn.LOGO).ifPresent(img -> setLoadImage(img));
     }
 }
