@@ -4,7 +4,8 @@ import it.unibo.oop.cctan.model.Commands;
 
 /**
  * This abstract class is a kind of timer that executes the operationRatio method 
- * at the end of every minute. 
+ * at the end of every minute. The operationRatio method is used to change the speed 
+ * and/or the frequency with which the objects (which implement this class) are generated.
  */
 public abstract class TimerRatio extends Thread implements Commands {
 
@@ -42,6 +43,9 @@ public abstract class TimerRatio extends Thread implements Commands {
         this.suspend = false;
     }
 
+    /**
+     * It's responsible for executing the operationRatio method at the end of every minute.
+     */
     @Override
     public void run() {
         while (!stop) {
@@ -96,7 +100,6 @@ public abstract class TimerRatio extends Thread implements Commands {
         this.suspend = false;
         notifyAll();
     }
-
 
     /**
      * @return
