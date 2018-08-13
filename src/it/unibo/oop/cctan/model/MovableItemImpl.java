@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
  * Represents any object capable of moving in the game area (i.e. ball, square)
  *
  */
-public abstract class MovableItemImpl extends FixedItemImpl implements MovableItem, Runnable {
+public abstract class MovableItemImpl extends FixedItemImpl implements MovableItem, Commands, Runnable {
 
     private static final int REFRESH_RATIO = 20;
 
@@ -50,7 +50,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
                     if (suspend) {
                         wait();
                     }
-                    if (!stop) { //magari nel mentre il gioco è terminato...
+                    if (!stop || !suspend) { //magari nel mentre il gioco è terminato...
                         updatePos();
                     }
                 }
@@ -64,6 +64,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     /** 
      * {@inheritDoc}
      */
+    @Override
     public synchronized void terminate() {
         if (this.suspend) {
             this.suspend = false;
@@ -75,6 +76,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     /** 
      * {@inheritDoc}
      */
+    @Override
     public synchronized void pause() {
         this.suspend = true;
     }
@@ -82,7 +84,8 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     /** 
      * {@inheritDoc}
      */
-    public synchronized void resume() {
+    @Override
+    public synchronized void resumeGame() {
         this.suspend = false;
         notifyAll();
     }
