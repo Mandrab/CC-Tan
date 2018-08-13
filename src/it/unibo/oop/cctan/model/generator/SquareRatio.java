@@ -6,14 +6,14 @@ package it.unibo.oop.cctan.model.generator;
  * which the squares are generated is increased, the speed with which the squares move is increased 
  * and the initial life of each square is also increased.
  */
-public class SquareRatio extends TimerRatio {
+public class SquareRatio extends HittableRatio {
 
     /**
      * Indicates the life of squares when the application is started.
      */
-    public static final int DEFAULT_POINTS = 15;
+    public static final int DEFAULT_POINTS = 5;
     private static final int DEFAULT_RATIO = 3000;
-    private static final double DEFAULT_SPEED = 0.0005; //3
+    private static final double DEFAULT_SPEED = 0.0005;
 
     private static final int MAX_RATIO = 800;
     private static final int DECREASE_RATIO = 60;
@@ -21,14 +21,11 @@ public class SquareRatio extends TimerRatio {
     private static final int INCREASE_POINTS = 6;
     private static final double INCREASE_SPEED = 0.00008;
 
-    private int points;
-
     /**
      * Set default values for the points, ratio and speed fields.
      */
     public SquareRatio() {
-        super(DEFAULT_SPEED, DEFAULT_RATIO);
-        this.points = 1;
+        super(DEFAULT_SPEED, DEFAULT_RATIO, DEFAULT_POINTS);
     }
 
     /**
@@ -37,21 +34,13 @@ public class SquareRatio extends TimerRatio {
      */
     @Override
     public void operationRatio() {
-        if (this.getRatio() > MAX_RATIO) {
+        if (this.getRatio() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getRatio() - DECREASE_RATIO);
         }
-        if (this.getSpeed() < MAX_SPEED) {
+        if (this.getSpeed() <= MAX_SPEED - INCREASE_SPEED) {
             this.setSpeed(this.getSpeed() + INCREASE_SPEED);
         }
-        this.points = this.points + INCREASE_POINTS;
-    }
-
-    /**
-     * @return
-     *          points field
-     */
-    public int getPoints() {
-        return this.points;
+        this.setPoints(this.getPoints() + INCREASE_POINTS);
     }
 
 }
