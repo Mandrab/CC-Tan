@@ -33,6 +33,7 @@ public class ModelImpl implements Model {
         this.bulletGenerator = new BulletGeneratorImpl(this);
         this.powerupGenerator = new PowerUpGeneratorImpl(this);
         this.shuttle = new ShuttleImpl(this);
+        this.gameStatus = GameStatus.ENDED;
     }
 
     /**
@@ -48,18 +49,22 @@ public class ModelImpl implements Model {
      */
     @Override
     public void launch() {
-        this.squareGenerator.launch();
-        this.bulletGenerator.launch();
-        this.powerupGenerator.launch();
-        gameStatus = GameStatus.RUNNING;
+        if (gameStatus.equals(GameStatus.ENDED)) {
+            squareGenerator.launch();
+            bulletGenerator.launch();
+            powerupGenerator.launch();
+            gameStatus = GameStatus.RUNNING;
+        }
     }
 
     @Override
     public void terminate() {
-        this.squareGenerator.terminate();
-        this.bulletGenerator.terminate();
-        this.powerupGenerator.terminate();
-        gameStatus = GameStatus.ENDED;
+        if (!gameStatus.equals(GameStatus.ENDED)) {
+            squareGenerator.terminate();
+            bulletGenerator.terminate();
+            powerupGenerator.terminate();
+            gameStatus = GameStatus.ENDED;
+        }
     }
 
     /**
@@ -113,18 +118,22 @@ public class ModelImpl implements Model {
 
     @Override
     public void pause() {
-        this.bulletGenerator.getItems().forEach(b->b.pause());
-        this.squareGenerator.getItems().forEach(s->s.pause());
-        //mettere in pausa i singoli generatori...
-        gameStatus = GameStatus.PAUSED;
+        if (gameStatus.equals(GameStatus.RUNNING)) {
+            bulletGenerator.getItems().forEach(b->b.pause());
+            squareGenerator.getItems().forEach(s->s.pause());
+            //mettere in pausa i singoli generatori...
+            gameStatus = GameStatus.PAUSED;
+        }
     }
 
     @Override
     public void resume() {
-        this.bulletGenerator.getItems().forEach(b->b.resume());
-        this.squareGenerator.getItems().forEach(s->s.resume());
-        //riprendere l'esecuzione dei singoli generatori...
-        gameStatus = GameStatus.RUNNING;
+        if (gameStatus.equals(GameStatus.PAUSED)) {
+            bulletGenerator.getItems().forEach(b->b.resume());
+            squareGenerator.getItems().forEach(s->s.resume());
+            //riprendere l'esecuzione dei singoli generatori...
+            gameStatus = GameStatus.RUNNING;
+        }
     }
 
     @Override
