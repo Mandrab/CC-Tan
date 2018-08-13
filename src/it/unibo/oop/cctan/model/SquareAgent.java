@@ -5,6 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
+
 /**
  * Represent a square block in the map area. Every square has got different hit points, that are the number
  * of hits the square must receive to be destroyed.
@@ -120,11 +122,8 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
             final Area sqArea = new Area(this.getShape());
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
-                this.getModel().removeSquare(this);
-                this.terminate();
-//                this.getModel().getSquareAgents().forEach(sa -> this.getModel().removeSquare(sa));
-//                this.getModel().getBallAgents().forEach(ba -> this.getModel().removeBall(ba)); 
-                System.out.println("Game-over!");
+                this.getModel().pause(); 
+                this.getModel().setGameStatus(GameStatus.ENDED);
             }
         }
     }
