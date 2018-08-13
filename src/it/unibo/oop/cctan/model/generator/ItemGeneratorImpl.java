@@ -12,6 +12,7 @@ import java.util.List;
 public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
     private boolean stop;
+    private boolean suspend;
     private final Model model;
     private final List<T> items;
     private final TimerRatio ratio;
@@ -32,6 +33,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
         this.stop = false;
         this.ratio = time;
         this.model = model;
+        this.suspend = false;
         this.items = new ArrayList<>();
     }
 
@@ -40,14 +42,20 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * the TimerRatio object because it takes care of varying the frequency with which the 
      * movable objects are generated. 
      */
-    @Override
     public void run() {
         while (!stop) {
-            createNewItem();
             try {
-                Thread.sleep(ratio.getRatio());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                synchronized (this) {
+                    if (this.suspend) {
+                        wait();
+                    }
+                    if (!this.stop || !this.suspend) { //magari nel mentre il gioco è terminato...
+                        createNewItem();
+                    }
+                }
+                Thread.sleep(this.ratio.getRatio());
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -57,6 +65,35 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * to the MovableItem that must be generated.
      */
     protected abstract void createNewItem();
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void terminate() {
+        if (this.suspend) {
+            this.suspend = false;
+        }
+        this.stop = true;
+        notifyAll();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void pause() {
+        this.suspend = true;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void resumeGame() {
+        this.suspend = false;
+        notifyAll();
+    }
 
     /**
      * {@inheritDoc} 
@@ -74,14 +111,6 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     public void launch() {
         this.ratio.start();
         super.start();
-    }
-
-    /**
-     * This method is used to stop this thread.
-     */
-    @Override
-    public void terminate() {
-        this.stop = true;
     }
 
     /**

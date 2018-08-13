@@ -62,7 +62,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
                 model.pause();
                 break;
             case RESUME:
-                model.resume();
+                model.resumeGame();
                 break;
             case END:
                 model.terminate();

@@ -45,7 +45,7 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
         new Thread(bullet).start();
     }
 
-    public static enum BulletGeneratorSettings {
+    public enum BulletGeneratorSettings {
 
         BALLS(() -> new BallAgent.BallBuilder()), LASER(() -> new LaserAgent.LaserBuilder());
 
