@@ -226,19 +226,19 @@ public class SettingsWindow extends SizeObserverSourceImpl {
     public String getPlayerName() {
         return playerNick;
     }
-    
+
      @Override
     public Optional<Dimension> getDimension() {
          return gameWindowSize;
     }
-     
+
     @Override
     public Optional<Pair<Integer, Integer>> getRatio() {
         return gameWindowRatio;
     }
 
     /**
-     * get method for the clip of the menu
+     * get method for the clip of the menu.
      * 
      * @return the clip of the menu if it's present, if not it return null
      */
@@ -268,15 +268,15 @@ public class SettingsWindow extends SizeObserverSourceImpl {
 
     }
 
-    private Pair<Integer, Integer> stringToPair(String s) {
-        String[] strings = s.split(":");
+    private Pair<Integer, Integer> stringToPair(final String string) {
+        String[] strings = string.split(":");
         int x = Integer.parseInt(strings[0]);
         int y = Integer.parseInt(strings[1]);
         return new ImmutablePair<>(x, y);
     }
 
-    private Dimension stringToDim(String s) {
-        String[] strings = s.split(":");
+    private Dimension stringToDim(final String string) {
+        String[] strings = string.split(":");
         int width = Integer.parseInt(strings[0]);
         int height = Integer.parseInt(strings[1]);
         return new Dimension(width, height);

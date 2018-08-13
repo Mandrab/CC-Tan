@@ -64,7 +64,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     /** 
      * {@inheritDoc}
      */
-    public void terminate() {
+    public synchronized void terminate() {
         if (this.pause) {
             this.pause = false;
         }
@@ -75,14 +75,14 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     /** 
      * {@inheritDoc}
      */
-    public void pause() {
+    public synchronized void pause() {
         this.pause = true;
     }
 
     /** 
      * {@inheritDoc}
      */
-    public void resume() {
+    public synchronized void resume() {
         this.pause = false;
         notifyAll();
     }
