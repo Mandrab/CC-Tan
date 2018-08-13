@@ -33,7 +33,7 @@ public class PauseWindow {
 
         JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
 
-        //TODO impostare sicuro di volr uscire dal gioco?
+        // TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainFrame.setLayout(new BorderLayout());
@@ -104,11 +104,12 @@ public class PauseWindow {
                 Records rec = new Records();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
-                //MANDARE IL VOMANDO reset end e start
+                // MANDARE IL VOMANDO reset end e start
                 view.getKeyCommandsListener().setReset(true);
                 view.getKeyCommandsListener().endCommand();
                 view.getKeyCommandsListener().startCommand();
 
+                view.getKeyCommandsListener().setLockResumeKey(false);
                 mainFrame.dispose();
             }
         });
@@ -125,6 +126,7 @@ public class PauseWindow {
                 view.getKeyCommandsListener().endCommand();
                 System.out.println("colpa del pause window");
                 view.showSettingsWindow();
+                view.getKeyCommandsListener().setLockResumeKey(false);
                 mainFrame.dispose();
             }
         });
@@ -134,14 +136,8 @@ public class PauseWindow {
         });
 
         resumeBtn.addActionListener(e -> {
-            // TODO Auto-generated method stub
-            // richiama il metodo resume del keyCommandListener
-
-            /*KeyCommandsListener c = view.getKeyCommandsListener();
-            c.keyEscPaused(false);
-            c.resumeCommand();*/
-
-            view.getKeyCommandsListener().forceCommand(Commands.PAUSE);
+            view.getKeyCommandsListener().setLockResumeKey(false);
+            view.getKeyCommandsListener().forceCommand(Commands.RESUME);
             mainFrame.dispose();
         });
     }

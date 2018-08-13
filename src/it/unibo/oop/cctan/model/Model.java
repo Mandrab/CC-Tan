@@ -38,7 +38,7 @@ public interface Model extends Commands {
      */
     void removeBullet(Bullet bullet);
 
-    void removePowerUp(PowerUp powerup);
+    void removePowerUp(PowerUpBlock powerup);
 
     /**
      * Returns the list of the balls that are present in the application.
@@ -64,7 +64,7 @@ public interface Model extends Commands {
      */
     List<SquareAgent> getSquareAgents();
 
-    List<PowerUp> getPowerUpBlocks();
+    List<PowerUpBlock> getPowerUpBlocks();
 
     ItemGenerator<Bullet> getBulletGenerator();
 

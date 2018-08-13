@@ -53,6 +53,11 @@ public interface FixedItem {
      */
     Shape getShape();
 
+    /**
+     * Get item's color that view will use to paint it.
+     * @return
+     *          the item's color to be used by the view
+     */
     Color getColor();
 
     /**

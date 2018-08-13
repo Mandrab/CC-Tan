@@ -8,16 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-
 import it.unibo.oop.cctan.geometry.Side;
 import javafx.geometry.Point2D;
 
@@ -25,7 +18,7 @@ import javafx.geometry.Point2D;
  * Represent a ball outgoing from the shuttle. They can also be considered like the shots of the shuttle.
  * Every time a ball hits a square, the square's hit points will be decreased by 1.
  */
-public final class BallAgent extends BulletImpl implements Bullet {
+public class BallAgent extends BulletImpl implements Bullet {
 
     /**
      * The width of the ball.
@@ -38,11 +31,15 @@ public final class BallAgent extends BulletImpl implements Bullet {
     public static final double HEIGHT = 0.05;
 
     private static final double DEFAULT_SPEED = 0.001;
-    private Optional<FixedItem> lastCollision;
+    private static final int DAMAGE = 1;
 
-    private BallAgent(final BallBuilder builder) {
+    /**
+     * Create a new BallAgent using values contained in the specified builder.
+     * @param builder
+     *                  the builder to construct the ball agent
+     */
+    protected BallAgent(final BallBuilder builder) {
         super(builder);
-        this.lastCollision = Optional.empty();
     }
 
     /** 
@@ -91,7 +88,7 @@ public final class BallAgent extends BulletImpl implements Bullet {
     @Override
     protected void updatePos() {
         super.updatePos();
-        this.lastCollision = this.checkIntersecate(this.lastCollision);
+        this.checkIntersecate(this.getLastCollision(), DAMAGE);
     }
 
     /** 
@@ -100,15 +97,12 @@ public final class BallAgent extends BulletImpl implements Bullet {
     @Override
     protected void updateAngle(final SquareAgent rect) {
         Side side = getImpactSide(rect);
-        final double ballCenterX = this.getPos().getX() + WIDTH / 2;
-        final double ballCenterY = this.getPos().getY() + HEIGHT / 2;
-
         if (side != Side.CORNER) {
             this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
         } else {
-            final List<Double> distances = this.getDistancesFromPoint(new Point2D(ballCenterX, ballCenterY),
-                    rect.getShape().getPathIterator(null));
-            final NavigableSet<Pair<Side, Double>> vertexDistances =  new TreeSet<>(Arrays.asList(
+            final List<Double> distances = this.getDistancesFromPoint(new Point2D(this.getPos().getX() + WIDTH / 2,
+                    this.getPos().getY() + HEIGHT / 2), rect.getShape().getPathIterator(null));
+            final List<Pair<Side, Double>> vertexDistances =  new ArrayList<>(Arrays.asList(
                     new ImmutablePair<>(Side.RIGHT_BOTTOM_CORNER, distances.get(0)),
                     new ImmutablePair<>(Side.RIGHT_TOP_CORNER, distances.get(1)),
                     new ImmutablePair<>(Side.LEFT_TOP_CORNER, distances.get(2)),
@@ -134,7 +128,7 @@ public final class BallAgent extends BulletImpl implements Bullet {
             return Side.CORNER;
         }
     }
-    
+
     //Vertexes in rectangle path iterators are slide counterclockwise, from right-bottom ones to left-bottom
     private List<Double> getDistancesFromPoint(final Point2D point, final PathIterator pathIterator) {
         final int length = 6;

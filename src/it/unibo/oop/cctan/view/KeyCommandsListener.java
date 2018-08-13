@@ -14,6 +14,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
     private KeyListener keyListener;
     private GameStatus actualState = GameStatus.ENDED;
     private boolean reset;
+    private boolean lockResumeKey;
 
     private static final int P_KEY_VALUE = 80;
     private static final int SPACE_KEY_VALUE = 32;
@@ -31,13 +32,16 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 switch (keyCode) {
                     case P_KEY_VALUE:
                     case SPACE_KEY_VALUE:
-                        getCommandsObservers().forEach(co -> co.newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
-                        actualState = actualState.denies();
+                        if (!lockResumeKey) {
+                            getCommandsObservers().forEach(co -> co.newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
+                            actualState = actualState.denies();
+                        }
                         break;
                     case ESC_KEY_VALUE:
                         if (actualState.equals(GameStatus.RUNNING)) {
                             getCommandsObservers().forEach(co -> co.newCommand(Commands.PAUSE));
                             actualState = actualState.denies();
+                            setLockResumeKey(true);
 
                             // avvia schermata ESC
                             new PauseWindow(view);
@@ -47,6 +51,14 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 }
             }
         };
+    }
+
+    public void setLockResumeKey(boolean lockResumeKey) {
+        this.lockResumeKey = lockResumeKey;
+    }
+
+    public boolean getLockResumeKey() {
+        return lockResumeKey;
     }
 
     public KeyListener getKeyListener() {
@@ -102,6 +114,10 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     public synchronized void setReset(final boolean reset) {
         this.reset = reset;
+    }
+    
+    public GameStatus getActualState() {
+        return this.actualState;
     }
 
     public synchronized void forceCommand(final Commands command) {

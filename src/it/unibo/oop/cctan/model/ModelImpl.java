@@ -15,7 +15,7 @@ import it.unibo.oop.cctan.model.generator.SquareGeneratorImpl;
 public class ModelImpl implements Model {
 
     private final ItemGenerator<SquareAgent> squareGenerator;
-    private final ItemGenerator<PowerUp> powerupGenerator;
+    private final ItemGenerator<PowerUpBlock> powerupGenerator;
     private final ItemGenerator<Bullet> bulletGenerator;
     private GameStatus gameStatus;
     private final Shuttle shuttle;
@@ -107,12 +107,12 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void removePowerUp(PowerUp powerup) {
+    public void removePowerUp(PowerUpBlock powerup) {
         this.powerupGenerator.removeItem(powerup);
     }
 
     @Override
-    public List<PowerUp> getPowerUpBlocks() {
+    public List<PowerUpBlock> getPowerUpBlocks() {
         return this.powerupGenerator.getItems();
     }
 

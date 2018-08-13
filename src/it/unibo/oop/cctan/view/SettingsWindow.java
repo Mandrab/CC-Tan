@@ -249,7 +249,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         return null;
     }
 
-    // TODO rendere la clip stoppabile e avviabile i
+    //TODO
     public static void music() {
         try {
             if (!clip.isPresent()) {

@@ -88,6 +88,7 @@ public class MenuWindow extends JFrame {
         constraints.gridx = 0;
         constraints.gridy = 6;
         background.add(exitBtn, constraints);
+        
         JButton soundsBtn = new JButton("Mute");
         constraints.gridx = 1;
         constraints.gridy = 6;

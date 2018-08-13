@@ -1,15 +1,14 @@
 package it.unibo.oop.cctan.model;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-import java.util.function.Supplier;
-
 import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl.BulletGeneratorSettings;
-import javafx.geometry.Point2D;
 
-public class LaserBlock extends PowerUpBlock implements PowerUp {
+/**
+ * The laser block power-up implementation. It represent the block to be destroyed
+ * by bullets to then activate power-up (i.e. laser bullets).
+ */
+public class LaserBlock extends PowerUpBlockImpl implements PowerUpBlock {
 
     private static final String NAME = "Laser";
     private static final String SYMBOL = "X";
@@ -17,16 +16,23 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
     private static final double HEIGHT = 0.1;
     private static final int DURATION = 10000;
 
-    protected LaserBlock(LaserBlockBuilder builder) {
+    /**
+     * Create a new LaserBlock using values contained in the specified builder.
+     * @param builder
+     *                  the builder to construct the laser block
+     */
+    protected LaserBlock(final LaserBlockBuilder builder) {
         super(builder);
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public void use() {
 
         ((BulletGeneratorImpl) this.getModel().getBulletGenerator())
                 .setBulletSettings(BulletGeneratorSettings.LASER);
-
         new Thread(new Runnable() {
 
             @Override
@@ -42,26 +48,41 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
         }).start();
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public Color getColor() {
         return Color.RED;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return NAME;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public String getSymbol() {
         return SYMBOL;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public double getWidth() {
         return WIDTH;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public double getHeight() {
         return HEIGHT;
@@ -70,7 +91,7 @@ public class LaserBlock extends PowerUpBlock implements PowerUp {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class LaserBlockBuilder extends PowerUpBlock.PowerUpBlockBuilder<LaserBlockBuilder> {
+    public static class LaserBlockBuilder extends PowerUpBlockImpl.PowerUpBlockBuilder<LaserBlockBuilder> {
 
         /** 
          * {@inheritDoc}
