@@ -39,7 +39,7 @@ class ViewUpdater extends Thread implements CommandsObserver {
     public void run() {
         while (!terminated) {
             try {
-                if (model.getGameStatus().equals(GameStatus.ENDED)) {
+                if (model.getGameStatus() == GameStatus.ENDED) {
                     view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
                 }
                 view.refreshGui(Component.GAME_WINDOW);
