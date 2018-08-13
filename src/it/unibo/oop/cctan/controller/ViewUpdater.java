@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.controller;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
@@ -38,8 +39,11 @@ class ViewUpdater extends Thread implements CommandsObserver {
     public void run() {
         while (!terminated) {
             try {
+                if (model.getGameStatus().equals(GameStatus.ENDED)) {
+                    view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
+                }
+                view.refreshGui(Component.GAME_WINDOW);
                 synchronized (this) {
-                    view.refreshGui(Component.GAME_WINDOW);
                     if (suspended) {
                         wait();
                     }

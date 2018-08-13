@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -22,8 +21,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import com.sun.imageio.spi.InputStreamImageInputStreamSpi;
-
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.view.View.Component;
@@ -35,7 +32,7 @@ public class FileLoader extends Thread {
     private static final String DIRECTORY_IMG = "/img";
     private static final String DIRECTORY_SCORE = "/score";
     private static final String SCORE_FILE_SCORES = "/Scores";
-//    private static final String IMG_JPG_BACKGROUND = "/background2.jpg";
+    //private static final String IMG_JPG_BACKGROUND = "/background2.jpg";
     private static final String IMG_JPG_LOGO = "/cctan.jpg";
     private static final String IMG_SVG_LOGO = "/cctan.svg";
     private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf")
@@ -72,28 +69,30 @@ public class FileLoader extends Thread {
         loadedFiles.setLogo(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
         percentage = 40;
         controller.refreshGui(Component.LOADER);
-        
-        
-//        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_BACKGROUND), LinkOption.NOFOLLOW_LINKS)) {
-//            loadedFiles.setBackground(new ImageIcon(FileLoader.class.getResource(IMG_JPG_BACKGROUND)));
-//            controller.refreshGui(Component.LOADER);
-//        }
-//        loadedFiles.setBackground(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_BACKGROUND));
-//        //Files.copy(new InputStreamImageInputStreamSpi()., target, options)
-//        percentage = 50;
-//        controller.refreshGui(Component.LOADER);
-        
+
+        // if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_BACKGROUND),
+        // LinkOption.NOFOLLOW_LINKS)) {
+        // loadedFiles.setBackground(new
+        // ImageIcon(FileLoader.class.getResource(IMG_JPG_BACKGROUND)));
+        // controller.refreshGui(Component.LOADER);
+        // }
+        // loadedFiles.setBackground(new ImageIcon(PATH + DIRECTORY_IMG +
+        // IMG_JPG_BACKGROUND));
+        // //Files.copy(new InputStreamImageInputStreamSpi()., target, options)
+        // percentage = 50;
+        // controller.refreshGui(Component.LOADER);
+
         if (Files.notExists(Paths.get(PATH, DIRECTORY_SCORE + SCORE_FILE_SCORES), LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setScores(new File(SCORE_FILE_SCORES));
             try {
                 File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
                 boolean fvar;
                 fvar = file.createNewFile();
-            if (fvar) {
-                System.out.println("File has been created successfully");
-            } else {
-                System.out.println("File already present at the specified location");
-            }
+                if (fvar) {
+                    System.out.println("File has been created successfully");
+                } else {
+                    System.out.println("File already present at the specified location");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,7 +101,6 @@ public class FileLoader extends Thread {
         loadedFiles.setScores(new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES));
         percentage = 80;
         controller.refreshGui(Component.LOADER);
-
 
         loadedFiles.setFontFile(new File(FONT_SUBSPACE));
         percentage = 100;

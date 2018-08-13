@@ -2,13 +2,17 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Shape;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
+import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,21 +20,21 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.controller.Controller;
-import it.unibo.oop.cctan.controller.ControllerImpl;
-import it.unibo.oop.cctan.controller.FileLoader;
-import it.unibo.oop.cctan.interPackageComunication.Commands;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
+import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelData.GameStatus;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
+import it.unibo.oop.cctan.view.View.Component;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class DrawJTest {
 
     private static final int REFRESH_TIME = 50; // Ms
+    private static final int TIME_BEFORE_JUNIT_TEST_END = 5000; // Ms
     private static final double MOVING_TEST_MULTIPLIER = 0.001; // every call move the square by this amount
     private static final double SQUARE_EDGE_SIZE = 0.5;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,7 +53,7 @@ class DrawJTest {
     private View view;
     private int everyCallInitialValue;
 
-    @Test
+   /* @Test
     void staticSquareTest() {
         everyCallInitialValue = 900;
         View view = new ViewImpl(new ControllerJTest(() -> everyCallInitialValue));
@@ -126,66 +130,108 @@ class DrawJTest {
         }
     }*/
 
-    private class ControllerJTest implements Controller {
+    private GameWindow gw;
 
-        private Supplier<Integer> everyCall;
-        private FileLoader fileLoader;
+    @Test
+    public void staticSquare() throws InterruptedException, InvocationTargetException {
+        View view = new ViewJTest();
+                /*return new ModelDataImpl(IntStream.range(0, 20)
+                                                  .mapToObj(e -> new MappableDataImpl("" + Math.random() * 10, 
+                                                                                      Color.RED,
+                                                                                      new Rectangle2D.Double(Math.random() * 2 - 1, 
+                                                                                                             Math.random() * 2 - 1, 
+                                                                                                             0.2, 
+                                                                                                             0.2)))
+                                                  .collect(Collectors.toList()), 
+                                         (int) (Math.random()*10), 
+                                         GameStatus.RUNNING);*/
+        gw = new GameWindow(view);
+        gw.update(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
+        gw.setVisible(true);
+        int cicle = 0;
+        while (cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+            gw.refresh(new ModelDataImpl(IntStream.range(1, 2)
+                                                  .mapToObj(i -> new MappableDataImpl("" + Math.random() * 10, 
+                                                                                      Color.RED,
+                                                                                      new Rectangle2D.Double(i == 1 
+                                                                                                             ? -0.15 - cicle/10 
+                                                                                                             : 0.15 + cicle/10, 
+                                                                                                             i == 1 
+                                                                                                             ? -0.15 - cicle/10 
+                                                                                                             : 0.15 + cicle/10, 
+                                                                                                             0.4, 
+                                                                                                             0.4)))
+                                                  .collect(Collectors.toList()), 
+                                                  (int) (Math.random() * 10),
+                                                  GameStatus.RUNNING));
+            view.refreshGui(Component.GAME_WINDOW);
+            try {
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            cicle++;
+        }
+    }
 
-        ControllerJTest(final Supplier<Integer> everyCall) {
-            this.everyCall = everyCall;
+    private class ViewJTest implements View {
+
+        @Override
+        public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility successor) {
         }
 
-        ControllerJTest() {
-            fileLoader = new FileLoader(this);
+        @Override
+        public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
         }
 
-        private List<MappableData> getListOfMappableData() {
-            return Arrays.asList(new MappableData() {
-
-                @Override
-                public String getText() {
-                    return "test shape 1";
-                }
-
-                @Override
-                public Shape getShape() {
-                    return new Rectangle2D.Double(MOVING_TEST_MULTIPLIER * everyCall.get(),
-                            MOVING_TEST_MULTIPLIER * everyCall.get(), SQUARE_EDGE_SIZE, SQUARE_EDGE_SIZE);
-                }
-
-                @Override
-                public Color getColor() {
-                    return Color.WHITE;
-                }
-            }, new MappableData() {
-
-                @Override
-                public String getText() {
-                    return "Test with loooooooong text string ihihih";
-                }
-
-                @Override
-                public Shape getShape() {
-                    return new Rectangle2D.Double(-MOVING_TEST_MULTIPLIER * everyCall.get(),
-                            -MOVING_TEST_MULTIPLIER * everyCall.get(), SQUARE_EDGE_SIZE, SQUARE_EDGE_SIZE);
-                }
-
-                @Override
-                public Color getColor() {
-                    return Color.RED;
-                }
-            });
+        @Override
+        public Optional<CommandsObserverSource> getCommandsObserverSource() {
+            return Optional.empty();
         }
 
-        private int getScore() {
+        @Override
+        public void setSizeSuccessor(final SizeObserverChainOfResponsibility successor) {
+        }
+
+        @Override
+        public void setSizeObserverSource(final SizeObserverSource sizeObserverSource) {
+        }
+
+        @Override
+        public Optional<SizeObserverSource> getSizeObserverSource() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void showGameWindow(final Dimension resolution, final Pair<Integer, Integer> screenRatio) {
+        }
+
+        @Override
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public Optional<Point> getWindowLocation() {
+            return Optional.empty();
+        }
+
+        @Override
+        public double getMouseRelativePosition() {
             return 0;
         }
+
         @Override
-        public void setView(final View v) {
+        public Optional<Dimension> getDimension() {
+            return Optional.empty();
         }
 
         @Override
-        public void setMouseRelativePosition(final double angle) {
+        public void setMouseRelativePosition(final double mouseRelativePosition) {
+        }
+
+        @Override
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.empty();
         }
 
         @Override
@@ -194,17 +240,22 @@ class DrawJTest {
         }
 
         @Override
-        public void newCommand(Commands command) {
+        public Optional<String> getPlayerName() {
+            return Optional.empty();
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            return null;
         }
 
         @Override
         public ModelData getModelData() {
-            return new ModelDataImpl(getListOfMappableData(), getScore(), GameStatus.RUNNING);
+            return null;
         }
 
         @Override
-        public void refreshGui() {
-            view.refreshGui();
+        public void refreshGui(final Component component) {
         }
 
     }
