@@ -79,5 +79,9 @@ public interface Model extends Commands {
      */
     GameStatus getGameStatus();
 
+    void setGameStatus(GameStatus status);
+
     List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes();
+    
+    void setDisplayRatio(double ratio);
 }

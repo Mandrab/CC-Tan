@@ -1,6 +1,5 @@
 package it.unibo.oop.cctan.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -66,16 +65,6 @@ public class ModelImpl implements Model {
         }
     }
 
-    @Override
-    public void terminate() {
-        if (!gameStatus.equals(GameStatus.ENDED)) {
-            squareGenerator.terminate();
-            bulletGenerator.terminate();
-            powerupGenerator.terminate();
-            gameStatus = GameStatus.ENDED;
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -116,7 +105,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void removePowerUp(PowerUpBlock powerup) {
+    public void removePowerUp(final PowerUpBlock powerup) {
         this.powerupGenerator.removeItem(powerup);
     }
 
@@ -126,32 +115,59 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void pause() {
-        if (gameStatus.equals(GameStatus.RUNNING)) {
-            bulletGenerator.getItems().forEach(b->b.pause());
-            squareGenerator.getItems().forEach(s->s.pause());
-            //mettere in pausa i singoli generatori...
-            gameStatus = GameStatus.PAUSED;
+    public void terminate() {
+        if (!gameStatus.equals(GameStatus.ENDED)) {
+            this.bulletGenerator.getItems().forEach(b -> b.terminate());
+            this.squareGenerator.getItems().forEach(s -> s.terminate());
+            this.squareGenerator.terminate();
+            this.bulletGenerator.terminate();
+            this.powerupGenerator.terminate();
         }
+        this.gameStatus = GameStatus.ENDED;
     }
 
     @Override
-    public void resume() {
-        if (gameStatus.equals(GameStatus.PAUSED)) {
-            bulletGenerator.getItems().forEach(b->b.resume());
-            squareGenerator.getItems().forEach(s->s.resume());
-            //riprendere l'esecuzione dei singoli generatori...
-            gameStatus = GameStatus.RUNNING;
+    public void pause() {
+        if (gameStatus.equals(GameStatus.RUNNING)) {
+            this.bulletGenerator.getItems().forEach(b -> b.pause());
+            this.squareGenerator.getItems().forEach(s -> s.pause());
+            this.bulletGenerator.pause();
+            this.squareGenerator.pause();
+            this.powerupGenerator.pause();
         }
+        gameStatus = GameStatus.PAUSED;
+    }
+
+    @Override
+    public void resumeGame() {
+        if (gameStatus.equals(GameStatus.PAUSED)) {
+            bulletGenerator.getItems().forEach(b -> b.resumeGame());
+            squareGenerator.getItems().forEach(s -> s.resumeGame());
+            this.bulletGenerator.resumeGame();
+            this.squareGenerator.resumeGame();
+            this.powerupGenerator.resumeGame();
+        }
+        gameStatus = GameStatus.RUNNING;
     }
 
     @Override
     public GameStatus getGameStatus() {
-        return gameStatus;
+        return this.gameStatus;
+    }
+
+    @Override
+    public void setGameStatus(final GameStatus status) {
+        this.gameStatus = status;
     }
 
     @Override
     public List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes() {
         return Collections.unmodifiableList(ModelImpl.POWER_UP_TYPES);
+    }
+
+    @Override
+    public void setDisplayRatio(final double ratio) {
+        // TODO Auto-generated method stub
+        
     }
 }
