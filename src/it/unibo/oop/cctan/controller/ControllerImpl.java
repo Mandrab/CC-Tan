@@ -13,6 +13,7 @@ import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
+import it.unibo.oop.cctan.view.View.Component;
 
 public class ControllerImpl implements Controller, CommandsObserver {
 
@@ -24,7 +25,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
     public ControllerImpl() {
         // TODO Auto-generated constructor stub
     }
-    
+
     @Override
     public void setView(View v) {
         v.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
@@ -73,8 +74,8 @@ public class ControllerImpl implements Controller, CommandsObserver {
     }
 
     @Override
-    public void refreshGui() {
-        view.ifPresent(v -> v.refreshGui());
+    public void refreshGui(final Component component) {
+        view.ifPresent(v -> v.refreshGui(component));
     }
 
 }

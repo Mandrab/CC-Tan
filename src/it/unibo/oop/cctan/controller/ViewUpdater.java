@@ -6,6 +6,7 @@ import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
+import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * A class created to handle the refresh of the game window.
@@ -41,7 +42,7 @@ class ViewUpdater extends Thread implements CommandsObserver {
                     if (suspended) {
                         wait();
                     }
-                    view.refreshGui();
+                    view.refreshGui(Component.GAME_WINDOW);
                 }
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {

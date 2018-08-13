@@ -14,9 +14,6 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -26,16 +23,12 @@ class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7947210167853025169L;
     private static final int OPACITY_VALUE = 127; // [0 - 127]; 0 = transparent, 255 = normal
-    private GameWindow gameWindow;
     private Drawer drawer;
     private Optional<Dimension> dimension;
     private List<MappableData> mappableDatas;
     private int score;
-    private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
-    private Optional<CommandsObserverChainOfResponsibility> commandsObserverTransitiveSource = Optional.empty();
 
-    GraphicPanel(final GameWindow gw, final File file) {
-        gameWindow = gw;
+    GraphicPanel(final File file) {
         mappableDatas = new LinkedList<>();
         score = 0;
 

@@ -23,18 +23,19 @@ import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
  */
 class Loader extends JWindow {
 
+    private static final long serialVersionUID = -5568669894413165308L;
     private View view;
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final Dimension windowSize = new Dimension((int) (screenSize.getWidth() / 5),
-                                                              (int) (screenSize.getHeight() / 5));
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension WINDOW_SIZE = new Dimension((int) (SCREEN_SIZE.getWidth() / 5),
+                                                               (int) (SCREEN_SIZE.getHeight() / 5));
     private JLabel containerLabel;
     private JProgressBar progressBar;
     private JLabel pBarPercentage;
 
-    public Loader(View view) {
+    Loader(final View view) {
         this.view = view;
-        setMinimumSize(windowSize);
-        setMaximumSize(windowSize);
+        setMinimumSize(WINDOW_SIZE);
+        setMaximumSize(WINDOW_SIZE);
         centerWindow(this);
 
         containerLabel = new JLabel("Loading...", SwingConstants.CENTER);
@@ -75,14 +76,15 @@ class Loader extends JWindow {
      * @param value
      *            the percentage (es. 1 -> 1%, 40 -> 40%)
      */
-    private void advanceLoading(Integer value) {
+    private void advanceLoading(final Integer value) {
         if (0 <= value && value <= 100) {
             progressBar.setValue(value);
             pBarPercentage.setText(value.toString() + "%");
             if (value == 100) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1200);
                     setVisible(false);
+                    System.out.println("colpa del loader");
                     view.showSettingsWindow();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -92,28 +94,28 @@ class Loader extends JWindow {
     }
 
     /**
-     * Sets the background image
+     * Sets the background image.
      * 
      * @param img
      *            is the imageIcon that will be load in the background
      */
-    private void setLoadImage(ImageIcon img) {
+    private void setLoadImage(final ImageIcon img) {
         containerLabel.setText("");
         containerLabel.setIcon(new ImageIcon(img.getImage()
-                                                .getScaledInstance(windowSize.width, 
-                                                                   windowSize.height, 
+                                                .getScaledInstance(WINDOW_SIZE.width, 
+                                                                   WINDOW_SIZE.height, 
                                                                    Image.SCALE_SMOOTH)));
     }
 
     /**
-     * Center the window on the screen
+     * Center the window on the screen.
      * 
      * @param window
      *            the window to be centered
      */
-    private void centerWindow(JWindow window) {
-        setLocation((int) ((screenSize.getWidth() - windowSize.getWidth()) / 2),
-                    (int) ((screenSize.getHeight() - windowSize.getHeight()) / 2));
+    private void centerWindow(final JWindow window) {
+        setLocation((int) ((SCREEN_SIZE.getWidth() - WINDOW_SIZE.getWidth()) / 2),
+                    (int) ((SCREEN_SIZE.getHeight() - WINDOW_SIZE.getHeight()) / 2));
     }
 
     public void refresh() {

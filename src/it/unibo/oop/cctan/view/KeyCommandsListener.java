@@ -3,11 +3,8 @@ package it.unibo.oop.cctan.view;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Iterator;
-import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
@@ -31,24 +28,11 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
             @Override
             public void keyPressed(final KeyEvent pressEvent) {
                 int keyCode = pressEvent.getKeyCode();
-                System.out.println("primo "+ actualState.name());
                 switch (keyCode) {
                     case P_KEY_VALUE:
                     case SPACE_KEY_VALUE:
-                        System.out.println("Valori prima della pressione: " 
-                                           + actualState.toString() + " " 
-                                           + (actualState == GameStatus.RUNNING 
-                                             ? Commands.PAUSE 
-                                             : Commands.RESUME)
-                                             .toString());
                         getCommandsObservers().forEach(co -> co.newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
                         actualState = actualState.denies();
-                        System.out.println("Valori prima della pressione: " 
-                                           + actualState.toString() + " " 
-                                           + (actualState == GameStatus.RUNNING 
-                                             ? Commands.PAUSE 
-                                             : Commands.RESUME)
-                                             .toString());
                         break;
                     case ESC_KEY_VALUE:
                         if (actualState.equals(GameStatus.RUNNING)) {
@@ -57,9 +41,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
                             // avvia schermata ESC
                             new PauseWindow(view);
-                            System.out.println("esc pressed and conditions are verificated");
                         }
-                        System.out.println("esc pressed");
                         break;
                     default:
                 }

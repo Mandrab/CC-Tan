@@ -2,7 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -112,8 +111,12 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     }
 
     @Override
-    public void refreshGui() {
-        gameWindow.ifPresentOrElse(gw -> gw.refresh(controller.getModelData()), () -> loader.refresh());
+    public void refreshGui(final Component component) {
+        if (component.equals(Component.LOADER)) {
+            loader.refresh();
+        } else {
+            gameWindow.ifPresent(gw -> gw.refresh(controller.getModelData()));
+        }
     }
 
     @Override

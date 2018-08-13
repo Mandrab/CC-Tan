@@ -23,6 +23,7 @@ import org.jdom2.input.SAXBuilder;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.view.View.Component;
 
 public class FileLoader extends Thread {
 
@@ -49,12 +50,12 @@ public class FileLoader extends Thread {
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
         percentage = 10;
-        controller.refreshGui();
+        controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setLogo(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
-            controller.refreshGui();
+            controller.refreshGui(Component.LOADER);
             try {
                 convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
                         PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
@@ -65,11 +66,11 @@ public class FileLoader extends Thread {
         }
         loadedFiles.setLogo(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
         percentage = 40;
-        controller.refreshGui();
+        controller.refreshGui(Component.LOADER);
 
         loadedFiles.setFontFile(new File(FONT_SUBSPACE));
         percentage = 100;
-        controller.refreshGui();
+        controller.refreshGui(Component.LOADER);
     }
 
     public LoadedFiles getLoadedFiles() {
