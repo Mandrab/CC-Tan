@@ -19,6 +19,7 @@ import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -40,32 +41,32 @@ public class KeyListenerJTest {
     
     @Test
     synchronized void pausePPressed() throws Exception {
-        KeyListenerTest(P_KEY_VALUE, Commands.PAUSE, true);
-        KeyListenerTest(P_KEY_VALUE, Commands.RESUME, true);
-        KeyListenerTest(P_KEY_VALUE, Commands.PAUSE, true);
-        KeyListenerTest(P_KEY_VALUE, Commands.RESUME, true);
-        KeyListenerTest(P_KEY_VALUE, Commands.RESUME, false);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
     }
     
     @Test
     synchronized void escPauseAndPpressed() throws Exception {
-        KeyListenerTest(ESC_KEY_VALUE, Commands.PAUSE, true);
-        KeyListenerTest(P_KEY_VALUE, Commands.RESUME, false);
-        KeyListenerTest(P_KEY_VALUE, Commands.RESUME, false);
-        KeyListenerTest(ESC_KEY_VALUE, Commands.RESUME, false);
+        KeyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+        KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+        KeyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
 
     }
     
      @Test
      synchronized void pauseSpacePressed() throws Exception {
-        KeyListenerTest(SPACE_KEY_VALUE, Commands.PAUSE, true);
-        KeyListenerTest(SPACE_KEY_VALUE, Commands.RESUME, true);
-        KeyListenerTest(SPACE_KEY_VALUE, Commands.PAUSE, true);
-        KeyListenerTest(SPACE_KEY_VALUE, Commands.RESUME, true);
+        KeyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+        KeyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+        KeyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+        KeyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
 
     }
 
-    private void KeyListenerTest(final int kcInput, final Commands cExpected, final boolean assertEquals) throws Exception {
+    private void KeyListenerTest(final int kcInput, final GameStatus gSExpected, final boolean assertEquals) throws Exception {
 
         if(!setuped) {
             this.setuped=true;
@@ -78,9 +79,9 @@ public class KeyListenerJTest {
         Thread.sleep(100);
         
         if (assertEquals) {
-            assertEquals(cExpected, keyCommandsListener.getActualState());
+            assertEquals(gSExpected, keyCommandsListener.getActualState());
         } else {
-            assertNotEquals(cExpected, keyCommandsListener.getActualState());
+            assertNotEquals(gSExpected, keyCommandsListener.getActualState());
         }
 
 
@@ -89,10 +90,32 @@ public class KeyListenerJTest {
     public void setUp() {
         System.out.println("imposto la view");
         this.view = new ViewJTest();
-        System.out.println("imposto la commandibservermanager");
-        this.commandsObserversManager = new CommandsObserverSourceImpl();
+        
         System.out.println("imposto la keycommandlistener");
         this.keyCommandsListener = new KeyCommandsListener(view);
+        
+        System.out.println("imposto la commandibservermanager");
+        this.commandsObserversManager = new CommandsObserverSourceImpl() {
+            
+            @Override
+            public void forceCommand(Commands command) {
+                switch (command) {
+                case START:
+                    keyCommandsListener.startCommand();
+                    break;
+                case PAUSE:
+                    // todo
+                    break;
+                case RESUME:
+                    keyCommandsListener.resumeCommand();
+                    break;
+                case END:
+                    keyCommandsListener.endCommand();
+                    break;
+                default:
+            }
+            }
+        };
         
         System.out.println("imposto un observer nella lista");
         this.commandsObserversManager.addCommandsObserver(new CommandsObserver() {
@@ -184,20 +207,12 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public CommandsObserverSourceImpl getCommandsObserversManager() {
-            return commandsObserversManager;
-        }
-
-        @Override
         public ModelData getModelData() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public void refreshGui() {
-            // TODO Auto-generated method stub
-            
+        public void refreshGui(Component component) {
         }
 
     }
