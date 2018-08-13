@@ -20,7 +20,8 @@ import javax.swing.JLabel;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 public class EndWindow {
-    private static final String FILE_NAME = "./res//background2.jpg";
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final String BACKGROUND_JPG = "/background2.jpg";
     private final int score;
     private final View view;
 
@@ -34,10 +35,10 @@ public class EndWindow {
 
         mainFrame.setLayout(new BorderLayout());
 
-        String path = new File(FILE_NAME).getAbsolutePath();
-
-        JLabel background = new JLabel(new ImageIcon(path));
+        ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         mainFrame.add(background);
+        mainFrame.setResizable(false);
         background.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -82,7 +83,7 @@ public class EndWindow {
         c.gridy = 5;
         background.add(exitBtn, c);
 
-        mainFrame.setSize(font.getSize() * 4, font.getSize() * 4);
+        mainFrame.pack();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         mainFrame.setLocation(dim.width / 2 - mainFrame.getSize().width / 2,
                 dim.height / 2 - mainFrame.getSize().height / 2);
@@ -93,7 +94,7 @@ public class EndWindow {
                 if (view.getPlayerName().isPresent()) {
                     final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    Records rec = new Records();
+                    Records rec = new Records(view);
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                     // MANDARE IL VOMANDO reset end e start
@@ -113,7 +114,7 @@ public class EndWindow {
                 if (view.getPlayerName().isPresent()) {
                     final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    Records rec = new Records();
+                    Records rec = new Records(view);
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                     // non mostrare la endwindow

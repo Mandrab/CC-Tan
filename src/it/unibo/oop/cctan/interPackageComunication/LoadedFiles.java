@@ -21,7 +21,7 @@ public interface LoadedFiles {
 
     Optional<ImageIcon> getImage(ImageReturn type);
     
-    public void setBackground(ImageIcon background);
+//    public void setBackground(ImageIcon background);
 
     public void setLogo(ImageIcon logo);
 
@@ -37,6 +37,10 @@ public interface LoadedFiles {
      *            the percentage (es. 1 -> 1%, 40 -> 40%)
      */
     void setPercentage(int percentage);
+
+    void setScores(File file);
+
+    Optional<File> getScores();
 
 
 }

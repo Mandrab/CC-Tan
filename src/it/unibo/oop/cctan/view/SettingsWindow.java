@@ -28,17 +28,22 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.oop.cctan.controller.FileLoader;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+
 public class SettingsWindow extends SizeObserverSourceImpl {
 
     private static String playerNick = "not set";
     private static JFrame settings;
-    private static final String FILE_NAME = "./res//background2.jpg";
+    private static final String BACKGROUND_JPG = "/background2.jpg";
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final String SONG_NAME = "./res//musicGame.wav";
+    //private static final String SONG_NAME = "./res//musicGame.wav";
+    private static final String SONG_NAME_WAV = "/musicGame.wav";
     private static Optional<Clip> clip = Optional.empty();
     private Optional<Dimension> gameWindowSize;
     private Optional<Pair<Integer, Integer>> gameWindowRatio;
     private final View view;
+    private ImageIcon backgroundImg;
 
     public SettingsWindow(final View v) {
         this.view = v;
@@ -49,10 +54,9 @@ public class SettingsWindow extends SizeObserverSourceImpl {
 
         settings.setLayout(new BorderLayout());
 
-        // TODO settare l'indirizzo giusto
-        String path = new File(FILE_NAME).getAbsolutePath();
-
-        JLabel background = new JLabel(new ImageIcon(path));
+        ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         settings.add(background);
         background.setLayout(new GridBagLayout());
 
@@ -253,9 +257,10 @@ public class SettingsWindow extends SizeObserverSourceImpl {
     public static void music() {
         try {
             if (!clip.isPresent()) {
-                String path = new File(SONG_NAME).getAbsolutePath();
-                System.out.println(path);
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+//                String path = new File(SONG_NAME).getAbsolutePath();
+//                System.out.println(path);
+//                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SettingsWindow.class.getResource(SONG_NAME_WAV));
                 clip = Optional.of(AudioSystem.getClip());
                 clip.get().open(audioInputStream);
                 clip.get().loop(Clip.LOOP_CONTINUOUSLY);
