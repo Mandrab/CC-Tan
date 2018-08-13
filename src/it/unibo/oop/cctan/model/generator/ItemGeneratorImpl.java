@@ -49,7 +49,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
                     if (this.suspend) {
                         wait();
                     }
-                    if (!this.stop || !this.suspend) { //magari nel mentre il gioco è terminato...
+                    if (!this.stop || !this.suspend) {
                         createNewItem();
                     }
                 }
@@ -72,6 +72,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     @Override
     public synchronized void terminate() {
         if (this.suspend) {
+            this.ratio.terminate();
             this.suspend = false;
         }
         this.stop = true;
@@ -83,6 +84,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void pause() {
+        this.ratio.pause();
         this.suspend = true;
     }
 
@@ -91,6 +93,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void resumeGame() {
+        this.ratio.resumeGame();
         this.suspend = false;
         notifyAll();
     }
