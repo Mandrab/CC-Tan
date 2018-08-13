@@ -20,7 +20,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
-    private CommandsObserversManager commandsObserversManager;
     private KeyCommandsListener keyCommandsListener;
 
     /**
@@ -32,12 +31,10 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
      */
     public ViewImpl(final Controller controller) {
         this.controller = controller;
+        keyCommandsListener = new KeyCommandsListener(this);
+        setCommandsObserverSource(keyCommandsListener);
         loader = new Loader(this);
         controller.setView(this);
-        commandsObserversManager = new CommandsObserversManager();
-        this.keyCommandsListener = new KeyCommandsListener(this);
-        //settingsWindow = Optional.of(new SettingsWindow(this));
-        //Impostazioni
     }
 
     @Override
@@ -46,6 +43,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         if (!gameWindow.isPresent()) {
             gameWindow = Optional.of(new GameWindow(this));
         }
+        gameWindow.get().addKeyListener(keyCommandsListener.getKeyListener());
         gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
@@ -66,9 +64,8 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     public void showSettingsWindow() {
         if (!settingsWindow.isPresent()) {
             settingsWindow = Optional.of(new SettingsWindow(this));
-        } else {
-            settingsWindow.get().show();
         }
+        settingsWindow.get().show();
     }
 
     @Override
@@ -113,15 +110,13 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         return keyCommandsListener;
     }
 
-    /** {@inheritDoc} */
     @Override
-    public CommandsObserversManager getCommandsObserversManager() {
-        return commandsObserversManager;
-    }
-
-    @Override
-    public void refreshGui() {
-        gameWindow.ifPresentOrElse(gw -> gw.refresh(controller.getModelData()), () -> loader.refresh());
+    public void refreshGui(final Component component) {
+        if (component.equals(Component.LOADER)) {
+            loader.refresh();
+        } else {
+            gameWindow.ifPresent(gw -> gw.refresh(controller.getModelData()));
+        }
     }
 
     @Override

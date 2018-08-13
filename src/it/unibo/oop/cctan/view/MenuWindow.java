@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Optional;
 
@@ -17,131 +15,126 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class MenuWindow {
+import it.unibo.oop.cctan.interPackageComunication.Commands;
 
-    static final private String FILE_NAME = "./res//background2.jpg";
+public class MenuWindow extends JFrame {
+
+    private static final long serialVersionUID = 2339975308093481172L;
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final String FILE_NAME = "./res//background2.jpg";
     private Optional<LeaderBoardTable> leaderboard = Optional.empty();
     private View view;
-    private SettingsWindow pBGD;
 
-    public MenuWindow(View view, SettingsWindow pBG) {
+    public MenuWindow(final View view, final SettingsWindow settingsWindow) {
 
         this.view = view;
-        this.pBGD = pBG;
 
-        JFrame mainFrame = new JFrame("oop17-cctan Main Menù");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("oop17-cctan Main Menù");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        mainFrame.setLayout(new BorderLayout());
-
-        // TODO settare l'indirizzo giusto
+        // TODO settare l'indirizzo giusto e da mettere nel controller
         String path = new File(FILE_NAME).getAbsolutePath();
 
-        JLabel background = new JLabel(new ImageIcon(path));
-        mainFrame.add(background);
+        //COMPONENTS
+        ImageIcon imgIco = new ImageIcon(path);
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 4, SCREEN_SIZE.height / 4, 0)));
         background.setLayout(new GridBagLayout());
+        add(background);
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         Font font = new Font("Serif", 18, 60);
         JLabel title = new JLabel();
         title.setFont(font);
         title.setText("CC-TAN");
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
         title.setHorizontalAlignment(JLabel.CENTER);
-        background.add(title, c);
-        c.gridx = 0;
-        c.gridy = 1;
+        background.add(title, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         title.setHorizontalAlignment(JLabel.CENTER);
-        background.add(new JLabel("           "), c);
+        background.add(new JLabel("           "), constraints);
 
         JLabel nickLabl = new JLabel();
         nickLabl.setText("Player name : " + view.getPlayerName().get());
-        c.gridx = 0;
-        c.gridy = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
-        background.add(nickLabl, c);
+        background.add(nickLabl, constraints);
 
-        c.insets = new Insets(10, 5, 0, 5);
-        c.gridwidth = 1;
+        constraints.insets = new Insets(10, 5, 0, 5);
+        constraints.gridwidth = 1;
 
         JButton startBtn = new JButton("START");
-        c.gridx = 0;
-        c.gridy = 3;
-        background.add(startBtn, c);
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        background.add(startBtn, constraints);
 
         JButton settingsBtn = new JButton("Settings");
-        c.gridx = 0;
-        c.gridy = 4;
-        background.add(settingsBtn, c);
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        background.add(settingsBtn, constraints);
 
         JButton scoresBtn = new JButton("View Leaderboard");
-        c.gridx = 0;
-        c.gridy = 5;
-        background.add(scoresBtn, c);
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        background.add(scoresBtn, constraints);
 
         JButton exitBtn = new JButton("Exit");
-        c.gridx = 0;
-        c.gridy = 6;
-        background.add(exitBtn, c);
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        background.add(exitBtn, constraints);
         JButton soundsBtn = new JButton("Mute");
-        c.gridx = 1;
-        c.gridy = 6;
-        background.add(soundsBtn, c);
+        constraints.gridx = 1;
+        constraints.gridy = 6;
+        background.add(soundsBtn, constraints);
 
-        mainFrame.setSize(font.getSize() * 4, font.getSize() * 5);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame.setLocation(dim.width / 2 - mainFrame.getSize().width / 2,
-                dim.height / 2 - mainFrame.getSize().height / 2);
-        mainFrame.setVisible(true);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
-        scoresBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                showLeaderBoard();
-                // new LeaderBoardTable();
-                // leaderboard.get().addObserver(this);
-            }
+        scoresBtn.addActionListener(e -> {
+            showLeaderBoard();
+            // new LeaderBoardTable();
+            // leaderboard.get().addObserver(this);
         });
 
-        settingsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                view.showSettingsWindow();
-                mainFrame.dispose();
-            }
+        settingsBtn.addActionListener(e -> {
+            System.out.println("colpa del menu window");
+            view.showSettingsWindow();
+            dispose();
         });
-        exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        startBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                view.getKeyCommandsListener().startCommand();
-                System.out.println("start");
-                mainFrame.dispose();
-                view.showGameWindow(pBG.getDimension().get(), pBG.getRatio().get());
-            }
-        });
-        soundsBtn.addActionListener(new ActionListener() {
 
+        exitBtn.addActionListener(e -> {
+            System.exit(0);
+        });
+
+        startBtn.addActionListener(e -> {
+            dispose();
+            view.getKeyCommandsListener().forceCommand(Commands.START);
+            //Questi sotto da spostare nella view
+            view.showGameWindow(settingsWindow.getDimension().get(), settingsWindow.getRatio().get()); // da togliere
+            view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.START));
+        });
+
+        soundsBtn.addActionListener(e -> {
             // utilizzare una classe come commands che avvisa chi di dovere per avviare o
             // bloccare il sounds
-            public void actionPerformed(final ActionEvent e) {
-                if (pBGD.getClipMenu().isRunning()) {
-                    pBGD.getClipMenu().stop();
-                    soundsBtn.setText("Unmute");
-                } else {
-                    pBGD.getClipMenu().start();
-                    soundsBtn.setText("Mute");
-                }
+            if (settingsWindow.getClipMenu().isRunning()) {
+                settingsWindow.getClipMenu().stop();
+                soundsBtn.setText("Unmute");
+            } else {
+                settingsWindow.getClipMenu().start();
+                soundsBtn.setText("Mute");
             }
         });
 
     }
-    
+
     public String getPlayerName() {
         return view.getPlayerName().get();
     }

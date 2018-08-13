@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
@@ -153,7 +154,7 @@ class CommandsJTest {
         }
 
         @Override
-        public CommandsObserversManager getCommandsObserversManager() {
+        public CommandsObserverSourceImpl getCommandsObserversManager() {
             // TODO Auto-generated method stub
             return null;
         }

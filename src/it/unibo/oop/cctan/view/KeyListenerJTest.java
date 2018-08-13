@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -34,7 +35,7 @@ public class KeyListenerJTest {
     private Optional<GameWindow> gameWindow = Optional.empty();
     private View view;
     private KeyCommandsListener keyCommandsListener;
-    private CommandsObserversManager commandsObserversManager;
+    private CommandsObserverSourceImpl commandsObserversManager;
     private boolean setuped = false;
     
     @Test
@@ -89,7 +90,7 @@ public class KeyListenerJTest {
         System.out.println("imposto la view");
         this.view = new ViewJTest();
         System.out.println("imposto la commandibservermanager");
-        this.commandsObserversManager = new CommandsObserversManager();
+        this.commandsObserversManager = new CommandsObserverSourceImpl();
         System.out.println("imposto la keycommandlistener");
         this.keyCommandsListener = new KeyCommandsListener(view);
         
@@ -183,7 +184,7 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public CommandsObserversManager getCommandsObserversManager() {
+        public CommandsObserverSourceImpl getCommandsObserversManager() {
             return commandsObserversManager;
         }
 

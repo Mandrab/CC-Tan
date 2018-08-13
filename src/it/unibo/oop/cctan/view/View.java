@@ -2,21 +2,22 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.List;
 import java.util.Optional;
-
-import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 /**
  * State what a View implementation must implements.
  */
 public interface View extends SizeAndControlChainOfResponsibility {
+
+    public enum Component {
+        LOADER,
+        GAME_WINDOW;
+    }
 
     /**
      * Setup and show the game window.
@@ -47,13 +48,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
      *         center of the window [center-right = 0, top-center = 90, ...]
      */
     double getMouseRelativePosition();
-
-    /**
-     * Get the commandObserverManager that allow to manage the list of CommandsObservers.
-     * 
-     * @return A commandObserverManager.
-     */
-    CommandsObserversManager getCommandsObserversManager();
 
     /**
      * Return the dimension of the game window.
@@ -90,6 +84,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
 
     ModelData getModelData();
     
-    void refreshGui();
+    void refreshGui(Component component);
 
 }

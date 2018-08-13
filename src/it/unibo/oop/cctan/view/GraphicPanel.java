@@ -3,6 +3,7 @@ package it.unibo.oop.cctan.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.LinkedList;
@@ -14,28 +15,22 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelData.GameStatus;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
 class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7947210167853025169L;
+    private static final float DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().width / 35;
     private static final int OPACITY_VALUE = 127; // [0 - 127]; 0 = transparent, 255 = normal
-    private GameWindow gameWindow;
     private Drawer drawer;
     private Optional<Dimension> dimension;
     private List<MappableData> mappableDatas;
     private int score;
-    private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
-    private Optional<CommandsObserverChainOfResponsibility> commandsObserverTransitiveSource = Optional.empty();
 
-    GraphicPanel(final GameWindow gw, final File file) {
-        gameWindow = gw;
+    GraphicPanel(final File file) {
         mappableDatas = new LinkedList<>();
         score = 0;
 
@@ -60,6 +55,7 @@ class GraphicPanel extends JPanel {
             synchronized (this) {
                 mappableDatas.forEach(drawer::draw);
             }
+            graphics.setFont(graphics.getFont().deriveFont(DEFAULT_FONT_SIZE));
             drawer.drawText(new ImmutablePair<Double, Double>(0.5, 0.9), Color.WHITE, score + "");
         }
     }
@@ -72,12 +68,21 @@ class GraphicPanel extends JPanel {
         repaint();
     }
 
-    public void refresh(ModelData modelData) {
+    public void refresh(final ModelData modelData) {
         if (modelData.getGameStatus() == GameStatus.RUNNING) {
             redraw(modelData.getMappableDatas(), modelData.getScore());
         } else {
+            //redraw(opacifies(modelData), modelData.getScore());
+            //drawer.drawText(new ImmutablePair<Double, Double>(0d, 0d), Color.RED, modelData.getGameStatus().name());
             redraw(addPrintableText(modelData, modelData.getGameStatus().name() + "!" + System.lineSeparator() + modelData.getScore()), modelData.getScore());
         }
+    }
+
+    private List<MappableData> opacifies(ModelData modelData) {
+        List<MappableData> l = modelData.getMappableDatas().stream().map(e -> new MappableDataImpl(e.getText(),
+                new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
+                e.getShape())).collect(Collectors.toList());
+        return l;
     }
 
     /**

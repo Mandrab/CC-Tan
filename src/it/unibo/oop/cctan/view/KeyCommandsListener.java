@@ -1,25 +1,28 @@
 package it.unibo.oop.cctan.view;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Iterator;
-import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
+<<<<<<< HEAD
 /**
  * A class created to handle the received keyEvents and send a Command by the newCommand method to the CommandsObservers.
  * @author Sutera Lorenzo
  *
  */
 public class KeyCommandsListener {
+=======
+public class KeyCommandsListener extends CommandsObserverSourceImpl {
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585
 
-    private KeyListener keyListener;
     private final View view;
-    private Commands actualState = Commands.END;
+    private KeyListener keyListener;
+    private GameStatus actualState = GameStatus.ENDED;
     private boolean reset;
-    private boolean escPaused;
 
     private static final int P_KEY_VALUE = 80;
     private static final int SPACE_KEY_VALUE = 32;
@@ -34,20 +37,11 @@ public class KeyCommandsListener {
     public KeyCommandsListener(final View view) {
         this.view = view;
         this.reset = false;
-        this.escPaused = false;
-        keyListener = new KeyListener() {
+
+        keyListener = new KeyAdapter() {
 
             @Override
-            public void keyTyped(final KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(final KeyEvent e) {
-
-            }
-
-            @Override
+<<<<<<< HEAD
             public void keyPressed(final KeyEvent e) {
                 List<CommandsObserver> observers = view.getCommandsObserversManager().getCommandsObservers();
                 // int id = e.getID();
@@ -82,12 +76,32 @@ public class KeyCommandsListener {
                         System.out.println("esc pressed and conditions are verificated");
                     }
                     System.out.println("esc pressed");
+=======
+            public void keyPressed(final KeyEvent pressEvent) {
+                int keyCode = pressEvent.getKeyCode();
+                switch (keyCode) {
+                    case P_KEY_VALUE:
+                    case SPACE_KEY_VALUE:
+                        getCommandsObservers().forEach(co -> co.newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
+                        actualState = actualState.denies();
+                        break;
+                    case ESC_KEY_VALUE:
+                        if (actualState.equals(GameStatus.RUNNING)) {
+                            getCommandsObservers().forEach(co -> co.newCommand(Commands.PAUSE));
+                            actualState = actualState.denies();
+
+                            // avvia schermata ESC
+                            new PauseWindow(view);
+                        }
+                        break;
+                    default:
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585
                 }
-                System.out.println(getActualState());
             }
         };
     }
 
+<<<<<<< HEAD
     /**
      * Send the END command to all the CommandsObservers if internal conditions are respected.
      * @return
@@ -106,11 +120,22 @@ public class KeyCommandsListener {
                     new EndWindow(this.view);
                 }
             reset = false;
+=======
+    public KeyListener getKeyListener() {
+        return keyListener;
+    }
+
+    public synchronized boolean startCommand() {
+        if (actualState.equals(GameStatus.ENDED)) {
+            getCommandsObservers().forEach(co -> co.newCommand(Commands.START));
+            actualState = GameStatus.RUNNING;
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585
             return true;
         }
         return false;
     }
 
+<<<<<<< HEAD
     /**
      * Send the START command to all the CommandsObservers if internal conditions are respected.
      * @return
@@ -122,9 +147,35 @@ public class KeyCommandsListener {
             for (Iterator<CommandsObserver> i = observers.iterator(); i.hasNext();) {
                 CommandsObserver c = i.next();
                 c.newCommand(Commands.START);
+=======
+    public synchronized boolean pauseCommand() {
+        if (actualState.equals(GameStatus.RUNNING)) {
+            getCommandsObservers().forEach(co -> co.newCommand(Commands.PAUSE));
+            actualState = GameStatus.PAUSED;
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized boolean resumeCommand() {
+        if (actualState.equals(GameStatus.PAUSED)) {
+            getCommandsObservers().forEach(co -> co.newCommand(Commands.RESUME));
+            actualState = GameStatus.RUNNING;
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized boolean endCommand() {
+        if (!actualState.equals(GameStatus.ENDED)) {
+            getCommandsObservers().forEach(co -> co.newCommand(Commands.END));
+            actualState = GameStatus.ENDED;
+            if (!reset) {
+                // fare partire la schermata finale con score e tutto
+                new EndWindow(this.view);
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585
             }
-            actualState = Commands.START;
-            System.out.println(getActualState());
+            reset = false;
             return true;
         }
         return false;
@@ -136,10 +187,11 @@ public class KeyCommandsListener {
      *            boolean variable that indicate if the end command will act as reset or not.
      */
 
-    public void setReset(final boolean reset) {
+    public synchronized void setReset(final boolean reset) {
         this.reset = reset;
     }
 
+<<<<<<< HEAD
     /**
      * Return the actual state of the class, so the last command sent to the commands Observers.
      * @return
@@ -182,7 +234,24 @@ public class KeyCommandsListener {
             actualState = Commands.RESUME;
             System.out.println(getActualState());
             return true;
+=======
+    public synchronized void forceCommand(final Commands command) {
+        switch (command) {
+            case START:
+                startCommand();
+                break;
+            case PAUSE:
+                // todo
+                break;
+            case RESUME:
+                resumeCommand();
+                break;
+            case END:
+                endCommand();
+                break;
+            default:
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585
         }
-        return false;
     }
+
 }

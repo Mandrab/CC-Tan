@@ -22,24 +22,28 @@ public class SizeObserversManager implements SizeObserverSource {
 =======
 import org.apache.commons.lang3.tuple.Pair;
 
-public abstract class SizeObserversSourceImpl implements SizeObserverSource {
+public abstract class SizeObserverSourceImpl implements SizeObserverSource {
 
     private List<SizeObserver> sizesObservers;
 
+<<<<<<< HEAD:src/it/unibo/oop/cctan/view/SizeObserversSourceImpl.java
     public SizeObserversSourceImpl() {
 >>>>>>> 6dd02bf9f29d4edf3b1379ff23c5b0eb0680cb17:src/it/unibo/oop/cctan/view/SizeObserversSourceImpl.java
+=======
+    public SizeObserverSourceImpl() {
+>>>>>>> e364e05ebd100dd29b959931c16ad2b6f05f3585:src/it/unibo/oop/cctan/view/SizeObserverSourceImpl.java
         sizesObservers = new ArrayList<SizeObserver>();
     }
 
     @Override
     /** {@inheritDoc} */
-    public void addSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void addSizeObserver(final SizeObserver sizeObserver) {
         sizesObservers.add(sizeObserver);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void removeSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void removeSizeObserver(final SizeObserver sizeObserver) {
         sizesObservers.remove(sizeObserver);
     }
 
@@ -56,8 +60,8 @@ public abstract class SizeObserversSourceImpl implements SizeObserverSource {
      * 
      * @return A defencive copy of list of SizeObserver.
      */
-    public List<SizeObserver> getSizeObservers() {
-        return Collections.unmodifiableList(this.sizesObservers);
+    public synchronized List<SizeObserver> getSizeObservers() {
+        return new ArrayList<>(sizesObservers);
     }
 
 }

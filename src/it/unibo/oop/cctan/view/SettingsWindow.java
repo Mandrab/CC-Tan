@@ -28,7 +28,8 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class SettingsWindow extends SizeObserversSourceImpl {
+public class SettingsWindow extends SizeObserverSourceImpl {
+
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String FILE_NAME = "./res//background2.jpg";
@@ -225,19 +226,19 @@ public class SettingsWindow extends SizeObserversSourceImpl {
     public String getPlayerName() {
         return playerNick;
     }
-    
+
      @Override
     public Optional<Dimension> getDimension() {
          return gameWindowSize;
     }
-     
+
     @Override
     public Optional<Pair<Integer, Integer>> getRatio() {
         return gameWindowRatio;
     }
 
     /**
-     * get method for the clip of the menu
+     * get method for the clip of the menu.
      * 
      * @return the clip of the menu if it's present, if not it return null
      */
@@ -267,15 +268,15 @@ public class SettingsWindow extends SizeObserversSourceImpl {
 
     }
 
-    public Pair<Integer, Integer> stringToPair(String s) {
-        String[] strings = s.split(":");
+    private Pair<Integer, Integer> stringToPair(final String string) {
+        String[] strings = string.split(":");
         int x = Integer.parseInt(strings[0]);
         int y = Integer.parseInt(strings[1]);
         return new ImmutablePair<>(x, y);
     }
 
-    public Dimension stringToDim(String s) {
-        String[] strings = s.split(":");
+    private Dimension stringToDim(final String string) {
+        String[] strings = string.split(":");
         int width = Integer.parseInt(strings[0]);
         int height = Integer.parseInt(strings[1]);
         return new Dimension(width, height);

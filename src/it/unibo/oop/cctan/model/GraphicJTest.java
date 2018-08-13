@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import it.unibo.oop.cctan.controller.Controller;
 import it.unibo.oop.cctan.controller.ControllerImpl;
+import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.view.View;
 import it.unibo.oop.cctan.view.ViewImpl;
 
@@ -28,6 +29,7 @@ public class GraphicJTest {
     public void balancedRateo() {
         Controller ctrl = new ControllerImpl();
         View v = new ViewImpl(ctrl);
+        ctrl.newCommand(Commands.START);
         v.showGameWindow(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
         try {
             Thread.sleep(SLEEP_BALANCED_RATEO_MILLISEC);
