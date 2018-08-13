@@ -8,13 +8,8 @@ import it.unibo.oop.cctan.model.PowerUpBlock;
 import it.unibo.oop.cctan.model.PowerUpBlockImpl;
 import javafx.geometry.Point2D;
 
-<<<<<<< HEAD
-public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUp> {
-
-=======
 public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
     
->>>>>>> f0187e8d6b291ceb474c89f81728aa003c4411a4
     private static final int DEFAULT_RATIO = 40000;
     private static Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type = () -> new LaserBlock.LaserBlockBuilder();
 
