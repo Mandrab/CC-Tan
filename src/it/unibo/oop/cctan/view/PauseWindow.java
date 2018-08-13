@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Date;
 
@@ -19,6 +17,8 @@ import javax.swing.JLabel;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
+import it.unibo.oop.cctan.interPackageComunication.Commands;
+
 public class PauseWindow {
     private static final String FILE_NAME = "./res//background2.jpg";
     private final int score;
@@ -27,12 +27,12 @@ public class PauseWindow {
     public PauseWindow(final View view) {
 
         // TODO usare metodo per ottenere lo score tramite view o controller?
-       
+
         this.view = view;
         this.score = this.view.getModelData().getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
-        
+
         //TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -97,57 +97,51 @@ public class PauseWindow {
                 dim.height / 2 - mainFrame.getSize().height / 2);
         mainFrame.setVisible(true);
 
-        restartBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                if (view.getPlayerName().isPresent()) {
-                    String nick = view.getPlayerName().get();
-                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    Records rec = new Records();
-                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
-                    
-                    //MANDARE IL VOMANDO reset end e start
-                   KeyCommandsListener c = view.getKeyCommandsListener();
-                   c.setReset(true);
-                   c.endCommand();
-                   //TODO mettere una sleep?
-                   c.startCommand();
+        restartBtn.addActionListener(e -> {
+            if (view.getPlayerName().isPresent()) {
+                String nick = view.getPlayerName().get();
+                // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                Records rec = new Records();
+                rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
-                    mainFrame.dispose();
-                }
-            }
-        });
+                //MANDARE IL VOMANDO reset end e start
+                view.getKeyCommandsListener().setReset(true);
+                view.getKeyCommandsListener().endCommand();
+                view.getKeyCommandsListener().startCommand();
 
-        settingsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                if (view.getPlayerName().isPresent()) {
-                    String nick = view.getPlayerName().get();
-                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    Records rec = new Records();
-                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
-                    
-                    // MANDARE IL VOMANDO END
-                    KeyCommandsListener c = view.getKeyCommandsListener();
-                    c.setReset(true);
-                    c.endCommand();
-                    view.showSettingsWindow();
-                    mainFrame.dispose();
-                }
-            }
-        });
-        exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        resumeBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                // TODO Auto-generated method stub
-                // richiama il metodo resume del keyCommandLustener
-                KeyCommandsListener c = view.getKeyCommandsListener();
-                c.keyEscPaused(false);
-                c.resumeCommand();
                 mainFrame.dispose();
             }
+        });
+
+        settingsBtn.addActionListener(e -> {
+            if (view.getPlayerName().isPresent()) {
+                String nick = view.getPlayerName().get();
+                // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                Records rec = new Records();
+                rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+
+                // MANDARE IL VOMANDO END
+                view.getKeyCommandsListener().setReset(true);
+                view.getKeyCommandsListener().endCommand();
+                view.showSettingsWindow();
+                mainFrame.dispose();
+            }
+        });
+
+        exitBtn.addActionListener(e -> {
+            System.exit(0);
+        });
+
+        resumeBtn.addActionListener(e -> {
+            // TODO Auto-generated method stub
+            // richiama il metodo resume del keyCommandListener
+
+            /*KeyCommandsListener c = view.getKeyCommandsListener();
+            c.keyEscPaused(false);
+            c.resumeCommand();*/
+
+            view.getKeyCommandsListener().forceCommand(Commands.PAUSE);
+            mainFrame.dispose();
         });
     }
 }

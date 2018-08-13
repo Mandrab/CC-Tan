@@ -8,11 +8,11 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-public abstract class SizeObserversSourceImpl implements SizeObserverSource {
+public abstract class SizeObserverSourceImpl implements SizeObserverSource {
 
     private List<SizeObserver> sizesObservers;
 
-    public SizeObserversSourceImpl() {
+    public SizeObserverSourceImpl() {
         sizesObservers = new ArrayList<SizeObserver>();
     }
 
@@ -42,7 +42,7 @@ public abstract class SizeObserversSourceImpl implements SizeObserverSource {
      * @return A defencive copy of list of SizeObserver.
      */
     public synchronized List<SizeObserver> getSizeObservers() {
-        return Collections.unmodifiableList(this.sizesObservers);
+        return new ArrayList<>(sizesObservers);
     }
 
 }

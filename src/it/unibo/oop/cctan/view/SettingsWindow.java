@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class SettingsWindow extends SizeObserversSourceImpl {
+public class SettingsWindow extends SizeObserverSourceImpl {
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String FILE_NAME = "./res//background2.jpg";

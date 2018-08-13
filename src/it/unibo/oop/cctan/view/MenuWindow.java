@@ -114,6 +114,8 @@ public class MenuWindow extends JFrame {
 
         startBtn.addActionListener(e -> {
             dispose();
+            view.getKeyCommandsListener().forceCommand(Commands.START);
+            //Questi sotto da spostare nella view
             view.showGameWindow(settingsWindow.getDimension().get(), settingsWindow.getRatio().get()); // da togliere
             view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.START));
         });

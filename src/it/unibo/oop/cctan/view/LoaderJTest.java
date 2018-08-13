@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import it.unibo.oop.cctan.controller.FileLoader;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserversSourceImpl;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -130,7 +130,7 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public CommandsObserversSourceImpl getCommandsObserversManager() {
+        public CommandsObserverSourceImpl getCommandsObserversManager() {
             return null;
         }
 

@@ -2,13 +2,14 @@ package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CommandsObserversSourceImpl implements CommandsObserverSource{
+public abstract class CommandsObserverSourceImpl implements CommandsObserverSource{
     
     private List<CommandsObserver> commandsObservers;
 
-    public CommandsObserversSourceImpl() {
+    public CommandsObserverSourceImpl() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }
 
@@ -30,7 +31,7 @@ public abstract class CommandsObserversSourceImpl implements CommandsObserverSou
      * @return A defencive copy of list of CommandsObservers.
      */
     public synchronized List<CommandsObserver> getCommandsObservers() {
-        return Collections.unmodifiableList(commandsObservers);
+        return new ArrayList<>(commandsObservers);
     }
 
     public abstract void forceCommand(Commands command);

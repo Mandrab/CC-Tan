@@ -8,10 +8,10 @@ import java.util.List;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserversSourceImpl;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
-public class KeyCommandsListener extends CommandsObserversSourceImpl {
+public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     private final View view;
     private KeyListener keyListener;
@@ -31,6 +31,7 @@ public class KeyCommandsListener extends CommandsObserversSourceImpl {
             @Override
             public void keyPressed(final KeyEvent pressEvent) {
                 int keyCode = pressEvent.getKeyCode();
+                System.out.println("primo "+ actualState.name());
                 switch (keyCode) {
                     case P_KEY_VALUE:
                     case SPACE_KEY_VALUE:
