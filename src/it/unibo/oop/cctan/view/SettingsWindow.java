@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -32,12 +33,13 @@ import it.unibo.oop.cctan.controller.FileLoader;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
 
 public class SettingsWindow extends SizeObserverSourceImpl {
-
+    
+    private Dimension settingsDimansion;
+    
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String BACKGROUND_JPG = "/background2.jpg";
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    //private static final String SONG_NAME = "./res//musicGame.wav";
     private static final String SONG_NAME_WAV = "/musicGame.wav";
     private static Optional<Clip> clip = Optional.empty();
     private Optional<Dimension> gameWindowSize;
@@ -49,6 +51,9 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         this.view = v;
         gameWindowSize = Optional.empty();
         gameWindowRatio = Optional.empty();
+        
+        this.settingsDimansion = tryDimensionOfWindow();
+        
         settings = new JFrame("Settings");
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -56,8 +61,10 @@ public class SettingsWindow extends SizeObserverSourceImpl {
 
         ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
         
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance((int)settingsDimansion.getWidth(), (int)settingsDimansion.getHeight(), 0)));
+//        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         settings.add(background);
+        
         background.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -177,8 +184,9 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         c.anchor = GridBagConstraints.PAGE_END;
         background.add(doneBtn, c);
 
-        settings.setSize(font.getSize() * 4, font.getSize() * 5);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //settings.setSize(font.getSize() * 4, font.getSize() * 5);
+        
+        settings.pack();
         settings.setLocationRelativeTo(null);
         settings.setResizable(false);
         settings.setVisible(true);
@@ -217,6 +225,82 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                 }
             }
         });
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        JFrame tmpSet = new JFrame("tryDimansion");
+        tmpSet.setLayout(new BorderLayout());
+        JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        Font font = new Font("Serif", 18, 60);
+        JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("Settings");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(title, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(new JLabel("           "), c);
+
+        JLabel nickLabl = new JLabel();
+        nickLabl.setText("Select NickName:");
+        JTextField nickText = new JTextField(10);
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        nickLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(nickLabl, c);
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 3;
+        tmpBackground.add(nickText, c);
+
+        JLabel ratioLabl = new JLabel();
+        ratioLabl.setText("Select screen ratio:");
+        c.gridx = 0;
+        c.gridy = 4;
+        ratioLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(ratioLabl, c);
+        JComboBox<String> ratio = new JComboBox<String>();
+        ratio.addItem("-- SELECT --");
+        c.gridx = 0;
+        c.gridy = 5;
+        tmpBackground.add(ratio, c);
+
+        JLabel dimensionLabl = new JLabel();
+        dimensionLabl.setText("Select window size:");
+        c.gridx = 0;
+        c.gridy = 6;
+        dimensionLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(dimensionLabl, c);
+
+        JComboBox<String> dimension = new JComboBox<String>();
+        dimension.addItem("-- SELECT --");
+        c.gridx = 0;
+        c.gridy = 7;
+        tmpBackground.add(dimension, c);
+        
+        JButton doneBtn = new JButton("done");
+        c.gridx = 1;
+        c.gridy = 8;
+        c.weighty = 1.0;
+        c.gridwidth = 2;
+        c.insets = new Insets(10, 0, 0, 0);
+        c.anchor = GridBagConstraints.PAGE_END;
+        tmpBackground.add(doneBtn, c);
+
+        //tmpSet.setVisible(true);
+        tmpSet.pack();
+        return tmpSet.getSize();
     }
 
     public void showMenu() {

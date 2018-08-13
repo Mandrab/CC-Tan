@@ -93,6 +93,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
     }
 
     public synchronized boolean endCommand() {
+        System.out.println("è stato richiesto l'end-command e il reset è "+ reset);
         if (!actualState.equals(GameStatus.ENDED)) {
             getCommandsObservers().forEach(co -> co.newCommand(Commands.END));
             actualState = GameStatus.ENDED;

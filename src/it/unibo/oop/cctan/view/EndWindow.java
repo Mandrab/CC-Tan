@@ -36,7 +36,8 @@ public class EndWindow {
         mainFrame.setLayout(new BorderLayout());
 
         ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+        JLabel background = new JLabel(
+                new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         mainFrame.add(background);
         mainFrame.setResizable(false);
         background.setLayout(new GridBagLayout());
@@ -101,7 +102,11 @@ public class EndWindow {
                     KeyCommandsListener c = view.getKeyCommandsListener();
                     c.setReset(true);
                     c.endCommand();
-                    // TODO mettere una sleep?
+                    // try {
+                    // Thread.sleep(200);
+                    // } catch (InterruptedException e1) {
+                    // e1.printStackTrace();
+                    // }
                     c.startCommand();
 
                     mainFrame.dispose();
@@ -131,6 +136,10 @@ public class EndWindow {
         });
         exitBtn.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
+                final String nick = view.getPlayerName().get();
+                // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                Records rec = new Records(view);
+                rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
                 System.exit(0);
             }
         });
