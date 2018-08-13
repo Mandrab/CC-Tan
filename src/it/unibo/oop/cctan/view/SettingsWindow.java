@@ -45,7 +45,6 @@ public class SettingsWindow extends SizeObserverSourceImpl {
     private Optional<Dimension> gameWindowSize;
     private Optional<Pair<Integer, Integer>> gameWindowRatio;
     private final View view;
-    private ImageIcon backgroundImg;
 
     public SettingsWindow(final View v) {
         this.view = v;

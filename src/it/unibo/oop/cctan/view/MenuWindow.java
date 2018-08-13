@@ -87,7 +87,7 @@ public class MenuWindow extends JFrame {
         constraints.gridy = 6;
         background.add(exitBtn, constraints);
         
-        JButton soundsBtn = new JButton("Mute");
+        JButton soundsBtn = new JButton(" Mute ");
         constraints.gridx = 1;
         constraints.gridy = 6;
         background.add(soundsBtn, constraints);
@@ -126,7 +126,7 @@ public class MenuWindow extends JFrame {
                 soundsBtn.setText("Unmute");
             } else {
                 settingsWindow.getClipMenu().start();
-                soundsBtn.setText("Mute");
+                soundsBtn.setText(" Mute ");
             }
         });
 
