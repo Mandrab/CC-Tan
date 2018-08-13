@@ -41,7 +41,7 @@ public class LeaderBoardTable {
 
             c.setLayout(new BorderLayout());
 
-            r = new Records();
+            r = new Records(mg.getView());
             r.orderRecordList();
             ArrayList<Triple<String, Integer, Date>> l = r.getRecordList();
 

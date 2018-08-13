@@ -21,7 +21,7 @@ public class MenuWindow extends JFrame {
 
     private static final long serialVersionUID = 2339975308093481172L;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final String FILE_NAME = "./res//background2.jpg";
+    private static final String BACKGROUND_JPG = "/background2.jpg";
     private Optional<LeaderBoardTable> leaderboard = Optional.empty();
     private View view;
 
@@ -33,14 +33,12 @@ public class MenuWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // TODO settare l'indirizzo giusto e da mettere nel controller
-        String path = new File(FILE_NAME).getAbsolutePath();
-
         //COMPONENTS
-        ImageIcon imgIco = new ImageIcon(path);
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 4, SCREEN_SIZE.height / 4, 0)));
+        ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         background.setLayout(new GridBagLayout());
         add(background);
+        this.setResizable(false);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -100,8 +98,6 @@ public class MenuWindow extends JFrame {
 
         scoresBtn.addActionListener(e -> {
             showLeaderBoard();
-            // new LeaderBoardTable();
-            // leaderboard.get().addObserver(this);
         });
 
         settingsBtn.addActionListener(e -> {
@@ -134,6 +130,10 @@ public class MenuWindow extends JFrame {
             }
         });
 
+    }
+    
+    public View getView() {
+        return this.view;
     }
 
     public String getPlayerName() {

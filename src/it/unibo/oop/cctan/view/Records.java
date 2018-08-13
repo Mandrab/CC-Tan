@@ -31,26 +31,32 @@ public class Records {
     private final SimpleDateFormat sDateDormat = new SimpleDateFormat("dd/M/yyyy");
     private static final String FILE_NAME = "./res//Scores";
     private final String path;
+    private View view;
 
     /**
      * The constructor of SizeObserverManager class.
      */
-    public Records() {
+    public Records(View view) {
 
-        path = new File(FILE_NAME).getAbsolutePath();
+        this.view = view;
+//        path = new File(FILE_NAME).getAbsolutePath();
+        path = view.getLoadedFiles().getScores().get().getPath();
 
-        try {
-            File file = new File(path);
-            boolean fvar = file.createNewFile();
-            if (fvar) {
-                System.out.println("File has been created successfully");
-            } else {
-                System.out.println("File already present at the specified location");
-            }
-        } catch (IOException e) {
-            System.out.println("Exception Occurred:");
-            e.printStackTrace();
-        }
+
+//        try {
+//            File file = new File(path);
+//            boolean fvar = file.createNewFile();
+//            if (fvar) {
+//                System.out.println("File has been created successfully");
+//            } else {
+//                System.out.println("File already present at the specified location");
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Exception Occurred:");
+//            e.printStackTrace();
+//        }
+        
+        
         // inserimento in records
         try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
             if (bstream2.available() >= 1) {
