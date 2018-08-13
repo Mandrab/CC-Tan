@@ -1,6 +1,7 @@
 package it.unibo.oop.cctan.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +62,7 @@ public class ShuttleJTest {
         comparePointLists(expectedPoints, shapePoints, tollerance);
         printShuttleInfo(shuttle.getPos(), shapePoints);
         System.out.println(SEPARATOR);
+        assertNotEquals(0, angle);
     }
 
     private void comparePointLists(final List<Point2D> expected, final List<Point2D> actual, final double tollerance) {
