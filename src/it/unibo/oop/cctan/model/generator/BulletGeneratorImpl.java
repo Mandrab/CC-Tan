@@ -1,15 +1,12 @@
 package it.unibo.oop.cctan.model.generator;
 
-import java.util.function.Supplier;
-
-import it.unibo.oop.cctan.model.BallAgent;
-import it.unibo.oop.cctan.model.Bullet;
-import it.unibo.oop.cctan.model.BulletImpl;
-import it.unibo.oop.cctan.model.Model;
-import it.unibo.oop.cctan.model.BallAgent.BallBuilder;
-import it.unibo.oop.cctan.model.BulletImpl.BulletBuilder;
-import it.unibo.oop.cctan.model.LaserAgent;
 import javafx.geometry.Point2D;
+import java.util.function.Supplier;
+import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.Bullet;
+import it.unibo.oop.cctan.model.BallAgent;
+import it.unibo.oop.cctan.model.BulletImpl;
+import it.unibo.oop.cctan.model.LaserAgent;
 
 /**
  * {@inheritDoc}.
@@ -47,10 +44,12 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
         this.addItemToList(bullet);
         new Thread(bullet).start();
     }
-    
+
     public static enum BulletGeneratorSettings {
 
         BALLS(() -> new BallAgent.BallBuilder()), LASER(() -> new LaserAgent.LaserBuilder());
+
+        private Supplier<BulletImpl.BulletBuilder> bulletBuilder;
 
         BulletGeneratorSettings(final Supplier<BulletImpl.BulletBuilder> bulletBuilder) {
             this.bulletBuilder = bulletBuilder;
@@ -59,8 +58,6 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
         public BulletImpl.BulletBuilder getBulletBuilder() {
             return this.bulletBuilder.get();
         }
-
-        private Supplier<BulletImpl.BulletBuilder> bulletBuilder;
 
         public Point2D getStartingPoint(final Model model) {
             switch (this) {

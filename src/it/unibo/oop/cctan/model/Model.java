@@ -78,4 +78,6 @@ public interface Model extends Commands {
      * @return The status of the game
      */
     GameStatus getGameStatus();
+
+    List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes();
 }

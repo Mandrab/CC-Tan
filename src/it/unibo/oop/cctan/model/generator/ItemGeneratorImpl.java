@@ -11,10 +11,10 @@ import java.util.List;
  */
 public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
-    private final Model model;
-    private final TimerRatio ratio;
-    private final List<T> items;
     private boolean stop;
+    private final Model model;
+    private final List<T> items;
+    private final TimerRatio ratio;
 
     /**
      * Create a new movable item respecting the value specified inside this fields.
