@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model.generator;
 
+import java.util.Random;
 import java.util.function.Supplier;
 import it.unibo.oop.cctan.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.LaserBlock;
@@ -9,34 +10,21 @@ import it.unibo.oop.cctan.model.PowerUpBlockImpl;
 import javafx.geometry.Point2D;
 
 public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
-    
-    private static final int DEFAULT_RATIO = 40000;
-    private static Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type = () -> new LaserBlock.LaserBlockBuilder();
 
-    public PowerUpGeneratorImpl(Model model) {
-        super(model, new TimerRatio(0, DEFAULT_RATIO) {
+    private Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type;
 
-            private static final int DECREASE_RATIO = 3000;
-            private static final int MAX_RATIO = 25000;
-
-            @Override
-            public void operationRatio() {
-                final int newRatio = this.getRatio() - DECREASE_RATIO;
-                if (newRatio >= MAX_RATIO) {
-                    this.setRatio(newRatio);
-                    //type = () -> new LaserBlock.LaserBlockBuilder();
-                    //to change with random powerup choice
-                }
-            }
-        });
+    public PowerUpGeneratorImpl(final Model model) {
+        super(model, new PowerUpRatio());
+        this.type = () -> new LaserBlock.LaserBlockBuilder();
     }
 
     @Override
     protected void createNewItem() {
+        this.type = randomPowerUp();
         final PowerUpBlock powerUp = (PowerUpBlock) type.get()
+                .hitPoints(((PowerUpRatio) this.getRatio()).getHP())
                 .position(randomPoint())
                 .model(this.getModel())
-                .hitPoints(RandomUtility.intInRange(5, 25))
                 .build();
         this.addItemToList(powerUp);
     }
@@ -51,4 +39,8 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
                 RandomUtility.doubleInRange(-height / 2, height / 2));
     }
 
+    private Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> randomPowerUp() {
+        return () -> this.getModel().getPowerUpBlockTypes().get(
+                new Random().nextInt(this.getModel().getPowerUpBlockTypes().size()));
+    }
 }
