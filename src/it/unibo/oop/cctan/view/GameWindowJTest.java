@@ -50,7 +50,8 @@ class GameWindowJTest {
     private static final Dimension GAME_WINDOW_DIMENSION_TEST2 = new Dimension(SHORTER_EDGE, SHORTER_EDGE * 3 / 4);
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST3 = new ImmutablePair<Integer, Integer>(9, 16);
     private static final Dimension GAME_WINDOW_DIMENSION_TEST3 = new Dimension((int) (SHORTER_EDGE * DIMENSION_REDUCER_MULTIPLIER * 9d / 16d), (int) (SHORTER_EDGE * DIMENSION_REDUCER_MULTIPLIER));
-    private static final String TEXT = "Testo linea 1" + System.lineSeparator() + "Testo linea 2"
+    private static final String TEXT1 = "TESTO PER test testo molto LUNGO.";
+    private static final String TEXT2 = "Testo linea 1" + System.lineSeparator() + "Testo linea 2"
             + System.lineSeparator() + "Testo linea 3";
 
     private GameWindow gw;
@@ -70,7 +71,7 @@ class GameWindowJTest {
                 return d;
             }
         };
-        squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty()));
+        squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
     }
 
     @Test
@@ -89,7 +90,7 @@ class GameWindowJTest {
                 return d;
             }
         };
-        squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty()));
+        squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
     }
 
     @Test
@@ -109,7 +110,7 @@ class GameWindowJTest {
                             : GameStatus.ENDED);
             }
         };
-        squareTest(getModelDataSupplier(Optional.empty(), Optional.empty(), Optional.of(s), Optional.empty()));
+        squareTest(getModelDataSupplier(Optional.empty(), Optional.empty(), Optional.of(s), Optional.empty(), Optional.empty()));
     }
 
     @Test
@@ -140,7 +141,16 @@ class GameWindowJTest {
                 return d;
             }
         };
-        squareTest(getModelDataSupplier(Optional.of(positionSupplier), Optional.of(sizeSupplier), Optional.empty(), Optional.empty()));
+        Supplier<String> stringSupplier = new Supplier<String>() {
+
+            private int call = 0;
+
+            @Override
+            public String get() {
+                return call++ % 2 == 0 ? TEXT1 : TEXT2;
+            }
+        };
+        squareTest(getModelDataSupplier(Optional.of(positionSupplier), Optional.of(sizeSupplier), Optional.empty(), Optional.empty(), Optional.of(stringSupplier)));
     }
 
     @Test
@@ -196,7 +206,6 @@ class GameWindowJTest {
                                        -1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Bottom-Right
-        System.out.println(list.get(0).getShape() + " " + list.get(1).getShape());
         int cicle = 0;
         while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
             gw.refresh(new ModelDataImpl(list, 
@@ -230,9 +239,9 @@ class GameWindowJTest {
         gw.setVisible(false);
     }
 
-    private Supplier<ModelData> getModelDataSupplier(final Optional<Supplier<Double>> positionSupplier, final Optional<Supplier<Double>> squareDimension, final Optional<Supplier<GameStatus>> statusSupplier, final Optional<Integer> score) {
+    private Supplier<ModelData> getModelDataSupplier(final Optional<Supplier<Double>> positionSupplier, final Optional<Supplier<Double>> squareDimension, final Optional<Supplier<GameStatus>> statusSupplier, final Optional<Integer> score, final Optional<Supplier<String>> text) {
         return () -> new ModelDataImpl(IntStream.range(0, 2)
-                        .mapToObj(i -> new MappableDataImpl("" + (int) (Math.random() * 10), 
+                        .mapToObj(i -> new MappableDataImpl(text.isPresent() ? text.get().get() : "" + (int) (Math.random() * 10), 
                         Color.RED,
                         new Rectangle2D.Double(positionSupplier.isPresent() ? positionSupplier.get().get() : Math.random() * 2 - 1,
                                                positionSupplier.isPresent() ? positionSupplier.get().get() : Math.random() * 2 - 1,
