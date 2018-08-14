@@ -1,7 +1,7 @@
 package it.unibo.oop.cctan.controller;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
@@ -12,14 +12,11 @@ import it.unibo.oop.cctan.view.View.Component;
 /**
  * A class created to handle the refresh of the game window.
  */
-class ViewUpdater extends Thread implements CommandsObserver {
+class ViewUpdater extends Updater {
 
-    private static final int REFRESH_TIME = 20;
     private View view;
     private Model model;
     private MappableDataAdapter mappableDataAdapter;
-    private boolean suspended = false;
-    private boolean terminated = false;
 
     /**
      * The constructor of GraphicPanelUpdater class.
@@ -27,32 +24,19 @@ class ViewUpdater extends Thread implements CommandsObserver {
      * @param gpanel
      *            The graphic panel to update.
      */
-    ViewUpdater(final View view, final Model model) {
+    ViewUpdater(final View view, final Model model, final CommandsObserverSource commandsObserverSource) {
+        super(commandsObserverSource);
         this.view = view;
         this.model = model;
         mappableDataAdapter = new MappableDataAdapter(model);
-        view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
     }
 
     @Override
-    /** {@inheritDoc} */
-    public void run() {
-        while (!terminated) {
-            try {
-                if (model.getGameStatus() == GameStatus.ENDED) {
-                    view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
-                }
-                view.refreshGui(Component.GAME_WINDOW);
-                synchronized (this) {
-                    if (suspended) {
-                        wait();
-                    }
-                }
-                Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    void exec() {
+        if (model.getGameStatus() == GameStatus.ENDED) {
+            view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
         }
+        view.refreshGui(Component.GAME_WINDOW);
     }
 
     ModelData getModelData() {
@@ -61,26 +45,10 @@ class ViewUpdater extends Thread implements CommandsObserver {
                                  model.getGameStatus());
     }
 
-    /**
-     * Stop the execution of GraphicPanelUpdater (the game window will not be
-     * updated again).
-     */
-    public synchronized void terminate() {
-        view.getCommandsObserverSource().ifPresent(s -> s.removeCommandsObserver(this));
-        if (suspended) {
-            suspended = false;
-            notify();
-        }
-        terminated = true;
-    }
-
     @Override
     /** {@inheritDoc} */
     public synchronized void newCommand(final Commands command) {
-        suspended = command == Commands.PAUSE || command == Commands.END;
-        if (!suspended) {
-            notify();
-        }
+        setPause(command == Commands.PAUSE || command == Commands.END);
     }
 
 }

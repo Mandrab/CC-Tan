@@ -61,14 +61,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
      */
     Optional<Dimension> getDimension();
 
-    /**
-     * Set the degrees of the mouse relatively at the center of the game window to
-     * the controller.
-     * 
-     * @param mouseRelativePosition The degrees to pass
-     */
-    void setMouseRelativePosition(double mouseRelativePosition);
-
     Optional<Dimension> getGameWindowDimension();
 
     public LoadedFiles getLoadedFiles();
