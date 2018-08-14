@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
@@ -34,10 +35,12 @@ public class EndWindow {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainFrame.setLayout(new BorderLayout());
+        
+        Dimension windowDimension = tryDimensionOfWindow();
 
         ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
-        JLabel background = new JLabel(
-                new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance((int)windowDimension.getWidth(), (int)windowDimension.getHeight(), 0)));
+//        JLabel background = new JLabel( new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 3, SCREEN_SIZE.height / 2, 0)));
         mainFrame.add(background);
         mainFrame.setResizable(false);
         background.setLayout(new GridBagLayout());
@@ -48,7 +51,7 @@ public class EndWindow {
         Font font = new Font("Serif", 18, 60);
         JLabel title = new JLabel();
         title.setFont(font);
-        title.setText("GAME OVER");
+        title.setText("GAME-OVER");
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
@@ -85,9 +88,7 @@ public class EndWindow {
         background.add(exitBtn, c);
 
         mainFrame.pack();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame.setLocation(dim.width / 2 - mainFrame.getSize().width / 2,
-                dim.height / 2 - mainFrame.getSize().height / 2);
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
 
         restartBtn.addActionListener(new ActionListener() {
@@ -143,5 +144,57 @@ public class EndWindow {
                 System.exit(0);
             }
         });
+    }
+    private Dimension tryDimensionOfWindow() {
+        JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        Font font = new Font("Serif", 18, 60);
+        JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(title, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(new JLabel("           "), c);
+
+        JLabel nickLabl = new JLabel();
+        nickLabl.setText("Your score : " + this.score);
+        c.gridx = 0;
+        c.gridy = 2;
+        nickLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(nickLabl, c);
+
+        c.insets = new Insets(10, 5, 0, 5);
+        c.gridwidth = 1;
+
+        JButton restartBtn = new JButton("Restart");
+        c.gridx = 0;
+        c.gridy = 6;
+        tmpBackground.add(restartBtn, c);
+
+        JButton settingsBtn = new JButton("Settings");
+        c.gridx = 0;
+        c.gridy = 4;
+        tmpBackground.add(settingsBtn, c);
+
+        JButton exitBtn = new JButton("Exit");
+        c.gridx = 0;
+        c.gridy = 5;
+        tmpBackground.add(exitBtn, c);
+
+
+        tmpSet.pack();
+        return tmpSet.getSize();
     }
 }

@@ -19,7 +19,6 @@ import it.unibo.oop.cctan.interPackageComunication.Commands;
 public class MenuWindow extends JFrame {
 
     private static final long serialVersionUID = 2339975308093481172L;
-    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final String BACKGROUND_JPG = "/background2.jpg";
     private Optional<LeaderBoardTable> leaderboard = Optional.empty();
     private View view;
