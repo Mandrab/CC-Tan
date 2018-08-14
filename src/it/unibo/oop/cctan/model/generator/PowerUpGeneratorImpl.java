@@ -9,15 +9,27 @@ import it.unibo.oop.cctan.model.PowerUpBlock;
 import it.unibo.oop.cctan.model.PowerUpBlockImpl;
 import javafx.geometry.Point2D;
 
+/**
+ * It represents a random generator of {@link PowerUpBlock PowerUpBlock} over time.
+ */
 public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
 
     private Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type;
 
+    /**
+     * Create a new thread that generates {@link PowerUpBlock PowerUpBlock} over time.
+     * 
+     * @param model
+     *            it's the model of the application
+     */
     public PowerUpGeneratorImpl(final Model model) {
         super(model, new PowerUpRatio());
         this.type = () -> new LaserBlock.LaserBlockBuilder();
     }
 
+    /**
+     * 
+     */
     @Override
     protected void createNewItem() {
         this.type = randomPowerUp();

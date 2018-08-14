@@ -7,12 +7,12 @@ import javafx.geometry.Point2D;
 import java.util.Random;
 
 /**
- * {@inheritDoc}.
+ * It represents a generator of squares.
  */
 public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
 
     /**
-     * Create a new thread that generates squares.
+     * Create a new thread that generates {@link SquareAgent SquareAgent} over time.
      * 
      * @param model
      *            it's the model of the application
@@ -21,6 +21,9 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
         super(model, new SquareRatio());
     }
 
+    /**
+     * This method is used to create new {@link SquareAgent SquareAgent} object.
+     */
     @Override
     protected synchronized void createNewItem() {
         final Point2D randomPos = randomPosition();
