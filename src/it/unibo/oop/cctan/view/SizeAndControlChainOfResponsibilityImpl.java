@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
 abstract class SizeAndControlChainOfResponsibilityImpl implements SizeAndControlChainOfResponsibility {
 

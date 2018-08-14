@@ -1,10 +1,10 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.awt.Dimension;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-interface SizeObserver {
+public interface SizeObserver {
 
     /**
      * A method that as to be implemented by every one who want to be informed of

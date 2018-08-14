@@ -7,43 +7,43 @@ import it.unibo.oop.cctan.model.FixedItem;
 import it.unibo.oop.cctan.model.Model;
 
 /**
- * Represents a generic generator of MovableItem.
+ * Represents a generic generator of objects of type <T>.
+ * @param <T>
+ *              It's the type of objects that will be created dynamically 
+ *              over time from the class that will implement this interface.
  */
 public interface ItemGenerator<T extends FixedItem> extends Commands {
 
     /**
-     * This method is used to start the thread that generates MovableItem.
+     * This method is used to start the thread that generates objects.
      */
     void launch();
 
     /**
-     * This method is used to add to the list the new MovableItem that has just been created.
+     * This method is used to add to the list the new objects that has just been created.
      * @param item
-     *          It's the MovableItem object that must be add to the application.
+     *          It's the object that must be add to the application.
      */
     void addItemToList(T item);
 
     /**
-     * Get a new list containing all MovableItem that have been generated 
-     * up to that moment.
+     * Get a new list containing all objects that have been generated up to that moment.
      * @return
-     *          New list containing all MovableItem.
+     *          New list containing all objects.
      */
     List<T> getItems();
 
     /**
-     * This method is used to remove a MovableItem that don't serve 
-     * within the application.
+     * This method is used to remove a objects that don't serve within the application.
      * @param item
-     *          It's the MovableItem object that must be removed from
-     *          the application.
+     *          It's the object that must be removed from the application.
      */
     void removeItem(T item);
 
     /**
-     * Get the model of the MVC application.
      * @return
-     *          The model of the MVC application.
+     *          The model of the application.
      */
     Model getModel();
+
 }

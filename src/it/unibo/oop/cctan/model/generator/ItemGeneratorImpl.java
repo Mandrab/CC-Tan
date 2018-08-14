@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Represents a generic generator of MovableItem. This object is also a thread because 
- *  it must always remain running in order to continuously generate new MovableItem.
+ *  Represents a generic generator of objects of type <T>. This object is also a thread because 
+ *  it must always remain running in order to continuously generate new objects.
+ *  @param <T>
+ *              It's the type of objects that will be created dynamically over time.
  */
 public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
@@ -18,7 +20,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     private final TimerRatio ratio;
 
     /**
-     * Create a new movable item respecting the value specified inside this fields.
+     * Create a new ItemGeneratorImpl thread respecting the value specified inside this fields.
      * @param model
      *          The model of the application.
      * @param time
@@ -45,14 +47,17 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     public void run() {
         while (!stop) {
             try {
-                synchronized (this) {
-                    if (this.suspend) {
-                        wait();
+                //synchronized (this) {
+              //if (suspend) {
+                //  wait();
+                //}
+                    while (suspend) {
+                        Thread.sleep(50);
                     }
-                    if (!this.stop || !this.suspend) { //magari nel mentre il gioco è terminato...
+                    if (!this.stop || !this.suspend) {
                         createNewItem();
                     }
-                }
+                //}
                 Thread.sleep(this.ratio.getRatio());
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -61,8 +66,8 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     }
 
     /**
-     * This method is used to create new MovableItem. This operation varies according 
-     * to the MovableItem that must be generated.
+     * This method is used to create new object of type <T>. This operation varies according 
+     * to the objects that must be generated.
      */
     protected abstract void createNewItem();
 
@@ -72,6 +77,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     @Override
     public synchronized void terminate() {
         if (this.suspend) {
+            this.ratio.terminate();
             this.suspend = false;
         }
         this.stop = true;
@@ -83,6 +89,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void pause() {
+        this.ratio.pause();
         this.suspend = true;
     }
 
@@ -91,6 +98,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void resumeGame() {
+        this.ratio.resumeGame();
         this.suspend = false;
         notifyAll();
     }
@@ -105,7 +113,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
 
     /**
      * This method is used to launch the TimerRatio thread first. Finally, this thread 
-     * that generates movable objects is also launched.
+     * that generates objects is also launched.
      */
     @Override
     public void launch() {

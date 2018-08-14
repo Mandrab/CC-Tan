@@ -9,7 +9,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +29,14 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.controller.FileLoader;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
 
 public class SettingsWindow extends SizeObserverSourceImpl {
-    
+
     private Dimension settingsDimansion;
-    
+
     private static String playerNick = "not set";
     private static JFrame settings;
     private static final String BACKGROUND_JPG = "/background2.jpg";
@@ -50,20 +51,23 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         this.view = v;
         gameWindowSize = Optional.empty();
         gameWindowRatio = Optional.empty();
-        
+
         this.settingsDimansion = tryDimensionOfWindow();
-        
+
         settings = new JFrame("Settings");
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());
 
         ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
-        
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance((int)settingsDimansion.getWidth(), (int)settingsDimansion.getHeight(), 0)));
-//        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage()
+                .getScaledInstance((int) settingsDimansion.getWidth(), (int) settingsDimansion.getHeight(), 0)));
+        // JLabel background = new JLabel(new
+        // ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5,
+        // SCREEN_SIZE.height / 3, 0)));
         settings.add(background);
-        
+
         background.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -183,8 +187,8 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         c.anchor = GridBagConstraints.PAGE_END;
         background.add(doneBtn, c);
 
-        //settings.setSize(font.getSize() * 4, font.getSize() * 5);
-        
+        // settings.setSize(font.getSize() * 4, font.getSize() * 5);
+
         settings.pack();
         settings.setLocationRelativeTo(null);
         settings.setResizable(false);
@@ -287,7 +291,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         c.gridx = 0;
         c.gridy = 7;
         tmpBackground.add(dimension, c);
-        
+
         JButton doneBtn = new JButton("done");
         c.gridx = 1;
         c.gridy = 8;
@@ -297,7 +301,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         c.anchor = GridBagConstraints.PAGE_END;
         tmpBackground.add(doneBtn, c);
 
-        //tmpSet.setVisible(true);
+        // tmpSet.setVisible(true);
         tmpSet.pack();
         return tmpSet.getSize();
     }
@@ -314,9 +318,9 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         return playerNick;
     }
 
-     @Override
+    @Override
     public Optional<Dimension> getDimension() {
-         return gameWindowSize;
+        return gameWindowSize;
     }
 
     @Override
@@ -336,13 +340,10 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         return null;
     }
 
-    //TODO
+    // TODO
     public static void music() {
         try {
             if (!clip.isPresent()) {
-//                String path = new File(SONG_NAME).getAbsolutePath();
-//                System.out.println(path);
-//                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SettingsWindow.class.getResource(SONG_NAME_WAV));
                 clip = Optional.of(AudioSystem.getClip());
                 clip.get().open(audioInputStream);

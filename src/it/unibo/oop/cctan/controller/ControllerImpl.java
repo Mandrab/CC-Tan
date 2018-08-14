@@ -1,14 +1,13 @@
 package it.unibo.oop.cctan.controller;
 
+import java.awt.Dimension;
 import java.util.Optional;
 
-import javax.swing.ImageIcon;
+import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibilityImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
@@ -76,6 +75,11 @@ public class ControllerImpl implements Controller, CommandsObserver {
     @Override
     public void refreshGui(final Component component) {
         view.ifPresent(v -> v.refreshGui(component));
+    }
+
+    @Override
+    public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+        model.setDisplayRatio(screenRatio.getKey() / screenRatio.getValue());
     }
 
 }

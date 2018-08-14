@@ -1,10 +1,13 @@
 package it.unibo.oop.cctan.model.generator;
 
+import it.unibo.oop.cctan.model.Commands;
+
 /**
  * This abstract class is a kind of timer that executes the operationRatio method 
- * at the end of every minute. 
+ * at the end of every minute. The operationRatio method is used to change the speed 
+ * and/or the frequency with which the objects (which implement this class) are generated.
  */
-public abstract class TimerRatio extends Thread {
+public abstract class TimerRatio extends Thread implements Commands {
 
     /**
      * This value is expressed in milliseconds. Indicates that in a minute there are 
@@ -22,31 +25,43 @@ public abstract class TimerRatio extends Thread {
      */
     private int ratio;
 
+    private boolean stop;
+    private boolean suspend;
+
     /**
      * Create a new TimerRatio thread.
      * @param speed
-     *          it's the initial speed of the item.
+     *          It's the initial speed of the item.
      * @param ratio
-     *          it's the initial frequency with which the object is generated.
+     *          It's the initial frequency with which the object is generated.
      */
     public TimerRatio(final double speed, final int ratio) {
         super();
+        this.stop = false;
         this.speed = speed;
         this.ratio = ratio;
+        this.suspend = false;
     }
 
     /**
-     * {@inheritDoc}
+     * It's responsible for executing the operationRatio method at the end of every minute.
      */
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             try {
+                synchronized (this) {
+                    if (this.suspend) {
+                        wait();
+                    }
+                    if (!this.stop || !this.suspend) {
+                        operationRatio();
+                    }
+                }
                 Thread.sleep(ONE_MINUTE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            operationRatio();
         }
     }
 
@@ -56,6 +71,51 @@ public abstract class TimerRatio extends Thread {
      *  movement of the various objects, or to increase the initial life of the squares.
      */
     public abstract void operationRatio();
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void terminate() {
+        if (this.suspend) {
+            this.suspend = false;
+        }
+        this.stop = true;
+        notifyAll();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void pause() {
+        this.suspend = true;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void resumeGame() {
+        this.suspend = false;
+        notifyAll();
+    }
+
+    /**
+     * @return
+     *          ratio field
+     */
+    public int getRatio() {
+        return this.ratio;
+    }
+
+    /**
+     * @return
+     *          speed field
+     */
+    public double getSpeed() {
+        return this.speed;
+    }
 
     /**
      * Set the new speed.
@@ -73,22 +133,6 @@ public abstract class TimerRatio extends Thread {
      */
     protected void setRatio(final int ratio) {
         this.ratio = ratio;
-    }
-
-    /**
-     * @return
-     *          speed field
-     */
-    public double getSpeed() {
-        return this.speed;
-    }
-
-    /**
-     * @return
-     *          ratio field
-     */
-    public int getRatio() {
-        return this.ratio;
     }
 
 }

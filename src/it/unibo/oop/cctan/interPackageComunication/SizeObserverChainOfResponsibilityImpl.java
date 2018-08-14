@@ -1,11 +1,11 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.Optional;
 
 /**
  * An implementation of CommandsObserverTransitiveSource.
  */
-abstract class SizeObserverChainOfResponsibilityImpl implements SizeObserverChainOfResponsibility {
+public abstract class SizeObserverChainOfResponsibilityImpl implements SizeObserverChainOfResponsibility {
 
     private Optional<SizeObserverSource> sizeObserverSource = Optional.empty();
     private Optional<SizeObserverChainOfResponsibility> successor = Optional.empty();

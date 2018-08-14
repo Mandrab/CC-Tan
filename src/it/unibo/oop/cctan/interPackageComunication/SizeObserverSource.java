@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.awt.Dimension;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * An interface that specifies the method that a SizeObserverSource class must
  * implement.
  */
-interface SizeObserverSource {
+public interface SizeObserverSource {
 
     /**
      * Allow to add a "size" observer.

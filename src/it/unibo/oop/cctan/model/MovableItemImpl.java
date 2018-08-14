@@ -46,14 +46,17 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     public void run() {
         while (!stop) {
             try {
-                synchronized (this) {
-                    if (suspend) {
-                        wait();
+                //synchronized (this) {
+                    //if (suspend) {
+                    //  wait();
+                    //}
+                    while (suspend) {
+                        Thread.sleep(50);
                     }
                     if (!stop || !suspend) { //magari nel mentre il gioco è terminato...
                         updatePos();
                     }
-                }
+                //}
                 Thread.sleep(REFRESH_RATIO);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -70,7 +73,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
             this.suspend = false;
         }
         this.stop = true;
-        notifyAll();
+        //notifyAll();
     }
 
     /** 

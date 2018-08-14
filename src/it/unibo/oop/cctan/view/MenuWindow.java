@@ -7,17 +7,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.io.File;
 import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 
 public class MenuWindow extends JFrame {
@@ -162,7 +158,7 @@ public class MenuWindow extends JFrame {
         tmpBackground.add(new JLabel("           "), constraints);
 
         JLabel nickLabl = new JLabel();
-        nickLabl.setText("Player name : " + view.getPlayerName().get());
+        nickLabl.setText("Player name : ten chars !");
         constraints.gridx = 0;
         constraints.gridy = 2;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
