@@ -25,25 +25,7 @@ class MouseEvents extends Thread implements CommandsObserver {
         start();
     }
 
-    @Override
-    public void run() {
-        while (!terminated) {
-            try {
-                synchronized (this) {
-                    if (suspended) {
-                        wait();
-                    }
-                    if (!observing) {
-                        addCommandsObserver();
-                    }
-                    view.setMouseRelativePosition(getMouseRelativePosition());
-                }
-                Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    
 
     public synchronized void terminate() {
         if (observing) {

@@ -16,7 +16,7 @@ import it.unibo.oop.cctan.controller.Controller;
 public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements View {
 
     private Controller controller;
-    private MouseEvents mouseEvents;
+    private Optional<MouseEvents> mouseEvents = Optional.empty();
     private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
@@ -46,7 +46,9 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         gameWindow.get().addKeyListener(keyCommandsListener.getKeyListener());
         gameWindow.get().update(gameWindowSize, screenRatio);
         gameWindow.get().setVisible(true);
-        mouseEvents = new MouseEvents(this);
+        if (!mouseEvents.isPresent()) {
+            mouseEvents = Optional.of(new MouseEvents(this));
+        }
     }
 
     @Override
@@ -85,13 +87,10 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     @Override
     /** {@inheritDoc} */
     public double getMouseRelativePosition() {
-        return mouseEvents.getMouseRelativePosition();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public void setMouseRelativePosition(final double mouseRelativePosition) {
-        controller.setMouseRelativePosition(mouseRelativePosition);
+        if (!mouseEvents.isPresent()) {
+            mouseEvents = Optional.of(new MouseEvents(this));
+        }
+        return mouseEvents.get().getMouseRelativePosition();
     }
 
     @Override

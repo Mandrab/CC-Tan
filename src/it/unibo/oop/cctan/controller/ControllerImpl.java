@@ -20,6 +20,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
     private Model model;
     private FileLoader fileLoader;
     private ViewUpdater viewUpdater;
+    private ModelUpdater modelUpdater;
 
     public ControllerImpl() {
         // TODO Auto-generated constructor stub
@@ -35,7 +36,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
     }
 
     @Override
-    public void setMouseRelativePosition(double angle) {
+    public void setMouseRelativePosition(final double angle) {
         model.setSpaceshipAngle(angle);
     }
 
@@ -54,8 +55,15 @@ public class ControllerImpl implements Controller, CommandsObserver {
         switch (command) {
             case START:
                 model.launch();
-                viewUpdater = new ViewUpdater(view.get(), model);
-                viewUpdater.start();
+                view.get().getSizeObserverSource().ifPresent(s -> model.setDisplayRatio(s.getRatio().get().getKey() / s.getRatio().get().getValue()));
+                view.get()
+                    .getCommandsObserverSource()
+                    .ifPresent(cos -> {
+                        viewUpdater = new ViewUpdater(view.get(), model, cos); 
+                        viewUpdater.start();
+                        modelUpdater = new ModelUpdater(view.get(), model, cos);
+                        modelUpdater.start();
+                    });
                 break;
             case PAUSE:
                 model.pause();
@@ -79,6 +87,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
 
     @Override
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+        System.out.println("ciao");
         model.setDisplayRatio(screenRatio.getKey() / screenRatio.getValue());
     }
 

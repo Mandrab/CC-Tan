@@ -304,10 +304,6 @@ class GameWindowJTest {
         }
 
         @Override
-        public void setMouseRelativePosition(final double mouseRelativePosition) {
-        }
-
-        @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
         }
