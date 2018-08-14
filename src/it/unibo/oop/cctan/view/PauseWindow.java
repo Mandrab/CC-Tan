@@ -116,9 +116,10 @@ public class PauseWindow {
 //                } catch (InterruptedException e1) {
 //                    e1.printStackTrace();
 //                }
-                view.getKeyCommandsListener().startCommand();
 
                 view.getKeyCommandsListener().setLockResumeKey(false);
+                view.getKeyCommandsListener().startCommand();
+
                 mainFrame.dispose();
             }
         });
@@ -134,6 +135,7 @@ public class PauseWindow {
                 view.getKeyCommandsListener().setReset(true);
                 view.getKeyCommandsListener().endCommand();
                 System.out.println("colpa del pause window");
+                view.hideGameWindow();
                 view.showSettingsWindow();
                 view.getKeyCommandsListener().setLockResumeKey(false);
                 mainFrame.dispose();
