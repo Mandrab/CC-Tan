@@ -227,7 +227,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
     }
 
     private Dimension tryDimensionOfWindow() {
-        JFrame tmpSet = new JFrame("tryDimansion");
+        JFrame tmpSet = new JFrame("tryDimension");
         tmpSet.setLayout(new BorderLayout());
         JPanel tmpBackground = new JPanel();
         tmpSet.add(tmpBackground);

@@ -12,8 +12,11 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
 
@@ -29,13 +32,16 @@ public class MenuWindow extends JFrame {
 
         this.view = view;
 
+        Dimension settingsDimansion = tryDimensionOfWindow();
+        
         setTitle("oop17-cctan Main Menù");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         //COMPONENTS
         ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance((int)settingsDimansion.getWidth(), (int)settingsDimansion.getHeight(), 0)));
+//        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
         background.setLayout(new GridBagLayout());
         add(background);
         this.setResizable(false);
@@ -87,7 +93,7 @@ public class MenuWindow extends JFrame {
         constraints.gridy = 6;
         background.add(exitBtn, constraints);
         
-        JButton soundsBtn = new JButton(" Mute ");
+        JButton soundsBtn = new JButton("Mute");
         constraints.gridx = 1;
         constraints.gridy = 6;
         background.add(soundsBtn, constraints);
@@ -130,6 +136,68 @@ public class MenuWindow extends JFrame {
             }
         });
 
+    }
+    
+    private Dimension tryDimensionOfWindow() {
+        JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+
+        Font font = new Font("Serif", 18, 60);
+        JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("CC-TAN");
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(title, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(new JLabel("           "), constraints);
+
+        JLabel nickLabl = new JLabel();
+        nickLabl.setText("Player name : " + view.getPlayerName().get());
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        nickLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(nickLabl, constraints);
+
+        constraints.insets = new Insets(10, 5, 0, 5);
+        constraints.gridwidth = 1;
+
+        JButton startBtn = new JButton("START");
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        tmpBackground.add(startBtn, constraints);
+
+        JButton settingsBtn = new JButton("Settings");
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        tmpBackground.add(settingsBtn, constraints);
+
+        JButton scoresBtn = new JButton("View Leaderboard");
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        tmpBackground.add(scoresBtn, constraints);
+
+        JButton exitBtn = new JButton("Exit");
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        tmpBackground.add(exitBtn, constraints);
+        
+        JButton soundsBtn = new JButton("Mute");
+        constraints.gridx = 1;
+        constraints.gridy = 6;
+        tmpBackground.add(soundsBtn, constraints);
+
+        tmpSet.pack();
+        return tmpSet.getSize();
     }
     
     public View getView() {
