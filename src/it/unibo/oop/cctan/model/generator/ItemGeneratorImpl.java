@@ -47,14 +47,17 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     public void run() {
         while (!stop) {
             try {
-                synchronized (this) {
-                    if (this.suspend) {
-                        wait();
+                //synchronized (this) {
+              //if (suspend) {
+                //  wait();
+                //}
+                    while (suspend) {
+                        Thread.sleep(50);
                     }
                     if (!this.stop || !this.suspend) {
                         createNewItem();
                     }
-                }
+                //}
                 Thread.sleep(this.ratio.getRatio());
             } catch (Exception ex) {
                 ex.printStackTrace();
