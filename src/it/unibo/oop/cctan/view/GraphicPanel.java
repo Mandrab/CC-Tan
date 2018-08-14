@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -25,15 +24,14 @@ class GraphicPanel extends JPanel {
     private static final long serialVersionUID = 7947210167853025169L;
     private static final float DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().width / 35;
     private static final int OPACITY_VALUE = 127; // [0 - 127]; 0 = transparent, 255 = normal
+    private static final Pair<Double, Double> SCORE_POSITION_ON_SCREEN = new ImmutablePair<Double, Double>(0d, 0.9);
+    private static final Pair<Double, Double> COMMANDS_TEXT_POSITION_ON_SCREEN = new ImmutablePair<Double, Double>(0d, 0d);
+    private static final double EDGE_MULTIPLIER = 1.05;
     private Drawer drawer;
     private Optional<Dimension> dimension;
-    private List<MappableData> mappableDatas;
-    private int score;
+    private ModelData modelData;
 
     GraphicPanel(final File file) {
-        mappableDatas = new LinkedList<>();
-        score = 0;
-
         drawer = new Drawer(file);
     }
 
@@ -42,62 +40,56 @@ class GraphicPanel extends JPanel {
             throw new IllegalArgumentException();
         }
         dimension = Optional.of(gameWindowSize);
-        setSize(gameWindowSize);
         setPreferredSize(gameWindowSize);
+        setSize(gameWindowSize);
         drawer.update(gameWindowSize, screenRatio);
     }
 
-    public void paint(final Graphics graphics) {
-        if (dimension.isPresent()) {
-            graphics.setColor(Color.BLACK);
-            graphics.fillRect(0, 0, (int) (dimension.get().width * 1.1), (int) (dimension.get().height * 1.1));
-            drawer.setGraphics(graphics);
-            synchronized (this) {
-                mappableDatas.forEach(drawer::draw);
-            }
-            graphics.setFont(graphics.getFont().deriveFont(DEFAULT_FONT_SIZE));
-            drawer.drawText(new ImmutablePair<Double, Double>(0.5, 0.9), Color.WHITE, score + "");
+    public void refresh(final ModelData modelData) {
+        if (modelData == null) {
+            throw new IllegalArgumentException();
         }
-    }
-
-    void redraw(final List<MappableData> mappableDatas, final int score) {
-        synchronized (this) {
-            this.mappableDatas = mappableDatas;
+        synchronized (modelData) {
+            this.modelData = modelData;
         }
-        this.score = score;
         repaint();
     }
 
-    public void refresh(final ModelData modelData) {
-        if (modelData.getGameStatus() == GameStatus.RUNNING) {
-            redraw(modelData.getMappableDatas(), modelData.getScore());
-        } else {
-            //redraw(opacifies(modelData), modelData.getScore());
-            //drawer.drawText(new ImmutablePair<Double, Double>(0d, 0d), Color.RED, modelData.getGameStatus().name());
-            redraw(addPrintableText(modelData, modelData.getGameStatus().name() + "!" + System.lineSeparator() + modelData.getScore()), modelData.getScore());
+    @Override
+    /** {@inheritDoc} */
+    public void paint(final Graphics graphics) {
+        if (dimension.isPresent()) {
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(0, 0, (int) (dimension.get().width * EDGE_MULTIPLIER), (int) (dimension.get().height * EDGE_MULTIPLIER));
+            drawer.setGraphics(graphics);
+            synchronized (modelData) {
+                if (modelData.getGameStatus() == GameStatus.RUNNING) {
+                    modelData.getMappableDatas()
+                             .forEach(drawer::drawMappableData);
+                    drawer.drawText(modelData.getScore() + "", 
+                                    SCORE_POSITION_ON_SCREEN, 
+                                    DEFAULT_FONT_SIZE, 
+                                    Color.WHITE);
+                } else {
+                    opacifies(modelData.getMappableDatas())
+                                       .forEach(drawer::drawMappableData);
+                    drawer.drawText(modelData.getScore() + "", 
+                                    SCORE_POSITION_ON_SCREEN, 
+                                    DEFAULT_FONT_SIZE, 
+                                    new Color(Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue(), OPACITY_VALUE));
+                    drawer.drawText(modelData.getGameStatus().name(), 
+                                    COMMANDS_TEXT_POSITION_ON_SCREEN, 
+                                    DEFAULT_FONT_SIZE * 2, 
+                                    Color.RED);
+                }
+            }
         }
     }
 
-    private List<MappableData> opacifies(ModelData modelData) {
-        List<MappableData> l = modelData.getMappableDatas().stream().map(e -> new MappableDataImpl(e.getText(),
+    private List<MappableData> opacifies(final List<MappableData> mappableDatas) {
+        List<MappableData> l = mappableDatas.stream().map(e -> new MappableDataImpl(e.getText(),
                 new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
                 e.getShape())).collect(Collectors.toList());
-        return l;
-    }
-
-    /**
-     * Modifies the mappable data list to show a centered message. The other object
-     * will become opacities.
-     * 
-     * @param text
-     *            The message to be printed.
-     * @return The new list that now include the message
-     */
-    private List<MappableData> addPrintableText(final ModelData modelData, final String text) {
-        List<MappableData> l = modelData.getMappableDatas().stream().map(e -> new MappableDataImpl(e.getText(),
-                new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
-                e.getShape())).collect(Collectors.toList());
-        l.add(new MappableDataImpl(text, Color.RED, new Rectangle2D.Double(-1, -1, 2d, 2d)));
         return l;
     }
 
