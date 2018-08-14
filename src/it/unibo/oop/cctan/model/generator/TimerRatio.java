@@ -27,6 +27,8 @@ public abstract class TimerRatio extends Thread implements Commands {
 
     private boolean stop;
     private boolean suspend;
+    private final int startingRatio;
+    private final double startingSpeed;
 
     /**
      * Create a new TimerRatio thread.
@@ -38,9 +40,11 @@ public abstract class TimerRatio extends Thread implements Commands {
     public TimerRatio(final double speed, final int ratio) {
         super();
         this.stop = false;
+        this.startingSpeed = speed;
+        this.startingRatio = ratio;
+        this.suspend = false;
         this.speed = speed;
         this.ratio = ratio;
-        this.suspend = false;
     }
 
     /**
@@ -81,6 +85,8 @@ public abstract class TimerRatio extends Thread implements Commands {
             this.suspend = false;
         }
         this.stop = true;
+        this.ratio = this.startingRatio;
+        this.speed = this.startingSpeed;
         notifyAll();
     }
 

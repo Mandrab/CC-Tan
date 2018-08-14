@@ -5,8 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import javafx.geometry.Point2D;
 
@@ -16,13 +21,13 @@ import javafx.geometry.Point2D;
  */
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
-    private static final int INTERVALS = 6; //6; //number of intervals in which split out the two dimensions. Use 1 in test
-    private static final int HEIGHT = 1; //height of the rectangle containing the triangle, in terms of interval-unit
-    private static final int WIDTH = 1; //width of the rectangle, in terms of interval-unit
+    private static final double HEIGHT = 1/15.0; //height of the rectangle containing the triangle, in terms of interval-unit
+    private static final double WIDTH = 1/15.0; //width of the rectangle, in terms of interval-unit
 
     private final double width;
     private final double height;
     private final Point2D startingPos;
+    private final List<Pair<PowerUpBlock, PowerUpExecution>> activePowerUps;
 
     /**
      * Create a new shuttle in the center of the game area.
@@ -31,10 +36,9 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      */
     public ShuttleImpl(final Model model) {
         super(model, new Point2D(0, 0));
-        final double unitX = (this.getModel().getBounds().getX1() / INTERVALS);
-        final double unitY = (this.getModel().getBounds().getY1() / INTERVALS);
-        this.width = WIDTH * unitX;
-        this.height = HEIGHT * unitY;
+        this.width = WIDTH * this.getModel().getBounds().width();
+        this.height = HEIGHT * this.getModel().getBounds().height();
+        this.activePowerUps = new ArrayList<>();
         this.startingPos = new Point2D(this.width / 2, this.height / 2);
         this.setPos(this.startingPos);
     }
@@ -125,5 +129,30 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public Color getColor() {
         return Color.WHITE;
+    }
+
+    @Override
+    public synchronized List<PowerUpExecution> getActivePowerUps() {
+        return Collections.unmodifiableList(this.activePowerUps.stream()
+                                                                .map(p -> p.getRight())
+                                                                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public synchronized void activePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
+        final List<Pair<PowerUpBlock, PowerUpExecution>> duplicate = this.activePowerUps.stream()
+                                                 .filter(p -> p.getLeft().getClass()
+                                                         .equals(powerUpExecution.getLeft().getClass()))
+                                                 .collect(Collectors.toList());
+        if (!duplicate.isEmpty()) {
+            duplicate.forEach(p -> p.getRight().increaseTimer(powerUpExecution.getRight().getTimer()));
+        } else {
+            this.activePowerUps.add(powerUpExecution);
+        }
+    }
+
+    @Override
+    public synchronized void removePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
+        this.activePowerUps.remove(powerUpExecution);
     }
 }

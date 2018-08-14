@@ -37,11 +37,9 @@ public abstract class HittableImpl  implements Hittable {
      */
     @Override
     public void hit(final int damage) {
-        if (this.hitPoints <= 0) {
-            throw new IllegalStateException("item hit point are already under 0");
-        }
         this.hitPoints--;
         if (this.hitPoints <= 0) {
+            this.hitPoints = 0;
             this.destroyed();
         }
     }

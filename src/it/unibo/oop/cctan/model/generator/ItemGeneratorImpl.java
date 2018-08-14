@@ -76,11 +76,8 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void terminate() {
-        if (this.suspend) {
-            this.ratio.terminate();
-            this.suspend = false;
-        }
         this.stop = true;
+        this.ratio.terminate();
         notifyAll();
     }
 
@@ -118,7 +115,9 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     @Override
     public void launch() {
         this.ratio.start();
-        super.start();
+        this.stop = false;
+        this.suspend = false;
+        start();
     }
 
     /**
