@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.awt.Dimension;
 import java.util.ArrayList;

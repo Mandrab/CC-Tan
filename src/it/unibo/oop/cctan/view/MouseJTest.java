@@ -26,6 +26,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
 class MouseJTest {
 

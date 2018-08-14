@@ -23,6 +23,7 @@ import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
 public class KeyListenerJTest {
     

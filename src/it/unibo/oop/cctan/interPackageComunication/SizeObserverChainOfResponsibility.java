@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.view;
+package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import java.util.Optional;
  * An interface that specifies which method must have a class that has to act as
  * a link between the SizeObserverSource and the SizeObservers.
  */
-interface SizeObserverChainOfResponsibility {
+public interface SizeObserverChainOfResponsibility {
 
     /**
      * Sets the SizeObserverTransitiveSource to be called if this class

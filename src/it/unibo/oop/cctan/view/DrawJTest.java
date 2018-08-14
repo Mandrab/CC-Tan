@@ -12,8 +12,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.SwingUtilities;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.FixMethodOrder;
@@ -28,6 +26,8 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 import it.unibo.oop.cctan.view.View.Component;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -50,48 +50,8 @@ class DrawJTest {
     private static final Dimension GAME_WINDOW_DIMENSION_TEST3 = new Dimension(SHORTER_EDGE / 2, SHORTER_EDGE);
     private static final String TEXT = "Testo linea 1" + System.lineSeparator() + "Testo linea 2"
             + System.lineSeparator() + "Testo linea 3";
-    private View view;
-    private int everyCallInitialValue;
 
-   /* @Test
-    void staticSquareTest() {
-        everyCallInitialValue = 900;
-        View view = new ViewImpl(new ControllerJTest(() -> everyCallInitialValue));
-        view.showGameWindow(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
-        IntStream.range(0, 100).forEach(e -> {
-            view.refreshGui();
-            try {
-                Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-        });
-    }
-
-    @Test
-    void movingSquareTest() throws InterruptedException {
-        everyCallInitialValue = 0;
-        View view = new ViewImpl(new ControllerJTest(new Supplier<Integer>() {
-
-            private int call = everyCallInitialValue;
-
-            @Override
-            public Integer get() {
-                return call++;
-            }
-        }));
-        view.showGameWindow(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
-        IntStream.range(0, 100).forEach(e -> {
-            view.refreshGui();
-            try {
-                Thread.sleep(REFRESH_TIME);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-        });
-    }
-
-    @Test
+    /*@Test
     void drawTextTest() throws InterruptedException {
         view = new ViewImpl(new ControllerJTest() {
 
@@ -134,33 +94,53 @@ class DrawJTest {
 
     @Test
     public void staticSquare() throws InterruptedException, InvocationTargetException {
-        View view = new ViewJTest();
-                /*return new ModelDataImpl(IntStream.range(0, 20)
-                                                  .mapToObj(e -> new MappableDataImpl("" + Math.random() * 10, 
-                                                                                      Color.RED,
-                                                                                      new Rectangle2D.Double(Math.random() * 2 - 1, 
-                                                                                                             Math.random() * 2 - 1, 
-                                                                                                             0.2, 
-                                                                                                             0.2)))
-                                                  .collect(Collectors.toList()), 
-                                         (int) (Math.random()*10), 
-                                         GameStatus.RUNNING);*/
+        squareTest(new Supplier<Double>() {
+
+            private final double upper = 0.6;
+            private final double lower = -0.6;
+            private int call = 0;
+
+            @Override
+            public Double get() {
+                double d = call % 4 == 0 || call % 4 == 1 ? upper : lower;
+                call++;
+                return d;
+            }
+        });
+    }
+
+    @Test
+    public void movingSquare() throws InterruptedException, InvocationTargetException {
+        squareTest(new Supplier<Double>() {
+
+            private final double toUpInitialValue = -0.6;
+            private final double toBottomInitialValue = 0.6;
+            private final double deltaMove = 0.001;
+            private int call = 0;
+
+            @Override
+            public Double get() {
+                double d = call % 4 == 0 || call % 4 == 1 ? toUpInitialValue + call * deltaMove : toBottomInitialValue - call * deltaMove;
+                call++;
+                return d;
+            }
+        });
+    }
+
+    private void squareTest(final Supplier<Double> s) {
+        View view = new EmptyJTestView();
         gw = new GameWindow(view);
         gw.update(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
         gw.setVisible(true);
         int cicle = 0;
-        while (cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
-            gw.refresh(new ModelDataImpl(IntStream.range(1, 2)
-                                                  .mapToObj(i -> new MappableDataImpl("" + Math.random() * 10, 
+        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+            gw.refresh(new ModelDataImpl(IntStream.range(0, 2)
+                                                  .mapToObj(i -> new MappableDataImpl("" + (int) (Math.random() * 10), 
                                                                                       Color.RED,
-                                                                                      new Rectangle2D.Double(i == 1 
-                                                                                                             ? -0.15 - cicle/10 
-                                                                                                             : 0.15 + cicle/10, 
-                                                                                                             i == 1 
-                                                                                                             ? -0.15 - cicle/10 
-                                                                                                             : 0.15 + cicle/10, 
-                                                                                                             0.4, 
-                                                                                                             0.4)))
+                                                                                      new Rectangle2D.Double(s.get(),
+                                                                                                             s.get(), 
+                                                                                                             SQUARE_EDGE_SIZE, 
+                                                                                                             SQUARE_EDGE_SIZE)))
                                                   .collect(Collectors.toList()), 
                                                   (int) (Math.random() * 10),
                                                   GameStatus.RUNNING));
@@ -170,11 +150,39 @@ class DrawJTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            cicle++;
         }
+        gw.setVisible(false);
     }
 
-    private class ViewJTest implements View {
+    @Test
+    public void drawTextTest() {
+        View view = new EmptyJTestView();
+        gw = new GameWindow(view);
+        gw.update(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
+        gw.setVisible(true);
+        int cicle = 0;
+        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+            gw.refresh(new ModelDataImpl(IntStream.range(0, 15)
+                                                  .mapToObj(i -> new MappableDataImpl("" + (int) (Math.random() * 10), 
+                                                                                      Color.RED,
+                                                                                      new Rectangle2D.Double(Math.random(),
+                                                                                                             Math.random(), 
+                                                                                                             SQUARE_EDGE_SIZE, 
+                                                                                                             SQUARE_EDGE_SIZE)))
+                                                  .collect(Collectors.toList()), 
+                                                  (int) (Math.random() * 10),
+                                                  GameStatus.PAUSED));
+            view.refreshGui(Component.GAME_WINDOW);
+            try {
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        gw.setVisible(false);
+    }
+
+    private class EmptyJTestView implements View {
 
         @Override
         public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility successor) {

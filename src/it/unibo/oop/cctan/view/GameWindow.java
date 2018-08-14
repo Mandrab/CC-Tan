@@ -12,6 +12,7 @@ import javax.swing.WindowConstants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 /**
  * Class that instance the component used to show the game to the user.
  */
@@ -41,6 +42,9 @@ class GameWindow extends JFrame implements SizeObserver {
         getContentPane().add(gpanel, BorderLayout.CENTER);
         //gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
         //gpanel.requestFocus();                                                  //SPOSTO?
+
+        gameWindowSize = Optional.empty();
+        screenRatio = Optional.empty();
 
         pack();
         setResizable(false);

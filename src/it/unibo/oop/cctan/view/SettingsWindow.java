@@ -30,6 +30,8 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.controller.FileLoader;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
 
 public class SettingsWindow extends SizeObserverSourceImpl {
