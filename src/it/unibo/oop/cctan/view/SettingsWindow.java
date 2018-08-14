@@ -214,9 +214,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                     gameWindowSize = Optional.of(dim);
                     gameWindowRatio = Optional.of(rat);
                     List<SizeObserver> observers = getSizeObservers();
-                    // view.getSizeObserverSource().get().
-                    System.out.println(rat + "      " + dim);
-                    System.out.println(ratio.getSelectedItem() + "           " + dimension.getSelectedItem());
+                    // view.getSizeObserverSource().get();
 
                     for (Iterator<SizeObserver> i = observers.iterator(); i.hasNext();) {
                         SizeObserver sO = i.next();

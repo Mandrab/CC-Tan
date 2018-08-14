@@ -3,6 +3,8 @@ package it.unibo.oop.cctan.controller;
 import java.awt.Dimension;
 import java.util.Optional;
 
+import javax.sound.midi.SysexMessage;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
@@ -55,7 +57,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
         switch (command) {
             case START:
                 model.launch();
-                view.get().getSizeObserverSource().ifPresent(s -> model.setDisplayRatio(s.getRatio().get().getKey() / s.getRatio().get().getValue()));
+                view.get().getSizeObserverSource().ifPresent(s -> s.getRatio().ifPresent(r -> model.setDisplayRatio(r.getKey().doubleValue() / r.getValue().doubleValue())));
                 view.get()
                     .getCommandsObserverSource()
                     .ifPresent(cos -> {
@@ -87,8 +89,7 @@ public class ControllerImpl implements Controller, CommandsObserver {
 
     @Override
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
-        System.out.println("ciao");
-        model.setDisplayRatio(screenRatio.getKey() / screenRatio.getValue());
+        model.setDisplayRatio(screenRatio.getKey().doubleValue() / screenRatio.getValue().doubleValue());
     }
 
 }

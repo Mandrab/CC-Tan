@@ -61,6 +61,7 @@ class Drawer {
      */
     synchronized void drawMappableData(final MappableData mappableData) {
         graphics.setColor(mappableData.getColor());
+        System.out.println(mappableData.getShape().getBounds2D());
         Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
         drawString(mappableData.getText(),

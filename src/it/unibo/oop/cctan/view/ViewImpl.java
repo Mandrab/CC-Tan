@@ -67,6 +67,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         if (!settingsWindow.isPresent()) {
             settingsWindow = Optional.of(new SettingsWindow(this));
         }
+        setSizeObserverSource(settingsWindow.get());
         settingsWindow.get().show();
     }
 
