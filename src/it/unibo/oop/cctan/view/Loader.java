@@ -24,10 +24,11 @@ import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
 class Loader extends JWindow {
 
     private static final long serialVersionUID = -5568669894413165308L;
-    private View view;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension WINDOW_SIZE = new Dimension((int) (SCREEN_SIZE.getWidth() / 5),
                                                                (int) (SCREEN_SIZE.getHeight() / 5));
+    private static final int WINDOW_PERMANENCY_TIME = 1200;
+    private View view;
     private JLabel containerLabel;
     private JProgressBar progressBar;
     private JLabel pBarPercentage;
@@ -82,7 +83,7 @@ class Loader extends JWindow {
             pBarPercentage.setText(value.toString() + "%");
             if (value == 100) {
                 try {
-                    Thread.sleep(1200);
+                    Thread.sleep(WINDOW_PERMANENCY_TIME);
                     setVisible(false);
                     System.out.println("colpa del loader");
                     view.showSettingsWindow();

@@ -74,12 +74,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public Optional<Dimension> getDimension() { //return optional or save value in view
-        return gameWindow.isPresent() ? gameWindow.get().getDimension() : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
     public Optional<Point> getWindowLocation() { //return optional
         return gameWindow.isPresent() 
                ? Optional.ofNullable(gameWindow.get().getLocation()) 
@@ -96,11 +90,13 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     }
 
     @Override
+    /** {@inheritDoc} */
     public Optional<Dimension> getGameWindowDimension() {
         return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
     }
 
     @Override
+    /** {@inheritDoc} */
     public LoadedFiles getLoadedFiles() {
         return controller.getLoadedFiles();
     }
@@ -112,6 +108,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     }
 
     @Override
+    /** {@inheritDoc} */
     public void refreshGui(final Component component) {
         if (component.equals(Component.LOADER)) {
             loader.refresh();
@@ -121,6 +118,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     }
 
     @Override
+    /** {@inheritDoc} */
     public ModelData getModelData() {
         return controller.getModelData();
     }

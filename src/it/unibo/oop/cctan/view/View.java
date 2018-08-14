@@ -14,8 +14,17 @@ import it.unibo.oop.cctan.interPackageComunication.ModelData;
  */
 public interface View extends SizeAndControlChainOfResponsibility {
 
-    public enum Component {
+    /**
+     * Enumeration used to select which component update.
+     */
+    enum Component {
+        /**
+         * Loader graphic component.
+         */
         LOADER,
+        /**
+         * GameWindow graphic component.
+         */
         GAME_WINDOW;
     }
 
@@ -28,7 +37,7 @@ public interface View extends SizeAndControlChainOfResponsibility {
      *            represent the ratio between x and y edge (eg:: 16:9, 4:3)
      */
     void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio);
-    
+
     /**
      * If present hide the game window.
      */
@@ -55,15 +64,18 @@ public interface View extends SizeAndControlChainOfResponsibility {
     double getMouseRelativePosition();
 
     /**
-     * Return the dimension of the game window.
+     * Return the effective dimension of the game window.
      * 
-     * @return a dimension that stores width and height
+     * @return A dimension that stores effective width and height of the game window
      */
-    Optional<Dimension> getDimension();
-
     Optional<Dimension> getGameWindowDimension();
 
-    public LoadedFiles getLoadedFiles();
+    /**
+     * Return a flat object containing all the files loaded from the file system.
+     * 
+     * @return A file containing all the loaded object
+     */
+    LoadedFiles getLoadedFiles();
 
     /**
      * Allow to get the actual Player name if present.
@@ -79,8 +91,20 @@ public interface View extends SizeAndControlChainOfResponsibility {
      */
     KeyCommandsListener getKeyCommandsListener();
 
+    /**
+     * Return a flat object containing all the useful data from the file model.
+     * 
+     * @return A file containing all the useful data from the model
+     */
     ModelData getModelData();
-    
+
+    /**
+     * Make a specific component of the view to refresh. The possible component are
+     * specified in the Component enumeration.
+     * 
+     * @param component
+     *            The component to refresh
+     */
     void refreshGui(Component component);
 
 }

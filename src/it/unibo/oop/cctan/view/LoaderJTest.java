@@ -88,12 +88,6 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public Optional<Dimension> getDimension() {
-            return Optional.empty();
-        }
-
-        @Override
-        /** {@inheritDoc} */
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
         }
@@ -131,6 +125,10 @@ public class LoaderJTest {
         @Override
         /** {@inheritDoc} */
         public void refreshGui(final Component component) {
+        }
+
+        @Override
+        public void hideGameWindow() {
         }
     };
 

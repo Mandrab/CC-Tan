@@ -299,11 +299,6 @@ class GameWindowJTest {
         }
 
         @Override
-        public Optional<Dimension> getDimension() {
-            return Optional.empty();
-        }
-
-        @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
         }
@@ -330,6 +325,10 @@ class GameWindowJTest {
 
         @Override
         public void refreshGui(final Component component) {
+        }
+
+        @Override
+        public void hideGameWindow() {
         }
 
     }

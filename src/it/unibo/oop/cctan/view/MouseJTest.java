@@ -114,13 +114,7 @@ class MouseJTest {
 
         @Override
         public double getMouseRelativePosition() {
-            // TODO Auto-generated method stub
             return 0;
-        }
-
-        @Override
-        public Optional<Dimension> getDimension() {
-            return Optional.of(GAME_WINDOW_DIMENSION_TEST);
         }
 
         @Override
@@ -164,6 +158,10 @@ class MouseJTest {
 
         @Override
         public void refreshGui(final Component component) {
+        }
+
+        @Override
+        public void hideGameWindow() {
         }
 
     }

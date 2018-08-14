@@ -3,9 +3,21 @@ package it.unibo.oop.cctan.controller;
 import it.unibo.oop.cctan.view.View;
 import it.unibo.oop.cctan.view.ViewImpl;
 
-public class Cctan {
+/**
+ * The class that starts the base components of the game.
+ */
+public final class Cctan {
 
-    public static void main(String[] args) {
+    private Cctan() {
+    }
+
+    /**
+     * The static method that starts all.
+     * 
+     * @param args
+     *            Parameters passed by command line. Unused.
+     */
+    public static void main(final String[] args) {
         Controller ctx = new ControllerImpl();
         View v = new ViewImpl(ctx);
         ctx.setView(v);
