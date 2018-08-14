@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfRespon
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
@@ -34,45 +37,21 @@ class GameWindowJTest {
 
     private static final int REFRESH_TIME = 50; // Ms
     private static final int TIME_BEFORE_JUNIT_TEST_END = 5000; // Ms
-    private static final double MOVING_TEST_MULTIPLIER = 0.001; // every call move the square by this amount
     private static final double SQUARE_EDGE_SIZE = 0.5;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final double DIMENSION_REDUCER_MULTIPLIER = 0.95;
     private static final int SHORTER_EDGE = SCREEN_SIZE.width > SCREEN_SIZE.height ? SCREEN_SIZE.height
             : SCREEN_SIZE.width;
     private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST1 = new ImmutablePair<Integer, Integer>(1, 1); // ratio
     private static final Dimension GAME_WINDOW_DIMENSION_TEST1 = new Dimension(500, 500); // dimension of the window
                                                                                           // of
                                                                                           // window
-    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST2 = new ImmutablePair<Integer, Integer>(2, 1);
-    private static final Dimension GAME_WINDOW_DIMENSION_TEST2 = new Dimension(SHORTER_EDGE, SHORTER_EDGE / 2);
-    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST3 = new ImmutablePair<Integer, Integer>(1, 2);
-    private static final Dimension GAME_WINDOW_DIMENSION_TEST3 = new Dimension(SHORTER_EDGE / 2, SHORTER_EDGE);
+    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST2 = new ImmutablePair<Integer, Integer>(4, 3);
+    private static final Dimension GAME_WINDOW_DIMENSION_TEST2 = new Dimension(SHORTER_EDGE, SHORTER_EDGE * 3 / 4);
+    private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST3 = new ImmutablePair<Integer, Integer>(9, 16);
+    private static final Dimension GAME_WINDOW_DIMENSION_TEST3 = new Dimension((int) (SHORTER_EDGE * DIMENSION_REDUCER_MULTIPLIER * 9d / 16d), (int) (SHORTER_EDGE * DIMENSION_REDUCER_MULTIPLIER));
     private static final String TEXT = "Testo linea 1" + System.lineSeparator() + "Testo linea 2"
             + System.lineSeparator() + "Testo linea 3";
-
-    /*@Test
-    public void xOverwhelm() {
-        Controller ctrl = new ControllerImpl();
-        View view = new ViewImpl(ctrl);
-        view.showGameWindow(GAME_WINDOW_DIMENSION_TEST2, GAME_WINDOW_RATIO_TEST2);
-        try {
-            Thread.sleep(TIME_BEFORE_JUNIT_TEST_END);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void yOverwhelm() {
-        Controller ctrl = new ControllerImpl();
-        View v = new ViewImpl(ctrl);
-        v.showGameWindow(GAME_WINDOW_DIMENSION_TEST3, GAME_WINDOW_RATIO_TEST3);
-        try {
-            Thread.sleep(TIME_BEFORE_JUNIT_TEST_END);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private GameWindow gw;
 
@@ -162,6 +141,75 @@ class GameWindowJTest {
             }
         };
         squareTest(getModelDataSupplier(Optional.of(positionSupplier), Optional.of(sizeSupplier), Optional.empty(), Optional.empty()));
+    }
+
+    @Test
+    public void unbalancedRatioXOverwhelmingTest() {
+        View view = new EmptyJTestView();
+        gw = new GameWindow(view);
+        gw.update(GAME_WINDOW_DIMENSION_TEST2, GAME_WINDOW_RATIO_TEST2);
+        gw.setVisible(true);
+        List<MappableData> list = new LinkedList<>();
+        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+                Color.RED,
+                new Rectangle2D.Double(-(GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
+                                       1 * DIMENSION_REDUCER_MULTIPLIER,
+                                       SQUARE_EDGE_SIZE, 
+                                       SQUARE_EDGE_SIZE)));             //Top-Left
+        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+                Color.RED,
+                new Rectangle2D.Double((GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
+                                       -1 * DIMENSION_REDUCER_MULTIPLIER,
+                                       SQUARE_EDGE_SIZE, 
+                                       SQUARE_EDGE_SIZE)));             //Bottom-Right
+        int cicle = 0;
+        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+            gw.refresh(new ModelDataImpl(list, 
+                            (int) (Math.random() * 10),
+                            GameStatus.RUNNING));
+            view.refreshGui(Component.GAME_WINDOW);
+            try {
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        gw.setVisible(false);
+    }
+
+    @Test
+    public void unbalancedRatioYOverwhelmingTest() {
+        View view = new EmptyJTestView();
+        gw = new GameWindow(view);
+        gw.update(GAME_WINDOW_DIMENSION_TEST3, GAME_WINDOW_RATIO_TEST3);
+        gw.setVisible(true);
+        List<MappableData> list = new LinkedList<>();
+        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+                Color.RED,
+                new Rectangle2D.Double(-GAME_WINDOW_RATIO_TEST3.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST3.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER,
+                                       1 * DIMENSION_REDUCER_MULTIPLIER,
+                                       SQUARE_EDGE_SIZE, 
+                                       SQUARE_EDGE_SIZE)));             //Top-Left
+        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+                Color.RED,
+                new Rectangle2D.Double((GAME_WINDOW_RATIO_TEST3.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST3.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
+                                       -1 * DIMENSION_REDUCER_MULTIPLIER,
+                                       SQUARE_EDGE_SIZE, 
+                                       SQUARE_EDGE_SIZE)));             //Bottom-Right
+        System.out.println(list.get(0).getShape() + " " + list.get(1).getShape());
+        int cicle = 0;
+        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+            gw.refresh(new ModelDataImpl(list, 
+                            (int) (Math.random() * 10),
+                            GameStatus.RUNNING));
+            view.refreshGui(Component.GAME_WINDOW);
+            try {
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        gw.setVisible(false);
     }
 
     private void squareTest(final Supplier<ModelData> modelDataSupplier) {

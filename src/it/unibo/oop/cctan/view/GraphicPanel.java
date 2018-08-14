@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
 class GraphicPanel extends JPanel {
@@ -33,6 +35,7 @@ class GraphicPanel extends JPanel {
 
     GraphicPanel(final File file) {
         drawer = new Drawer(file);
+        modelData = new ModelDataImpl(new LinkedList<>(), 0, GameStatus.RUNNING);
     }
 
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {

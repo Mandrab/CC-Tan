@@ -26,7 +26,6 @@ class Drawer {
     private Graphics2D graphics;
     private Font font;
     private Optional<Dimension> gameWindowSize;
-    private Optional<Pair<Integer, Integer>> screenRatio;
     private AffineTransform aTransformation;
 
     /**
@@ -48,10 +47,10 @@ class Drawer {
         }
         this.gameWindowSize = Optional.of(gameWindowSize);
         aTransformation = new AffineTransform();
-        aTransformation.scale(gameWindowSize.width / (2 * screenRatio.getKey()),//(ratio.getValue().doubleValue()) / (2 * ratio.getKey().doubleValue()),
-                              -gameWindowSize.height / (2 * screenRatio.getValue()));//* (ratio.getKey().doubleValue()) / (2 * ratio.getValue().doubleValue()));
-        aTransformation.translate(screenRatio.getKey().doubleValue(),// / ratio.getValue().doubleValue(),
-                                  -screenRatio.getValue().doubleValue());//-ratio.getValue().doubleValue() / ratio.getKey().doubleValue());
+        aTransformation.translate(gameWindowSize.width / 2,
+                                  gameWindowSize.height / 2);
+        aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue()) / (2 * screenRatio.getKey().doubleValue()),
+                              -gameWindowSize.height / 2);
     }
 
     /**
