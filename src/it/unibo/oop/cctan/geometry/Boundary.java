@@ -69,4 +69,12 @@ public class Boundary {
     public double getY1() {
         return this.y1;
     }
+
+    public double width() {
+        return Math.abs(this.x1 - this.x0);
+    }
+
+    public double height() {
+        return Math.abs(this.y1 - this.y0);
+    }
 }

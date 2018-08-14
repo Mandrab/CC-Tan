@@ -16,12 +16,12 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 0.18; //0.18
+    public static final double WIDTH = 1 / 12.0; //0.18
 
     /**
      * The height of the ball.
      */
-    public static final double HEIGHT = 0.18;
+    public static final double HEIGHT = 1 / 12.0;
 
     private static final double DEFAULT_SPEED = 0.0005;
     private static final int BLU_LIMIT = 10;
@@ -87,7 +87,8 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     public Shape getShape() {
-        return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(), WIDTH, HEIGHT);
+        return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(),
+                WIDTH * this.getModel().getBounds().width(), HEIGHT * this.getModel().getBounds().height());
     }
 
     /** 
@@ -122,7 +123,7 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
             final Area sqArea = new Area(this.getShape());
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
-                this.getModel().pause(); 
+                this.getModel().pause();
                 this.getModel().setGameStatus(GameStatus.ENDED);
             }
         }
