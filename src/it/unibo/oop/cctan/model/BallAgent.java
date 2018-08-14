@@ -47,7 +47,7 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public double getWidth() {
-        return WIDTH;
+        return WIDTH * this.getModel().getBounds().width();
     }
 
     /** 
@@ -55,7 +55,7 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public double getHeight() {
-        return HEIGHT;
+        return HEIGHT * this.getModel().getBounds().height();
     }
 
     /** 
@@ -71,8 +71,7 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public Shape getShape() {
-        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(),
-                WIDTH * this.getModel().getBounds().width(), HEIGHT * this.getModel().getBounds().height());
+        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(), this.getWidth(), this.getHeight());
     }
 
     /** 
@@ -101,8 +100,12 @@ public class BallAgent extends BulletImpl implements Bullet {
         if (side != Side.CORNER) {
             this.setAngle(side == Side.ABOVE || side == Side.BELOW ? -this.getAngle() : 180 - this.getAngle());
         } else {
-            final List<Double> distances = this.getDistancesFromPoint(new Point2D(this.getPos().getX() + WIDTH / 2,
-                    this.getPos().getY() + HEIGHT / 2), rect.getShape().getPathIterator(null));
+            final List<Double> distances = this
+                    .getDistancesFromPoint(
+                            new Point2D(this.getPos().getX() + this.getWidth() / 2,
+                                    this.getPos().getY() + this.getHeight() / 2),
+                            rect.getShape().getPathIterator(null));
+
             final List<Pair<Side, Double>> vertexDistances =  new ArrayList<>(Arrays.asList(
                     new ImmutablePair<>(Side.RIGHT_BOTTOM_CORNER, distances.get(0)),
                     new ImmutablePair<>(Side.RIGHT_TOP_CORNER, distances.get(1)),
@@ -115,8 +118,8 @@ public class BallAgent extends BulletImpl implements Bullet {
     }
 
     private Side getImpactSide(final SquareAgent rect) {
-        switch (rect.getShape().getBounds2D().outcode(this.getPos().getX() + WIDTH / 2,
-                this.getPos().getY() + HEIGHT / 2)) {
+        switch (rect.getShape().getBounds2D().outcode(this.getPos().getX() + this.getWidth() / 2,
+                this.getPos().getY() + this.getHeight() / 2)) {
         case Rectangle2D.OUT_LEFT:
             return Side.LEFT;
         case Rectangle2D.OUT_RIGHT:

@@ -37,6 +37,7 @@ public class ModelImpl implements Model {
     public ModelImpl() {
         this.score = Score.getScore();
         this.bound = new Boundary(-1, -1, 1, 1);
+        //this.bound = new Boundary(-4/3, -1, 4/3, 1);
         this.squareGenerator = new SquareGeneratorImpl(this);
         this.bulletGenerator = new BulletGeneratorImpl(this);
         this.powerupGenerator = new PowerUpGeneratorImpl(this);

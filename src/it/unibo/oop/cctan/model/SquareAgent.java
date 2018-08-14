@@ -55,7 +55,7 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     public double getWidth() {
-        return WIDTH;
+        return WIDTH * this.getModel().getBounds().width();
     }
 
     /** 
@@ -63,7 +63,7 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     public double getHeight() {
-        return HEIGHT;
+        return HEIGHT * this.getModel().getBounds().height();
     }
 
     /** 
@@ -87,8 +87,7 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     public Shape getShape() {
-        return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(),
-                WIDTH * this.getModel().getBounds().width(), HEIGHT * this.getModel().getBounds().height());
+        return new Rectangle2D.Double(this.getPos().getX(), this.getPos().getY(), this.getWidth(), this.getHeight());
     }
 
     /** 
