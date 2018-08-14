@@ -23,6 +23,7 @@ import it.unibo.oop.cctan.interPackageComunication.MappableData;;
 class Drawer {
 
     private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().width / 35;
+    private static final double PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55;
     private Graphics2D graphics;
     private Font font;
     private Optional<Dimension> gameWindowSize;
@@ -47,10 +48,9 @@ class Drawer {
         }
         this.gameWindowSize = Optional.of(gameWindowSize);
         aTransformation = new AffineTransform();
-        aTransformation.translate(gameWindowSize.width / 2,
-                                  gameWindowSize.height / 2);
-        aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue()) / (2 * screenRatio.getKey().doubleValue()),
-                              -gameWindowSize.height / 2);
+        aTransformation.translate(gameWindowSize.width / 2, gameWindowSize.height / 2);
+        aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue())
+                / (2 * screenRatio.getKey().doubleValue()), -gameWindowSize.height / 2);
     }
 
     /**
@@ -64,40 +64,47 @@ class Drawer {
         Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
         drawString(mappableData.getText(),
-                   new Point((int) (shape.getBounds2D().getCenterX()), 
-                             (int) (shape.getBounds2D().getCenterY())),
-                   new Dimension(shape.getBounds().width, shape.getBounds().height));
+                new Point((int) (shape.getBounds2D().getCenterX()), (int) (shape.getBounds2D().getCenterY())),
+                new Dimension(shape.getBounds().width, shape.getBounds().height));
     }
 
     private synchronized void drawString(final String text, final Point textCenter, final Dimension border) {
-        graphics.setFont(getAdaptedFont(border));
         String[] strings = text.split("\n", -1);
+        graphics.setFont(getAdaptedFont(border, strings));
         int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
         int textHeight = lineHeight * strings.length;
         int yStartingPoint = (int) (textCenter.getY() - (textHeight / 2));
         for (int index = 0; index < strings.length; index++) {
             String string = strings[index];
-            graphics.drawString(string, 
-                                (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
-                                yStartingPoint + (1 + index) * lineHeight);
+            graphics.drawString(string, (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
+                    yStartingPoint + (1 + index) * lineHeight);
         }
     }
 
-    private Font getAdaptedFont(final Dimension border) {
-        return font.deriveFont(border.width > border.height ? border.height / 2.5f : border.width / 2.5f);
+    private Font getAdaptedFont(final Dimension border, final String[] strings) {
+        int indexLonger = 0;
+        for (int index = 0; index < strings.length; index++) {
+            indexLonger = graphics.getFontMetrics().stringWidth(strings[index]) > graphics.getFontMetrics()
+                    .stringWidth(strings[indexLonger]) ? index : indexLonger;
+        }
+        float xPreferredSize = (float) (border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
+                / graphics.getFontMetrics().stringWidth(strings[indexLonger]));
+        float yPreferredSize = (float) (border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
+                / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length));
+        return font.deriveFont(xPreferredSize < yPreferredSize ? xPreferredSize * graphics.getFont().getSize()
+                : yPreferredSize * graphics.getFont().getSize());
     }
 
-    void drawText(final String text, final Pair<Double, Double> screenPositionOnPercentage, final float size, final Color color) {
+    synchronized void drawText(final String text, final Pair<Double, Double> screenPositionOnPercentage,
+            final float size, final Color color) {
         if (gameWindowSize.isPresent()) {
             graphics.setFont(graphics.getFont().deriveFont(size));
             graphics.setColor(color);
-            graphics.drawString(text, 
-                                (float) ((gameWindowSize.get().width / 2) 
-                                        * (screenPositionOnPercentage.getKey() + 1)
-                                        - graphics.getFontMetrics().stringWidth(text) / 2), 
-                                (float) ((gameWindowSize.get().height / 2) 
-                                        * (-screenPositionOnPercentage.getValue() + 1)
-                                        + graphics.getFontMetrics().getHeight() / 2));
+            graphics.drawString(text,
+                    (float) ((gameWindowSize.get().width / 2) * (screenPositionOnPercentage.getKey() + 1)
+                            - graphics.getFontMetrics().stringWidth(text) / 2),
+                    (float) ((gameWindowSize.get().height / 2) * (-screenPositionOnPercentage.getValue() + 1)
+                            + graphics.getFontMetrics().getHeight() / 2));
         }
     }
 
@@ -107,7 +114,7 @@ class Drawer {
      * @param graphics
      *            The graphic class used by GraphicPanel
      */
-    void setGraphics(final Graphics graphics) {
+    synchronized void setGraphics(final Graphics graphics) {
         this.graphics = (Graphics2D) graphics;
         this.graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.graphics.setFont(font);
