@@ -2,8 +2,6 @@ package it.unibo.oop.cctan.model;
 
 import org.junit.Test;
 
-import com.sun.corba.se.spi.orb.Operation;
-
 public class SleepJUnitTest {
 
     @Test

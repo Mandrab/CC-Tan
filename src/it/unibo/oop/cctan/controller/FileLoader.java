@@ -25,14 +25,17 @@ import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.view.View.Component;
 
+/**
+ * A class created to allow files access and modification.
+ */
 public class FileLoader extends Thread {
 
-    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final String PATH = System.getProperty("user.home") + "/.cctan";
     private static final String DIRECTORY_IMG = "/img";
     private static final String DIRECTORY_SCORE = "/score";
     private static final String SCORE_FILE_SCORES = "/Scores";
-    //private static final String IMG_JPG_BACKGROUND = "/background2.jpg";
+    // private static final String IMG_JPG_BACKGROUND = "/background2.jpg";
     private static final String IMG_JPG_LOGO = "/cctan.jpg";
     private static final String IMG_SVG_LOGO = "/cctan.svg";
     private static final String FONT_SUBSPACE = FileLoader.class.getResource("/subspace_font/SubspaceItalic.otf")
@@ -42,12 +45,19 @@ public class FileLoader extends Thread {
     private LoadedFiles loadedFiles;
     private int percentage;
 
+    /**
+     * FileLoader constructor.
+     * 
+     * @param controller
+     *            A class tha implements Controller interface
+     */
     public FileLoader(final Controller controller) {
         this.controller = controller;
         loadedFiles = new LoadedFilesImpl(0);
     }
 
     @Override
+    /** {@inheritDoc} */
     public void run() {
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
@@ -86,11 +96,7 @@ public class FileLoader extends Thread {
             loadedFiles.setScores(new File(SCORE_FILE_SCORES));
             try {
                 File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
-                boolean fvar;
-                fvar = file.createNewFile();
-                if (fvar) {
-                    System.out.println("File has been created successfully");
-                } else {
+                if (!file.createNewFile()) {
                     System.out.println("File already present at the specified location");
                 }
             } catch (IOException e) {
@@ -107,11 +113,24 @@ public class FileLoader extends Thread {
         controller.refreshGui(Component.LOADER);
     }
 
+    /**
+     * Returns a file containing all the loaded files.
+     * 
+     * @return The file containing all the loaded files
+     */
     public LoadedFiles getLoadedFiles() {
         loadedFiles.setPercentage(percentage);
         return loadedFiles;
     }
 
+    /**
+     * Create directories in path with the names contained in the string array.
+     * 
+     * @param path
+     *            The path in which will be created the directories
+     * @param names
+     *            The names of the directories to be created
+     */
     private void createDirectories(final String path, final String[] names) {
         for (String name : names) {
             if (!new File(path + name).mkdirs() && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
@@ -120,6 +139,16 @@ public class FileLoader extends Thread {
         }
     }
 
+    /**
+     * Convert an .svg to .jpg.
+     * 
+     * @param svgUri
+     *            The path to the .svg
+     * @param jpgUri
+     *            The path in which create the .jpg file
+     * @throws Exception
+     *             Some method throws various exception
+     */
     private void convertSvgToJpg(final String svgUri, final String jpgUri) throws Exception {
         // Create a JPEG transcoder
         JPEGTranscoder converter = new JPEGTranscoder();
@@ -140,6 +169,17 @@ public class FileLoader extends Thread {
         ostream.close();
     }
 
+    /**
+     * Return an adapted width proportionally to the screen size.
+     * 
+     * @param svgUri
+     *            The path to the .svg
+     * @return A float representing the preferred width based on the screen size
+     * @throws JDOMException
+     *             An exception
+     * @throws IOException
+     *             An exception
+     */
     private float getAdaptedWidth(final String svgUri) throws JDOMException, IOException {
         final SAXBuilder builder = new SAXBuilder();
         Document document = builder.build(svgUri);
@@ -147,9 +187,9 @@ public class FileLoader extends Thread {
         Element root = document.getRootElement();
         float svgRateo = Float.valueOf(root.getAttributeValue("width"))
                 / Float.valueOf(root.getAttributeValue("height"));
-        double deltaX = screenSize.getWidth() - Double.valueOf(root.getAttributeValue("width"));
-        double deltaY = screenSize.getHeight() - Double.valueOf(root.getAttributeValue("height"));
-        return deltaX < deltaY ? svgRateo * screenSize.height : screenSize.width;
+        double deltaX = SCREEN_SIZE.getWidth() - Double.valueOf(root.getAttributeValue("width"));
+        double deltaY = SCREEN_SIZE.getHeight() - Double.valueOf(root.getAttributeValue("height"));
+        return deltaX < deltaY ? svgRateo * SCREEN_SIZE.height : SCREEN_SIZE.width;
     }
 
 }

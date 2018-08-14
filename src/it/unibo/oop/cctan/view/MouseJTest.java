@@ -9,22 +9,15 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-
-import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
@@ -131,31 +124,21 @@ class MouseJTest {
         }
 
         @Override
-        public void setMouseRelativePosition(final double mouseRelativePosition) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.of(GAME_WINDOW_DIMENSION_TEST);
         }
 
         @Override
         public void showSettingsWindow() {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public Optional<String> getPlayerName() {
-            // TODO Auto-generated method stub
             return Optional.empty();
         }
 
         @Override
         public KeyCommandsListener getKeyCommandsListener() {
-            // TODO Auto-generated method stub
             return null;
         }
 
@@ -166,31 +149,21 @@ class MouseJTest {
 
         @Override
         public Optional<SizeObserverSource> getSizeObserverSource() {
-            // TODO Auto-generated method stub
             return Optional.empty();
         }
 
         @Override
         public LoadedFiles getLoadedFiles() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public CommandsObserverSourceImpl getCommandsObserversManager() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public ModelData getModelData() {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public void refreshGui() {
-            // TODO Auto-generated method stub
+        public void refreshGui(final Component component) {
         }
 
     }

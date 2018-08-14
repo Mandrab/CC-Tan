@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import it.unibo.oop.cctan.controller.FileLoader;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -27,10 +26,10 @@ public class LoaderJTest {
     private final IntSupplier getAdvance = () -> 10 * cicle++;
     private Loader l;
 
-    @Test
     /**
      * Load-bar visual test.
      */
+    @Test
     public void visualLoad() {
         View v = new ViewJTest() {
 
@@ -66,7 +65,7 @@ public class LoaderJTest {
     }
 
     /** 
-     * Scheleton class.
+     * Skeleton class.
      */
     public class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
 
@@ -95,11 +94,6 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public void setMouseRelativePosition(final double mouseRelativePosition) {
-        }
-
-        @Override
-        /** {@inheritDoc} */
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
         }
@@ -113,7 +107,7 @@ public class LoaderJTest {
         @Override
         /** {@inheritDoc} */
         public Optional<String> getPlayerName() {
-            return null;
+            return Optional.empty();
         }
 
         @Override
@@ -130,19 +124,13 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public CommandsObserverSourceImpl getCommandsObserversManager() {
-            return null;
-        }
-
-        @Override
-        /** {@inheritDoc} */
         public ModelData getModelData() {
             return null;
         }
 
         @Override
         /** {@inheritDoc} */
-        public void refreshGui() {
+        public void refreshGui(final Component component) {
         }
     };
 
