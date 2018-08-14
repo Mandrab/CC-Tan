@@ -28,6 +28,11 @@ public interface View extends SizeAndControlChainOfResponsibility {
      *            represent the ratio between x and y edge (eg:: 16:9, 4:3)
      */
     void showGameWindow(Dimension resolution, Pair<Integer, Integer> screenRatio);
+    
+    /**
+     * If present hide the game window.
+     */
+    void hideGameWindow();
 
     /**
      * Setup and show the setting window if not present yes, show it if is present.

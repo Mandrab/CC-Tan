@@ -129,6 +129,7 @@ public class EndWindow {
                     c.endCommand();
 
                     // view.setting.Show(view) o qualcosa del genere
+                    view.hideGameWindow();
                     System.out.println("colpa dell' end window");
                     view.showSettingsWindow();
                     mainFrame.dispose();

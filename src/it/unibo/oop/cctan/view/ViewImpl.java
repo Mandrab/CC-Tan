@@ -45,6 +45,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         }
         gameWindow.get().addKeyListener(keyCommandsListener.getKeyListener());
         gameWindow.get().update(gameWindowSize, screenRatio);
+        //gameWindow.get().setLocationRelativeTo(null);
         gameWindow.get().setVisible(true);
         mouseEvents = new MouseEvents(this);
     }
@@ -124,4 +125,11 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         return controller.getModelData();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void hideGameWindow() {
+        if (gameWindow.isPresent()) {
+            gameWindow.get().setVisible(false);
+        }
+    }
 }
