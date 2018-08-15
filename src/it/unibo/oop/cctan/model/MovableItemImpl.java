@@ -13,6 +13,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     private double speed;
     private boolean stop;
     private boolean suspend;
+    private final Object pauseLock = new Object();
 
     /**
      * Put a new movable item respecting the value specified inside the builder object.
@@ -44,22 +45,27 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void run() {
-        while (!stop) {
+        while (!this.stop) {
+            synchronized (pauseLock) {
+                if (this.stop) {
+                    break;
+                }
+                if (this.suspend) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException ex) {
+                        break;
+                    }
+                    if (this.stop) {
+                        break;
+                    }
+                }
+            }
+            updatePos();
             try {
-                //synchronized (this) {
-                    //if (suspend) {
-                    //  wait();
-                    //}
-                    while (suspend) {
-                        Thread.sleep(50);
-                    }
-                    if (!stop || !suspend) { //magari nel mentre il gioco è terminato...
-                        updatePos();
-                    }
-                //}
                 Thread.sleep(REFRESH_RATIO);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -73,7 +79,6 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
             this.suspend = false;
         }
         this.stop = true;
-        //notifyAll();
     }
 
     /** 

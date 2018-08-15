@@ -29,6 +29,7 @@ public abstract class TimerRatio extends Thread implements Commands {
     private boolean suspend;
     private final int startingRatio;
     private final double startingSpeed;
+    private final Object pauseLock = new Object();
 
     /**
      * Create a new TimerRatio thread.
@@ -52,19 +53,27 @@ public abstract class TimerRatio extends Thread implements Commands {
      */
     @Override
     public void run() {
-        while (!stop) {
-            try {
-                synchronized (this) {
-                    if (this.suspend) {
-                        wait();
+        while (!this.stop) {
+            synchronized (pauseLock) {
+                if (this.stop) {
+                    break;
+                }
+                if (this.suspend) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException ex) {
+                        break;
                     }
-                    if (!this.stop || !this.suspend) {
-                        operationRatio();
+                    if (this.stop) {
+                        break;
                     }
                 }
+            }
+            operationRatio();
+            try {
                 Thread.sleep(ONE_MINUTE);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -87,7 +96,6 @@ public abstract class TimerRatio extends Thread implements Commands {
         this.stop = true;
         this.ratio = this.startingRatio;
         this.speed = this.startingSpeed;
-        notifyAll();
     }
 
     /** 

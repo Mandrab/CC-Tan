@@ -18,6 +18,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     private final Model model;
     private final List<T> items;
     private final TimerRatio ratio;
+    private final Object pauseLock = new Object();
 
     /**
      * Create a new ItemGeneratorImpl thread respecting the value specified inside this fields.
@@ -45,22 +46,27 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * movable objects are generated. 
      */
     public void run() {
-        while (!stop) {
+        while (!this.stop) {
+            synchronized (pauseLock) {
+                if (this.stop) {
+                    break;
+                }
+                if (this.suspend) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException ex) {
+                        break;
+                    }
+                    if (this.stop) {
+                        break;
+                    }
+                }
+            }
+            createNewItem();
             try {
-                //synchronized (this) {
-                //if (this.suspend) {
-                //  wait();
-                //}
-                    while (this.suspend) {
-                        Thread.sleep(50);
-                    }
-                    if (!this.stop || !this.suspend) {
-                        createNewItem();
-                    }
-                //}
                 Thread.sleep(this.ratio.getRatio());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -76,9 +82,11 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void terminate() {
+        if (this.suspend) {
+            this.suspend = false;
+        }
         this.stop = true;
         this.ratio.terminate();
-        notifyAll();
     }
 
     /** 
