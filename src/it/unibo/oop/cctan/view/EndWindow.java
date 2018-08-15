@@ -100,15 +100,16 @@ public class EndWindow {
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                     // MANDARE IL VOMANDO reset end e start
-                    KeyCommandsListener c = view.getKeyCommandsListener();
-                    c.setReset(true);
-                    c.endCommand();
-                    // try {
-                    // Thread.sleep(200);
-                    // } catch (InterruptedException e1) {
-                    // e1.printStackTrace();
-                    // }
-                    c.startCommand();
+                    view.getKeyCommandsListener().setReset(true);
+                    view.getKeyCommandsListener().endCommand();
+//                    try {
+//                        Thread.sleep(200);
+//                    } catch (InterruptedException e1) {
+//                        e1.printStackTrace();
+//                    }
+
+                    view.getKeyCommandsListener().setLockResumeKey(false);
+                    view.getKeyCommandsListener().startCommand();
 
                     mainFrame.dispose();
                 }
