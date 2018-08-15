@@ -40,12 +40,10 @@ public class ModelImpl implements Model {
         this.shuttle = new ShuttleImpl(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Boundary getBounds() {
-        return this.bound;
+    private void istanceGenerators() {
+        this.squareGenerator = new SquareGeneratorImpl(this);
+        this.bulletGenerator = new BulletGeneratorImpl(this);
+        this.powerupGenerator = new PowerUpGeneratorImpl(this);
     }
 
     /**
@@ -66,51 +64,122 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public Shuttle getShuttle() {
-        return this.shuttle;
+    public void setDisplayRatio(final double ratio) {
+        // fissiamo height = 2 (cioè y0 = -1 e y1 = 1) e settiamo la width di conseguenza
+        // width / height = ratio ------> width = ratio * height
+            // --> x0 = -ratio * height / 2 ----> x0 = -ratio
+            // --> x1 = radio * height / 2 -----> x1 = ratio
+        System.out.println("Current ratio: " + ratio);
+        //this.bound.setBoundary(-ratio, ratio, -1, 1);
     }
 
-    public void removeSquare(final SquareAgent square) {
-        this.squareGenerator.removeItem(square);
-    }
-
-    public void removeBullet(final Bullet bullet) {
-        this.bulletGenerator.removeItem(bullet);
-    }
-
-    public List<SquareAgent> getSquareAgents() {
-        return this.squareGenerator.getItems();
-    }
-
-    public synchronized List<Bullet> getBulletAgents() {
-        return this.bulletGenerator.getItems();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSpaceshipAngle(final double angle) {
         this.shuttle.setAngle(angle);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Score getScore() {
-        return this.score;
+    public void setGameStatus(final GameStatus status) {
+        this.gameStatus = status;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ItemGenerator<Bullet> getBulletGenerator() {
-        return this.bulletGenerator;
+    public void removeBullet(final Bullet bullet) {
+        this.bulletGenerator.removeItem(bullet);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeSquare(final SquareAgent square) {
+        this.squareGenerator.removeItem(square);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removePowerUp(final PowerUpBlock powerup) {
         this.powerupGenerator.removeItem(powerup);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Score getScore() {
+        return this.score;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boundary getBounds() {
+        return this.bound;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Shuttle getShuttle() {
+        return this.shuttle;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameStatus getGameStatus() {
+        return this.gameStatus;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<SquareAgent> getSquareAgents() {
+        return this.squareGenerator.getItems();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PowerUpBlock> getPowerUpBlocks() {
         return this.powerupGenerator.getItems();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ItemGenerator<Bullet> getBulletGenerator() {
+        return this.bulletGenerator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized List<Bullet> getBulletAgents() {
+        return this.bulletGenerator.getItems();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void terminate() {
         //if (!gameStatus.equals(GameStatus.ENDED)) {
@@ -126,6 +195,9 @@ public class ModelImpl implements Model {
         this.gameStatus = GameStatus.ENDED;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void pause() {
         if (gameStatus.equals(GameStatus.RUNNING)) {
@@ -139,6 +211,9 @@ public class ModelImpl implements Model {
         gameStatus = GameStatus.PAUSED;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resumeGame() {
         if (gameStatus.equals(GameStatus.PAUSED)) {
@@ -152,34 +227,12 @@ public class ModelImpl implements Model {
         gameStatus = GameStatus.RUNNING;
     }
 
-    @Override
-    public GameStatus getGameStatus() {
-        return this.gameStatus;
-    }
-
-    @Override
-    public void setGameStatus(final GameStatus status) {
-        this.gameStatus = status;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes() {
         return Collections.unmodifiableList(ModelImpl.POWER_UP_TYPES);
     }
 
-    @Override
-    public void setDisplayRatio(final double ratio) {
-        // fissiamo height = 2 (cioè y0 = -1 e y1 = 1) e settiamo la width di conseguenza
-        // width / height = ratio ------> width = ratio * height
-            // --> x0 = -ratio * height / 2 ----> x0 = -ratio
-            // --> x1 = radio * height / 2 -----> x1 = ratio
-        System.out.println("Current ratio: " + ratio);
-        //this.bound.setBoundary(-ratio, ratio, -1, 1);
-    }
-    
-    private void istanceGenerators() {
-        this.squareGenerator = new SquareGeneratorImpl(this);
-        this.bulletGenerator = new BulletGeneratorImpl(this);
-        this.powerupGenerator = new PowerUpGeneratorImpl(this);
-    }
 }
