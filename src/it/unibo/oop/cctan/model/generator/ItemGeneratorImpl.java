@@ -114,7 +114,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     /**
      * {@inheritDoc} 
      */
-    public void addItemToList(final T item) {
+    public synchronized void addItemToList(final T item) {
 
         this.items.add(item);
     }
@@ -135,7 +135,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * {@inheritDoc} 
      */
     @Override
-    public void removeItem(final T item) {
+    public synchronized void removeItem(final T item) {
         if (!this.items.isEmpty() && item != null) {
             this.items.remove(item);
         }
