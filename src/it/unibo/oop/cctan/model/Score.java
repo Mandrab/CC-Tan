@@ -28,6 +28,10 @@ public final class Score {
         return this.points;
     }
 
+    public void reset() {
+        this.points = 0;
+    }
+    
     /**
      * @return
      *          The only object (SINGLETON) present in the application.

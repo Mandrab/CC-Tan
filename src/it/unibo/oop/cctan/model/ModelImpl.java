@@ -22,9 +22,9 @@ public class ModelImpl implements Model {
      */
     private static final List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> POWER_UP_TYPES = Arrays.asList(
             new LaserBlock.LaserBlockBuilder());
-    private final ItemGenerator<SquareAgent> squareGenerator;
-    private final ItemGenerator<PowerUpBlock> powerupGenerator;
-    private final ItemGenerator<Bullet> bulletGenerator;
+    private ItemGenerator<SquareAgent> squareGenerator;
+    private ItemGenerator<PowerUpBlock> powerupGenerator;
+    private ItemGenerator<Bullet> bulletGenerator;
     private GameStatus gameStatus;
     private final Shuttle shuttle;
     private final Boundary bound;
@@ -37,10 +37,9 @@ public class ModelImpl implements Model {
     public ModelImpl() {
         this.score = Score.getScore();
         this.bound = new Boundary(-1, -1, 1, 1);
-        //this.bound = new Boundary(-4/3, -1, 4/3, 1);
-        this.squareGenerator = new SquareGeneratorImpl(this);
-        this.bulletGenerator = new BulletGeneratorImpl(this);
-        this.powerupGenerator = new PowerUpGeneratorImpl(this);
+        //this.bound = new Boundary(-4/3.0, -1, 4/3.0, 1);
+        //this.bound = new Boundary(-16/9.0, -1, 16/9.0, 1);
+        this.istanceGenerators();
         this.shuttle = new ShuttleImpl(this);
         this.gameStatus = GameStatus.ENDED;
     }
@@ -59,6 +58,7 @@ public class ModelImpl implements Model {
     @Override
     public void launch() {
         if (gameStatus.equals(GameStatus.ENDED)) {
+            score.reset();
             squareGenerator.launch();
             bulletGenerator.launch();
             powerupGenerator.launch();
@@ -117,14 +117,16 @@ public class ModelImpl implements Model {
 
     @Override
     public void terminate() {
-        //if (!gameStatus.equals(GameStatus.ENDED)) {
+        if (!gameStatus.equals(GameStatus.ENDED)) {
             this.bulletGenerator.getItems().forEach(b -> b.terminate());
             this.squareGenerator.getItems().forEach(s -> s.terminate());
             this.squareGenerator.terminate();
             this.bulletGenerator.terminate();
             this.powerupGenerator.terminate();
             this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
-        //}
+            
+            this.istanceGenerators();
+        }
         this.gameStatus = GameStatus.ENDED;
     }
 
@@ -175,6 +177,13 @@ public class ModelImpl implements Model {
         // width / height = ratio ------> width = ratio * height
             // --> x0 = -ratio * height / 2 ----> x0 = -ratio
             // --> x1 = radio * height / 2 -----> x1 = ratio
+        System.out.println("buond set");
         this.bound.setBoundary(-ratio, ratio, -1, 1);
+    }
+    
+    private void istanceGenerators() {
+        this.squareGenerator = new SquareGeneratorImpl(this);
+        this.bulletGenerator = new BulletGeneratorImpl(this);
+        this.powerupGenerator = new PowerUpGeneratorImpl(this);
     }
 }
