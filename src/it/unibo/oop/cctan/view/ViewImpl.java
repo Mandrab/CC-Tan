@@ -64,8 +64,9 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public void showSettingsWindow() {
+    public synchronized void showSettingsWindow() {
         if (!settingsWindow.isPresent()) {
+            System.out.println("istanzio");
             settingsWindow = Optional.of(new SettingsWindow(this));
         }
         setSizeObserverSource(settingsWindow.get());

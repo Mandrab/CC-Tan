@@ -30,7 +30,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSourceImpl;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 
 public class SettingsWindow extends SizeObserverSourceImpl {
 
@@ -54,7 +54,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         this.settingsDimansion = tryDimensionOfWindow();
 
         settings = new JFrame("Settings");
-        view.getLoadedFiles().getImage(ImageReturn.ICON).ifPresent(img -> settings.setIconImage(img.getImage()));
+        view.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> settings.setIconImage(img.getImage()));
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());
@@ -209,10 +209,16 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                     // Dimension da passare all'observer
                     // usare stringToPair((String)ratio.getSelectedItem()) per ottenere il Pair da
                     // passare all'observer
-                    Dimension dim = stringToDim((String) dimension.getSelectedItem());
-                    Pair<Integer, Integer> rat = stringToPair((String) ratio.getSelectedItem());
-                    gameWindowSize = Optional.of(dim);
-                    gameWindowRatio = Optional.of(rat);
+                    Dimension dim;
+                    Pair<Integer, Integer> rat;
+                    synchronized (this) {
+                        dim = stringToDim((String) dimension.getSelectedItem());
+                        rat = stringToPair((String) ratio.getSelectedItem());
+                        gameWindowSize = Optional.of(dim);
+                        gameWindowRatio = Optional.of(rat);
+                        System.out.println(rat);
+                        System.out.println(gameWindowRatio);
+                    }
                     List<SizeObserver> observers = getSizeObservers();
                     // view.getSizeObserverSource().get();
 
@@ -317,12 +323,13 @@ public class SettingsWindow extends SizeObserverSourceImpl {
     }
 
     @Override
-    public Optional<Dimension> getDimension() {
+    public synchronized Optional<Dimension> getDimension() {
         return gameWindowSize;
     }
 
     @Override
-    public Optional<Pair<Integer, Integer>> getRatio() {
+    public synchronized Optional<Pair<Integer, Integer>> getRatio() {
+        System.out.println("ret " + gameWindowRatio);
         return gameWindowRatio;
     }
 

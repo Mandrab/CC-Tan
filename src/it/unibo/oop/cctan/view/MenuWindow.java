@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 
 public class MenuWindow extends JFrame {
 
@@ -30,7 +30,7 @@ public class MenuWindow extends JFrame {
 
         Dimension settingsDimansion = tryDimensionOfWindow();
 
-        view.getLoadedFiles().getImage(ImageReturn.ICON).ifPresent(img -> setIconImage(img.getImage()));
+        view.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
         setTitle("oop17-cctan Main Menù");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());

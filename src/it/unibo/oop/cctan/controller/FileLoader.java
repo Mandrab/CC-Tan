@@ -23,7 +23,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.view.View.Component;
 
@@ -81,7 +81,7 @@ class FileLoader extends Thread {
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)), ImageReturn.LOGO);
+            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)), ImageType.LOGO);
             controller.refreshGui(Component.LOADER);
             try {
                 convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
@@ -91,7 +91,7 @@ class FileLoader extends Thread {
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO), ImageReturn.LOGO);
+        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO), ImageType.LOGO);
         percentage = ADVANCE_PERCENTAGE.getAsInt();
         controller.refreshGui(Component.LOADER);
 
@@ -105,7 +105,7 @@ class FileLoader extends Thread {
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_ICON), ImageReturn.ICON);
+        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_ICON), ImageType.ICON);
         percentage = ADVANCE_PERCENTAGE.getAsInt();
         controller.refreshGui(Component.LOADER);
 
@@ -150,7 +150,7 @@ class FileLoader extends Thread {
      * 
      * @return The file containing all the loaded files
      */
-    public LoadedFiles getLoadedFiles() {
+    public synchronized LoadedFiles getLoadedFiles() {
         loadedFiles.setPercentage(percentage);
         return loadedFiles;
     }

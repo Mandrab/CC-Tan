@@ -16,7 +16,7 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 
 /**
  * A class that takes care to show the loading percentage of the application. 
@@ -85,7 +85,6 @@ class Loader extends JWindow {
                 try {
                     Thread.sleep(WINDOW_PERMANENCY_TIME);
                     setVisible(false);
-                    System.out.println("colpa del loader");
                     view.showSettingsWindow();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -122,6 +121,6 @@ class Loader extends JWindow {
     public void refresh() {
         LoadedFiles loadedFiles = view.getLoadedFiles();
         advanceLoading(loadedFiles.getPercentage());
-        loadedFiles.getImage(ImageReturn.LOGO).ifPresent(img -> setLoadImage(img));
+        loadedFiles.getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
     }
 }

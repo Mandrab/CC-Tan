@@ -5,14 +5,12 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
-
 public interface LoadedFiles {
 
-    public enum ImageReturn {
+    public enum ImageType {
 
         LOGO,
-        
+
         ICON,
 
         BACKGROUND;
@@ -21,11 +19,11 @@ public interface LoadedFiles {
 
     Optional<File> getFontFile();
 
-    Optional<ImageIcon> getImage(ImageReturn type);
+    Optional<ImageIcon> getImage(ImageType type);
 
 //    public void setBackground(ImageIcon background);
 
-    public void setImage(ImageIcon img, ImageReturn type);
+    public void setImage(ImageIcon img, ImageType type);
 
     public void setFontFile(File fontFile);
 

@@ -22,7 +22,7 @@ public class LoadedFilesImpl implements LoadedFiles {
 //        this.background = Optional.of(background);
 //    }
 
-    public void setImage(ImageIcon img, ImageReturn type) {
+    public void setImage(ImageIcon img, ImageType type) {
         switch (type) {
             case LOGO:
                 this.logo = Optional.of(img);
@@ -67,7 +67,7 @@ public class LoadedFilesImpl implements LoadedFiles {
     }
 
     @Override
-    public Optional<ImageIcon> getImage(final ImageReturn type) {
+    public Optional<ImageIcon> getImage(final ImageType type) {
         switch (type) {
         case LOGO:
             return logo;
