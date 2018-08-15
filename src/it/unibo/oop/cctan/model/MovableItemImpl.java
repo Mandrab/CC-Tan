@@ -12,8 +12,8 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
 
     private double speed;
     private volatile boolean stop;
-    private volatile boolean suspend;
     private final Object pauseLock;
+    private volatile boolean suspend;
 
     /**
      * Put a new movable item respecting the value specified inside the builder object.

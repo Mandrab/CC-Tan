@@ -17,8 +17,8 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     private boolean suspend;
     private final Model model;
     private final List<T> items;
-    private final TimerRatio ratio;
     private final Object pauseLock;
+    private final TimerRatio ratio;
 
     /**
      * Create a new ItemGeneratorImpl thread respecting the value specified inside this fields.
@@ -37,8 +37,8 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
         this.ratio = time;
         this.model = model;
         this.suspend = false;
-        this.items = new ArrayList<>();
         this.pauseLock = new Object();
+        this.items = new ArrayList<>();
     }
 
     /**
