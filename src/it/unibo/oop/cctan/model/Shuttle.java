@@ -4,8 +4,6 @@ import java.awt.geom.Area;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
-
-import it.unibo.oop.cctan.model.Shuttle.PowerUpExecution;
 import javafx.geometry.Point2D;
 
 /**
@@ -36,13 +34,36 @@ public interface Shuttle extends FixedItem {
      */
     List<Point2D> getShapePoints();
 
+    /**
+     * Get the list of all active powerups at the moment.
+     * @return
+     *          the list of all powerup current executions
+     */
     List<PowerUpExecution> getActivePowerUps();
-    
-    void activePowerUp(Pair<PowerUpBlock,PowerUpExecution> powerUpExecution);
-    
-    void removePowerUp(Pair<PowerUpBlock,PowerUpExecution> powerUpExecution);
-    
-    abstract class PowerUpExecution extends Thread {
+
+    /**
+     * Active a new powerup execution. If there's already one actived
+     * for the specified powerup block, increment its timer countdown
+     * by default powerup's timeout.
+     * @param powerUpExecution
+     *          a pair that represent the current powerup execution
+     *          for the powerup block
+     */
+    void activePowerUp(Pair<PowerUpBlock, PowerUpExecution> powerUpExecution);
+
+    /**
+     * Remove a powerup execution from the shuttle's active powerup list.
+     * @param powerUpExecution
+     *          the powerup execution to be removed from list
+     */
+    void removePowerUp(Pair<PowerUpBlock, PowerUpExecution> powerUpExecution);
+
+    /**
+     * Represent the execution of a single powerup. It consist of a timer
+     * that simply when it expires, execute an operation implemented
+     * by subclasses.
+     */
+    abstract class PowerUpExecution extends Thread implements Commands {
 
         private boolean pause;
         private boolean stop;
@@ -50,6 +71,7 @@ public interface Shuttle extends FixedItem {
         private long remaining;
 
         public PowerUpExecution(final int millis) {
+            super();
             this.pause = false;
             this.stop = false;
             this.amount = millis;
@@ -78,6 +100,7 @@ public interface Shuttle extends FixedItem {
 
         protected abstract void operation();
 
+        @Override
         public synchronized void pause() {
             if (!this.pause) {
                 this.pause = true;
@@ -85,13 +108,15 @@ public interface Shuttle extends FixedItem {
             }
         }
 
-        public synchronized void resumeRun() {
+        @Override
+        public synchronized void resumeGame() {
             if (this.pause) {
                 this.pause = false;
                 notifyAll();
             }
         }
 
+        @Override
         public synchronized void terminate() {
             if (!this.stop) {
                 this.stop = true;
@@ -99,12 +124,13 @@ public interface Shuttle extends FixedItem {
             }
         }
 
+        /**
+         * Increase timer by the specified value.
+         * @param amount
+         *              the value to be added at the current remaining time
+         */
         public synchronized void increaseTimer(final int amount) {
             this.remaining += amount;
-        }
-
-        public synchronized int getTimer() {
-            return this.amount;
         }
     }
 }

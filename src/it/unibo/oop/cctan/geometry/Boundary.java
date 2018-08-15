@@ -27,6 +27,17 @@ public class Boundary {
         this.y1 = y1;
     }
 
+    /**
+     * Set the game boundaries.
+     * @param x0
+     *      left bound
+     * @param y0
+     *      lower bound
+     * @param x1
+     *      right bound
+     * @param y1
+     *      upper bound
+     */
     public void setBoundary(final double x0, final double x1, final double y0, final double y1) {
         this.x0 = x0;
         this.x1 = x1;
@@ -70,10 +81,20 @@ public class Boundary {
         return this.y1;
     }
 
+    /**
+     * Get the game area width.
+     * @return
+     *          the width of the game area
+     */
     public double width() {
         return Math.abs(this.x1 - this.x0);
     }
 
+    /**
+     * Get the game area height.
+     * @return
+     *          the height of the game area
+     */
     public double height() {
         return Math.abs(this.y1 - this.y0);
     }

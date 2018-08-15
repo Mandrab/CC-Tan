@@ -48,7 +48,6 @@ public class LaserBlock extends PowerUpBlockImpl {
             }
         };
         this.getModel().getShuttle().activePowerUp(new ImmutablePair<>(this, execution));
-        execution.start();
     }
 
     /**
@@ -89,6 +88,14 @@ public class LaserBlock extends PowerUpBlockImpl {
     @Override
     public double getHeight() {
         return HEIGHT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDuration() {
+        return DURATION;
     }
 
     /**

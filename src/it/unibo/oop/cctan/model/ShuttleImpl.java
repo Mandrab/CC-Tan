@@ -127,6 +127,9 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
         return Color.WHITE;
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public synchronized List<PowerUpExecution> getActivePowerUps() {
         return Collections.unmodifiableList(this.activePowerUps.stream()
@@ -134,6 +137,9 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
                                                                 .collect(Collectors.toList()));
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public synchronized void activePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
         final List<Pair<PowerUpBlock, PowerUpExecution>> duplicate = this.activePowerUps.stream()
@@ -141,12 +147,16 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
                                                          .equals(powerUpExecution.getLeft().getClass()))
                                                  .collect(Collectors.toList());
         if (!duplicate.isEmpty()) {
-            duplicate.forEach(p -> p.getRight().increaseTimer(powerUpExecution.getRight().getTimer()));
+            duplicate.forEach(p -> p.getRight().increaseTimer(powerUpExecution.getLeft().getDuration()));
         } else {
             this.activePowerUps.add(powerUpExecution);
+            powerUpExecution.getRight().start();
         }
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public synchronized void removePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
         this.activePowerUps.remove(powerUpExecution);

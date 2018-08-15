@@ -25,4 +25,11 @@ public interface PowerUpBlock extends FixedItem, Hittable {
      *          the symbol representing the power-up
      */
     String getSymbol();
+
+    /**
+     * Get the default duration for the current power-up.
+     * @return
+     *          the power-up starting duration
+     */
+    int getDuration();
 }
