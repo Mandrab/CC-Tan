@@ -39,7 +39,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+    public synchronized void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (!gameWindow.isPresent()) {
             gameWindow = Optional.of(new GameWindow(this));
         }
