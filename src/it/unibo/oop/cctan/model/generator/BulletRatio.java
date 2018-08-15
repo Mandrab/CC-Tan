@@ -17,7 +17,7 @@ public class BulletRatio extends TimerRatio {
      * This value is expressed in milliseconds. Indicates the initial speed 
      * at which the balls are moved at the start of the game
      */
-    private static final double DEFAULT_SPEED = 0.01;
+    private static final double DEFAULT_SPEED = 0.02;
 
     /**
      * Indicates the maximum frequency with which the balls are generated.
@@ -50,7 +50,7 @@ public class BulletRatio extends TimerRatio {
      * the speed of movement of the balls.
      */
     @Override
-    public void operationRatio() {
+    public void operation() {
         if (this.getRatio() > MAX_RATIO) {
             this.setRatio(this.getRatio() - DECREASE_RATIO);
         }

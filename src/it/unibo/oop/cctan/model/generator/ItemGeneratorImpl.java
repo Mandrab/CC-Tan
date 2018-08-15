@@ -2,6 +2,8 @@ package it.unibo.oop.cctan.model.generator;
 
 import it.unibo.oop.cctan.model.FixedItem;
 import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.PausableThread;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +13,13 @@ import java.util.List;
  *  @param <T>
  *              It's the type of objects that will be created dynamically over time.
  */
-public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
+public abstract class ItemGeneratorImpl<T extends FixedItem> extends PausableThread implements ItemGenerator<T> {
 
-    private boolean stop;
-    private boolean suspend;
+    //private boolean stop;
+    //private boolean suspend;
     private final Model model;
     private final List<T> items;
-    private final Object pauseLock;
+    //private final Object pauseLock;
     private final TimerRatio ratio;
 
     /**
@@ -32,45 +34,50 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * @see TimerRatio#TimerRatio(double speed, int ratio)
      */
     public ItemGeneratorImpl(final Model model, final TimerRatio time) {
-        super();
-        this.stop = false;
+        super(time.getRatio(), ActionOrder.DO_AND_WAIT);
+        //this.stop = false;
         this.ratio = time;
         this.model = model;
-        this.suspend = false;
-        this.pauseLock = new Object();
+        //this.suspend = false;
+        //this.pauseLock = new Object();
         this.items = new ArrayList<>();
     }
 
+    @Override
+    protected void operation() {
+        this.setSleepTime(this.ratio.getRatio());
+        this.createNewItem();
+    }
     /**
      * This method creates a new object at each time interval. This time interval is set by 
      * the TimerRatio object because it takes care of varying the frequency with which the 
      * movable objects are generated. 
      */
-    public void run() {
-        while (!this.stop) {
-            synchronized (pauseLock) {
-                if (this.stop) {
-                    break;
-                }
-                if (this.suspend) {
-                    try {
-                        pauseLock.wait();
-                    } catch (InterruptedException ex) {
-                        break;
-                    }
-                    if (this.stop) {
-                        break;
-                    }
-                }
-            }
-            createNewItem();
-            try {
-                Thread.sleep(this.ratio.getRatio());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void run() {
+//        while (!this.stop) {
+//            synchronized (pauseLock) {
+//                if (this.stop) {
+//                    break;
+//                }
+//                if (this.suspend) {
+//                    try {
+//                        pauseLock.wait();
+//                    } catch (InterruptedException ex) {
+//                        break;
+//                    }
+//                    if (this.stop) {
+//                        break;
+//                    }
+//                }
+//            }
+//            createNewItem();
+//            try {
+//                Thread.sleep(this.ratio.getRatio());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+    //}
 
     /**
      * This method is used to create new object of type <T>. This operation varies according 
@@ -81,35 +88,35 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     /** 
      * {@inheritDoc}
      */
-    @Override
-    public synchronized void terminate() {
-        if (this.suspend) {
-            this.suspend = false;
-        }
-        this.stop = true;
-        this.ratio.terminate();
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void pause() {
-        this.ratio.pause();
-        this.suspend = true;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void resumeGame() {
-        synchronized (this.pauseLock) {
-            this.ratio.resumeGame();
-            this.suspend = false;
-            this.pauseLock.notifyAll();
-        }
-    }
+//    @Override
+//    public synchronized void terminate() {
+//        if (this.suspend) {
+//            this.suspend = false;
+//        }
+//        this.stop = true;
+//        this.ratio.terminate();
+//    }
+//
+//    /** 
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public synchronized void pause() {
+//        this.ratio.pause();
+//        this.suspend = true;
+//    }
+//
+//    /** 
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public synchronized void resumeGame() {
+//        synchronized (this.pauseLock) {
+//            this.ratio.resumeGame();
+//            this.suspend = false;
+//            this.pauseLock.notifyAll();
+//        }
+//    }
 
     /**
      * {@inheritDoc} 
@@ -126,8 +133,8 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     @Override
     public void launch() {
         this.ratio.start();
-        this.stop = false;
-        this.suspend = false;
+        //this.stop = false;
+        //this.suspend = false;
         start();
     }
 

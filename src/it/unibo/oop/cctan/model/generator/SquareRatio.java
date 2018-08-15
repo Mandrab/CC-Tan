@@ -33,7 +33,7 @@ public class SquareRatio extends HittableRatio {
      * of the squares. Furthermore, the life of each square is also increased.
      */
     @Override
-    public void operationRatio() {
+    public void operation() {
         if (this.getRatio() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getRatio() - DECREASE_RATIO);
         }

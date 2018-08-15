@@ -1,13 +1,14 @@
 package it.unibo.oop.cctan.model.generator;
 
 import it.unibo.oop.cctan.model.Commands;
+import it.unibo.oop.cctan.model.PausableThread;
 
 /**
  * This abstract class is a kind of timer that executes the operationRatio method 
  * at the end of every minute. The operationRatio method is used to change the speed 
  * and/or the frequency with which the objects (which implement this class) are generated.
  */
-public abstract class TimerRatio extends Thread implements Commands {
+public abstract class TimerRatio extends PausableThread implements Commands {
 
     /**
      * This value is expressed in milliseconds. Indicates that in a minute there are 
@@ -25,9 +26,9 @@ public abstract class TimerRatio extends Thread implements Commands {
      */
     private int ratio;
 
-    private boolean stop;
-    private boolean suspend;
-    private final Object pauseLock;
+    //private boolean stop;
+    //private boolean suspend;
+    //private final Object pauseLock;
     private final int startingRatio;
     private final double startingSpeed;
 
@@ -39,84 +40,84 @@ public abstract class TimerRatio extends Thread implements Commands {
      *          It's the initial frequency with which the object is generated.
      */
     public TimerRatio(final double speed, final int ratio) {
-        super();
-        this.stop = false;
+        super(ONE_MINUTE, ActionOrder.DO_AND_WAIT);
+        //this.stop = false;
         this.speed = speed;
         this.ratio = ratio;
-        this.suspend = false;
+        //this.suspend = false;
         this.startingSpeed = speed;
         this.startingRatio = ratio;
-        this.pauseLock = new Object();
+        //this.pauseLock = new Object();
     }
-
+    
     /**
      * It's responsible for executing the operationRatio method at the end of every minute.
      */
-    @Override
-    public void run() {
-        while (!this.stop) {
-            synchronized (pauseLock) {
-                if (this.stop) {
-                    break;
-                }
-                if (this.suspend) {
-                    try {
-                        pauseLock.wait();
-                    } catch (InterruptedException ex) {
-                        break;
-                    }
-                    if (this.stop) {
-                        break;
-                    }
-                }
-            }
-            operationRatio();
-            try {
-                Thread.sleep(ONE_MINUTE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @Override
+//    public void run() {
+//        while (!this.stop) {
+//            synchronized (pauseLock) {
+//                if (this.stop) {
+//                    break;
+//                }
+//                if (this.suspend) {
+//                    try {
+//                        pauseLock.wait();
+//                    } catch (InterruptedException ex) {
+//                        break;
+//                    }
+//                    if (this.stop) {
+//                        break;
+//                    }
+//                }
+//            }
+//            operationRatio();
+//            try {
+//                Thread.sleep(ONE_MINUTE);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     /**
      *  Increase or decrease different values, to increase the number of squares and balls 
      *  that are generated within the application. It is also used to increase the speed of 
      *  movement of the various objects, or to increase the initial life of the squares.
      */
-    public abstract void operationRatio();
+    //public abstract void operationRatio();
 
     /** 
      * {@inheritDoc}
      */
-    @Override
-    public synchronized void terminate() {
-        if (this.suspend) {
-            this.suspend = false;
-        }
-        this.stop = true;
-        this.ratio = this.startingRatio;
-        this.speed = this.startingSpeed;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void pause() {
-        this.suspend = true;
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void resumeGame() {
-        synchronized (this.pauseLock) {
-            this.suspend = false;
-            this.pauseLock.notifyAll();
-        }
-    }
+//    @Override
+//    public synchronized void terminate() {
+//        if (this.suspend) {
+//            this.suspend = false;
+//        }
+//        this.stop = true;
+//        this.ratio = this.startingRatio;
+//        this.speed = this.startingSpeed;
+//    }
+//
+//    /** 
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public synchronized void pause() {
+//        this.suspend = true;
+//    }
+//
+//    /** 
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public synchronized void resumeGame() {
+//        synchronized (this.pauseLock) {
+//            this.suspend = false;
+//            this.pauseLock.notifyAll();
+//        }
+//    }
 
     /**
      * @return

@@ -25,7 +25,7 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     private static final double WIDTH = 1 / 6.0; //width of the rectangle, in terms of interval-unit
 
     private final Point2D startingPos;
-    private final List<Pair<PowerUpBlock, PowerUpExecution>> activePowerUps;
+    private final List<Pair<PowerUpBlock, PausableThread>> activePowerUps;
 
     /**
      * Create a new shuttle in the center of the game area.
@@ -131,7 +131,7 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      * {@inheritDoc}
      */
     @Override
-    public synchronized List<PowerUpExecution> getActivePowerUps() {
+    public synchronized List<PausableThread> getActivePowerUps() {
         return Collections.unmodifiableList(this.activePowerUps.stream()
                                                                 .map(p -> p.getRight())
                                                                 .collect(Collectors.toList()));
@@ -141,8 +141,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void activePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
-        final List<Pair<PowerUpBlock, PowerUpExecution>> duplicate = this.activePowerUps.stream()
+    public synchronized void activePowerUp(final Pair<PowerUpBlock, PausableThread> powerUpExecution) {
+        final List<Pair<PowerUpBlock, PausableThread>> duplicate = this.activePowerUps.stream()
                                                  .filter(p -> p.getLeft().getClass()
                                                          .equals(powerUpExecution.getLeft().getClass()))
                                                  .collect(Collectors.toList());
@@ -158,7 +158,7 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void removePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
+    public synchronized void removePowerUp(final Pair<PowerUpBlock, PausableThread> powerUpExecution) {
         this.activePowerUps.remove(powerUpExecution);
     }
 }

@@ -39,7 +39,7 @@ public interface Shuttle extends FixedItem {
      * @return
      *          the list of all powerup current executions
      */
-    List<PowerUpExecution> getActivePowerUps();
+    List<PausableThread> getActivePowerUps();
 
     /**
      * Active a new powerup execution. If there's already one actived
@@ -49,14 +49,14 @@ public interface Shuttle extends FixedItem {
      *          a pair that represent the current powerup execution
      *          for the powerup block
      */
-    void activePowerUp(Pair<PowerUpBlock, PowerUpExecution> powerUpExecution);
+    void activePowerUp(Pair<PowerUpBlock, PausableThread> powerUpExecution);
 
     /**
      * Remove a powerup execution from the shuttle's active powerup list.
      * @param powerUpExecution
      *          the powerup execution to be removed from list
      */
-    void removePowerUp(Pair<PowerUpBlock, PowerUpExecution> powerUpExecution);
+    void removePowerUp(Pair<PowerUpBlock, PausableThread> powerUpExecution);
 
     /**
      * Represent the execution of a single powerup. It consist of a timer

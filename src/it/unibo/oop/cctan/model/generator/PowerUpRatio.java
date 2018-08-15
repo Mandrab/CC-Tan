@@ -26,7 +26,7 @@ public class PowerUpRatio extends HittableRatio {
      * the points necessary to get the powerUp.
      */
     @Override
-    public void operationRatio() {
+    public void operation() {
         if (this.getRatio() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getRatio() - DECREASE_RATIO);
         }
