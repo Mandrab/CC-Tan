@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.model.Model;
@@ -18,7 +17,7 @@ import it.unibo.oop.cctan.view.View.Component;
  * A class that implements controller interface.
  * This implementation is package protected.
  */
-class ControllerImpl implements Controller, CommandsObserver {
+class ControllerImpl implements Controller {
 
     private Optional<View> view = Optional.empty();
     private Model model;
@@ -30,6 +29,7 @@ class ControllerImpl implements Controller, CommandsObserver {
     /** {@inheritDoc} */
     public void setView(final View v) {
         v.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
+        v.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
         model = new ModelImpl();
         fileLoader = new FileLoader(this);
         this.view = Optional.of(v);
