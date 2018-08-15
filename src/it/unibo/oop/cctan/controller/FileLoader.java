@@ -56,7 +56,7 @@ class FileLoader extends Thread {
      * FileLoader constructor.
      * 
      * @param controller
-     *            A class tha implements Controller interface
+     *            A class that implements Controller interface
      */
     FileLoader(final Controller controller) {
         this.controller = controller;

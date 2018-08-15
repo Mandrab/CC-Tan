@@ -62,6 +62,12 @@ abstract class Updater extends Thread implements CommandsObserver {
         terminated = true;
     }
 
+    /**
+     * Set if the thread has to be paused.
+     * 
+     * @param val
+     *          True if should be paused, False otherwise
+     */
     public synchronized void setPause(final boolean val) {
         suspended = val;
         if (!suspended) {

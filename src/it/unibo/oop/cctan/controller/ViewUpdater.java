@@ -44,9 +44,11 @@ class ViewUpdater extends Updater {
     }
 
     /**
-     * 
+     * Return a flat class containing all the useful data to map.
      * This method is package protected.
+     * 
      * @return
+     *          A flat class which contain all the useful data
      */
     ModelData getModelData() {
         return new ModelDataImpl(mappableDataAdapter.getListOfMappableData(),
