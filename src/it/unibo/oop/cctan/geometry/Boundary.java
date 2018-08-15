@@ -31,10 +31,10 @@ public class Boundary {
      * Set the game boundaries.
      * @param x0
      *      left bound
-     * @param y0
-     *      lower bound
      * @param x1
      *      right bound
+     * @param y0
+     *      lower bound
      * @param y1
      *      upper bound
      */

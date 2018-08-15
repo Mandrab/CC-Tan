@@ -15,7 +15,7 @@ import it.unibo.oop.cctan.model.SquareAgent;
  */
 class MappableDataAdapter {
 
-    private Model model;
+    private final Model model;
 
     /**
      * The constructor. Needs a model class.
@@ -37,6 +37,7 @@ class MappableDataAdapter {
         // Add all the bullets to the list of mappable data
         List<MappableData> l = model.getBulletAgents()
                                     .stream()
+                                    .filter(ba -> ba != null)
                                     .map(ba -> new MappableDataImpl("", 
                                                                     ba.getColor(), 
                                                                     ba.getShape()))
@@ -45,6 +46,7 @@ class MappableDataAdapter {
         // Add all the squares to the list of mappable data
         l.addAll(model.getSquareAgents()
                       .stream()
+                      .filter(sa -> sa != null)
                       .map(sa -> new MappableDataImpl("" + ((SquareAgent) sa).getHP(), 
                                                       sa.getColor(), 
                                                       sa.getShape()))
@@ -58,6 +60,7 @@ class MappableDataAdapter {
         // Add all the powerup to the list of mappable data
         l.addAll(model.getPowerUpBlocks()
                       .stream()
+                      .filter(pu -> pu != null)
                       .map(pu -> new MappableDataImpl(pu.getSymbol() + " " + pu.getHP(), 
                                                       pu.getColor(), 
                                                       pu.getShape()))
