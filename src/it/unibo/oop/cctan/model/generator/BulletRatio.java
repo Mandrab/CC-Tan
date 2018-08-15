@@ -17,7 +17,7 @@ public class BulletRatio extends TimerRatio {
      * This value is expressed in milliseconds. Indicates the initial speed 
      * at which the balls are moved at the start of the game
      */
-    private static final double DEFAULT_SPEED = 0.02;
+    private static final double DEFAULT_SPEED = 0.01;
 
     /**
      * Indicates the maximum frequency with which the balls are generated.
