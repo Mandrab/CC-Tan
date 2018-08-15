@@ -38,7 +38,6 @@ class ViewUpdater extends Updater {
      */
     protected void exec() {
         if (model.getGameStatus() == GameStatus.ENDED) {
-            System.out.println("ended");
             view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
         }
         view.refreshGui(Component.GAME_WINDOW);
