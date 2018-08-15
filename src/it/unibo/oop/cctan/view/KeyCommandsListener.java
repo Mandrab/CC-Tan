@@ -155,6 +155,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
             reset = false;
             return true;
         }
+        reset = false;
         return false;
     }
 

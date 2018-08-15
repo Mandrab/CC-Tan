@@ -165,15 +165,6 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public Optional<Dimension> getDimension() {
-            return Optional.of(GAME_WINDOW_DIMENSION_TEST);
-        }
-
-        @Override
-        public void setMouseRelativePosition(final double mouseRelativePosition) {
-        }
-
-        @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.of(GAME_WINDOW_DIMENSION_TEST);
         }
@@ -214,6 +205,11 @@ public class KeyListenerJTest {
 
         @Override
         public void refreshGui(Component component) {
+        }
+
+        @Override
+        public void hideGameWindow() {
+            
         }
 
     }
