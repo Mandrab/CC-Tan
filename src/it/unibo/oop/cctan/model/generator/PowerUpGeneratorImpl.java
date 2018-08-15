@@ -15,6 +15,7 @@ import javafx.geometry.Point2D;
 public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
 
     private Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type;
+    private boolean skip;
 
     /**
      * Create a new thread that generates {@link PowerUpBlock PowerUpBlock} over time.
@@ -25,6 +26,7 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
     public PowerUpGeneratorImpl(final Model model) {
         super(model, new PowerUpRatio());
         this.type = () -> new LaserBlock.LaserBlockBuilder();
+        this.skip = true;
     }
 
     /**
@@ -32,13 +34,17 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
      */
     @Override
     protected void createNewItem() {
-        this.type = randomPowerUp();
-        final PowerUpBlock powerUp = (PowerUpBlock) type.get()
-                .hitPoints(((PowerUpRatio) this.getRatio()).getHP())
-                .position(randomPoint())
-                .model(this.getModel())
-                .build();
-        this.addItemToList(powerUp);
+        if (!this.skip) {
+            this.type = randomPowerUp();
+            final PowerUpBlock powerUp = (PowerUpBlock) type.get()
+                    .hitPoints(((PowerUpRatio) this.getRatio()).getHP())
+                    .position(randomPoint())
+                    .model(this.getModel())
+                    .build();
+            this.addItemToList(powerUp);
+        } else {
+            this.skip = false;
+        }
     }
 
     private Point2D randomPoint() {
