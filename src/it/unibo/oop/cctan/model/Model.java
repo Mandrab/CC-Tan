@@ -18,7 +18,10 @@ public interface Model extends Commands {
     void launch();
 
     /**
+     * Sets the x/y ratio of the Cartesian graphic.
      * 
+     * @param
+     *          The result of the division of x over y
      */
     void setDisplayRatio(double ratio);
 
