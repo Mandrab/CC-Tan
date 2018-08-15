@@ -12,7 +12,7 @@ import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl.BulletGeneratorSet
  * The laser block power-up implementation. It represent the block to be
  * destroyed by bullets to then activate power-up (i.e. laser bullets).
  */
-public class LaserBlock extends PowerUpBlockImpl implements PowerUpBlock {
+public class LaserBlock extends PowerUpBlockImpl {
 
     private static final String NAME = "Laser";
     private static final String SYMBOL = "X";
