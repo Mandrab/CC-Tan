@@ -43,9 +43,14 @@ class FileLoader extends Thread {
                                                           .getResource("/subspace_font/SubspaceItalic.otf")
                                                           .getFile();
     private static final int[] PERCENTAGE_ADVANCE = { 10, 40, 50, 80, 100 };
-    private static final IntSupplier ADVANCE_PERCENTAGE = () -> {
-        int index = 0;
-        return index < PERCENTAGE_ADVANCE.length ? PERCENTAGE_ADVANCE[index++] : 100;
+    private static final IntSupplier ADVANCE_PERCENTAGE = new IntSupplier() {
+
+        private int index = 0;
+
+        @Override
+        public int getAsInt() {
+            return index < PERCENTAGE_ADVANCE.length ? PERCENTAGE_ADVANCE[index++] : 100;
+        }
     };
     private static final float QUALITY = 1.0f;
     private final Controller controller;
