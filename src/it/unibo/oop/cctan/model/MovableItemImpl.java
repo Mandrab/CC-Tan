@@ -94,8 +94,10 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public synchronized void resumeGame() {
-        this.suspend = false;
-        notifyAll();
+        synchronized (this.pauseLock) {
+            this.suspend = false;
+            this.pauseLock.notifyAll();
+        }
     }
 
     /** 

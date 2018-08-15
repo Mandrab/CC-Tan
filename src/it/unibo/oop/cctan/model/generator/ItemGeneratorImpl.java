@@ -18,7 +18,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     private final Model model;
     private final List<T> items;
     private final TimerRatio ratio;
-    private final Object pauseLock = new Object();
+    private final Object pauseLock;
 
     /**
      * Create a new ItemGeneratorImpl thread respecting the value specified inside this fields.
@@ -38,6 +38,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
         this.model = model;
         this.suspend = false;
         this.items = new ArrayList<>();
+        this.pauseLock = new Object();
     }
 
     /**
@@ -103,9 +104,11 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      */
     @Override
     public synchronized void resumeGame() {
-        this.ratio.resumeGame();
-        this.suspend = false;
-        notifyAll();
+        synchronized (this.pauseLock) {
+            this.ratio.resumeGame();
+            this.suspend = false;
+            this.pauseLock.notifyAll();
+        }
     }
 
     /**
