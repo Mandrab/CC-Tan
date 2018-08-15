@@ -10,6 +10,7 @@ public class LoadedFilesImpl implements LoadedFiles {
     private int percentage = 0;
     private Optional<ImageIcon> background = Optional.empty();
     private Optional<ImageIcon> logo = Optional.empty();
+    private Optional<ImageIcon> icon = Optional.empty();
     private Optional<File> fontFile = Optional.empty();
     private Optional<File> scoreFile = Optional.empty();
 
@@ -21,18 +22,26 @@ public class LoadedFilesImpl implements LoadedFiles {
 //        this.background = Optional.of(background);
 //    }
 
-    public void setLogo(ImageIcon logo) {
-        this.logo = Optional.of(logo);
+    public void setImage(ImageIcon img, ImageReturn type) {
+        switch (type) {
+            case LOGO:
+                this.logo = Optional.of(img);
+                break;
+            case BACKGROUND:
+                break;
+            case ICON:
+                this.icon = Optional.of(img);
+        }
     }
 
     public void setFontFile(File fontFile) {
         this.fontFile = Optional.of(fontFile);
     }
-    
+
     @Override
     public void setScores(File file) {
         this.scoreFile = Optional.of(file);
-        
+
     }
 
     @Override
@@ -43,7 +52,7 @@ public class LoadedFilesImpl implements LoadedFiles {
     public int getPercentage() {
         return percentage;
     }
-    
+
     @Override
     public Optional<File> getScores() {
         return this.scoreFile;
@@ -62,6 +71,8 @@ public class LoadedFilesImpl implements LoadedFiles {
         switch (type) {
         case LOGO:
             return logo;
+        case ICON:
+            return icon;
         case BACKGROUND:
             return background;
         default:

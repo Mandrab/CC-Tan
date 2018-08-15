@@ -33,6 +33,7 @@ public class LeaderBoardTable {
             String player = mg.getPlayerName();
 
             JFrame mainFrame = new JFrame("LeaderBoard");
+            mainFrame.setIconImage(mg.getIconImage());
             mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             mainFrame.setMaximumSize(new Dimension(400, 400));
             mainFrame.setLayout(new BorderLayout());

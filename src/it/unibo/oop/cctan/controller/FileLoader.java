@@ -23,6 +23,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageReturn;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.view.View.Component;
 
@@ -39,6 +40,8 @@ class FileLoader extends Thread {
     private static final String SCORE_FILE_SCORES = "/Scores";
     private static final String IMG_JPG_LOGO = "/cctan.jpg";
     private static final String IMG_SVG_LOGO = "/cctan.svg";
+    private static final String IMG_JPG_ICON = "/icona.jpg";
+    private static final String IMG_SVG_ICON = "/icona.svg";
     private static final String FONT_SUBSPACE = FileLoader.class
                                                           .getResource("/subspace_font/SubspaceItalic.otf")
                                                           .getFile();
@@ -78,7 +81,7 @@ class FileLoader extends Thread {
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setLogo(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)));
+            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)), ImageReturn.LOGO);
             controller.refreshGui(Component.LOADER);
             try {
                 convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
@@ -88,7 +91,21 @@ class FileLoader extends Thread {
                 e.printStackTrace();
             }
         }
-        loadedFiles.setLogo(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO));
+        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO), ImageReturn.LOGO);
+        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        controller.refreshGui(Component.LOADER);
+
+        // convert svg to jpg. if jpg file already exists will do nothing
+        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
+            try {
+                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_ICON).toString(),
+                                PATH + DIRECTORY_IMG + IMG_JPG_ICON);
+            } catch (Exception e) {
+                System.err.println("Error during svg conversion!");
+                e.printStackTrace();
+            }
+        }
+        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_ICON), ImageReturn.ICON);
         percentage = ADVANCE_PERCENTAGE.getAsInt();
         controller.refreshGui(Component.LOADER);
 

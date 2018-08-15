@@ -12,6 +12,8 @@ public interface LoadedFiles {
     public enum ImageReturn {
 
         LOGO,
+        
+        ICON,
 
         BACKGROUND;
 
@@ -20,15 +22,15 @@ public interface LoadedFiles {
     Optional<File> getFontFile();
 
     Optional<ImageIcon> getImage(ImageReturn type);
-    
+
 //    public void setBackground(ImageIcon background);
 
-    public void setLogo(ImageIcon logo);
+    public void setImage(ImageIcon img, ImageReturn type);
 
     public void setFontFile(File fontFile);
-    
+
     public int getPercentage();
-    
+
     /**
      * Sets the percentage of advance of loading. If the number is less than 0 or
      * exceeds 100, the change is ignored.

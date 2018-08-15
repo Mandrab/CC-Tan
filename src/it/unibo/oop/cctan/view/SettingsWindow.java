@@ -54,6 +54,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         this.settingsDimansion = tryDimensionOfWindow();
 
         settings = new JFrame("Settings");
+        view.getLoadedFiles().getImage(ImageReturn.ICON).ifPresent(img -> settings.setIconImage(img.getImage()));
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());
