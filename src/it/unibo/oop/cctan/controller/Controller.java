@@ -13,21 +13,34 @@ import it.unibo.oop.cctan.view.View.Component;
 public interface Controller extends CommandsObserver, SizeObserver {
 
     /**
-     * Pass the degrees of the mouse relatively at the center of the game window to
-     * the model.
+     * Sets the view class with which the controller will work.
      * 
-     * @param angle
-     *            A double representing the position of the mouse relatively to the
-     *            center of the window [center-right = 0, top-center = 90, ...]
+     * @param v
+     *            The class that implements view
      */
-    void setMouseRelativePosition(double angle);
-
     void setView(View v);
 
+    /**
+     * Return a flat object containing all the files loaded from the file system.
+     * 
+     * @return A file containing all the loaded object
+     */
     LoadedFiles getLoadedFiles();
 
+    /**
+     * Return a flat object containing all the useful data from the file model.
+     * 
+     * @return A file containing all the useful data from the model
+     */
     ModelData getModelData();
 
+    /**
+     * Make a specific component of the view to refresh. The possible component are
+     * specified in the Component enumeration.
+     * 
+     * @param component
+     *            The component to refresh
+     */
     void refreshGui(Component component);
 
 }

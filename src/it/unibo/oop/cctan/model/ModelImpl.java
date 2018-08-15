@@ -113,16 +113,16 @@ public class ModelImpl implements Model {
 
     @Override
     public void terminate() {
-        if (!gameStatus.equals(GameStatus.ENDED)) {
+        //if (!gameStatus.equals(GameStatus.ENDED)) {
             this.bulletGenerator.getItems().forEach(b -> b.terminate());
             this.squareGenerator.getItems().forEach(s -> s.terminate());
             this.squareGenerator.terminate();
             this.bulletGenerator.terminate();
             this.powerupGenerator.terminate();
             this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
-            
+
             this.istanceGenerators();
-        }
+        //}
         this.gameStatus = GameStatus.ENDED;
     }
 
@@ -134,7 +134,7 @@ public class ModelImpl implements Model {
             this.bulletGenerator.pause();
             this.squareGenerator.pause();
             this.powerupGenerator.pause();
-            this.getShuttle().getActivePowerUps().forEach(p->p.pause());
+            this.getShuttle().getActivePowerUps().forEach(p -> p.pause());
         }
         gameStatus = GameStatus.PAUSED;
     }
@@ -147,7 +147,7 @@ public class ModelImpl implements Model {
             this.bulletGenerator.resumeGame();
             this.squareGenerator.resumeGame();
             this.powerupGenerator.resumeGame();
-            this.getShuttle().getActivePowerUps().forEach(p->p.resumeRun());
+            this.getShuttle().getActivePowerUps().forEach(p -> p.resumeRun());
         }
         gameStatus = GameStatus.RUNNING;
     }
@@ -173,8 +173,8 @@ public class ModelImpl implements Model {
         // width / height = ratio ------> width = ratio * height
             // --> x0 = -ratio * height / 2 ----> x0 = -ratio
             // --> x1 = radio * height / 2 -----> x1 = ratio
-        System.out.println("buond set");
-        this.bound.setBoundary(-ratio, ratio, -1, 1);
+        System.out.println("Current ratio: " + ratio);
+        //this.bound.setBoundary(-ratio, ratio, -1, 1);
     }
     
     private void istanceGenerators() {

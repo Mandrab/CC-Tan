@@ -11,6 +11,7 @@ import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * A class created to handle the refresh of the game window.
+ * This class is package protected.
  */
 class ViewUpdater extends Updater {
 
@@ -32,13 +33,23 @@ class ViewUpdater extends Updater {
     }
 
     @Override
-    void exec() {
+    /**
+     * If the game is ended then force an end command to all the observers.
+     */
+    protected void exec() {
         if (model.getGameStatus() == GameStatus.ENDED) {
             view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
         }
         view.refreshGui(Component.GAME_WINDOW);
     }
 
+    /**
+     * Return a flat class containing all the useful data to map.
+     * This method is package protected.
+     * 
+     * @return
+     *          A flat class which contain all the useful data
+     */
     ModelData getModelData() {
         return new ModelDataImpl(mappableDataAdapter.getListOfMappableData(),
                                  model.getScore().getPoints(),
