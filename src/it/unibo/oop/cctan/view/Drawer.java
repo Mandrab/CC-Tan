@@ -91,8 +91,10 @@ class Drawer {
                 / graphics.getFontMetrics().stringWidth(strings[indexLonger]));
         float yPreferredSize = (float) (border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
                 / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length));
-        return font.deriveFont(xPreferredSize < yPreferredSize ? (float) Math.ceil(xPreferredSize * graphics.getFont().getSize())
-                : (float) Math.ceil(yPreferredSize * graphics.getFont().getSize()));
+        return font.deriveFont(xPreferredSize < yPreferredSize ? ((int) Math.ceil(xPreferredSize * graphics.getFont().getSize()) * 1f)
+                : ((int) Math.ceil(yPreferredSize * graphics.getFont().getSize()))*1f);
+        //return font.deriveFont(xPreferredSize < yPreferredSize ? (float) Math.ceil(xPreferredSize * graphics.getFont().getSize())
+        //        : (float) Math.ceil(yPreferredSize * graphics.getFont().getSize()));
     }
 
     synchronized void drawText(final String text, final Pair<Double, Double> screenPositionOnPercentage,
