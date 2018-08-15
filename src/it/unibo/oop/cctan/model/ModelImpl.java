@@ -181,17 +181,22 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public void terminate() {
-        //if (!gameStatus.equals(GameStatus.ENDED)) {
-            this.bulletGenerator.getItems().forEach(b -> b.terminate());
-            this.squareGenerator.getItems().forEach(s -> s.terminate());
-            this.squareGenerator.terminate();
-            this.bulletGenerator.terminate();
-            this.powerupGenerator.terminate();
-            this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
+    public List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes() {
+        return Collections.unmodifiableList(ModelImpl.POWER_UP_TYPES);
+    }
 
-            this.istanceGenerators();
-        //}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void terminate() {
+        this.bulletGenerator.getItems().forEach(b -> b.terminate());
+        this.squareGenerator.getItems().forEach(s -> s.terminate());
+        this.squareGenerator.terminate();
+        this.bulletGenerator.terminate();
+        this.powerupGenerator.terminate();
+        this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
+        this.istanceGenerators();
         this.gameStatus = GameStatus.ENDED;
     }
 
@@ -225,14 +230,6 @@ public class ModelImpl implements Model {
             this.getShuttle().getActivePowerUps().forEach(p -> p.resumeRun());
         }
         gameStatus = GameStatus.RUNNING;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes() {
-        return Collections.unmodifiableList(ModelImpl.POWER_UP_TYPES);
     }
 
 }

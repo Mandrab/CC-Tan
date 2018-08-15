@@ -1,9 +1,7 @@
 package it.unibo.oop.cctan.model;
 
 import java.util.List;
-
 import it.unibo.oop.cctan.geometry.Boundary;
-import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
@@ -19,14 +17,23 @@ public interface Model extends Commands {
 
     /**
      * Sets the x/y ratio of the Cartesian graphic.
-     * 
-     * @param
-     *          The result of the division of x over y
+     * @param ratio
+     *          The result of the division of x over y.
      */
     void setDisplayRatio(double ratio);
 
+    /**
+     * Set the current angle of the Shuttle.
+     * @param angle
+     *          New angle of the Shuttle.
+     */
     void setSpaceshipAngle(double angle);
 
+    /**
+     * Set the current state of the game.
+     * @param status
+     *          New state of the game.
+     */
     void setGameStatus(GameStatus status);
 
     /**
