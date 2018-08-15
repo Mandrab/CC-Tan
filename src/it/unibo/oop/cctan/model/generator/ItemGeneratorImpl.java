@@ -48,10 +48,10 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
         while (!stop) {
             try {
                 //synchronized (this) {
-              //if (suspend) {
+                //if (this.suspend) {
                 //  wait();
                 //}
-                    while (suspend) {
+                    while (this.suspend) {
                         Thread.sleep(50);
                     }
                     if (!this.stop || !this.suspend) {

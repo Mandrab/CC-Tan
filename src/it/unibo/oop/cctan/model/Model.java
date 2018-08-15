@@ -3,6 +3,7 @@ package it.unibo.oop.cctan.model;
 import java.util.List;
 
 import it.unibo.oop.cctan.geometry.Boundary;
+import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
@@ -12,76 +13,104 @@ import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 public interface Model extends Commands {
 
     /**
-     * Start the Model, launching the two generators (both balls and squares).
+     * Start the Model, launching the three generators (bullets, squares and power-ups).
      */
     void launch();
 
     /**
-     * Get the game area boundaries used by the model.
      * 
-     * @return the current map's boundaries
      */
-    Boundary getBounds();
+    void setDisplayRatio(double ratio);
+
+    void setSpaceshipAngle(double angle);
+
+    void setGameStatus(GameStatus status);
 
     /**
-     * Get the current Shuttle.
-     * 
-     * @return the actual Shuttle item
-     */
-    Shuttle getShuttle();
-
-    /**
-     * Removes the ball from the application.
-     * 
+     * Removes the {@link Bullet Bullet} from the application.
      * @param bullet
-     *            it's the ball that must be removed
+     *            It's the {@link Bullet Bullet} that must be removed.
      */
     void removeBullet(Bullet bullet);
 
-    void removePowerUp(PowerUpBlock powerup);
-
     /**
-     * Returns the list of the balls that are present in the application.
-     * 
-     * @return the current list of all the balls that are moving within the
-     *         application
-     */
-    List<Bullet> getBulletAgents();
-
-    /**
-     * Removes the square from the application.
-     * 
+     * Removes the {@link SquareAgent SquareAgent} from the application.
      * @param square
-     *            it's the square that must be removed
+     *            It's the {@link SquareAgent SquareAgent} that must be removed.
      */
     void removeSquare(SquareAgent square);
 
     /**
-     * Returns the list of the squares that are present in the application.
-     * 
-     * @return the current list of all the squares that are moving within the
-     *         application
+     * Removes the {@link PowerUpBlock PowerUpBlock} from the application.
+     * @param powerup
+     *            It's the {@link PowerUpBlock PowerUpBlock} that must be removed.
      */
-    List<SquareAgent> getSquareAgents();
+    void removePowerUp(PowerUpBlock powerup);
 
-    List<PowerUpBlock> getPowerUpBlocks();
-
-    ItemGenerator<Bullet> getBulletGenerator();
-
-    void setSpaceshipAngle(double angle);
-
+    /**
+     * Get the current game score.
+     * @return 
+     *          The current game score.
+     */
     Score getScore();
 
     /**
-     * Return the status of the game defined by the GameStatus enum.
-     * 
-     * @return The status of the game
+     * Get the game area boundaries used by the model.
+     * @return 
+     *          The current map's boundaries.
+     */
+    Boundary getBounds();
+
+    /**
+     * Get the current {@link Shuttle Shuttle}.
+     * @return 
+     *          The actual {@link Shuttle Shuttle} item.
+     */
+    Shuttle getShuttle();
+
+    /**
+     * Return the status of the game defined by the {@link GameStatus GameStatus} enumeration.
+     * @return 
+     *          The status of the game.
      */
     GameStatus getGameStatus();
 
-    void setGameStatus(GameStatus status);
+    /**
+     * Returns the list of the {@link Bullet Bullet} that are present within the application.
+     * @return 
+     *          The current list of all the {@link Bullet Bullet} that are moving within the application.
+     */
+    List<Bullet> getBulletAgents();
 
+    /**
+     * Returns the list of the {@link SquareAgent SquareAgent} that are present within the application.
+     * @return 
+     *          The current list of all {@link SquareAgent SquareAgent} that are moving within the application.
+     */
+    List<SquareAgent> getSquareAgents();
+
+    /**
+     * Returns the list of the {@link PowerUpBlock PowerUpBlock} that are present within the application.
+     * @return 
+     *          The current list of all {@link PowerUpBlock PowerUpBlock} that are within the application.
+     */
+    List<PowerUpBlock> getPowerUpBlocks();
+
+    /**
+     * Returns the bullet generator of the application.
+     * @see ItemGenerator
+     * @see BulletGeneratorImpl
+     * @return
+     *          The BulletGeneratorImpl object of the application.
+     */
+    ItemGenerator<Bullet> getBulletGenerator();
+
+    /**
+     * Return all the builders of all types of {@link PowerUpBlock PowerUpBlock} that can be 
+     * generated within the application.
+     * @return
+     *          All the possible builders of all types of {@link PowerUpBlock PowerUpBlock}.
+     */
     List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> getPowerUpBlockTypes();
-    
-    void setDisplayRatio(double ratio);
+
 }

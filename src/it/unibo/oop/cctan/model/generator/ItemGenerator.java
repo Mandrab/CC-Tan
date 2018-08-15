@@ -20,11 +20,10 @@ public interface ItemGenerator<T extends FixedItem> extends Commands {
     void launch();
 
     /**
-     * This method is used to add to the list the new objects that has just been created.
-     * @param item
-     *          It's the object that must be add to the application.
+     * @return
+     *          The model of the application.
      */
-    void addItemToList(T item);
+    Model getModel();
 
     /**
      * Get a new list containing all objects that have been generated up to that moment.
@@ -41,9 +40,10 @@ public interface ItemGenerator<T extends FixedItem> extends Commands {
     void removeItem(T item);
 
     /**
-     * @return
-     *          The model of the application.
+     * This method is used to add to the list the new objects that has just been created.
+     * @param item
+     *          It's the object that must be add to the application.
      */
-    Model getModel();
+    void addItemToList(T item);
 
 }

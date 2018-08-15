@@ -28,10 +28,13 @@ public final class Score {
         return this.points;
     }
 
+    /**
+     * The task of this method is to set the game score to 0.
+     */
     public void reset() {
         this.points = 0;
     }
-    
+
     /**
      * @return
      *          The only object (SINGLETON) present in the application.

@@ -16,12 +16,8 @@ import it.unibo.oop.cctan.model.generator.SquareGeneratorImpl;
  */
 public class ModelImpl implements Model {
 
-    /*
-     * Questa lista deve contenere tutti i Builder di tutti i powerUp che sono 
-     * all'interno dell'applicazione in modo che vengano generati sempre dei power up diversi.
-     */
-    private static final List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> POWER_UP_TYPES = Arrays.asList(
-            new LaserBlock.LaserBlockBuilder());
+    private static final List<PowerUpBlockImpl.PowerUpBlockBuilder<?>> POWER_UP_TYPES = 
+                Arrays.asList(new LaserBlock.LaserBlockBuilder());
     private ItemGenerator<SquareAgent> squareGenerator;
     private ItemGenerator<PowerUpBlock> powerupGenerator;
     private ItemGenerator<Bullet> bulletGenerator;
@@ -40,8 +36,8 @@ public class ModelImpl implements Model {
         //this.bound = new Boundary(-4/3.0, -1, 4/3.0, 1);
         //this.bound = new Boundary(-16/9.0, -1, 16/9.0, 1);
         this.istanceGenerators();
-        this.shuttle = new ShuttleImpl(this);
         this.gameStatus = GameStatus.ENDED;
+        this.shuttle = new ShuttleImpl(this);
     }
 
     /**
