@@ -82,10 +82,6 @@ public class FileLoaderJTest {
             }
 
             @Override
-            public void setMouseRelativePosition(final double angle) {
-            }
-
-            @Override
             public LoadedFiles getLoadedFiles() {
                 return null;
             }

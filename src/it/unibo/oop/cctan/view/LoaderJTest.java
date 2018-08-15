@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
-import it.unibo.oop.cctan.controller.FileLoader;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
@@ -38,7 +37,7 @@ public class LoaderJTest {
                 int actual = getAdvance.getAsInt();
                 LoadedFiles lf = new LoadedFilesImpl(actual);
                 if (actual > 10 * setImgCicle) {
-                    lf.setLogo(new ImageIcon(FileLoader.class.getResource("/cctan.jpg")));
+                    lf.setLogo(new ImageIcon(LoaderJTest.class.getResource("/cctan.jpg")));
                 }
                 return lf;
             }

@@ -5,7 +5,11 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
 
-public class ModelUpdater extends Updater {
+/**
+ * A class created to periodically update data to the model.
+ * This class is package protected.
+ */
+class ModelUpdater extends Updater {
 
     private View view;
     private Model model;
@@ -17,12 +21,21 @@ public class ModelUpdater extends Updater {
     }
 
     @Override
-    void exec() {
+    /**
+     * Pass the degrees of the mouse relatively at the center of the game window to
+     * the model.
+     * 
+     * @param angle
+     *            A double representing the position of the mouse relatively to the
+     *            center of the window [center-right = 0, top-center = 90, ...]
+     */
+    protected void exec() {
         model.setSpaceshipAngle(view.getMouseRelativePosition());
     }
 
     @Override
-    public void newCommand(Commands command) {
+    /** {@inheritDoc} */
+    public void newCommand(final Commands command) {
         setPause(command == Commands.PAUSE || command == Commands.END);
     }
 

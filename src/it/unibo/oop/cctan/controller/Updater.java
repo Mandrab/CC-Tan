@@ -4,6 +4,10 @@ import it.unibo.oop.cctan.interPackageComunication.Commands;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 
+/**
+ * An abstract implementation of a generic updater.
+ * This class is package protected.
+ */
 abstract class Updater extends Thread implements CommandsObserver {
 
     private static final int REFRESH_TIME = 20;
@@ -40,7 +44,10 @@ abstract class Updater extends Thread implements CommandsObserver {
         }
     }
 
-    abstract void exec();
+    /**
+     * The actions to be executed.
+     */
+    protected abstract void exec();
 
     /**
      * Stop the execution of GraphicPanelUpdater (the game window will not be

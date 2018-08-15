@@ -124,7 +124,7 @@ public class ModelImpl implements Model {
             this.bulletGenerator.terminate();
             this.powerupGenerator.terminate();
             this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
-            
+
             this.istanceGenerators();
         }
         this.gameStatus = GameStatus.ENDED;
@@ -138,7 +138,7 @@ public class ModelImpl implements Model {
             this.bulletGenerator.pause();
             this.squareGenerator.pause();
             this.powerupGenerator.pause();
-            this.getShuttle().getActivePowerUps().forEach(p->p.pause());
+            this.getShuttle().getActivePowerUps().forEach(p -> p.pause());
         }
         gameStatus = GameStatus.PAUSED;
     }
@@ -151,7 +151,7 @@ public class ModelImpl implements Model {
             this.bulletGenerator.resumeGame();
             this.squareGenerator.resumeGame();
             this.powerupGenerator.resumeGame();
-            this.getShuttle().getActivePowerUps().forEach(p->p.resumeRun());
+            this.getShuttle().getActivePowerUps().forEach(p -> p.resumeRun());
         }
         gameStatus = GameStatus.RUNNING;
     }
@@ -177,7 +177,6 @@ public class ModelImpl implements Model {
         // width / height = ratio ------> width = ratio * height
             // --> x0 = -ratio * height / 2 ----> x0 = -ratio
             // --> x1 = radio * height / 2 -----> x1 = ratio
-        System.out.println("buond set");
         this.bound.setBoundary(-ratio, ratio, -1, 1);
     }
     
