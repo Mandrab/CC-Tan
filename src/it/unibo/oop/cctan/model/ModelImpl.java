@@ -69,8 +69,8 @@ public class ModelImpl implements Model {
         // width / height = ratio ------> width = ratio * height
             // --> x0 = -ratio * height / 2 ----> x0 = -ratio
             // --> x1 = radio * height / 2 -----> x1 = ratio
-        System.out.println("Current ratio: " + ratio);
-        //this.bound.setBoundary(-ratio, ratio, -1, 1);
+        //System.out.println("Current ratio: " + ratio);
+        this.bound.setBoundary(-ratio, ratio, -1, 1);
     }
 
     /**
