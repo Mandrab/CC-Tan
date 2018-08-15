@@ -23,12 +23,12 @@ public class BallAgent extends BulletImpl implements Bullet {
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 1 / 40.0;
+    public static final double WIDTH = 0.05; // 1 / 40.0;
 
     /**
      * The height of the ball.
      */
-    public static final double HEIGHT = 1 / 40.0;
+    public static final double HEIGHT = 0.05;
 
     private static final double DEFAULT_SPEED = 0.001;
     private static final int DAMAGE = 1;
@@ -47,7 +47,7 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public double getWidth() {
-        return WIDTH * this.getModel().getBounds().width();
+        return WIDTH;
     }
 
     /** 
@@ -55,7 +55,7 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public double getHeight() {
-        return HEIGHT * this.getModel().getBounds().height();
+        return HEIGHT;
     }
 
     /** 
@@ -71,7 +71,8 @@ public class BallAgent extends BulletImpl implements Bullet {
      */
     @Override
     public Shape getShape() {
-        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(), this.getWidth(), this.getHeight());
+        return new Ellipse2D.Double(this.getPos().getX(), this.getPos().getY(),
+                this.getWidth(), this.getHeight());
     }
 
     /** 

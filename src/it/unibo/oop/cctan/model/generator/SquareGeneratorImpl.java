@@ -47,16 +47,14 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
     private Point2D randomPosition() {
         // 4 is the number of sides
         final int side = new Random().nextInt(4);
-        final double squareWidth = SquareAgent.WIDTH * this.getModel().getBounds().width();
-        final double squareHeight = SquareAgent.HEIGHT * this.getModel().getBounds().height();
         if (side == 0 || side == 1) {
             return (new Point2D(
-                    RandomUtility.doubleInRange(this.getModel().getBounds().getX0() - squareWidth,
+                    RandomUtility.doubleInRange(this.getModel().getBounds().getX0() - SquareAgent.WIDTH,
                             this.getModel().getBounds().getX1()),
-                    side == 0 ? this.getModel().getBounds().getY1() : this.getModel().getBounds().getY0() - squareHeight));
+                    side == 0 ? this.getModel().getBounds().getY1() : this.getModel().getBounds().getY0() - SquareAgent.HEIGHT));
         } else {
-            return (new Point2D(side == 2 ? this.getModel().getBounds().getX0() - squareWidth : this.getModel().getBounds().getX1(),
-                    RandomUtility.doubleInRange(this.getModel().getBounds().getY0() - squareHeight,
+            return (new Point2D(side == 2 ? this.getModel().getBounds().getX0() - SquareAgent.WIDTH : this.getModel().getBounds().getX1(),
+                    RandomUtility.doubleInRange(this.getModel().getBounds().getY0() - SquareAgent.HEIGHT,
                             this.getModel().getBounds().getY1()))); // -1.2 : 1.2
         }
     }

@@ -21,11 +21,9 @@ import javafx.geometry.Point2D;
  */
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
-    private static final double HEIGHT = 1/15.0; //height of the rectangle containing the triangle, in terms of interval-unit
-    private static final double WIDTH = 1/15.0; //width of the rectangle, in terms of interval-unit
+    private static final double HEIGHT = 1 / 6.0; //height of the rectangle containing the triangle, in terms of interval-unit
+    private static final double WIDTH = 1 / 6.0; //width of the rectangle, in terms of interval-unit
 
-    private final double width;
-    private final double height;
     private final Point2D startingPos;
     private final List<Pair<PowerUpBlock, PowerUpExecution>> activePowerUps;
 
@@ -36,10 +34,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      */
     public ShuttleImpl(final Model model) {
         super(model, new Point2D(0, 0));
-        this.width = WIDTH * this.getModel().getBounds().width();
-        this.height = HEIGHT * this.getModel().getBounds().height();
         this.activePowerUps = new ArrayList<>();
-        this.startingPos = new Point2D(this.width / 2, this.height / 2);
+        this.startingPos = new Point2D(WIDTH / 2, HEIGHT / 2);
         this.setPos(this.startingPos);
     }
 
@@ -57,8 +53,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public Point2D getTop() {
         final double angle = Math.toRadians(90 - this.getAngle());
-        return new Point2D(this.getPos().getX() + (this.width / 2) * Math.cos(angle),
-                this.getPos().getY() - (this.width / 2) * Math.sin(angle));
+        return new Point2D(this.getPos().getX() + (WIDTH / 2) * Math.cos(angle),
+                this.getPos().getY() - (WIDTH / 2) * Math.sin(angle));
     }
 
     /** 
@@ -68,8 +64,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public synchronized void setAngle(final double angle) {
         super.setAngle(angle);
-        final double centerX = this.startingPos.getX() - this.width / 2;
-        final double centerY = this.startingPos.getY() - this.height / 2;
+        final double centerX = this.startingPos.getX() - WIDTH / 2;
+        final double centerY = this.startingPos.getY() - HEIGHT / 2;
         final double angleRad = Math.toRadians(angle);
         final double[] pt = { this.startingPos.getX(), this.startingPos.getY() };
         AffineTransform.getRotateInstance(angleRad, centerX, centerY).transform(pt, 0, pt, 0, 1);
@@ -82,10 +78,10 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public List<Point2D> getShapePoints() {
         final double angle = Math.toRadians(this.getAngle());
-        final Point2D leftBase = new Point2D(this.getPos().getX() - this.height * Math.cos(angle),
-                this.getPos().getY() - this.height * Math.sin(angle));
-        final Point2D rightBase = new Point2D(leftBase.getX() + this.width * Math.sin(angle),
-                leftBase.getY() - this.width * Math.cos(angle));
+        final Point2D leftBase = new Point2D(this.getPos().getX() - HEIGHT * Math.cos(angle),
+                this.getPos().getY() - HEIGHT * Math.sin(angle));
+        final Point2D rightBase = new Point2D(leftBase.getX() + WIDTH * Math.sin(angle),
+                leftBase.getY() - WIDTH * Math.cos(angle));
         return Arrays.asList(this.getTop(), leftBase, rightBase);
     }
 

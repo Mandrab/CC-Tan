@@ -12,7 +12,7 @@ import java.util.Optional;
 public class LaserAgent extends BulletImpl implements Bullet {
 
     private static final double DEFAULT_SPEED = 0.005;
-    private static final double DEFAULT_LENGTH = 1 / 11.0; //rispetto a metà diagonale principale
+    private static final double DEFAULT_LENGTH = 0.125; //rispetto a metà diagonale principale
     private static final int DAMAGE = 1;
     private double width;
     private double height;
@@ -50,10 +50,8 @@ public class LaserAgent extends BulletImpl implements Bullet {
     public Shape getShape() {
         final double angle = Math.toRadians(this.getAngle());
         return new Line2D.Double(this.getPos().getX(), this.getPos().getY(),
-                this.getPos().getX() + DEFAULT_LENGTH * Math.hypot(this.getModel().getBounds().width() / 2,
-                        this.getModel().getBounds().height() / 2) * Math.cos(angle),
-                this.getPos().getY() + DEFAULT_LENGTH * Math.hypot(this.getModel().getBounds().width() / 2,
-                        this.getModel().getBounds().height() / 2) * Math.sin(angle));
+                this.getPos().getX() + DEFAULT_LENGTH * Math.cos(angle),
+                this.getPos().getY() + DEFAULT_LENGTH * Math.sin(angle));
     }
 
     /** 
@@ -99,7 +97,7 @@ public class LaserAgent extends BulletImpl implements Bullet {
     protected void updateAngle(final SquareAgent rect) {
         //nothing to do here
     }
-    
+
     /**
      * A basic builder for LaserAgent class.
      */

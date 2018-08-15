@@ -102,8 +102,8 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
         public Point2D getStartingPoint(final Model model) {
             switch (this) {
             case BALLS:
-                return new Point2D(model.getShuttle().getTop().getX() - BallAgent.WIDTH * model.getBounds().width() / 2,
-                        model.getShuttle().getTop().getY() - BallAgent.HEIGHT * model.getBounds().height() / 2);
+                return new Point2D(model.getShuttle().getTop().getX() - BallAgent.WIDTH / 2,
+                        model.getShuttle().getTop().getY() - BallAgent.HEIGHT / 2);
             case LASER:
                 return model.getShuttle().getTop();
             default:
