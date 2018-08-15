@@ -110,8 +110,9 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
         } else if (hp < MAGENTA_LIMIT) {
             return Color.MAGENTA;
         }
-        final int h = 287, s = 86, b = 70; // HSB components
-        return Color.getHSBColor(h, s, b); // purple
+        final int r = 170, g = 0, b = 255;
+        final float[] hsb = Color.RGBtoHSB(r, g, b, null);
+        return Color.getHSBColor(hsb[0], hsb[1], hsb[2]); // purple
     }
 
     /** 

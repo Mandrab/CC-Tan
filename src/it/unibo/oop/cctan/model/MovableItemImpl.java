@@ -11,9 +11,9 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     private static final int REFRESH_RATIO = 20;
 
     private double speed;
-    private boolean stop;
-    private boolean suspend;
-    private final Object pauseLock = new Object();
+    private volatile boolean stop;
+    private volatile boolean suspend;
+    private final Object pauseLock;
 
     /**
      * Put a new movable item respecting the value specified inside the builder object.
@@ -26,6 +26,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
         this.speed = builder.speedValue <= 0 ? this.getDefaultSpeed() : builder.speedValue;
         this.stop = false;
         this.suspend = false;
+        this.pauseLock = new Object();
     }
 
     /**
@@ -38,6 +39,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     protected MovableItemImpl(final Model model, final Point2D startingPos) {
         super(model, startingPos);
         this.stop = false;
+        this.pauseLock = new Object();
     }
 
     /** 
@@ -74,18 +76,19 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      * {@inheritDoc}
      */
     @Override
-    public synchronized void terminate() {
+    public void terminate() {
         if (this.suspend) {
             this.suspend = false;
         }
         this.stop = true;
+        this.resumeGame();
     }
 
     /** 
      * {@inheritDoc}
      */
     @Override
-    public synchronized void pause() {
+    public void pause() {
         this.suspend = true;
     }
 
@@ -93,7 +96,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      * {@inheritDoc}
      */
     @Override
-    public synchronized void resumeGame() {
+    public void resumeGame() {
         synchronized (this.pauseLock) {
             this.suspend = false;
             this.pauseLock.notifyAll();
