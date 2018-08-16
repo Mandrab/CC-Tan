@@ -194,11 +194,6 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public LoadedFiles getLoadedFiles() {
-            return null;
-        }
-
-        @Override
         public ModelData getModelData() {
             return null;
         }
