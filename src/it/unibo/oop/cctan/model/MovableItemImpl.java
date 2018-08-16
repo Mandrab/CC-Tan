@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.model;
 
+import it.unibo.oop.cctan.model.PausableThread.ActionOrder;
 import javafx.geometry.Point2D;
 
 /**
@@ -11,9 +12,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     private static final int REFRESH_RATIO = 20;
 
     private double speed;
-    private volatile boolean stop;
-    private final Object pauseLock;
-    private volatile boolean suspend;
+    private PausableThread threadExecution;
 
     /**
      * Put a new movable item respecting the value specified inside the builder object.
@@ -24,9 +23,13 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
     protected MovableItemImpl(final AbstractBuilderMI<?> builder) {
         super(builder);
         this.speed = builder.speedValue <= 0 ? this.getDefaultSpeed() : builder.speedValue;
-        this.stop = false;
-        this.suspend = false;
-        this.pauseLock = new Object();
+        this.threadExecution = new PausableThread(REFRESH_RATIO, ActionOrder.DO_AND_WAIT) {
+
+            @Override
+            protected void operation() {
+                updatePos();
+            }
+        };
     }
 
     /**
@@ -38,8 +41,6 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     protected MovableItemImpl(final Model model, final Point2D startingPos) {
         super(model, startingPos);
-        this.stop = false;
-        this.pauseLock = new Object();
     }
 
     /** 
@@ -47,29 +48,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void run() {
-        while (!this.stop) {
-            synchronized (pauseLock) {
-                if (this.stop) {
-                    break;
-                }
-                if (this.suspend) {
-                    try {
-                        pauseLock.wait();
-                    } catch (InterruptedException ex) {
-                        break;
-                    }
-                    if (this.stop) {
-                        break;
-                    }
-                }
-            }
-            updatePos();
-            try {
-                Thread.sleep(REFRESH_RATIO);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        this.threadExecution.action();
     }
 
     /** 
@@ -77,11 +56,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void terminate() {
-        if (this.suspend) {
-            this.suspend = false;
-        }
-        this.stop = true;
-        this.resumeGame();
+        this.threadExecution.terminate();
     }
 
     /** 
@@ -89,7 +64,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void pause() {
-        this.suspend = true;
+        this.threadExecution.pause();
     }
 
     /** 
@@ -97,10 +72,7 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
      */
     @Override
     public void resumeGame() {
-        synchronized (this.pauseLock) {
-            this.suspend = false;
-            this.pauseLock.notifyAll();
-        }
+        this.threadExecution.resumeGame();
     }
 
     /** 
