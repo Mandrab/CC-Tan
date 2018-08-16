@@ -115,7 +115,6 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * {@inheritDoc} 
      */
     public synchronized void addItemToList(final T item) {
-
         this.items.add(item);
     }
 

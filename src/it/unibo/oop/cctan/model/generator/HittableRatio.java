@@ -33,7 +33,7 @@ public abstract class HittableRatio extends TimerRatio {
      * @param points
      *          The new value of points.
      */
-    public void setPoints(final int points) {
+    protected void setPoints(final int points) {
         this.points = points;
     }
 
@@ -41,7 +41,7 @@ public abstract class HittableRatio extends TimerRatio {
      * @return
      *          Return the current points of the item.
      */
-    public int getPoints() {
+    protected int getPoints() {
         return this.points;
     }
 
@@ -49,7 +49,7 @@ public abstract class HittableRatio extends TimerRatio {
      * @return
      *          Return a new integer random between defaultPoints and current points.
      */
-    public int getHP() {
+    protected int getHP() {
         return RandomUtility.intInRange(this.defaultPoints, this.points);
     }
 }
