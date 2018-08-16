@@ -75,7 +75,7 @@ public interface View extends SizeAndControlChainOfResponsibility {
      * 
      * @return A file containing all the loaded object
      */
-    LoadedFiles getLoadedFiles();
+    //LoadedFiles getLoadedFiles();
 
     /**
      * Allow to get the actual Player name if present.

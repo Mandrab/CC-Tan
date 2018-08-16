@@ -96,11 +96,11 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
     }
 
-    @Override
+    //@Override
     /** {@inheritDoc} */
-    public LoadedFiles getLoadedFiles() {
-        return controller.getLoadedFiles();
-    }
+    //public LoadedFiles getLoadedFiles() {
+      //  return controller.getLoadedFiles();
+    //}
 
     /** {@inheritDoc} */
     @Override

@@ -40,11 +40,11 @@ class ControllerImpl implements Controller {
         view.refreshGui(Component.LOADER);
     }
 
-    @Override
+    //@Override
     /** {@inheritDoc} */
-    public LoadedFiles getLoadedFiles() {
-        return fileLoader.getLoadedFiles();
-    }
+    //public LoadedFiles getLoadedFiles() {
+      //  return fileLoader.getLoadedFiles();
+    //}
 
     @Override
     /** {@inheritDoc} */

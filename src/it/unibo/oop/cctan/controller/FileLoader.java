@@ -45,7 +45,7 @@ class FileLoader extends Thread {
     private static final String FONT_SUBSPACE = FileLoader.class
                                                           .getResource("/subspace_font/SubspaceItalic.otf")
                                                           .getFile();
-    private static final int[] PERCENTAGE_ADVANCE = { 10, 40, 50, 80, 100 };
+    private static final int[] PERCENTAGE_ADVANCE = { 10, 10, 10, 20, 50 };
     private static final IntSupplier ADVANCE_PERCENTAGE = new IntSupplier() {
 
         private int index = 0;
@@ -58,7 +58,6 @@ class FileLoader extends Thread {
     private static final float QUALITY = 1.0f;
     private final Controller controller;
     private final LoadedFiles loadedFiles;
-    private int percentage;
 
     /**
      * FileLoader constructor.
@@ -68,7 +67,8 @@ class FileLoader extends Thread {
      */
     FileLoader(final Controller controller) {
         this.controller = controller;
-        loadedFiles = new LoadedFilesImpl(0);
+        loadedFiles = LoadedFilesImpl.getLoadedFiles();
+        loadedFiles.addLoaderPercentage(100);
     }
 
     @Override
@@ -76,7 +76,7 @@ class FileLoader extends Thread {
     public void run() {
         // check/create the game directory
         createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
-        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
@@ -92,7 +92,7 @@ class FileLoader extends Thread {
             }
         }
         loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO), ImageType.LOGO);
-        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
@@ -106,24 +106,12 @@ class FileLoader extends Thread {
             }
         }
         loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_ICON), ImageType.ICON);
-        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
-
-        // if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_BACKGROUND),
-        // LinkOption.NOFOLLOW_LINKS)) {
-        // loadedFiles.setBackground(new
-        // ImageIcon(FileLoader.class.getResource(IMG_JPG_BACKGROUND)));
-        // controller.refreshGui(Component.LOADER);
-        // }
-        // loadedFiles.setBackground(new ImageIcon(PATH + DIRECTORY_IMG +
-        // IMG_JPG_BACKGROUND));
-        // //Files.copy(new InputStreamImageInputStreamSpi()., target, options)
-        // percentage = 50;
-        // controller.refreshGui(Component.LOADER);
 
         //Create score file into .cctan folder
         if (Files.notExists(Paths.get(PATH, DIRECTORY_SCORE + SCORE_FILE_SCORES), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setScores(new File(SCORE_FILE_SCORES));
+            loadedFiles.setScoresFile(new File(SCORE_FILE_SCORES));
             try {
                 File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
                 if (!file.createNewFile()) {
@@ -134,13 +122,13 @@ class FileLoader extends Thread {
                 e.printStackTrace();
             }
         }
-        loadedFiles.setScores(new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES));
-        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        loadedFiles.setScoresFile(new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES));
+        loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         //Load the font file
         loadedFiles.setFontFile(new File(FONT_SUBSPACE));
-        percentage = ADVANCE_PERCENTAGE.getAsInt();
+        loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
     }
 
@@ -150,10 +138,10 @@ class FileLoader extends Thread {
      * 
      * @return The file containing all the loaded files
      */
-    public synchronized LoadedFiles getLoadedFiles() {
-        loadedFiles.setPercentage(percentage);
-        return loadedFiles;
-    }
+    //public synchronized LoadedFiles getLoadedFiles() {
+      //  loadedFiles.setPercentage(percentage);
+      //  return loadedFiles;
+    //}
 
     /**
      * Create directories in path with the names contained in the string array.

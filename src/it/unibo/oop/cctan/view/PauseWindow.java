@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 
 public class PauseWindow {
@@ -38,7 +39,7 @@ public class PauseWindow {
         
         JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
 
-        view.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> mainFrame.setIconImage(img.getImage()));
+        LoadedFilesImpl.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> mainFrame.setIconImage(img.getImage()));
         // TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

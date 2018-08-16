@@ -11,6 +11,7 @@ import javax.swing.WindowConstants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 
@@ -37,10 +38,10 @@ class GameWindow extends JFrame implements SizeObserver {
      */
     GameWindow(final View view) {
         setTitle("CC-Tan!");
-        view.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
+        LoadedFilesImpl.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
 
-        gpanel = new GraphicPanel(view.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
+        gpanel = new GraphicPanel(LoadedFilesImpl.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
         getContentPane().add(gpanel, BorderLayout.CENTER);
         //gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
         //gpanel.requestFocus();                                                  //SPOSTO?
@@ -71,6 +72,7 @@ class GameWindow extends JFrame implements SizeObserver {
         return screenRatio.isPresent() ? screenRatio : Optional.empty();
     }
 
+    @Override
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         this.gameWindowSize = Optional.of(gameWindowSize);
         this.screenRatio = Optional.of(screenRatio);

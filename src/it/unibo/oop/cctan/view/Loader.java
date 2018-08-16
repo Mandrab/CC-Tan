@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 
 /**
  * A class that takes care to show the loading percentage of the application. 
@@ -81,7 +82,8 @@ class Loader extends JWindow {
         if (0 <= value && value <= 100) {
             progressBar.setValue(value);
             pBarPercentage.setText(value.toString() + "%");
-            if (value == 100) {
+            if (LoadedFilesImpl.getLoadedFiles().isLoaded()) {
+                pBarPercentage.setText(100 + "%");
                 try {
                     Thread.sleep(WINDOW_PERMANENCY_TIME);
                     setVisible(false);
@@ -119,8 +121,8 @@ class Loader extends JWindow {
     }
 
     public void refresh() {
-        LoadedFiles loadedFiles = view.getLoadedFiles();
-        loadedFiles.getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
-        advanceLoading(loadedFiles.getPercentage());
+        System.out.println("refresh");
+        LoadedFilesImpl.getLoadedFiles().getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
+        advanceLoading(LoadedFilesImpl.getLoadedFiles().getPercentage());
     }
 }

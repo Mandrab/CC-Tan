@@ -5,41 +5,85 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
-public class LoadedFilesImpl implements LoadedFiles {
+/**
+ * A class that implements LoadedFiles. This is a Singleton class.
+ */
+public final class LoadedFilesImpl implements LoadedFiles {
 
-    private int percentage = 0;
-    private Optional<ImageIcon> background = Optional.empty();
-    private Optional<ImageIcon> logo = Optional.empty();
-    private Optional<ImageIcon> icon = Optional.empty();
-    private Optional<File> fontFile = Optional.empty();
-    private Optional<File> scoreFile = Optional.empty();
+    private int maxPercentage;
+    private int percentage;
+    private Optional<ImageIcon> background;
+    private Optional<ImageIcon> logo;
+    private Optional<ImageIcon> icon;
+    private Optional<File> fontFile;
+    private Optional<File> scoreFile;
 
-    public LoadedFilesImpl(final int percentage) {
-        this.percentage = percentage;
+    private static class LazyHolder {
+        private static final LoadedFiles SINGLETON = new LoadedFilesImpl();
     }
 
-//    public void setBackground(ImageIcon background) {
-//        this.background = Optional.of(background);
-//    }
+    private LoadedFilesImpl() {
+        maxPercentage = 0;
+        percentage = 0;
+        background = Optional.empty();
+        logo = Optional.empty();
+        icon = Optional.empty();
+        fontFile = Optional.empty();
+        scoreFile = Optional.empty();
+    }
 
-    public void setImage(ImageIcon img, ImageType type) {
+    /**
+     * Return the singleton LoadedFiles.
+     * @return
+     * The singleton
+     */
+    public static LoadedFiles getLoadedFiles() {
+        return LazyHolder.SINGLETON;
+    }
+
+    @Override
+    public void addLoaderPercentage(final int maxPercentage) {
+        this.maxPercentage += maxPercentage;
+    }
+
+    @Override
+    public void increaseAdvance(final int percentage) {
+        this.percentage += percentage;
+    }
+
+    @Override
+    public int getPercentage() {
+        return percentage / maxPercentage * 100;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return maxPercentage == percentage;
+    }
+
+    @Override
+    public void setImage(final ImageIcon img, final ImageType type) {
         switch (type) {
             case LOGO:
                 this.logo = Optional.of(img);
                 break;
             case BACKGROUND:
+                this.background = Optional.empty();
                 break;
             case ICON:
                 this.icon = Optional.of(img);
+                break;
+            default:
         }
     }
 
-    public void setFontFile(File fontFile) {
+    @Override
+    public void setFontFile(final File fontFile) {
         this.fontFile = Optional.of(fontFile);
     }
 
     @Override
-    public void setScores(File file) {
+    public void setScoresFile(final File file) {
         this.scoreFile = Optional.of(file);
 
     }
@@ -49,21 +93,10 @@ public class LoadedFilesImpl implements LoadedFiles {
         return fontFile;
     }
 
-    public int getPercentage() {
-        return percentage;
-    }
-
     @Override
-    public Optional<File> getScores() {
+    public Optional<File> getScoresFile() {
         return this.scoreFile;
 
-    }
-
-    @Override
-    public void setPercentage(final int percentage) {
-        if (percentage >= 0 && percentage <= 100) {
-            this.percentage = percentage;
-        }
     }
 
     @Override
@@ -79,4 +112,5 @@ public class LoadedFilesImpl implements LoadedFiles {
             return Optional.empty();
         }
     }
+
 }

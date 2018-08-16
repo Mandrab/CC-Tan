@@ -25,7 +25,7 @@ public interface Controller extends CommandsObserver, SizeObserver {
      * 
      * @return A file containing all the loaded object
      */
-    LoadedFiles getLoadedFiles();
+    //LoadedFiles getLoadedFiles();
 
     /**
      * Return a flat object containing all the useful data from the file model.
