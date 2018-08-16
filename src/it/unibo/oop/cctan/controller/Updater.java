@@ -75,6 +75,26 @@ abstract class Updater extends Thread implements CommandsObserver {
         }
     }
 
+    /**
+     * Inform if the thread is running.
+     * 
+     * @return
+     * true if the thread is running, false otherwise
+     */
+    public boolean isRunning() {
+        return !suspended;
+    }
+
+    /**
+     * Inform if the thread is terminated.
+     * 
+     * @return
+     * true if the thread is terminated, false otherwise
+     */
+    public boolean isTerminated() {
+        return terminated;
+    }
+
     @Override
     /** {@inheritDoc} */
     public abstract void newCommand(Commands command);

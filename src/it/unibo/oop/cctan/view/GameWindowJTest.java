@@ -248,6 +248,9 @@ class GameWindowJTest {
                         statusSupplier.isPresent() ? statusSupplier.get().get() : GameStatus.RUNNING);
     }
 
+    /**
+     * Skeleton class.
+     */
     private class EmptyJTestView implements View {
 
         @Override

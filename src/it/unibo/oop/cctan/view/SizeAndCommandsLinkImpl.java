@@ -7,19 +7,31 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
-abstract class SizeAndControlChainOfResponsibilityImpl implements SizeAndControlChainOfResponsibility {
+abstract class SizeAndCommandsLinkImpl implements SizeAndCommandsLink {
 
     private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
     private Optional<CommandsObserverLink> commandsSuccessor = Optional.empty();
     private Optional<SizeObserverSource> sizeObserverSource = Optional.empty();
     private Optional<SizeObserverLink> sizeSuccessor = Optional.empty();
 
-    /** {@inheritDoc} */
+    /**
+     * Sets the successor to be called if this class implementation do not directly
+     * contain the CommandsObserverSource.
+     * 
+     * @param successor
+     *            The successor to ask
+     */
     public void setCommandsSuccessor(final CommandsObserverLink commandsSuccessor) {
         this.commandsSuccessor = commandsSuccessor != null ? Optional.of(commandsSuccessor) : Optional.empty();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Sets the CommandsObserverSource to be returned from the
+     * getCommandsObserverSource method.
+     * 
+     * @param source
+     *            The CommandsObserverSource
+     */
     public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
         this.commandsObserverSource = commandsObserverSource != null ? Optional.of(commandsObserverSource)
                 : Optional.empty();
@@ -32,10 +44,24 @@ abstract class SizeAndControlChainOfResponsibilityImpl implements SizeAndControl
                 : commandsSuccessor.isPresent() ? commandsSuccessor.get().getCommandsObserverSource() : Optional.empty();
     }
 
+    /**
+     * Sets the SizeObserverLink to be called if this class implementation do not
+     * directly contain the SizeObserverSource.
+     * 
+     * @param successor
+     *            The SizeObserverTransitiveSource
+     */
     public void setSizeSuccessor(final SizeObserverLink sizeSuccessor) {
         this.sizeSuccessor = sizeSuccessor != null ? Optional.of(sizeSuccessor) : Optional.empty();
     }
 
+    /**
+     * Sets the SizeObserverSource to be returned from the getSizeObserverSource
+     * method.
+     * 
+     * @param source
+     *            The SizeObserverSource
+     */
     public void setSizeObserverSource(final SizeObserverSource sizeObserverSource) {
         this.sizeObserverSource = sizeObserverSource != null ? Optional.of(sizeObserverSource) : Optional.empty();
     }

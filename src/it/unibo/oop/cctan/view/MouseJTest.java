@@ -100,7 +100,7 @@ class MouseJTest {
                 });
     }
 
-    private class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
+    private class ViewJTest extends SizeAndCommandsLinkImpl implements View {
 
         @Override
         public void showGameWindow(final Dimension resolution, final Pair<Integer, Integer> screenRatio) {

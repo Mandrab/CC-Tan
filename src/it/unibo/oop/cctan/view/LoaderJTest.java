@@ -68,7 +68,7 @@ public class LoaderJTest {
     /** 
      * Skeleton class.
      */
-    public class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
+    public class ViewJTest extends SizeAndCommandsLinkImpl implements View {
 
         @Override
         /** {@inheritDoc} */

@@ -141,7 +141,7 @@ public class KeyListenerJTest {
         System.out.println(keyCommandsListener.getActualState()+" state");
     }
 
-    private class ViewJTest extends SizeAndControlChainOfResponsibilityImpl implements View {
+    private class ViewJTest extends SizeAndCommandsLinkImpl implements View {
 
         @Override
         public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {

@@ -11,7 +11,7 @@ import it.unibo.oop.cctan.interPackageComunication.ModelData;
 /**
  * State what a View implementation must implements.
  */
-public interface View extends SizeAndControlChainOfResponsibility {
+public interface View extends SizeAndCommandsLink {
 
     /**
      * Enumeration used to select which component update.
