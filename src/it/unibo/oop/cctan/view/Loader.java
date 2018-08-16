@@ -120,7 +120,7 @@ class Loader extends JWindow {
 
     public void refresh() {
         LoadedFiles loadedFiles = view.getLoadedFiles();
-        advanceLoading(loadedFiles.getPercentage());
         loadedFiles.getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
+        advanceLoading(loadedFiles.getPercentage());
     }
 }
