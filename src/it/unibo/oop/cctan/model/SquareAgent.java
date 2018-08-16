@@ -125,7 +125,7 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
             sqArea.intersect(this.getModel().getShuttle().getImpactArea());
             if (!sqArea.isEmpty()) {
                 this.getModel().pause();
-                this.getModel().setGameStatus(GameStatus.ENDED);
+                this.getModel().setGameStatus(GameStatus.NOT_RUNNING);
             }
         }
     }

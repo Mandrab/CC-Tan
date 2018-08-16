@@ -37,7 +37,7 @@ class ViewUpdater extends Updater {
      * If the game is ended then force an end command to all the observers.
      */
     protected void exec() {
-        if (model.getGameStatus() == GameStatus.ENDED) {
+        if (model.getGameStatus() == GameStatus.NOT_RUNNING) {
             view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
         }
         view.refreshGui(Component.GAME_WINDOW);

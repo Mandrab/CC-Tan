@@ -1,14 +1,18 @@
 package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CommandsObserverSourceImpl implements CommandsObserverSource{
-    
+/**
+ * An abstract class that implements CommandsObserverSource.
+ */
+public abstract class CommandsObserverSourceImpl implements CommandsObserverSource {
+
     private List<CommandsObserver> commandsObservers;
 
+    /**
+     * Constructor.
+     */
     public CommandsObserverSourceImpl() {
         commandsObservers = new ArrayList<CommandsObserver>();
     }
@@ -25,14 +29,17 @@ public abstract class CommandsObserverSourceImpl implements CommandsObserverSour
         commandsObservers.remove(commandsObserver);
     }
 
+    @Override
+    /** {@inheritDoc} */
+    public abstract void forceCommand(Commands command);
+
     /**
-     * Get the copy of list of CommandsObservers.
+     * Get a copy of the list of CommandsObservers.
      * 
-     * @return A defencive copy of list of CommandsObservers.
+     * @return A defensive copy of list of CommandsObservers.
      */
     public synchronized List<CommandsObserver> getCommandsObservers() {
         return new ArrayList<>(commandsObservers);
     }
 
-    public abstract void forceCommand(Commands command);
 }

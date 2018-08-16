@@ -19,7 +19,7 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
@@ -28,7 +28,7 @@ import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 import it.unibo.oop.cctan.view.View.Component;
 
@@ -107,7 +107,7 @@ class GameWindowJTest {
                         ? GameStatus.RUNNING 
                         : cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * upperBound
                             ? GameStatus.PAUSED 
-                            : GameStatus.ENDED);
+                            : GameStatus.NOT_RUNNING);
             }
         };
         squareTest(getModelDataSupplier(Optional.empty(), Optional.empty(), Optional.of(s), Optional.empty(), Optional.empty()));
@@ -255,7 +255,7 @@ class GameWindowJTest {
     private class EmptyJTestView implements View {
 
         @Override
-        public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility successor) {
+        public void setCommandsSuccessor(final CommandsObserverLink successor) {
         }
 
         @Override
@@ -268,7 +268,7 @@ class GameWindowJTest {
         }
 
         @Override
-        public void setSizeSuccessor(final SizeObserverChainOfResponsibility successor) {
+        public void setSizeSuccessor(final SizeObserverLink successor) {
         }
 
         @Override

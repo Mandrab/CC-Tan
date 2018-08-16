@@ -33,7 +33,7 @@ public class ModelImpl implements Model {
     public ModelImpl() {
         this.score = Score.getScore();
         this.bound = new Boundary(-1, -1, 1, 1);
-        this.gameStatus = GameStatus.ENDED;
+        this.gameStatus = GameStatus.NOT_RUNNING;
         this.shuttle = new ShuttleImpl(this);
     }
 
@@ -48,7 +48,7 @@ public class ModelImpl implements Model {
      */
     @Override
     public void launch() {
-        if (gameStatus.equals(GameStatus.ENDED)) {
+        if (gameStatus.equals(GameStatus.NOT_RUNNING)) {
             score.reset();
             this.istanceGenerators();
             squareGenerator.launch();
@@ -194,7 +194,7 @@ public class ModelImpl implements Model {
         this.powerupGenerator.terminate();
         this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
         //this.istanceGenerators();
-        this.gameStatus = GameStatus.ENDED;
+        this.gameStatus = GameStatus.NOT_RUNNING;
     }
 
     /**

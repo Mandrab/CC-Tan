@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.view;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
 
-interface SizeAndControlChainOfResponsibility extends CommandsObserverChainOfResponsibility, SizeObserverChainOfResponsibility {
+interface SizeAndControlChainOfResponsibility extends CommandsObserverLink, SizeObserverLink {
 
 }

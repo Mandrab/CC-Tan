@@ -2,25 +2,23 @@ package it.unibo.oop.cctan.view;
 
 import java.util.Optional;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
+import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
 abstract class SizeAndControlChainOfResponsibilityImpl implements SizeAndControlChainOfResponsibility {
 
     private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();
-    private Optional<CommandsObserverChainOfResponsibility> commandsSuccessor = Optional.empty();
+    private Optional<CommandsObserverLink> commandsSuccessor = Optional.empty();
     private Optional<SizeObserverSource> sizeObserverSource = Optional.empty();
-    private Optional<SizeObserverChainOfResponsibility> sizeSuccessor = Optional.empty();
+    private Optional<SizeObserverLink> sizeSuccessor = Optional.empty();
 
-    @Override
     /** {@inheritDoc} */
-    public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility commandsSuccessor) {
+    public void setCommandsSuccessor(final CommandsObserverLink commandsSuccessor) {
         this.commandsSuccessor = commandsSuccessor != null ? Optional.of(commandsSuccessor) : Optional.empty();
     }
 
-    @Override
     /** {@inheritDoc} */
     public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
         this.commandsObserverSource = commandsObserverSource != null ? Optional.of(commandsObserverSource)
@@ -34,14 +32,10 @@ abstract class SizeAndControlChainOfResponsibilityImpl implements SizeAndControl
                 : commandsSuccessor.isPresent() ? commandsSuccessor.get().getCommandsObserverSource() : Optional.empty();
     }
 
-    @Override
-    /** {@inheritDoc} */
-    public void setSizeSuccessor(final SizeObserverChainOfResponsibility sizeSuccessor) {
+    public void setSizeSuccessor(final SizeObserverLink sizeSuccessor) {
         this.sizeSuccessor = sizeSuccessor != null ? Optional.of(sizeSuccessor) : Optional.empty();
     }
 
-    @Override
-    /** {@inheritDoc} */
     public void setSizeObserverSource(final SizeObserverSource sizeObserverSource) {
         this.sizeObserverSource = sizeObserverSource != null ? Optional.of(sizeObserverSource) : Optional.empty();
     }

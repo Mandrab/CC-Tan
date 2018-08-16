@@ -7,10 +7,16 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+/**
+ * An abstract class that implements CommandsObserverSource.
+ */
 public abstract class SizeObserverSourceImpl implements SizeObserverSource {
 
     private List<SizeObserver> sizesObservers;
 
+    /**
+     * Constructor.
+     */
     public SizeObserverSourceImpl() {
         sizesObservers = new ArrayList<SizeObserver>();
     }
@@ -38,7 +44,7 @@ public abstract class SizeObserverSourceImpl implements SizeObserverSource {
     /**
      * Get the copy of list of SizeObserver.
      * 
-     * @return A defencive copy of list of SizeObserver.
+     * @return A defensive copy of list of SizeObserver.
      */
     public synchronized List<SizeObserver> getSizeObservers() {
         return new ArrayList<>(sizesObservers);

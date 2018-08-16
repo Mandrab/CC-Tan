@@ -4,6 +4,11 @@ import java.awt.Dimension;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+/**
+ * An interface that specifies which method must have a class that needs to be
+ * informed when size or ratio changes. This is an interface of the "Observer"
+ * pattern.
+ */
 public interface SizeObserver {
 
     /**

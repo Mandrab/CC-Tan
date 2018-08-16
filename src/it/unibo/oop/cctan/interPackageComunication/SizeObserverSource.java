@@ -27,8 +27,18 @@ public interface SizeObserverSource {
      */
     void removeSizeObserver(SizeObserver sizeObserver);
 
+    /**
+     * Return, if present, the set dimension.
+     * 
+     * @return The set dimension
+     */
     Optional<Dimension> getDimension();
 
+    /**
+     * Return, if present, the set ratio.
+     * 
+     * @return The set ratio
+     */
     Optional<Pair<Integer, Integer>> getRatio();
 
 }
