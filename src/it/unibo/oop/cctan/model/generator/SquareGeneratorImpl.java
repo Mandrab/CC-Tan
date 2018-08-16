@@ -18,7 +18,7 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
      *            it's the model of the application
      */
     public SquareGeneratorImpl(final Model model) {
-        super(model, new SquareRatio());
+        super(model, new SquareRatio(), ActionOrder.DO_AND_WAIT);
     }
 
     /**

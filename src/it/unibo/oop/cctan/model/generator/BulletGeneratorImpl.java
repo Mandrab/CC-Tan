@@ -23,7 +23,7 @@ public class BulletGeneratorImpl extends ItemGeneratorImpl<Bullet> {
      *          it's the model of the application
      */
     public BulletGeneratorImpl(final Model model) {
-        super(model, new BulletRatio());
+        super(model, new BulletRatio(), ActionOrder.DO_AND_WAIT);
         this.bulletSettings = BulletGeneratorSettings.BALLS;
     }
 

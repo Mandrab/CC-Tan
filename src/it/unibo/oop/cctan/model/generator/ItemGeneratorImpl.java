@@ -30,11 +30,13 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends PausableThr
      *          This object is of type TimerRatio and represents a thread that keeps track of 
      *          the speed that the object must have when it is generated and also of the 
      *          frequency with which objects of this type must be generated.
+     * @param action
+     *          the order on which execute operation, i.e. before or after timeout event
      * {@link TimerRatio#TimerRatio()}
      * @see TimerRatio#TimerRatio(double speed, int ratio)
      */
-    public ItemGeneratorImpl(final Model model, final TimerRatio time) {
-        super(time.getRatio(), ActionOrder.DO_AND_WAIT);
+    public ItemGeneratorImpl(final Model model, final TimerRatio time, final ActionOrder action) {
+        super(time.getRatio(), action);
         //this.stop = false;
         this.ratio = time;
         this.model = model;
@@ -43,6 +45,9 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends PausableThr
         this.items = new ArrayList<>();
     }
 
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     protected void operation() {
         this.setSleepTime(this.ratio.getRatio());

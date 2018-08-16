@@ -40,7 +40,7 @@ public abstract class TimerRatio extends PausableThread implements Commands {
      *          It's the initial frequency with which the object is generated.
      */
     public TimerRatio(final double speed, final int ratio) {
-        super(ONE_MINUTE, ActionOrder.DO_AND_WAIT);
+        super(ONE_MINUTE, ActionOrder.WAIT_AND_DO);
         //this.stop = false;
         this.speed = speed;
         this.ratio = ratio;
@@ -49,7 +49,7 @@ public abstract class TimerRatio extends PausableThread implements Commands {
         this.startingRatio = ratio;
         //this.pauseLock = new Object();
     }
-    
+
     /**
      * It's responsible for executing the operationRatio method at the end of every minute.
      */
@@ -90,15 +90,12 @@ public abstract class TimerRatio extends PausableThread implements Commands {
     /** 
      * {@inheritDoc}
      */
-//    @Override
-//    public synchronized void terminate() {
-//        if (this.suspend) {
-//            this.suspend = false;
-//        }
-//        this.stop = true;
-//        this.ratio = this.startingRatio;
-//        this.speed = this.startingSpeed;
-//    }
+    @Override
+    public synchronized void terminate() {
+        super.terminate();
+        this.ratio = this.startingRatio;
+        this.speed = this.startingSpeed;
+    }
 //
 //    /** 
 //     * {@inheritDoc}
