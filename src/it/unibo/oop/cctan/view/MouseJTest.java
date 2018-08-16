@@ -17,7 +17,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 
@@ -144,11 +143,6 @@ class MouseJTest {
         @Override
         public Optional<SizeObserverSource> getSizeObserverSource() {
             return Optional.empty();
-        }
-
-        @Override
-        public LoadedFiles getLoadedFiles() {
-            return null;
         }
 
         @Override

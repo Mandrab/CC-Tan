@@ -1,7 +1,6 @@
 package it.unibo.oop.cctan.controller;
 
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 import it.unibo.oop.cctan.view.View;
@@ -19,13 +18,6 @@ public interface Controller extends CommandsObserver, SizeObserver {
      *            The class that implements view
      */
     void setView(View v);
-
-    /**
-     * Return a flat object containing all the files loaded from the file system.
-     * 
-     * @return A file containing all the loaded object
-     */
-    //LoadedFiles getLoadedFiles();
 
     /**
      * Return a flat object containing all the useful data from the file model.

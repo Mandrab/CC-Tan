@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 /**
  * A class that implements LoadedFiles. This is a Singleton class.
  */
-public final class LoadedFilesImpl implements LoadedFiles {
+public final class LoadedFilesSingleton implements LoadedFiles {
 
     private int maxPercentage;
     private int percentage;
@@ -19,10 +19,10 @@ public final class LoadedFilesImpl implements LoadedFiles {
     private Optional<File> scoreFile;
 
     private static class LazyHolder {
-        private static final LoadedFiles SINGLETON = new LoadedFilesImpl();
+        private static final LoadedFiles SINGLETON = new LoadedFilesSingleton();
     }
 
-    private LoadedFilesImpl() {
+    private LoadedFilesSingleton() {
         maxPercentage = 0;
         percentage = 0;
         background = Optional.empty();
@@ -53,7 +53,7 @@ public final class LoadedFilesImpl implements LoadedFiles {
 
     @Override
     public int getPercentage() {
-        return percentage / maxPercentage * 100;
+        return Math.round(percentage * 100f / maxPercentage);
     }
 
     @Override

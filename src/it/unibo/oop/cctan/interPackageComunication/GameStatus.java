@@ -26,9 +26,9 @@ public enum GameStatus {
     },
 
     /**
-     * Specifies if the game is ended or not yet started mode.
+     * Specifies if the game is ended or not yet started.
      */
-    NOT_RUNNING {
+    ENDED {
         @Override
         public GameStatus denies() {
             return GameStatus.RUNNING;

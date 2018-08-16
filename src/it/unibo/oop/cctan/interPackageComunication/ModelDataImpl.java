@@ -2,12 +2,25 @@ package it.unibo.oop.cctan.interPackageComunication;
 
 import java.util.List;
 
+/**
+ * A class that implements ModelData interface.
+ */
 public class ModelDataImpl implements ModelData {
 
     private final List<MappableData> mappableDatas;
     private final int score;
     private final GameStatus gameStatus;
 
+    /**
+     * Constructor of the class.
+     * 
+     * @param mappableDatas
+     *            The list of the data to be painted
+     * @param score
+     *            The actual score in the game
+     * @param gameStatus
+     *            The actual game status
+     */
     public ModelDataImpl(final List<MappableData> mappableDatas, final int score, final GameStatus gameStatus) {
         this.mappableDatas = mappableDatas;
         this.score = score;

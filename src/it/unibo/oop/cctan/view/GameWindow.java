@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 
@@ -38,10 +38,10 @@ class GameWindow extends JFrame implements SizeObserver {
      */
     GameWindow(final View view) {
         setTitle("CC-Tan!");
-        LoadedFilesImpl.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
+        LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
 
-        gpanel = new GraphicPanel(LoadedFilesImpl.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
+        gpanel = new GraphicPanel(LoadedFilesSingleton.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
         getContentPane().add(gpanel, BorderLayout.CENTER);
         //gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
         //gpanel.requestFocus();                                                  //SPOSTO?

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
@@ -39,12 +38,6 @@ class ControllerImpl implements Controller {
         this.view = Optional.of(view);
         view.refreshGui(Component.LOADER);
     }
-
-    //@Override
-    /** {@inheritDoc} */
-    //public LoadedFiles getLoadedFiles() {
-      //  return fileLoader.getLoadedFiles();
-    //}
 
     @Override
     /** {@inheritDoc} */

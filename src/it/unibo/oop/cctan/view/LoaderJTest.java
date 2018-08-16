@@ -5,14 +5,11 @@ import java.awt.Point;
 import java.util.Optional;
 import java.util.function.IntSupplier;
 
-import javax.swing.ImageIcon;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 /**
@@ -21,42 +18,46 @@ import it.unibo.oop.cctan.interPackageComunication.ModelData;
 public class LoaderJTest {
 
     private static final int SLEEP_TIME = 1500;
-    private int cicle = 0;
-    private int setImgCicle = 3;
-    private final IntSupplier getAdvance = () -> 10 * cicle++;
-    private Loader l;
+    private static final int[] INCREASE = {5, 5, 10, 5, 15, 20};
+    private static final int MAX_PERCENTAGE = 60;
+    private static final IntSupplier ADVANCE_LOADING = new IntSupplier() {
+
+        private int cicle = 0;
+
+        @Override
+        public int getAsInt() {
+            return INCREASE[cicle++];
+        }
+    };
 
     /**
      * Load-bar visual test.
      */
     @Test
     public void visualLoad() {
-        View v = new ViewJTest() {
-
-            @Override
-            public LoadedFiles getLoadedFiles() {
-                int actual = getAdvance.getAsInt();
-                LoadedFiles lf = new LoadedFilesImpl(actual);
-                if (actual > 10 * setImgCicle) {
-                    lf.setImage(new ImageIcon(LoaderJTest.class.getResource("/cctan.jpg")), ImageType.LOGO);
-                }
-                return lf;
-            }
-
-        };
-        l = new Loader(v);
+        View v = new ViewJTest();
+        Loader l = new Loader(v);
+        LoadedFiles lf = LoadedFilesSingleton.getLoadedFiles();
+        lf.addLoaderPercentage(MAX_PERCENTAGE);
 
         try {
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            System.out.println(lf.getPercentage());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
+            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
             l.refresh();
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
@@ -107,12 +108,6 @@ public class LoaderJTest {
         @Override
         /** {@inheritDoc} */
         public KeyCommandsListener getKeyCommandsListener() {
-            return null;
-        }
-
-        @Override
-        /** {@inheritDoc} */
-        public LoadedFiles getLoadedFiles() {
             return null;
         }
 

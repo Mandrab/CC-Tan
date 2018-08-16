@@ -24,7 +24,7 @@ import org.jdom2.input.SAXBuilder;
 
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.view.View.Component;
 
 /**
@@ -67,7 +67,7 @@ class FileLoader extends Thread {
      */
     FileLoader(final Controller controller) {
         this.controller = controller;
-        loadedFiles = LoadedFilesImpl.getLoadedFiles();
+        loadedFiles = LoadedFilesSingleton.getLoadedFiles();
         loadedFiles.addLoaderPercentage(100);
     }
 

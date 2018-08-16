@@ -19,16 +19,12 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 import it.unibo.oop.cctan.view.View.Component;
 
@@ -107,7 +103,7 @@ class GameWindowJTest {
                         ? GameStatus.RUNNING 
                         : cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * upperBound
                             ? GameStatus.PAUSED 
-                            : GameStatus.NOT_RUNNING);
+                            : GameStatus.ENDED);
             }
         };
         squareTest(getModelDataSupplier(Optional.empty(), Optional.empty(), Optional.of(s), Optional.empty(), Optional.empty()));
@@ -255,24 +251,8 @@ class GameWindowJTest {
     private class EmptyJTestView implements View {
 
         @Override
-        public void setCommandsSuccessor(final CommandsObserverLink successor) {
-        }
-
-        @Override
-        public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
-        }
-
-        @Override
         public Optional<CommandsObserverSource> getCommandsObserverSource() {
             return Optional.empty();
-        }
-
-        @Override
-        public void setSizeSuccessor(final SizeObserverLink successor) {
-        }
-
-        @Override
-        public void setSizeObserverSource(final SizeObserverSource sizeObserverSource) {
         }
 
         @Override
@@ -301,11 +281,6 @@ class GameWindowJTest {
         @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
-        }
-
-        @Override
-        public LoadedFiles getLoadedFiles() {
-            return new LoadedFilesImpl(0);
         }
 
         @Override

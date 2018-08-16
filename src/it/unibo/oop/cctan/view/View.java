@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 
 /**
@@ -69,13 +68,6 @@ public interface View extends SizeAndControlChainOfResponsibility {
      * @return A dimension that stores effective width and height of the game window
      */
     Optional<Dimension> getGameWindowDimension();
-
-    /**
-     * Return a flat object containing all the files loaded from the file system.
-     * 
-     * @return A file containing all the loaded object
-     */
-    //LoadedFiles getLoadedFiles();
 
     /**
      * Allow to get the actual Player name if present.

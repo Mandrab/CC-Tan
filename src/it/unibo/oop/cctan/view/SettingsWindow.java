@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSourceImpl;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
@@ -55,7 +55,7 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         this.settingsDimansion = tryDimensionOfWindow();
 
         settings = new JFrame("Settings");
-        LoadedFilesImpl.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> settings.setIconImage(img.getImage()));
+        LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> settings.setIconImage(img.getImage()));
         settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         settings.setLayout(new BorderLayout());

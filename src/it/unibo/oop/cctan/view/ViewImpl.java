@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.controller.Controller;
 
@@ -95,12 +94,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     public Optional<Dimension> getGameWindowDimension() {
         return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
     }
-
-    //@Override
-    /** {@inheritDoc} */
-    //public LoadedFiles getLoadedFiles() {
-      //  return controller.getLoadedFiles();
-    //}
 
     /** {@inheritDoc} */
     @Override

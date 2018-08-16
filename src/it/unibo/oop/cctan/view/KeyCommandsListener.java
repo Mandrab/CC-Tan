@@ -19,7 +19,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     private final View view;
     private final KeyListener keyListener;
-    private GameStatus actualState = GameStatus.NOT_RUNNING;
+    private GameStatus actualState = GameStatus.ENDED;
     private boolean reset;
     private boolean lockResumeKey;
 
@@ -46,7 +46,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 case P_KEY_VALUE:
                 case SPACE_KEY_VALUE:
                     if (!lockResumeKey) {
-                        if (actualState != GameStatus.NOT_RUNNING) {
+                        if (actualState != GameStatus.ENDED) {
                             getCommandsObservers().forEach(co -> co
                                     .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
                             actualState = actualState.denies();
@@ -105,7 +105,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      *         status is in running or paused.
      */
     public synchronized boolean startCommand() {
-        if (actualState.equals(GameStatus.NOT_RUNNING)) {
+        if (actualState.equals(GameStatus.ENDED)) {
             getCommandsObservers().forEach(co -> co.newCommand(Commands.START));
             actualState = GameStatus.RUNNING;
             return true;
@@ -151,9 +151,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      */
     public synchronized boolean endCommand() {
         System.out.println("è stato richiesto l'end-command e il reset è " + reset);
-        if (!actualState.equals(GameStatus.NOT_RUNNING)) {
+        if (!actualState.equals(GameStatus.ENDED)) {
             getCommandsObservers().forEach(co -> co.newCommand(Commands.END));
-            actualState = GameStatus.NOT_RUNNING;
+            actualState = GameStatus.ENDED;
             if (!reset) {
                 // fare partire la schermata finale con score e tutto
                 new EndWindow(this.view);
