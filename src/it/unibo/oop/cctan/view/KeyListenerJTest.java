@@ -204,12 +204,11 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public void refreshGui(Component component) {
+        public void refreshGui(final Component component) {
         }
 
         @Override
         public void hideGameWindow() {
-            
         }
 
     }

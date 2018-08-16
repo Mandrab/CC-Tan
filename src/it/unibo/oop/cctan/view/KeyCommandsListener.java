@@ -46,9 +46,11 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 case P_KEY_VALUE:
                 case SPACE_KEY_VALUE:
                     if (!lockResumeKey) {
-                        getCommandsObservers().forEach(co -> co
-                                .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
-                        actualState = actualState.denies();
+                        if (actualState != GameStatus.ENDED) {
+                            getCommandsObservers().forEach(co -> co
+                                    .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
+                            actualState = actualState.denies();
+                        }
                     }
                     break;
                 case ESC_KEY_VALUE:
@@ -98,8 +100,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * If called notify all the Command Observers whit the START Command.
-     * @return
-     *          True if the command is sent, false if it is not sent because the game status is in running or paused.
+     * 
+     * @return True if the command is sent, false if it is not sent because the game
+     *         status is in running or paused.
      */
     public synchronized boolean startCommand() {
         if (actualState.equals(GameStatus.ENDED)) {
@@ -112,8 +115,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * If called notify all the Command Observers whit the PAUSE Command.
-     * @return
-     *          True if the command is sent, false if it is not sent because the game status is in ended or paused.
+     * 
+     * @return True if the command is sent, false if it is not sent because the game
+     *         status is in ended or paused.
      */
     public synchronized boolean pauseCommand() {
         if (actualState.equals(GameStatus.RUNNING)) {
@@ -126,8 +130,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * If called notify all the Command Observers whit the RESUME Command.
-     * @return
-     *          True if the command is sent, false if it is not sent because the game status is in Running or Ended.
+     * 
+     * @return True if the command is sent, false if it is not sent because the game
+     *         status is in Running or Ended.
      */
     public synchronized boolean resumeCommand() {
         if (actualState.equals(GameStatus.PAUSED)) {
@@ -140,8 +145,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * If called notify all the Command Observers whit the END Command.
-     * @return
-     *          True if the command is sent, false if it is not sent because the game status is: ended.
+     * 
+     * @return True if the command is sent, false if it is not sent because the game
+     *         status is: ended.
      */
     public synchronized boolean endCommand() {
         System.out.println("è stato richiesto l'end-command e il reset è " + reset);
@@ -174,8 +180,8 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * Return the actual state of the game.
-     * @return
-     *          A GameStatus value indicates the actual state of the game.
+     * 
+     * @return A GameStatus value indicates the actual state of the game.
      */
     public GameStatus getActualState() {
         return this.actualState;
