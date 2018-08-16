@@ -1,6 +1,5 @@
 package it.unibo.oop.cctan.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
@@ -14,6 +13,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
+
 /**
  * Class that instance the component used to show the game to the user.
  */
