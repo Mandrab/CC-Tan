@@ -25,15 +25,19 @@ class ControllerImpl implements Controller {
     private ViewUpdater viewUpdater;
     private ModelUpdater modelUpdater;
 
+    ControllerImpl() {
+        fileLoader = new FileLoader(this);
+        fileLoader.start();
+    }
+
     @Override
     /** {@inheritDoc} */
-    public void setView(final View v) {
-        v.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
-        v.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+    public void setView(final View view) {
+        view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
+        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
         model = new ModelImpl();
-        fileLoader = new FileLoader(this);
-        this.view = Optional.of(v);
-        fileLoader.start();
+        this.view = Optional.of(view);
+        view.refreshGui(Component.LOADER);
     }
 
     @Override
