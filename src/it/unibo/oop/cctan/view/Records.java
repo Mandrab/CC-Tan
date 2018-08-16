@@ -19,6 +19,8 @@ import java.util.Date;
 
 import org.apache.commons.lang3.tuple.Triple;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
+
 /**
  * A class that handle the records of the game.
  * 
@@ -40,7 +42,7 @@ public class Records {
 
         this.view = view;
 //        path = new File(FILE_NAME).getAbsolutePath();
-        path = view.getLoadedFiles().getScores().get().getPath();
+        path = LoadedFilesSingleton.getLoadedFiles().getScoresFile().get().getPath();
 
 
 //        try {

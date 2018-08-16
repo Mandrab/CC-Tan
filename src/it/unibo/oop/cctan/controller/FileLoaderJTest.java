@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.view.View;
 import it.unibo.oop.cctan.view.View.Component;
@@ -79,11 +78,6 @@ public class FileLoaderJTest {
 
             @Override
             public void setView(final View v) {
-            }
-
-            @Override
-            public LoadedFiles getLoadedFiles() {
-                return null;
             }
 
             @Override

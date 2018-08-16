@@ -1,7 +1,7 @@
 package it.unibo.oop.cctan.interPackageComunication;
 
 /**
- * An enum that store all the possible commands that a model should handle.
+ * An enumeration that store all the possible commands that a model should handle.
  */
 public enum Commands {
 

@@ -19,16 +19,12 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesImpl;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverChainOfResponsibility;
 import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
 import it.unibo.oop.cctan.view.View.Component;
 
@@ -252,27 +248,14 @@ class GameWindowJTest {
                         statusSupplier.isPresent() ? statusSupplier.get().get() : GameStatus.RUNNING);
     }
 
+    /**
+     * Skeleton class.
+     */
     private class EmptyJTestView implements View {
-
-        @Override
-        public void setCommandsSuccessor(final CommandsObserverChainOfResponsibility successor) {
-        }
-
-        @Override
-        public void setCommandsObserverSource(final CommandsObserverSource commandsObserverSource) {
-        }
 
         @Override
         public Optional<CommandsObserverSource> getCommandsObserverSource() {
             return Optional.empty();
-        }
-
-        @Override
-        public void setSizeSuccessor(final SizeObserverChainOfResponsibility successor) {
-        }
-
-        @Override
-        public void setSizeObserverSource(final SizeObserverSource sizeObserverSource) {
         }
 
         @Override
@@ -301,11 +284,6 @@ class GameWindowJTest {
         @Override
         public Optional<Dimension> getGameWindowDimension() {
             return Optional.empty();
-        }
-
-        @Override
-        public LoadedFiles getLoadedFiles() {
-            return new LoadedFilesImpl(0);
         }
 
         @Override

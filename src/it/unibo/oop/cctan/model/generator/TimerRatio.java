@@ -120,7 +120,7 @@ public abstract class TimerRatio extends PausableThread implements Commands {
      * @return
      *          ratio field
      */
-    public int getRatio() {
+    protected int getRatio() {
         return this.ratio;
     }
 
@@ -128,7 +128,7 @@ public abstract class TimerRatio extends PausableThread implements Commands {
      * @return
      *          speed field
      */
-    public double getSpeed() {
+    protected double getSpeed() {
         return this.speed;
     }
 

@@ -64,7 +64,7 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
     protected void applyConstraints() {
         final Boundary bounds = this.getModel().getBounds();
         if (this.getPos().getX() + this.getWidth() < bounds.getX0() || this.getPos().getX() > bounds.getX1()
-                || this.getPos().getY() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
+                || this.getPos().getY() + this.getHeight() < bounds.getY0() || this.getPos().getY() - this.getHeight() > bounds.getY1()) {
             synchronized (this.getModel().getBulletAgents()) {
                 this.terminate();
                 this.getModel().removeBullet(this);

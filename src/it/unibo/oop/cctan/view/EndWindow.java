@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
+import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
 
 public class EndWindow {
@@ -33,7 +34,7 @@ public class EndWindow {
         this.score = this.view.getModelData().getScore();
 
         JFrame mainFrame = new JFrame("oop17-cctan Conclusion Menù");
-        view.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> mainFrame.setIconImage(img.getImage()));
+        LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> mainFrame.setIconImage(img.getImage()));
         // TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

@@ -96,7 +96,7 @@ public class LeaderBoardTable {
 
             mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(final java.awt.event.WindowEvent e) {
                             mainGui.removeLeaderBoard();
                             e.getWindow().dispose();
                             System.out.println("JFrame Closed!");

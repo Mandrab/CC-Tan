@@ -6,14 +6,13 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.controller.Controller;
 
 /**
  * A class that implements View interface.
  */
-public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements View {
+public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
     private Controller controller;
     private Optional<MouseEvents> mouseEvents = Optional.empty();
@@ -45,7 +44,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
         }
         gameWindow.get().addKeyListener(keyCommandsListener.getKeyListener());
         gameWindow.get().update(gameWindowSize, screenRatio);
-        //gameWindow.get().setLocationRelativeTo(null);
         gameWindow.get().setVisible(true);
         if (!mouseEvents.isPresent()) {
             mouseEvents = Optional.of(new MouseEvents(this));
@@ -75,7 +73,7 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
 
     @Override
     /** {@inheritDoc} */
-    public Optional<Point> getWindowLocation() { //return optional
+    public Optional<Point> getWindowLocation() {
         return gameWindow.isPresent() 
                ? Optional.ofNullable(gameWindow.get().getLocation()) 
                : Optional.empty();
@@ -94,12 +92,6 @@ public class ViewImpl extends SizeAndControlChainOfResponsibilityImpl implements
     /** {@inheritDoc} */
     public Optional<Dimension> getGameWindowDimension() {
         return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public LoadedFiles getLoadedFiles() {
-        return controller.getLoadedFiles();
     }
 
     /** {@inheritDoc} */

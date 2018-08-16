@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +17,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import it.unibo.oop.cctan.interPackageComunication.MappableData;
 import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
 import it.unibo.oop.cctan.interPackageComunication.GameStatus;
 
 class GraphicPanel extends JPanel {
@@ -31,11 +29,11 @@ class GraphicPanel extends JPanel {
     private static final double EDGE_MULTIPLIER = 1.05;
     private Drawer drawer;
     private Optional<Dimension> dimension;
-    private ModelData modelData;
+    private Optional<ModelData> modelData;
 
     GraphicPanel(final File file) {
         drawer = new Drawer(file);
-        modelData = new ModelDataImpl(new LinkedList<>(), 0, GameStatus.RUNNING);
+        modelData = Optional.empty();
     }
 
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
@@ -52,8 +50,8 @@ class GraphicPanel extends JPanel {
         if (modelData == null) {
             throw new IllegalArgumentException();
         }
-        synchronized (modelData) {
-            this.modelData = modelData;
+        synchronized (this) {
+            this.modelData = Optional.of(modelData);
         }
         repaint();
     }
@@ -65,27 +63,29 @@ class GraphicPanel extends JPanel {
             graphics.setColor(Color.BLACK);
             graphics.fillRect(0, 0, (int) (dimension.get().width * EDGE_MULTIPLIER), (int) (dimension.get().height * EDGE_MULTIPLIER));
             drawer.setGraphics(graphics);
-            synchronized (modelData) {
-                if (modelData.getGameStatus() == GameStatus.RUNNING) {
-                    modelData.getMappableDatas()
-                             .forEach(drawer::drawMappableData);
-                    drawer.drawText(modelData.getScore() + "", 
-                                    SCORE_POSITION_ON_SCREEN, 
-                                    DEFAULT_FONT_SIZE, 
-                                    Color.WHITE);
-                } else {
-                    opacifies(modelData.getMappableDatas())
-                                       .forEach(drawer::drawMappableData);
-                    drawer.drawText(modelData.getScore() + "", 
-                                    SCORE_POSITION_ON_SCREEN, 
-                                    DEFAULT_FONT_SIZE, 
-                                    new Color(Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue(), OPACITY_VALUE));
-                    drawer.drawText(modelData.getGameStatus().name(), 
-                                    COMMANDS_TEXT_POSITION_ON_SCREEN, 
-                                    DEFAULT_FONT_SIZE * 2, 
-                                    Color.RED);
+            modelData.ifPresent(modelData -> {
+                synchronized (this) {
+                    if (modelData.getGameStatus() == GameStatus.RUNNING) {
+                        modelData.getMappableDatas()
+                                 .forEach(drawer::drawMappableData);
+                        drawer.drawText(modelData.getScore() + "", 
+                                        SCORE_POSITION_ON_SCREEN, 
+                                        DEFAULT_FONT_SIZE, 
+                                        Color.WHITE);
+                    } else {
+                        opacifies(modelData.getMappableDatas())
+                                           .forEach(drawer::drawMappableData);
+                        drawer.drawText(modelData.getScore() + "", 
+                                        SCORE_POSITION_ON_SCREEN, 
+                                        DEFAULT_FONT_SIZE, 
+                                        new Color(Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue(), OPACITY_VALUE));
+                        drawer.drawText(modelData.getGameStatus().name(), 
+                                        COMMANDS_TEXT_POSITION_ON_SCREEN, 
+                                        DEFAULT_FONT_SIZE * 2, 
+                                        Color.RED);
+                    }
                 }
-            }
+            });
         }
     }
 

@@ -33,9 +33,6 @@ public class ModelImpl implements Model {
     public ModelImpl() {
         this.score = Score.getScore();
         this.bound = new Boundary(-1, -1, 1, 1);
-        //this.bound = new Boundary(-4/3.0, -1, 4/3.0, 1);
-        //this.bound = new Boundary(-16/9.0, -1, 16/9.0, 1);
-        this.istanceGenerators();
         this.gameStatus = GameStatus.ENDED;
         this.shuttle = new ShuttleImpl(this);
     }
@@ -53,6 +50,7 @@ public class ModelImpl implements Model {
     public void launch() {
         if (gameStatus.equals(GameStatus.ENDED)) {
             score.reset();
+            this.istanceGenerators();
             squareGenerator.launch();
             bulletGenerator.launch();
             powerupGenerator.launch();
@@ -69,7 +67,6 @@ public class ModelImpl implements Model {
         // width / height = ratio ------> width = ratio * height
             // --> x0 = -ratio * height / 2 ----> x0 = -ratio
             // --> x1 = radio * height / 2 -----> x1 = ratio
-        System.out.println("Current ratio: " + ratio);
         this.bound.setBoundary(-ratio, ratio, -1, 1);
     }
 
@@ -196,7 +193,7 @@ public class ModelImpl implements Model {
         this.bulletGenerator.terminate();
         this.powerupGenerator.terminate();
         this.getShuttle().getActivePowerUps().forEach(p -> p.terminate());
-        this.istanceGenerators();
+        //this.istanceGenerators();
         this.gameStatus = GameStatus.ENDED;
     }
 
