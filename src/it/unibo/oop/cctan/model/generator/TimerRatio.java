@@ -84,7 +84,7 @@ public abstract class TimerRatio extends Thread implements Commands {
      *  that are generated within the application. It is also used to increase the speed of 
      *  movement of the various objects, or to increase the initial life of the squares.
      */
-    public abstract void operationRatio();
+    protected abstract void operationRatio();
 
     /** 
      * {@inheritDoc}
