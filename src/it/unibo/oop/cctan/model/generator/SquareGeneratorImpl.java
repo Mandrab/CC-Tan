@@ -22,7 +22,7 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
     }
 
     /**
-     * This method is used to create new {@link SquareAgent SquareAgent} object.
+     * This method is used to create new object of {@link SquareAgent SquareAgent} type.
      */
     @Override
     protected synchronized void createNewItem() {

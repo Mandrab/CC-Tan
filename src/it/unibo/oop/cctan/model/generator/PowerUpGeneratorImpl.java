@@ -30,7 +30,7 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
     }
 
     /**
-     * 
+     * This method is used to create new object of {@link PowerUpBlock PowerUpBlock} type.
      */
     @Override
     protected void createNewItem() {

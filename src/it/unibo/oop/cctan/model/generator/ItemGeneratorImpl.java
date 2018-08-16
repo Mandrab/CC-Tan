@@ -73,7 +73,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
     }
 
     /**
-     * This method is used to create new object of type <T>. This operation varies according 
+     * This method is used to create new object of generic type T. This operation varies according 
      * to the objects that must be generated.
      */
     protected abstract void createNewItem();
