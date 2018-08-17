@@ -5,18 +5,18 @@ import java.awt.Point;
 
 class MouseEvents {
 
-    private View view;
+    private final View view;
 
     MouseEvents(final View view) {
         this.view = view;
     }
 
-    double getMouseRelativePosition() {
+    protected double getMouseRelativePosition() {
         return calculateDegrees(MouseInfo.getPointerInfo().getLocation().x - getWindowCenter().x,
                                 getWindowCenter().y - MouseInfo.getPointerInfo().getLocation().y);
     }
 
-    double getMouseRelativePositionInRange(final double lowerBound, final double upperBound) {
+    protected double getMouseRelativePositionInRange(final double lowerBound, final double upperBound) {
         return (upperBound - lowerBound) * getMouseRelativePosition() / 360;
     }
 

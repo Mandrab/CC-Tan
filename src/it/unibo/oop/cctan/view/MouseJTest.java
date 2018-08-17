@@ -1,9 +1,10 @@
 package it.unibo.oop.cctan.view;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Robot;
@@ -22,6 +23,8 @@ import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
 
 class MouseJTest {
 
+    private static final String UNEXPECTED_EXCEPTION_E = "An unexpected exception has been trown during the test";
+    private static final String WRONG_RETURN_E = "Expected another return value. NOTE: if mouse has been manually moved during the test, then that may have affected the calculate.";
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(SCREEN_SIZE.height / 2,
             SCREEN_SIZE.height / 2); // dimension of the window
@@ -40,33 +43,53 @@ class MouseJTest {
     private static final int POSITIONING_TIME = 10;
 
     @Test
-    synchronized void degreeMouseCorrectValueTest() throws Exception {
-        mouseTest(EXPECTED_ANGLE, CORRECT_POINTS_RELATIVE_TO_ANGLE, DEGREE_DELTA, true);
+    protected synchronized void degreeMouseCorrectValueTest() {
+        try {
+            mouseTest(EXPECTED_ANGLE, CORRECT_POINTS_RELATIVE_TO_ANGLE, DEGREE_DELTA, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(UNEXPECTED_EXCEPTION_E);
+        }
     }
 
     @Test
-    synchronized void degreeMouseIncorrectValueTest() throws Exception {
-        mouseTest(EXPECTED_ANGLE, INCORRECT_POINTS_RELATIVE_TO_ANGLE, DEGREE_DELTA, false);
+    protected synchronized void degreeMouseIncorrectValueTest() {
+        try {
+            mouseTest(EXPECTED_ANGLE, INCORRECT_POINTS_RELATIVE_TO_ANGLE, DEGREE_DELTA, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(UNEXPECTED_EXCEPTION_E);
+        }
     }
 
     @Test
-    synchronized void rangeMouseCorrectValueTest() throws Exception {
-        mouseTest(EXPECTED_ANGLE, CORRECT_POINTS_RELATIVE_TO_ANGLE, RADIANT_DELTA, true);
+    protected synchronized void rangeMouseCorrectValueTest() {
+        try {
+            mouseTest(EXPECTED_ANGLE, CORRECT_POINTS_RELATIVE_TO_ANGLE, RADIANT_DELTA, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(UNEXPECTED_EXCEPTION_E);
+        }
     }
 
     @Test
-    synchronized void rangeMouseIncorrectValueTest() throws Exception {
-        mouseTest(EXPECTED_ANGLE, INCORRECT_POINTS_RELATIVE_TO_ANGLE, RADIANT_DELTA, false);
+    protected synchronized void rangeMouseIncorrectValueTest() {
+        try {
+            mouseTest(EXPECTED_ANGLE, INCORRECT_POINTS_RELATIVE_TO_ANGLE, RADIANT_DELTA, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(UNEXPECTED_EXCEPTION_E);
+        }
     }
 
     private void mouseTest(final double[] expectedAngle, final Point2D.Double[] positions, final double delta,
-            final boolean assertEquals) throws Exception {
+            final boolean assertEquals) throws AWTException {
         if (expectedAngle.length != positions.length) {
             fail("Different length vector!");
         }
 
-        Robot r = new Robot();
-        MouseEvents me = new MouseEvents(new ViewJTest());
+        final Robot r = new Robot();
+        final MouseEvents me = new MouseEvents(new ViewJTest());
 
         final int xZero = TOP_LEFT_WINDOW_POINT.x + GAME_WINDOW_DIMENSION_TEST.width / 2;
         final int yZero = TOP_LEFT_WINDOW_POINT.y + GAME_WINDOW_DIMENSION_TEST.height / 2;
@@ -74,12 +97,12 @@ class MouseJTest {
         try {
             r.mouseMove(xZero * 2, yZero); // x > 0, y = 0 -> 0°
             if (assertEquals) {
-                assertEquals(0.0, me.getMouseRelativePosition(), delta);
+                assertEquals(WRONG_RETURN_E, 0.0, me.getMouseRelativePosition(), delta);
             } else {
-                assertNotEquals(0.0, me.getMouseRelativePosition(), delta);
+                assertNotEquals(WRONG_RETURN_E, 0.0, me.getMouseRelativePosition(), delta);
             }
         } catch (AssertionError aer) {
-            assertNotEquals(360.0, me.getMouseRelativePosition(), delta);
+            assertNotEquals(WRONG_RETURN_E, 360.0, me.getMouseRelativePosition(), delta);
         }
 
         IntStream.range(0, expectedAngle.length)
@@ -88,9 +111,9 @@ class MouseJTest {
                     r.mouseMove((int) (xZero + GAME_WINDOW_DIMENSION_TEST.width * pair.getRight().x),
                             (int) (yZero + GAME_WINDOW_DIMENSION_TEST.height * pair.getRight().y));
                     if (assertEquals) {
-                        assertEquals(pair.getLeft(), me.getMouseRelativePosition(), delta);
+                        assertEquals(WRONG_RETURN_E, pair.getLeft(), me.getMouseRelativePosition(), delta);
                     } else {
-                        assertNotEquals(pair.getLeft(), me.getMouseRelativePosition(), delta);
+                        assertNotEquals(WRONG_RETURN_E, pair.getLeft(), me.getMouseRelativePosition(), delta);
                     }
                     try {
                         Thread.sleep(POSITIONING_TIME);
