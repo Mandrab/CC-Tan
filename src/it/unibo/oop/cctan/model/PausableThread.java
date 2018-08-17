@@ -74,7 +74,7 @@ public abstract class PausableThread extends Thread implements Commands {
     private void timeout() {
         long time;
         this.remaining = this.amount;
-        while (!stop && remaining > 0) {
+        while (!stop && remaining > 10) {
             try {
                 synchronized (this) {
                     time = System.currentTimeMillis();
