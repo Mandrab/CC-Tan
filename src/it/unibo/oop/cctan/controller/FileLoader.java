@@ -48,7 +48,7 @@ class FileLoader extends Thread {
     private static final int[] PERCENTAGE_ADVANCE = { 10, 10, 10, 20, 50 };
     private static final IntSupplier ADVANCE_PERCENTAGE = new IntSupplier() {
 
-        private int index = 0;
+        private int index;
 
         @Override
         public int getAsInt() {
@@ -66,6 +66,7 @@ class FileLoader extends Thread {
      *            A class that implements Controller interface
      */
     FileLoader(final Controller controller) {
+        super();
         this.controller = controller;
         loadedFiles = LoadedFilesSingleton.getLoadedFiles();
         loadedFiles.addLoaderPercentage(100);
@@ -113,7 +114,7 @@ class FileLoader extends Thread {
         if (Files.notExists(Paths.get(PATH, DIRECTORY_SCORE + SCORE_FILE_SCORES), LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setScoresFile(new File(SCORE_FILE_SCORES));
             try {
-                File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
+                final File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
                 if (!file.createNewFile()) {
                     System.out.println("File already present at the specified location");
                 }
@@ -133,17 +134,6 @@ class FileLoader extends Thread {
     }
 
     /**
-     * Returns a file containing all the loaded files.
-     * This method is package protected.
-     * 
-     * @return The file containing all the loaded files
-     */
-    //public synchronized LoadedFiles getLoadedFiles() {
-      //  loadedFiles.setPercentage(percentage);
-      //  return loadedFiles;
-    //}
-
-    /**
      * Create directories in path with the names contained in the string array.
      * 
      * @param path
@@ -151,8 +141,8 @@ class FileLoader extends Thread {
      * @param names
      *            The names of the directories to be created
      */
-    private void createDirectories(final String path, final String[] names) {
-        for (String name : names) {
+    private void createDirectories(final String path, final String... names) {
+        for (final String name : names) {
             if (!new File(path + name).mkdirs() 
                 && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
                     System.err.println("An error as occurred during " + name + " directory creation!");
@@ -167,27 +157,29 @@ class FileLoader extends Thread {
      *            The path to the .svg
      * @param jpgUri
      *            The path in which create the .jpg file
-     * @throws Exception
-     *             Some method throws various exception
      */
-    private void convertSvgToJpg(final String svgUri, final String jpgUri) throws Exception {
-        // Create a JPEG transcoder
-        JPEGTranscoder converter = new JPEGTranscoder();
-        converter.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, QUALITY);
-        converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(svgUri));
-        converter.addTranscodingHint(JPEGTranscoder.KEY_BACKGROUND_COLOR, Color.BLACK);
+    private void convertSvgToJpg(final String svgUri, final String jpgUri) {
+        try {
+            // Create a JPEG transcoder
+            final JPEGTranscoder converter = new JPEGTranscoder();
+            converter.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, QUALITY);
+            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(svgUri));
+            converter.addTranscodingHint(JPEGTranscoder.KEY_BACKGROUND_COLOR, Color.BLACK);
 
-        // Create the transcoder input and output.
-        TranscoderInput input = new TranscoderInput(svgUri);
-        OutputStream ostream = new FileOutputStream(jpgUri);
-        TranscoderOutput output = new TranscoderOutput(ostream);
+            // Create the transcoder input and output.
+            final TranscoderInput input = new TranscoderInput(svgUri);
+            final OutputStream ostream = new FileOutputStream(jpgUri);
+            final TranscoderOutput output = new TranscoderOutput(ostream);
 
-        // Save the image.
-        converter.transcode(input, output);
+            // Save the image.
+            converter.transcode(input, output);
 
-        // Flush and close the stream.
-        ostream.flush();
-        ostream.close();
+            // Flush and close the stream.
+            ostream.flush();
+            ostream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -203,13 +195,13 @@ class FileLoader extends Thread {
      */
     private float getAdaptedWidth(final String svgUri) throws JDOMException, IOException {
         final SAXBuilder builder = new SAXBuilder();
-        Document document = builder.build(svgUri);
+        final Document document = builder.build(svgUri);
 
-        Element root = document.getRootElement();
-        float svgRateo = Float.valueOf(root.getAttributeValue("width"))
+        final Element root = document.getRootElement();
+        final float svgRateo = Float.valueOf(root.getAttributeValue("width"))
                                        / Float.valueOf(root.getAttributeValue("height"));
-        double deltaX = SCREEN_SIZE.getWidth() - Double.valueOf(root.getAttributeValue("width"));
-        double deltaY = SCREEN_SIZE.getHeight() - Double.valueOf(root.getAttributeValue("height"));
+        final double deltaX = SCREEN_SIZE.getWidth() - Double.valueOf(root.getAttributeValue("width"));
+        final double deltaY = SCREEN_SIZE.getHeight() - Double.valueOf(root.getAttributeValue("height"));
         return deltaX < deltaY ? svgRateo * SCREEN_SIZE.height : SCREEN_SIZE.width;
     }
 

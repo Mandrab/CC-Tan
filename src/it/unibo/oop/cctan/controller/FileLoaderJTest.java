@@ -26,6 +26,15 @@ import it.unibo.oop.cctan.view.View.Component;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileLoaderJTest {
 
+    private static final String USER_HOME = System.getProperty("user.home");
+    private static final String GAME_DIRECTORY = "/.cctan";
+    private static final String IMG_DIRECTORY = GAME_DIRECTORY + "/img";
+    private static final String SCORE_DIRECTORY = GAME_DIRECTORY + "/score";
+    private static final String IMG_FILE = "/cctan.jpg";
+    private static final String DIRECTORY_CREATION_E = "Directory should exist: ";
+    private static final String FILE_CREATION_E = "File should exist";
+    private static final String FILE_READ_E = "File should readable";
+
     /**
      * Test if fileLoader class properly create directories.
      * 
@@ -34,15 +43,15 @@ public class FileLoaderJTest {
      */
     @Test
     public void directoryCreation() throws InterruptedException {
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-        FileLoader fl = createFileLoader();
-        fl.start();
-        fl.join();
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan"), LinkOption.NOFOLLOW_LINKS));
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img"), LinkOption.NOFOLLOW_LINKS));
+        deleteDirectory(USER_HOME + GAME_DIRECTORY);
+        final FileLoader fileLoader = createFileLoader();
+        fileLoader.start();
+        fileLoader.join();
+        assertTrue(Files.exists(Paths.get(USER_HOME + GAME_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + GAME_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + IMG_DIRECTORY);
         assertTrue(
-                Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/score"), LinkOption.NOFOLLOW_LINKS));
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+                Files.exists(Paths.get(USER_HOME + SCORE_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + SCORE_DIRECTORY);
+        deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 
     /**
@@ -53,14 +62,14 @@ public class FileLoaderJTest {
      */
     @Test
     public void svgConversion() throws InterruptedException {
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
-        FileLoader fl = createFileLoader();
-        fl.start();
-        fl.join();
-        assertTrue(Files.exists(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg"),
-                LinkOption.NOFOLLOW_LINKS));
-        assertTrue(Files.isReadable(Paths.get(System.getProperty("user.home") + "/.cctan/img/cctan.jpg")));
-        deleteDirectory(System.getProperty("user.home") + "/.cctan");
+        deleteDirectory(USER_HOME + GAME_DIRECTORY);
+        final FileLoader fileLoader = createFileLoader();
+        fileLoader.start();
+        fileLoader.join();
+        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE),
+                LinkOption.NOFOLLOW_LINKS), FILE_CREATION_E);
+        assertTrue(Files.isReadable(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE)), FILE_READ_E);
+        deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 
     private void deleteDirectory(final String path) {

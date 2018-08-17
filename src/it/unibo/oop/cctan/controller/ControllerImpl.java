@@ -22,15 +22,14 @@ import it.unibo.oop.cctan.view.View.Component;
 class ControllerImpl implements Controller {
 
     private Optional<View> view;
-    private Model model;
-    private FileLoader fileLoader;
+    private final Model model;
     private Optional<ViewUpdater> viewUpdater;
     private Optional<ModelUpdater> modelUpdater;
 
     ControllerImpl() {
         view = Optional.empty();
         model = new ModelImpl();
-        fileLoader = new FileLoader(this);
+        final FileLoader fileLoader = new FileLoader(this);
         fileLoader.start();
         viewUpdater = Optional.empty();
         modelUpdater = Optional.empty();
