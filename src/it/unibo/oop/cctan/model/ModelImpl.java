@@ -37,12 +37,6 @@ public class ModelImpl implements Model {
         this.shuttle = new ShuttleImpl(this);
     }
 
-    private void istanceGenerators() {
-        this.squareGenerator = new SquareGeneratorImpl(this);
-        this.bulletGenerator = new BulletGeneratorImpl(this);
-        this.powerupGenerator = new PowerUpGeneratorImpl(this);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -50,7 +44,9 @@ public class ModelImpl implements Model {
     public void launch() {
         if (gameStatus.equals(GameStatus.ENDED)) {
             score.reset();
-            this.istanceGenerators();
+            this.squareGenerator = new SquareGeneratorImpl(this);
+            this.bulletGenerator = new BulletGeneratorImpl(this);
+            this.powerupGenerator = new PowerUpGeneratorImpl(this);
             squareGenerator.launch();
             bulletGenerator.launch();
             powerupGenerator.launch();
