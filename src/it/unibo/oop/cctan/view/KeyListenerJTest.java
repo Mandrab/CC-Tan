@@ -7,40 +7,35 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import java.util.Optional;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-
 import it.unibo.oop.cctan.interpackage_comunication.Commands;
 import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
 import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
 import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
 
 public class KeyListenerJTest {
-    
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
-    //private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST = new ImmutablePair<Integer, Integer>(1, 1);// ratio                                                                                                     /// window
-    
+    // private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST = new
+    // ImmutablePair<Integer, Integer>(1, 1);// ratio /// window
+
     private static final int P_KEY_VALUE = KeyEvent.VK_P;
     private static final int SPACE_KEY_VALUE = KeyEvent.VK_SPACE;
     private static final int ESC_KEY_VALUE = KeyEvent.VK_ESCAPE;
 
     private Optional<GameWindow> gameWindow = Optional.empty();
-    private View view;
+    private static View view;
     private KeyCommandsListener keyCommandsListener;
-    private CommandsObserverSourceImpl commandsObserversManager;
-    private boolean setuped = false;
-    
+    private static CommandsObserverSourceImpl commandsObserversManager;
+    private static boolean setuped = false;
+
     @Test
     synchronized void pausePPressed() throws Exception {
         KeyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
@@ -49,7 +44,7 @@ public class KeyListenerJTest {
         KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
         KeyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
     }
-    
+
     @Test
     synchronized void escPauseAndPpressed() throws Exception {
         KeyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
@@ -58,9 +53,9 @@ public class KeyListenerJTest {
         KeyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
 
     }
-    
-     @Test
-     synchronized void pauseSpacePressed() throws Exception {
+
+    @Test
+    synchronized void pauseSpacePressed() throws Exception {
         KeyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
         KeyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
         KeyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
@@ -68,39 +63,39 @@ public class KeyListenerJTest {
 
     }
 
-    private void KeyListenerTest(final int kcInput, final GameStatus gSExpected, final boolean assertEquals) throws Exception {
+    private void KeyListenerTest(final int kcInput, final GameStatus gSExpected, final boolean assertEquals)
+            throws Exception {
 
-        if(!setuped) {
-            this.setuped=true;
+        if (!setuped) {
+            setuped = true;
             setUp();
         }
-        
-        Robot r = new Robot();
+
+        final Robot r = new Robot();
         r.keyPress(kcInput);
-        //necessaria per fare funzionare il test
+        // necessaria per fare funzionare il test
         Thread.sleep(100);
-        
+
         if (assertEquals) {
             assertEquals(gSExpected, keyCommandsListener.getActualState());
         } else {
             assertNotEquals(gSExpected, keyCommandsListener.getActualState());
         }
 
-
     }
-    
-    public void setUp() {
+
+    public final void setUp() {
         System.out.println("imposto la view");
-        this.view = new ViewJTest();
-        
+        view = new ViewJTest();
+
         System.out.println("imposto la keycommandlistener");
         this.keyCommandsListener = new KeyCommandsListener(view);
-        
+
         System.out.println("imposto la commandibservermanager");
-        this.commandsObserversManager = new CommandsObserverSourceImpl() {
-            
+        commandsObserversManager = new CommandsObserverSourceImpl() {
+
             @Override
-            public void forceCommand(Commands command) {
+            public void forceCommand(final Commands command) {
                 switch (command) {
                 case START:
                     keyCommandsListener.startCommand();
@@ -115,12 +110,12 @@ public class KeyListenerJTest {
                     keyCommandsListener.endCommand();
                     break;
                 default:
-            }
+                }
             }
         };
-        
+
         System.out.println("imposto un observer nella lista");
-        this.commandsObserversManager.addCommandsObserver(new CommandsObserver() {
+        commandsObserversManager.addCommandsObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
                 System.out.println("comando lanciato : " + command);
@@ -128,18 +123,18 @@ public class KeyListenerJTest {
         });
 
         System.out.println("imposto la gamewindow");
-//        view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
-        
+        // view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
+
         JFrame jf = new JFrame();
         jf.addKeyListener(keyCommandsListener.getKeyListener());
         jf.setSize(GAME_WINDOW_DIMENSION_TEST);
         jf.setVisible(true);
         jf.requestFocus();
-        
+
         System.out.println("imposto la startCommand");
         keyCommandsListener.startCommand();
-        
-        System.out.println(keyCommandsListener.getActualState()+" state");
+
+        System.out.println(keyCommandsListener.getActualState() + " state");
     }
 
     private class ViewJTest extends SizeAndCommandsLinkImpl implements View {
@@ -155,9 +150,7 @@ public class KeyListenerJTest {
 
         @Override
         public Optional<Point> getWindowLocation() {
-            return gameWindow.isPresent() 
-                    ? Optional.ofNullable(gameWindow.get().getLocation()) 
-                    : Optional.empty();
+            return gameWindow.isPresent() ? Optional.ofNullable(gameWindow.get().getLocation()) : Optional.empty();
         }
 
         @Override

@@ -6,119 +6,123 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.io.File;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 import it.unibo.oop.cctan.interpackage_comunication.Commands;
 import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
+/**
+ * Class that instance the component used to show the pause menu to the user.
+ */
 public class PauseWindow {
+    private static final int INSETS = 5;
+    private static final int FONT_STYLE = 18;
+    private static final int FONT_SIZE = 60;
     private static final String BACKGROUND_JPG = "/background2.jpg";
     private final int score;
-    private final View view;
+    private final  View view;
+    private JFrame mainFrame;
 
+    /**
+     * the constructor of the PauseWindow class.
+     * 
+     * @param view
+     *            A reference to the view (parents).
+     */
     public PauseWindow(final View view) {
 
-
         this.view = view;
-        this.score = this.view.getModelData().getScore();
+        this.score = view.getModelData().getScore();
+        setUpWindow();
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
 
-        Dimension windowDimension = tryDimensionOfWindow();
-        
-        JFrame mainFrame = new JFrame("oop17-cctan Pause Menù");
+    private void setUpWindow() {
+        final Dimension windowDimension = tryDimensionOfWindow();
+        mainFrame = new JFrame("oop17-cctan Pause Menù");
 
-        LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> mainFrame.setIconImage(img.getImage()));
+        LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON)
+                .ifPresent(img -> mainFrame.setIconImage(img.getImage()));
         // TODO impostare sicuro di volr uscire dal gioco?
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainFrame.setLayout(new BorderLayout());
-        
-        ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
-        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance((int)windowDimension.getWidth(), (int)windowDimension.getHeight(), 0)));
-//        JLabel background = new JLabel(new ImageIcon(imgIco.getImage().getScaledInstance(SCREEN_SIZE.width / 5, SCREEN_SIZE.height / 3, 0)));
+
+        final ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        final JLabel background = new JLabel(new ImageIcon(imgIco.getImage()
+                .getScaledInstance((int) windowDimension.getWidth(), (int) windowDimension.getHeight(), 0)));
         mainFrame.add(background);
         mainFrame.setResizable(false);
         background.setLayout(new GridBagLayout());
 
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 
-        Font font = new Font("Serif", 18, 60);
-        JLabel title = new JLabel();
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
         title.setFont(font);
         title.setText("PAUSE");
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = pos++;
         c.gridwidth = 2;
         title.setHorizontalAlignment(JLabel.CENTER);
         background.add(title, c);
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = pos++;
         title.setHorizontalAlignment(JLabel.CENTER);
         background.add(new JLabel("           "), c);
 
-        JLabel nickLabl = new JLabel();
+        final JLabel nickLabl = new JLabel();
         nickLabl.setText("Your score : " + this.score);
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = pos++;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
         background.add(nickLabl, c);
 
-        c.insets = new Insets(10, 5, 0, 5);
+        c.insets = new Insets(10, INSETS, 0, INSETS);
         c.gridwidth = 1;
 
-        JButton restartBtn = new JButton("Restart");
+        final JButton resumeBtn = new JButton("Resume");
         c.gridx = 0;
-        c.gridy = 6;
-        background.add(restartBtn, c);
-
-        JButton settingsBtn = new JButton("Settings");
-        c.gridx = 0;
-        c.gridy = 4;
-        background.add(settingsBtn, c);
-
-        JButton exitBtn = new JButton("Exit");
-        c.gridx = 0;
-        c.gridy = 5;
-        background.add(exitBtn, c);
-
-        JButton resumeBtn = new JButton("Resume");
-        c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = pos++;
         background.add(resumeBtn, c);
 
+        final JButton settingsBtn = new JButton("Settings");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(settingsBtn, c);
 
-        mainFrame.pack();
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
+        final JButton exitBtn = new JButton("Exit");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(exitBtn, c);
+
+        final JButton restartBtn = new JButton("Restart");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(restartBtn, c);
 
         restartBtn.addActionListener(e -> {
             if (view.getPlayerName().isPresent()) {
-                String nick = view.getPlayerName().get();
+                final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                Records rec = new Records(view);
+                final Records rec = new Records();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                 // MANDARE IL VOMANDO reset end e start
                 view.getKeyCommandsListener().setReset(true);
                 view.getKeyCommandsListener().endCommand();
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException e1) {
-//                    e1.printStackTrace();
-//                }
 
                 view.getKeyCommandsListener().setLockResumeKey(false);
                 view.getKeyCommandsListener().startCommand();
@@ -129,9 +133,9 @@ public class PauseWindow {
 
         settingsBtn.addActionListener(e -> {
             if (view.getPlayerName().isPresent()) {
-                String nick = view.getPlayerName().get();
+                final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                Records rec = new Records(view);
+                final Records rec = new Records();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                 // MANDARE IL VOMANDO END
@@ -146,7 +150,8 @@ public class PauseWindow {
         });
 
         exitBtn.addActionListener(e -> {
-            System.exit(0);
+            Runtime.getRuntime().exit(0);
+            // System.exit(0);
         });
 
         resumeBtn.addActionListener(e -> {
@@ -155,60 +160,60 @@ public class PauseWindow {
             mainFrame.dispose();
         });
     }
-    
+
     private Dimension tryDimensionOfWindow() {
-        JFrame tmpSet = new JFrame("tryDimension");
+        final JFrame tmpSet = new JFrame("tryDimension");
         tmpSet.setLayout(new BorderLayout());
-        JPanel tmpBackground = new JPanel();
+        final JPanel tmpBackground = new JPanel();
         tmpSet.add(tmpBackground);
         tmpBackground.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 
-        Font font = new Font("Serif", 18, 60);
-        JLabel title = new JLabel();
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
         title.setFont(font);
         title.setText("PAUSE");
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = pos++;
         c.gridwidth = 2;
         title.setHorizontalAlignment(JLabel.CENTER);
         tmpBackground.add(title, c);
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = pos++;
         title.setHorizontalAlignment(JLabel.CENTER);
         tmpBackground.add(new JLabel("           "), c);
 
-        JLabel nickLabl = new JLabel();
+        final JLabel nickLabl = new JLabel();
         nickLabl.setText("Your score : " + this.score);
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = pos++;
         nickLabl.setHorizontalAlignment(JLabel.CENTER);
         tmpBackground.add(nickLabl, c);
 
-        c.insets = new Insets(10, 5, 0, 5);
+        c.insets = new Insets(10, INSETS, 0, INSETS);
         c.gridwidth = 1;
 
-        JButton restartBtn = new JButton("Restart");
+        final JButton resumeBtn = new JButton("Resume");
         c.gridx = 0;
-        c.gridy = 6;
-        tmpBackground.add(restartBtn, c);
-
-        JButton settingsBtn = new JButton("Settings");
-        c.gridx = 0;
-        c.gridy = 4;
-        tmpBackground.add(settingsBtn, c);
-
-        JButton exitBtn = new JButton("Exit");
-        c.gridx = 0;
-        c.gridy = 5;
-        tmpBackground.add(exitBtn, c);
-
-        JButton resumeBtn = new JButton("Resume");
-        c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = pos++;
         tmpBackground.add(resumeBtn, c);
 
+        final JButton settingsBtn = new JButton("Settings");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(settingsBtn, c);
+
+        final JButton exitBtn = new JButton("Exit");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(exitBtn, c);
+
+        final JButton restartBtn = new JButton("Restart");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(restartBtn, c);
 
         tmpSet.pack();
         return tmpSet.getSize();

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -29,46 +30,27 @@ import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
  */
 public class Records {
 
-    private final ArrayList<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
-    private final SimpleDateFormat sDateDormat = new SimpleDateFormat("dd/M/yyyy");
-    private static final String FILE_NAME = "./res//Scores";
+    private final List<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
     private final String path;
-    private View view;
 
     /**
      * The constructor of SizeObserverManager class.
      */
-    public Records(View view) {
+    public Records() {
 
-        this.view = view;
 //        path = new File(FILE_NAME).getAbsolutePath();
         path = LoadedFilesSingleton.getLoadedFiles().getScoresFile().get().getPath();
 
 
-//        try {
-//            File file = new File(path);
-//            boolean fvar = file.createNewFile();
-//            if (fvar) {
-//                System.out.println("File has been created successfully");
-//            } else {
-//                System.out.println("File already present at the specified location");
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Exception Occurred:");
-//            e.printStackTrace();
-//        }
-        
-        
         // inserimento in records
         try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
             if (bstream2.available() >= 1) {
                 final ObjectInputStream ostream2 = new ObjectInputStream(bstream2);
                 @SuppressWarnings("unchecked")
-                ArrayList<Triple<String, Integer, Date>> lr = (ArrayList<Triple<String, Integer, Date>>) ostream2
+                final ArrayList<Triple<String, Integer, Date>> lr = (ArrayList<Triple<String, Integer, Date>>) ostream2
                         .readObject();
                 leaderBoard.addAll(lr);
                 ostream2.close();
-                System.out.println(this.toString());
             } else {
                 leaderBoard.clear();
                 System.out.println("il file era vuoto");
@@ -166,7 +148,7 @@ public class Records {
 
     private void sobstisuteScores() {
         try {
-            File file = new File(path);
+            final File file = new File(path);
             if (file.delete()) {
                 System.out.println(file.getName() + " is deleted!");
             } else {
@@ -177,8 +159,8 @@ public class Records {
         }
 
         try {
-            File file = new File(path);
-            boolean fvar = file.createNewFile();
+            final File file = new File(path);
+            final boolean fvar = file.createNewFile();
             if (fvar) {
                 System.out.println("File has been created successfully");
             } else {
@@ -228,7 +210,7 @@ public class Records {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             s = s + "[" + leaderBoard.get(i).getLeft() + ":" + leaderBoard.get(i).getMiddle() + ":"
-                    + this.sDateDormat.format(leaderBoard.get(i).getRight()) + "]";
+                    + new SimpleDateFormat("dd/M/yyyy").format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }
