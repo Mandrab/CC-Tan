@@ -11,8 +11,8 @@ import it.unibo.oop.cctan.view.View;
  */
 class ModelUpdater extends Updater {
 
-    private View view;
-    private Model model;
+    private final View view;
+    private final Model model;
 
     ModelUpdater(final View view, final Model model, final CommandsObserverSource commandsObserverSource) {
         super(commandsObserverSource);
