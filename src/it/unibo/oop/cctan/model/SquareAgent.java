@@ -120,13 +120,11 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     protected void applyConstraints() {
-        synchronized (this.getModel()) {
-            final Area sqArea = new Area(this.getShape());
-            sqArea.intersect(this.getModel().getShuttle().getImpactArea());
-            if (!sqArea.isEmpty()) {
-                this.getModel().pause();
-                this.getModel().setGameStatus(GameStatus.ENDED);
-            }
+        final Area sqArea = new Area(this.getShape());
+        sqArea.intersect(this.getModel().getShuttle().getImpactArea());
+        if (!sqArea.isEmpty()) {
+            this.getModel().pause();
+            this.getModel().setGameStatus(GameStatus.ENDED);
         }
     }
 
