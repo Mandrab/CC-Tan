@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interPackageComunication;
+package it.unibo.oop.cctan.interpackage_comunication;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -8,9 +8,9 @@ import java.awt.Shape;
  */
 public class MappableDataImpl implements MappableData {
 
-    private String text;
-    private Color color;
-    private Shape shape;
+    private final String text;
+    private final Color color;
+    private final Shape shape;
 
     /**
      * Constructor of the class.

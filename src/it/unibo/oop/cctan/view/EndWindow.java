@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 public class EndWindow {
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();

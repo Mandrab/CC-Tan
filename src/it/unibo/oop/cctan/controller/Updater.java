@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 
 /**
  * An abstract implementation of a generic updater.

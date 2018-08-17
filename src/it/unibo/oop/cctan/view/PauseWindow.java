@@ -20,9 +20,9 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 public class PauseWindow {
     private static final String BACKGROUND_JPG = "/background2.jpg";

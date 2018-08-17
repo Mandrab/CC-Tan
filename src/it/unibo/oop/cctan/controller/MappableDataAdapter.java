@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
-import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
 import it.unibo.oop.cctan.model.Model;
 
 /**

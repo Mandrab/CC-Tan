@@ -14,9 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 public class MenuWindow extends JFrame {
 

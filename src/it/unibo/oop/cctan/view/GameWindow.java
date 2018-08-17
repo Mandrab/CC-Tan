@@ -10,10 +10,10 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 /**
  * Class that instance the component used to show the game to the user.

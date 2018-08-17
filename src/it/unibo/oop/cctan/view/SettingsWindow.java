@@ -28,10 +28,10 @@ import javax.swing.JTextField;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverSourceImpl;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSourceImpl;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 public class SettingsWindow extends SizeObserverSourceImpl {
 

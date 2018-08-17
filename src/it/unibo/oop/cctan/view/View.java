@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 
 /**
  * State what a View implementation must implements.

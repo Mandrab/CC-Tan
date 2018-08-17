@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.MappableData;;
+import it.unibo.oop.cctan.interpackage_comunication.MappableData;;
 
 /**
  * Class used to draw shapes on a specific Graphics.

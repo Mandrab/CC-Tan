@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
-import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 
 class GraphicPanel extends JPanel {
 

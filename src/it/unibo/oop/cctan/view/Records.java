@@ -19,7 +19,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.tuple.Triple;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
 
 /**
  * A class that handle the records of the game.

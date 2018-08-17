@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import it.unibo.oop.cctan.geometry.Boundary;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
 import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
 import it.unibo.oop.cctan.model.generator.PowerUpGeneratorImpl;

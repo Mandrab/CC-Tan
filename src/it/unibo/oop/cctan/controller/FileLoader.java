@@ -22,9 +22,9 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 import it.unibo.oop.cctan.view.View.Component;
 
 /**
