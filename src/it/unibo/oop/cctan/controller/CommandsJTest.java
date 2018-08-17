@@ -12,14 +12,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.oop.cctan.geometry.Boundary;
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
 import it.unibo.oop.cctan.model.Bullet;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.PowerUpBlock;
@@ -33,52 +33,57 @@ import it.unibo.oop.cctan.view.View;
 
 class CommandsJTest {
 
+    private static final String RUNNING_E = "Should not be running";
+    private static final String NOT_RUNNING_E = "Should be running";
+    private static final String TERMINATED_E = "Should not be terminated";
+    private static final String NOT_TERMINATED_E = "Should be terminated";
+
     @Test
-    void modelUpdaterJTest() {
-        ModelUpdater mu = new ModelUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
-        assertFalse(mu.isTerminated());
+    public void modelUpdaterJTest() {
+        final ModelUpdater mu = new ModelUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.start();
         mu.newCommand(Commands.START);
-        assertTrue(mu.isRunning());
-        assertFalse(mu.isTerminated());
+        assertTrue(NOT_RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.newCommand(Commands.PAUSE);
-        assertFalse(mu.isRunning());
-        assertFalse(mu.isTerminated());
+        assertFalse(RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.newCommand(Commands.RESUME);
-        assertTrue(mu.isRunning());
-        assertFalse(mu.isTerminated());
+        assertTrue(NOT_RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.newCommand(Commands.END);
-        assertFalse(mu.isRunning());
-        assertFalse(mu.isTerminated());
+        assertFalse(RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.newCommand(Commands.RESUME);
-        assertTrue(mu.isRunning());
-        assertFalse(mu.isTerminated());
+        assertTrue(NOT_RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
         mu.terminate();
-        assertTrue(mu.isTerminated());
+        assertTrue(NOT_TERMINATED_E, mu.isTerminated());
     }
 
     @Test
-    void viewUpdaterJTest() throws InterruptedException {
-        ViewUpdater vu = new ViewUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
-        assertFalse(vu.isTerminated());
+    public void viewUpdaterJTest() throws InterruptedException {
+        final ViewUpdater vu = new ViewUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.start();
         vu.newCommand(Commands.START);
-        assertTrue(vu.isRunning());
-        assertFalse(vu.isTerminated());
+        assertTrue(NOT_RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.newCommand(Commands.PAUSE);
-        assertFalse(vu.isRunning());
-        assertFalse(vu.isTerminated());
+        assertFalse(RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.newCommand(Commands.RESUME);
-        assertTrue(vu.isRunning());
-        assertFalse(vu.isTerminated());
+        assertTrue(NOT_RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.newCommand(Commands.END);
-        assertFalse(vu.isRunning());
-        assertFalse(vu.isTerminated());
+        assertFalse(RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.newCommand(Commands.RESUME);
-        assertTrue(vu.isRunning());
-        assertFalse(vu.isTerminated());
+        assertTrue(NOT_RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
         vu.terminate();
-        assertTrue(vu.isTerminated());
+        assertTrue(NOT_TERMINATED_E, vu.isTerminated());
     }
 
     /**

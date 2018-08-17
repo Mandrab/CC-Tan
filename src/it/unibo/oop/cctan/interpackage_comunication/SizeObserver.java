@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interPackageComunication;
+package it.unibo.oop.cctan.interpackage_comunication;
 
 import java.awt.Dimension;
 

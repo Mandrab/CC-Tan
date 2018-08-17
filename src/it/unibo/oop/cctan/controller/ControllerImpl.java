@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
@@ -22,15 +22,14 @@ import it.unibo.oop.cctan.view.View.Component;
 class ControllerImpl implements Controller {
 
     private Optional<View> view;
-    private Model model;
-    private FileLoader fileLoader;
+    private final Model model;
     private Optional<ViewUpdater> viewUpdater;
     private Optional<ModelUpdater> modelUpdater;
 
     ControllerImpl() {
         view = Optional.empty();
         model = new ModelImpl();
-        fileLoader = new FileLoader(this);
+        final FileLoader fileLoader = new FileLoader(this);
         fileLoader.start();
         viewUpdater = Optional.empty();
         modelUpdater = Optional.empty();

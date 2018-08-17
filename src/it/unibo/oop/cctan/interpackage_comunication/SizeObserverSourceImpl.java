@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interPackageComunication;
+package it.unibo.oop.cctan.interpackage_comunication;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public abstract class SizeObserverSourceImpl implements SizeObserverSource {
 
-    private List<SizeObserver> sizesObservers;
+    private final List<SizeObserver> sizesObservers;
 
     /**
      * Constructor.

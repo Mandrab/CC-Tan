@@ -8,9 +8,9 @@ import java.util.function.IntSupplier;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 
 /**
  * Loader class test.

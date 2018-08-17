@@ -1,10 +1,10 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
 import it.unibo.oop.cctan.view.View.Component;
@@ -15,9 +15,9 @@ import it.unibo.oop.cctan.view.View.Component;
  */
 class ViewUpdater extends Updater {
 
-    private View view;
-    private Model model;
-    private MappableDataAdapter mappableDataAdapter;
+    private final View view;
+    private final Model model;
+    private final MappableDataAdapter mappableDataAdapter;
 
     /**
      * The constructor of GraphicPanelUpdater class.
@@ -45,12 +45,11 @@ class ViewUpdater extends Updater {
 
     /**
      * Return a flat class containing all the useful data to map.
-     * This method is package protected.
      * 
      * @return
      *          A flat class which contain all the useful data
      */
-    ModelData getModelData() {
+    protected ModelData getModelData() {
         return new ModelDataImpl(mappableDataAdapter.getListOfMappableData(),
                                  model.getScore().getPoints(),
                                  model.getGameStatus());

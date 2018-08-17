@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interPackageComunication;
+package it.unibo.oop.cctan.interpackage_comunication;
 
 /**
  * An enumeration that store all the possible commands that a model should handle.

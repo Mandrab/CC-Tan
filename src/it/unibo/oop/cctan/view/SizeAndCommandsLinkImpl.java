@@ -2,10 +2,10 @@ package it.unibo.oop.cctan.view;
 
 import java.util.Optional;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverLink;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverLink;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
 
 abstract class SizeAndCommandsLinkImpl implements SizeAndCommandsLink {
 

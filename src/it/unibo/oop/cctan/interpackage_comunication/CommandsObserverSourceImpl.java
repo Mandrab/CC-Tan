@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interPackageComunication;
+package it.unibo.oop.cctan.interpackage_comunication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
  */
 public abstract class CommandsObserverSourceImpl implements CommandsObserverSource {
 
-    private List<CommandsObserver> commandsObservers;
+    private final List<CommandsObserver> commandsObservers;
 
     /**
      * Constructor.
