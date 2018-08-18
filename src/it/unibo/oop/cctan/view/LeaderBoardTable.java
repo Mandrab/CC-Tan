@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.stream.Collectors;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -55,7 +57,7 @@ public class LeaderBoardTable {
 //            final Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 
             final List<String> columnNames = new ArrayList<>();
-            final List<Vector<Object>> data = new ArrayList<>();
+            final List<Object[]> data = new ArrayList<>();
             columnNames.add("PLAYER :");
             columnNames.add("SCORE :");
             columnNames.add("DATE :");
@@ -70,26 +72,19 @@ public class LeaderBoardTable {
                     s = l.size();
             }
             for (i = 0; i < s; i++) {
-//                    final Vector<Object> vector = new Vector<Object>();
-//                    vector.add(l.get(i).getLeft());
-//                    vector.add(l.get(i).getMiddle());
-//                    vector.add(new SimpleDateFormat("dd/M/yyyy").format(l.get(i).getRight()));
+                   // final Vector<Object> vector = new Vector<Object>();
+                   // vector.add(l.get(i).getLeft());
+                   // vector.add(l.get(i).getMiddle());
+                   // vector.add(new SimpleDateFormat("dd/M/yyyy", Locale.ITALIAN).format(l.get(i).getRight()));
 
                     final List<Object> vector = new ArrayList<>();
                     vector.add(l.get(i).getLeft());
                     vector.add(l.get(i).getMiddle());
                     vector.add(new SimpleDateFormat("dd/M/yyyy", Locale.ITALIAN).format(l.get(i).getRight()));
-                    data.add(new Vector<Object>(vector));
+                    data.add(vector.toArray());
             }
-            final JTable tab = new JTable(new Vector<Object>(data), new Vector<String>(columnNames)) {
-                    private static final long serialVersionUID = -7738867615106016804L;
-
-                    //not allow the table to be editable
-                    public boolean isCellEditable(final int row, final int column) {
-                            return false;
-                    }
-            };
-
+           // data.stream().toArray(Object[][]::new);
+            final JTable tab = new JTable(data.stream().toArray(Object[][]::new), columnNames.toArray());
             tab.setGridColor(new Color(BLUE_COLOR));
             tab.setBackground(new Color(BACKGROUND_COLOR));
             tab.getTableHeader().setBackground(new Color(TABLEHEADER_COLOR));
