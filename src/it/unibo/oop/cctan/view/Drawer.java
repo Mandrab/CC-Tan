@@ -29,7 +29,7 @@ class Drawer {
             / DEFAULT_MULTIPLIER;
     private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
-    private Font font;
+    private final Font font;
     private int defaultFontSize;
     private Optional<Dimension> gameWindowSize;
     private AffineTransform aTransformation;
