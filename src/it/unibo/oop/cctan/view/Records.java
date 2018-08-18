@@ -17,6 +17,8 @@ import java.util.Comparator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -28,21 +30,33 @@ import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
  * @author Sutera Lorenzo
  *
  */
-public class Records {
+// this will also reduce the useless access to the score file
+public final class Records {
 
     private final List<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
     private final String path;
+    private static final Records RECORD = new Records();
 
     /**
-     * The constructor of SizeObserverManager class.
+     * The constructor of Records class.
      */
-    public Records() {
+    private Records() {
 
-//        path = new File(FILE_NAME).getAbsolutePath();
         path = LoadedFilesSingleton.getLoadedFiles().getScoresFile().get().getPath();
+        updateList();
+    }
 
+    /**
+     * return the instance of the class.
+     * 
+     * @return the Records singleton.
+     */
+    public static Records getInstance() {
+        return RECORD;
+    }
 
-        // inserimento in records
+    private void updateList() {
+        leaderBoard.clear();
         try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
             if (bstream2.available() >= 1) {
                 final ObjectInputStream ostream2 = new ObjectInputStream(bstream2);
@@ -53,7 +67,7 @@ public class Records {
                 ostream2.close();
             } else {
                 leaderBoard.clear();
-                System.out.println("il file era vuoto");
+                System.out.println("the file was empty");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -69,32 +83,48 @@ public class Records {
      * 
      * @return a arrayList of a triplet composed of Name,Score,Date.
      */
-    public ArrayList<Triple<String, Integer, Date>> getRecordList() {
-        ArrayList<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
+    public List<Triple<String, Integer, Date>> getRecordList() {
+        final List<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
         list.addAll(leaderBoard);
         return list;
     }
 
     /**
      * A method that return the Best score of a player.
-     * @param player that need to know his Best score.
-     * @return  the best score of the player.
+     * 
+     * @param player
+     *            that need to know his Best score.
+     * @return the best score of the player.
      */
     public int getBestScore(final String player) {
-        int best = 0;
-        int i = 0;
-        for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getLeft().equals(player) && leaderBoard.get(i).getMiddle() > best) {
-                best = leaderBoard.get(i).getMiddle();
-            }
+        // int best = 0;
+        // int i = 0;
+        // for (i = 0; i < leaderBoard.size(); i++) {
+        // if (leaderBoard.get(i).getLeft().equals(player) &&
+        // leaderBoard.get(i).getMiddle() > best) {
+        // best = leaderBoard.get(i).getMiddle();
+        // }
+        // }
+        // return best;
+        if (leaderBoard.stream().filter(leaderBoard -> leaderBoard.getLeft().equals(player)).count() > 0) {
+            return leaderBoard.stream().filter(leaderBoard -> leaderBoard.getLeft().equals(player))
+                    .map(Triple::getMiddle).max(new Comparator<Integer>() {
+                        @Override
+                        public int compare(final Integer o1, final Integer o2) {
+                            return o1 - o2;
+                        }
+                    }).get();
+        } else {
+            return 0;
         }
-        return best;
     }
 
     /**
      * A method that return the average score of a player.
-     * @param player that need to know his avarage score.
-     * @return  the average score of the player.
+     * 
+     * @param player
+     *            that need to know his avarage score.
+     * @return the average score of the player.
      */
     public double getAvgScore(final String player) {
         int sum = 0;
@@ -133,7 +163,9 @@ public class Records {
      * A method that allow to add a score of a player if it is not already in the
      * leaderboard.
      * 
-     * @param p the triple that will be add if it is not a duplicate already in the record list.
+     * @param p
+     *            the triple that will be add if it is not a duplicate already in
+     *            the record list.
      * @return true if the argument is not already in the leaderboard list.
      */
     public boolean addWithNoDuplicate(final Triple<String, Integer, Date> p) {
@@ -142,6 +174,7 @@ public class Records {
         } else {
             leaderBoard.add(p);
             sobstisuteScores();
+            updateList();
             return true;
         }
     }
@@ -149,10 +182,9 @@ public class Records {
     private void sobstisuteScores() {
         try {
             final File file = new File(path);
-            if (file.delete()) {
-                System.out.println(file.getName() + " is deleted!");
-            } else {
-                System.out.println("Delete operation is failed. non esiste già");
+            final boolean fdel = file.delete();
+            if (!fdel) {
+                System.out.println("file didn't exist");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,9 +193,7 @@ public class Records {
         try {
             final File file = new File(path);
             final boolean fvar = file.createNewFile();
-            if (fvar) {
-                System.out.println("File has been created successfully");
-            } else {
+            if (!fvar) {
                 System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
@@ -171,17 +201,12 @@ public class Records {
             e.printStackTrace();
         }
 
-        try (
-                // ClassLoader classLoader = getClass().getClassLoader();
-                // File file = new File(classLoader.getResource("Scores"));
-                // new FileOutputStream(arg0)
-
-                OutputStream fileS = new FileOutputStream(path);
+        try (OutputStream fileS = new FileOutputStream(path);
                 OutputStream bstream = new BufferedOutputStream(fileS);
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(leaderBoard);
         } catch (FileNotFoundException e) {
-            System.out.println("aggiungere file Scores in res");
+            System.out.println("not existing file in res folder");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -210,7 +235,7 @@ public class Records {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             s = s + "[" + leaderBoard.get(i).getLeft() + ":" + leaderBoard.get(i).getMiddle() + ":"
-                    + new SimpleDateFormat("dd/M/yyyy").format(leaderBoard.get(i).getRight()) + "]";
+                    + new SimpleDateFormat("dd/M/yyyy", Locale.ITALIAN).format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }

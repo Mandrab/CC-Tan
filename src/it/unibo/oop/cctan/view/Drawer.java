@@ -5,17 +5,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.MappableData;
 
 /**
@@ -28,7 +29,7 @@ class Drawer {
             / DEFAULT_MULTIPLIER;
     private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
-    private Font font;
+    private final Font font;
     private int defaultFontSize;
     private Optional<Dimension> gameWindowSize;
     private AffineTransform aTransformation;
@@ -36,15 +37,13 @@ class Drawer {
     /**
      * The constructor of Drawer class.
      */
-    Drawer(final File fontFile) {
+    Drawer() {
         defaultFontSize = DEFAULT_FONT_SIZE;
         aTransformation = new AffineTransform();
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-            font = font.deriveFont(Font.BOLD, DEFAULT_FONT_SIZE);
-        } catch (Exception e) {
-            font = new Font("Sans-Serif", Font.BOLD, DEFAULT_FONT_SIZE);
-        }
+        font = LoadedFilesSingleton.getLoadedFiles().getFont()
+                .orElseGet(() -> new Font("Sans-Serif", Font.BOLD, DEFAULT_FONT_SIZE));
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+        font.deriveFont(Font.BOLD, DEFAULT_FONT_SIZE);
     }
 
     /**

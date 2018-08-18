@@ -3,10 +3,9 @@ package it.unibo.oop.cctan.model;
 import java.awt.Color;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-
 import it.unibo.oop.cctan.model.PausableThread.ActionOrder;
-import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
-import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl.BulletGeneratorSettings;
+import it.unibo.oop.cctan.model.generator.BulletGenerator;
+import it.unibo.oop.cctan.model.generator.BulletGenerator.BulletGeneratorSettings;
 
 /**
  * The laser block power-up implementation. It represent the block to be
@@ -36,14 +35,14 @@ public class LaserBlock extends PowerUpBlockImpl {
     @Override
     public void use() {
 
-        ((BulletGeneratorImpl) this.getModel().getBulletGenerator()).setBulletSettings(BulletGeneratorSettings.LASER);
+        ((BulletGenerator) this.getModel().getBulletGenerator()).setBulletSettings(BulletGeneratorSettings.LASER);
 
         final PausableThread execution = new PausableThread(DURATION, ActionOrder.WAIT_AND_DO) {
 
             @Override
             protected void operation() {
                 getModel().getShuttle().removePowerUp(new ImmutablePair<>(LaserBlock.this, this));
-                ((BulletGeneratorImpl) getModel().getBulletGenerator())
+                ((BulletGenerator) getModel().getBulletGenerator())
                         .setBulletSettings(BulletGeneratorSettings.BALLS);
                 this.terminate();
             }

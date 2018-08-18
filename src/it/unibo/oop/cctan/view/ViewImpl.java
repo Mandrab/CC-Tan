@@ -53,31 +53,32 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
     @Override
     /** {@inheritDoc} */
-    public Optional<String> getPlayerName() {
-        if (settingsWindow.isPresent()) {
-            return Optional.of(settingsWindow.get().getPlayerName());
-        } else {
-            return Optional.empty();
-        }
+    public Optional<Point> getWindowLocation() {
+        return gameWindow.isPresent() 
+               ? Optional.ofNullable(gameWindow.get().getLocation()) 
+               : Optional.empty();
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public Optional<Dimension> getGameWindowDimension() {
+        return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
     }
 
     @Override
     /** {@inheritDoc} */
     public synchronized void showSettingsWindow() {
         if (!settingsWindow.isPresent()) {
-            System.out.println("istanzio");
             settingsWindow = Optional.of(new SettingsWindow(this));
         }
         setSizeObserverSource(settingsWindow.get());
         settingsWindow.get().show();
     }
 
-    @Override
     /** {@inheritDoc} */
-    public Optional<Point> getWindowLocation() {
-        return gameWindow.isPresent() 
-               ? Optional.ofNullable(gameWindow.get().getLocation()) 
-               : Optional.empty();
+    @Override
+    public KeyCommandsListener getKeyCommandsListener() {
+        return keyCommandsListener;
     }
 
     @Override
@@ -91,14 +92,12 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
     @Override
     /** {@inheritDoc} */
-    public Optional<Dimension> getGameWindowDimension() {
-        return gameWindow.isPresent() ? Optional.of(gameWindow.get().getSize()) : Optional.empty();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public KeyCommandsListener getKeyCommandsListener() {
-        return keyCommandsListener;
+    public Optional<String> getPlayerName() {
+        if (settingsWindow.isPresent()) {
+            return Optional.of(settingsWindow.get().getPlayerName());
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -121,6 +120,7 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
     @Override
     public void hideGameWindow() {
         if (gameWindow.isPresent()) {
+            gameWindow.get().removeKeyListener(keyCommandsListener.getKeyListener());
             gameWindow.get().setVisible(false);
         }
     }

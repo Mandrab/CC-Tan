@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.interpackage_comunication;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     private Optional<ImageIcon> background;
     private Optional<ImageIcon> logo;
     private Optional<ImageIcon> icon;
-    private Optional<File> fontFile;
+    private Optional<Font> fontFile;
     private Optional<File> scoreFile;
 
     private static class LazyHolder {
@@ -78,7 +79,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public void setFontFile(final File fontFile) {
+    public void setFont(final Font fontFile) {
         this.fontFile = Optional.of(fontFile);
     }
 
@@ -89,7 +90,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public Optional<File> getFontFile() {
+    public Optional<Font> getFont() {
         return fontFile;
     }
 

@@ -121,7 +121,6 @@ class Loader extends JWindow {
     }
 
     public void refresh() {
-        System.out.println("refresh");
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
         advanceLoading(LoadedFilesSingleton.getLoadedFiles().getPercentage());
     }

@@ -4,7 +4,7 @@ package it.unibo.oop.cctan.model.generator;
  * The task of this class is to increase the frequency with which the power-ups are generated 
  * and also increase the points needed to take the power-up.
  */
-public class PowerUpRatio extends HittableRatio {
+public class PowerUpRatio extends AbstractHittableRatio {
 
     private static final int DEFAULT_RATIO = 60000;
     private static final int DECREASE_RATIO = 3000;

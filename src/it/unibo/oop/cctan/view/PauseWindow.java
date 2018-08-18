@@ -117,7 +117,7 @@ public class PauseWindow {
             if (view.getPlayerName().isPresent()) {
                 final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                final Records rec = new Records();
+                final Records rec = Records.getInstance();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                 // MANDARE IL VOMANDO reset end e start
@@ -133,18 +133,17 @@ public class PauseWindow {
 
         settingsBtn.addActionListener(e -> {
             if (view.getPlayerName().isPresent()) {
+                view.getKeyCommandsListener().setLockResumeKey(false);
                 final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                final Records rec = new Records();
+                final Records rec = Records.getInstance();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                 // MANDARE IL VOMANDO END
                 view.getKeyCommandsListener().setReset(true);
                 view.getKeyCommandsListener().endCommand();
-                System.out.println("colpa del pause window");
                 view.hideGameWindow();
                 view.showSettingsWindow();
-                view.getKeyCommandsListener().setLockResumeKey(false);
                 mainFrame.dispose();
             }
         });

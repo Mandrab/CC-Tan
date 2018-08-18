@@ -34,7 +34,6 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      *            A reference to the view (parents).
      */
     public KeyCommandsListener(final View view) {
-        // TODO verificare vhe vada
         super();
         this.view = view;
         this.reset = false;
@@ -47,7 +46,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 switch (keyCode) {
                 case P_KEY_VALUE:
                 case SPACE_KEY_VALUE:
-                    if (actualState != GameStatus.ENDED && !lockResumeKey) {
+                    if ((!actualState.equals(GameStatus.ENDED)) && !lockResumeKey) {
                         getCommandsObservers().forEach(co -> co
                                 .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
                         actualState = actualState.denies();
@@ -58,7 +57,6 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                         getCommandsObservers().forEach(co -> co.newCommand(Commands.PAUSE));
                         actualState = actualState.denies();
                         setLockResumeKey(true);
-
                         // avvia schermata ESC
                         new PauseWindow(view);
                     }
@@ -150,7 +148,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      *         status is: ended.
      */
     public synchronized boolean endCommand() {
-        System.out.println("è stato richiesto l'end-command e il reset è " + reset);
+        //System.out.println("è stato richiesto l'end-command e il reset è " + reset);
         if (!actualState.equals(GameStatus.ENDED)) {
             getCommandsObservers().forEach(co -> co.newCommand(Commands.END));
             actualState = GameStatus.ENDED;
