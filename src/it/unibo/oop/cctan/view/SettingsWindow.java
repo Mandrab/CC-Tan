@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -70,9 +71,6 @@ public class SettingsWindow extends SizeObserverSourceImpl {
         gameWindowRatio = Optional.empty();
         settings = new JFrame("Settings");
         setUpWindow();
-        settings.pack();
-        settings.setLocationRelativeTo(null);
-        settings.setResizable(false);
         settings.setVisible(true);
         settings.toFront();
     }
@@ -160,43 +158,44 @@ public class SettingsWindow extends SizeObserverSourceImpl {
 
             @Override
             public void actionPerformed(final ActionEvent arg0) {
-                if (!ratio.getSelectedItem().equals(SELECT_CHOISE)) {
-                    dimension.setEnabled(true);
-                    dimension.removeAllItems();
-                    dimension.addItem(SELECT_CHOISE);
-                    final double height = SCREEN_SIZE.getHeight();
-                    final double width = SCREEN_SIZE.getWidth();
-                    if (ratio.getSelectedItem().equals("1:1")) {
-                        String stringRatio = (int) height + ":" + (int) height;
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (height * THREE_QUARTER) + ":" + (int) (height * THREE_QUARTER);
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (height * 0.5) + ":" + (int) (height * 0.5);
-                        dimension.addItem(stringRatio);
+                SwingUtilities.invokeLater(() -> {
+                    if (!ratio.getSelectedItem().equals(SELECT_CHOISE)) {
+                        dimension.setEnabled(true);
+                        dimension.removeAllItems();
+                        dimension.addItem(SELECT_CHOISE);
+                        final double height = SCREEN_SIZE.getHeight();
+                        final double width = SCREEN_SIZE.getWidth();
+                        if (ratio.getSelectedItem().equals("1:1")) {
+                            String stringRatio = (int) height + ":" + (int) height;
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (height * THREE_QUARTER) + ":" + (int) (height * THREE_QUARTER);
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (height * 0.5) + ":" + (int) (height * 0.5);
+                            dimension.addItem(stringRatio);
 
-                    } else if (ratio.getSelectedItem().equals("4:3")) {
-                        String stringRatio = (int) (height * FOUR_THREE_SCALE) + ":" + (int) height;
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (height * THREE_QUARTER * FOUR_THREE_SCALE) + ":"
-                                + (int) (height * THREE_QUARTER);
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (height * 0.5 * FOUR_THREE_SCALE) + ":" + (int) (height * 0.5);
-                        dimension.addItem(stringRatio);
+                        } else if (ratio.getSelectedItem().equals("4:3")) {
+                            String stringRatio = (int) (height * FOUR_THREE_SCALE) + ":" + (int) height;
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (height * THREE_QUARTER * FOUR_THREE_SCALE) + ":"
+                                    + (int) (height * THREE_QUARTER);
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (height * 0.5 * FOUR_THREE_SCALE) + ":" + (int) (height * 0.5);
+                            dimension.addItem(stringRatio);
+                        } else {
+                            String stringRatio = (int) width + ":" + (int) (width * SIXTEEN_NINE_SCALE);
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (width * THREE_QUARTER) + ":"
+                                    + (int) (width * THREE_QUARTER * SIXTEEN_NINE_SCALE);
+                            dimension.addItem(stringRatio);
+                            stringRatio = (int) (width * 0.5) + ":" + (int) (width * 0.5 * SIXTEEN_NINE_SCALE);
+                            dimension.addItem(stringRatio);
+                        }
                     } else {
-                        String stringRatio = (int) width + ":" + (int) (width * SIXTEEN_NINE_SCALE);
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (width * THREE_QUARTER) + ":"
-                                + (int) (width * THREE_QUARTER * SIXTEEN_NINE_SCALE);
-                        dimension.addItem(stringRatio);
-                        stringRatio = (int) (width * 0.5) + ":" + (int) (width * 0.5 * SIXTEEN_NINE_SCALE);
-                        dimension.addItem(stringRatio);
+                        dimension.setEnabled(false);
+                        dimension.removeAllItems();
+                        dimension.addItem(SELECT_CHOISE);
                     }
-                } else {
-                    dimension.setEnabled(false);
-                    dimension.removeAllItems();
-                    dimension.addItem(SELECT_CHOISE);
-                }
-
+                });
             }
         });
 
@@ -215,7 +214,6 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                         && !ratio.getSelectedItem().equals(SELECT_CHOISE)) {
                     playerNick = nickText.getText();
                     settings.setVisible(false);
-                    // TODO
                     music();
                     showMenu();
 
@@ -244,6 +242,9 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                 }
             }
         });
+        settings.pack();
+        settings.setLocationRelativeTo(null);
+        settings.setResizable(false);
     }
 
     private Dimension tryDimensionOfWindow() {

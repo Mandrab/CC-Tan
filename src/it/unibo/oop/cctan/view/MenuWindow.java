@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import it.unibo.oop.cctan.interpackage_comunication.Commands;
 import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
@@ -36,8 +37,8 @@ public class MenuWindow extends JFrame {
      * 
      * @param view
      *            A reference to the view (parents).
-     *  @param settingsWindow
-     *                  A reference to the settingsWindow.
+     * @param settingsWindow
+     *            A reference to the settingsWindow.
      */
     public MenuWindow(final View view, final SettingsWindow settingsWindow) {
         super();
@@ -113,12 +114,15 @@ public class MenuWindow extends JFrame {
         constraints.gridy = pos;
         background.add(exitBtn, constraints);
 
-        final JButton soundsBtn = new JButton("Mute");
+        final JButton soundsBtn;
+        if (settingsWindow.getClipMenu().isRunning()) {
+            soundsBtn = new JButton("Mute");
+        } else {
+            soundsBtn = new JButton("Unmute");
+        }
         constraints.gridx = 1;
         constraints.gridy = pos;
         background.add(soundsBtn, constraints);
-
-
 
         scoresBtn.addActionListener(e -> {
             showLeaderBoard();
@@ -146,15 +150,16 @@ public class MenuWindow extends JFrame {
         soundsBtn.addActionListener(e -> {
             // utilizzare una classe come commands che avvisa chi di dovere per avviare o
             // bloccare il sounds
-            if (settingsWindow.getClipMenu().isRunning()) {
-                settingsWindow.getClipMenu().stop();
-                soundsBtn.setText("Unmute");
-            } else {
-                settingsWindow.getClipMenu().start();
-                soundsBtn.setText("Mute");
-            }
+            SwingUtilities.invokeLater(() -> {
+                if (settingsWindow.getClipMenu().isRunning()) {
+                    settingsWindow.getClipMenu().stop();
+                    soundsBtn.setText("Unmute");
+                } else {
+                    settingsWindow.getClipMenu().start();
+                    soundsBtn.setText("Mute");
+                }
+            });
         });
-
     }
 
     private Dimension tryDimensionOfWindow() {
@@ -219,8 +224,8 @@ public class MenuWindow extends JFrame {
 
     /**
      * return the view.
-     * @return
-     *          the View insance.
+     * 
+     * @return the View insance.
      */
     public View getView() {
         return this.view;
@@ -228,8 +233,8 @@ public class MenuWindow extends JFrame {
 
     /**
      * return the Player nickname.
-     * @return
-     *          a String containing the player nickname.
+     * 
+     * @return a String containing the player nickname.
      */
     public String getPlayerName() {
         return view.getPlayerName().get();
@@ -245,7 +250,8 @@ public class MenuWindow extends JFrame {
     }
 
     /**
-     * A method that show the leaderboard table which contain a ordered table of the best scores.
+     * A method that show the leaderboard table which contain a ordered table of the
+     * best scores.
      */
     public void showLeaderBoard() {
         if (!leaderboard.isPresent()) {
