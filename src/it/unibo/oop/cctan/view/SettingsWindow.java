@@ -230,8 +230,6 @@ public class SettingsWindow extends SizeObserverSourceImpl {
                         rat = stringToPair((String) ratio.getSelectedItem());
                         gameWindowSize = Optional.of(dim);
                         gameWindowRatio = Optional.of(rat);
-                        System.out.println(rat);
-                        System.out.println(gameWindowRatio);
                     }
                     final List<SizeObserver> observers = getSizeObservers();
                     // view.getSizeObserverSource().get();
@@ -352,7 +350,6 @@ public class SettingsWindow extends SizeObserverSourceImpl {
 
     @Override
     public final synchronized Optional<Pair<Integer, Integer>> getRatio() {
-        System.out.println("ret " + gameWindowRatio);
         return gameWindowRatio;
     }
 

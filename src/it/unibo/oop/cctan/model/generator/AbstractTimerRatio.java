@@ -7,7 +7,7 @@ import it.unibo.oop.cctan.model.Commands;
  * at the end of every minute. The operationRatio method is used to change the speed 
  * and/or the frequency with which the objects (which implement this class) are generated.
  */
-public abstract class TimerRatio extends Thread implements Commands {
+public abstract class AbstractTimerRatio extends Thread implements Commands {
 
     /**
      * This value is expressed in milliseconds. Indicates that in a minute there are 
@@ -38,7 +38,7 @@ public abstract class TimerRatio extends Thread implements Commands {
      * @param ratio
      *          It's the initial frequency with which the object is generated.
      */
-    public TimerRatio(final double speed, final int ratio) {
+    public AbstractTimerRatio(final double speed, final int ratio) {
         super();
         this.stop = false;
         this.speed = speed;

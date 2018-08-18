@@ -125,7 +125,6 @@ public class MenuWindow extends JFrame {
         });
 
         settingsBtn.addActionListener(e -> {
-            System.out.println("colpa del menu window");
             view.showSettingsWindow();
             dispose();
         });

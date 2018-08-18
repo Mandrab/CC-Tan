@@ -17,6 +17,7 @@ import java.util.Comparator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -53,7 +54,7 @@ public class Records {
                 ostream2.close();
             } else {
                 leaderBoard.clear();
-                System.out.println("il file era vuoto");
+                System.out.println("the file was empty");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -69,8 +70,8 @@ public class Records {
      * 
      * @return a arrayList of a triplet composed of Name,Score,Date.
      */
-    public ArrayList<Triple<String, Integer, Date>> getRecordList() {
-        ArrayList<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
+    public List<Triple<String, Integer, Date>> getRecordList() {
+        final List<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
         list.addAll(leaderBoard);
         return list;
     }
@@ -150,9 +151,9 @@ public class Records {
         try {
             final File file = new File(path);
             if (file.delete()) {
-                System.out.println(file.getName() + " is deleted!");
+                //System.out.println(file.getName() + " is deleted!");
             } else {
-                System.out.println("Delete operation is failed. non esiste già");
+                //System.out.println("Delete operation is failed. non esiste già");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,9 +163,9 @@ public class Records {
             final File file = new File(path);
             final boolean fvar = file.createNewFile();
             if (fvar) {
-                System.out.println("File has been created successfully");
+                //System.out.println("File has been created successfully");
             } else {
-                System.out.println("File already present at the specified location");
+                //System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
@@ -181,7 +182,7 @@ public class Records {
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(leaderBoard);
         } catch (FileNotFoundException e) {
-            System.out.println("aggiungere file Scores in res");
+            System.out.println("not existing file in res folder");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -210,7 +211,7 @@ public class Records {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             s = s + "[" + leaderBoard.get(i).getLeft() + ":" + leaderBoard.get(i).getMiddle() + ":"
-                    + new SimpleDateFormat("dd/M/yyyy").format(leaderBoard.get(i).getRight()) + "]";
+                    + new SimpleDateFormat("dd/M/yyyy", Locale.ITALIAN).format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }

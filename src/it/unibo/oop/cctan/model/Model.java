@@ -109,7 +109,7 @@ public interface Model extends Commands {
     /**
      * Returns the bullet generator of the application.
      * @see ItemGenerator
-     * @see BulletGeneratorImpl
+     * @see BulletGenerator
      * @return
      *          The BulletGeneratorImpl object of the application.
      */

@@ -141,7 +141,6 @@ public class PauseWindow {
                 // MANDARE IL VOMANDO END
                 view.getKeyCommandsListener().setReset(true);
                 view.getKeyCommandsListener().endCommand();
-                System.out.println("colpa del pause window");
                 view.hideGameWindow();
                 view.showSettingsWindow();
                 view.getKeyCommandsListener().setLockResumeKey(false);
