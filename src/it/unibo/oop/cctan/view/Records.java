@@ -17,6 +17,7 @@ import java.util.Comparator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -69,8 +70,8 @@ public class Records {
      * 
      * @return a arrayList of a triplet composed of Name,Score,Date.
      */
-    public ArrayList<Triple<String, Integer, Date>> getRecordList() {
-        ArrayList<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
+    public List<Triple<String, Integer, Date>> getRecordList() {
+        final List<Triple<String, Integer, Date>> list = new ArrayList<Triple<String, Integer, Date>>();
         list.addAll(leaderBoard);
         return list;
     }
@@ -210,7 +211,7 @@ public class Records {
         int i = 0;
         for (i = 0; i < leaderBoard.size(); i++) {
             s = s + "[" + leaderBoard.get(i).getLeft() + ":" + leaderBoard.get(i).getMiddle() + ":"
-                    + new SimpleDateFormat("dd/M/yyyy").format(leaderBoard.get(i).getRight()) + "]";
+                    + new SimpleDateFormat("dd/M/yyyy", Locale.ITALIAN).format(leaderBoard.get(i).getRight()) + "]";
         }
         return s;
     }

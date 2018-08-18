@@ -30,7 +30,7 @@ public class EndWindow {
     private static final int FONT_SIZE = 60;
     private static final String BACKGROUND_JPG = "/background2.jpg";
     private final int score;
-    private View view;
+    private final View view;
     private final JFrame mainFrame;
 
     /**
