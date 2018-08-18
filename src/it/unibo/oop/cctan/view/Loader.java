@@ -28,23 +28,24 @@ class Loader extends JWindow {
     private static final Dimension WINDOW_SIZE = new Dimension((int) (SCREEN_SIZE.getWidth() / 5),
                                                                (int) (SCREEN_SIZE.getHeight() / 5));
     private static final int WINDOW_PERMANENCY_TIME = 1200;
-    private View view;
-    private JLabel containerLabel;
-    private JProgressBar progressBar;
-    private JLabel pBarPercentage;
+    private final View view;
+    private final JLabel containerLabel;
+    private final JProgressBar progressBar;
+    private final JLabel pBarPercentage;
 
     Loader(final View view) {
+        super();
         this.view = view;
         setMinimumSize(WINDOW_SIZE);
         setMaximumSize(WINDOW_SIZE);
-        centerWindow(this);
+        centerWindow();
 
         containerLabel = new JLabel("Loading...", SwingConstants.CENTER);
         containerLabel.setBackground(Color.BLACK);
         containerLabel.setForeground(Color.WHITE);
         containerLabel.setOpaque(true);
         containerLabel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 10, 10, 0); // Borders
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -114,7 +115,7 @@ class Loader extends JWindow {
      * @param window
      *            the window to be centered
      */
-    private void centerWindow(final JWindow window) {
+    private void centerWindow() {
         setLocation((int) ((SCREEN_SIZE.getWidth() - WINDOW_SIZE.getWidth()) / 2),
                     (int) ((SCREEN_SIZE.getHeight() - WINDOW_SIZE.getHeight()) / 2));
     }

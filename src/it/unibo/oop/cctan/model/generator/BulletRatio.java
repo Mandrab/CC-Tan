@@ -6,7 +6,7 @@ package it.unibo.oop.cctan.model.generator;
  * application, in proportion to the increase in playing time. In addition, it also allows you to 
  * increase the speed at which balls move from one point to another.
  */
-public class BulletRatio extends TimerRatio {
+public class BulletRatio extends AbstractTimerRatio {
 
     /**
      * This value is expressed in milliseconds. Indicates the initial sleep time 

@@ -1,5 +1,7 @@
 package it.unibo.oop.cctan.view;
 
+import static org.junit.Assert.fail;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Optional;
@@ -17,12 +19,13 @@ import it.unibo.oop.cctan.interpackage_comunication.ModelData;
  */
 public class LoaderJTest {
 
+    private static final String EXCEPTION_STRING = "An exception has been caught";
     private static final int SLEEP_TIME = 1500;
     private static final int[] INCREASE = {5, 5, 10, 5, 15, 20};
     private static final int MAX_PERCENTAGE = 60;
     private static final IntSupplier ADVANCE_LOADING = new IntSupplier() {
 
-        private int cicle = 0;
+        private int cicle;
 
         @Override
         public int getAsInt() {
@@ -35,33 +38,33 @@ public class LoaderJTest {
      */
     @Test
     public void visualLoad() {
-        View v = new ViewJTest();
-        Loader l = new Loader(v);
-        LoadedFiles lf = LoadedFilesSingleton.getLoadedFiles();
-        lf.addLoaderPercentage(MAX_PERCENTAGE);
+        final Loader loader = new Loader(new ViewJTest());
+        final LoadedFiles loadedFiles = LoadedFilesSingleton.getLoadedFiles();
+        loadedFiles.addLoaderPercentage(MAX_PERCENTAGE);
 
         try {
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            System.out.println(lf.getPercentage());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            System.out.println(loadedFiles.getPercentage());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
-            lf.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            l.refresh();
+            loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
+            loader.refresh();
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            fail(EXCEPTION_STRING);
         }
     }
 

@@ -27,11 +27,12 @@ class GraphicPanel extends JPanel {
     private static final Pair<Double, Double> SCORE_POSITION_ON_SCREEN = new ImmutablePair<Double, Double>(0d, 0.9);
     private static final Pair<Double, Double> COMMANDS_TEXT_POSITION_ON_SCREEN = new ImmutablePair<Double, Double>(0d, 0d);
     private static final double EDGE_MULTIPLIER = 1.05;
-    private Drawer drawer;
+    private final Drawer drawer;
     private Optional<Dimension> dimension;
     private Optional<ModelData> modelData;
 
     GraphicPanel(final File file) {
+        super();
         drawer = new Drawer(file);
         modelData = Optional.empty();
     }
@@ -68,14 +69,14 @@ class GraphicPanel extends JPanel {
                     if (modelData.getGameStatus() == GameStatus.RUNNING) {
                         modelData.getMappableDatas()
                                  .forEach(drawer::drawMappableData);
-                        drawer.drawText(modelData.getScore() + "", 
+                        drawer.drawText(Integer.toString(modelData.getScore()), 
                                         SCORE_POSITION_ON_SCREEN, 
                                         DEFAULT_FONT_SIZE, 
                                         Color.WHITE);
                     } else {
                         opacifies(modelData.getMappableDatas())
                                            .forEach(drawer::drawMappableData);
-                        drawer.drawText(modelData.getScore() + "", 
+                        drawer.drawText(Integer.toString(modelData.getScore()), 
                                         SCORE_POSITION_ON_SCREEN, 
                                         DEFAULT_FONT_SIZE, 
                                         new Color(Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue(), OPACITY_VALUE));
@@ -90,10 +91,9 @@ class GraphicPanel extends JPanel {
     }
 
     private List<MappableData> opacifies(final List<MappableData> mappableDatas) {
-        List<MappableData> l = mappableDatas.stream().map(e -> new MappableDataImpl(e.getText(),
+        return mappableDatas.stream().map(e -> new MappableDataImpl(e.getText(),
                 new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
                 e.getShape())).collect(Collectors.toList());
-        return l;
     }
 
 }

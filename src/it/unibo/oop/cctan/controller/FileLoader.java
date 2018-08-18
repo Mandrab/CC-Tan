@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.function.IntSupplier;
 
 import javax.swing.ImageIcon;
@@ -142,12 +143,12 @@ class FileLoader extends Thread {
      *            The names of the directories to be created
      */
     private void createDirectories(final String path, final String... names) {
-        for (final String name : names) {
+        Arrays.asList(names).forEach(name -> {
             if (!new File(path + name).mkdirs() 
                 && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
                     System.err.println("An error as occurred during " + name + " directory creation!");
             }
-        }
+        });
     }
 
     /**
