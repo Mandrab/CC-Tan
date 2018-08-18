@@ -29,20 +29,33 @@ import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
  * @author Sutera Lorenzo
  *
  */
-public class Records {
+//this will also reduce the useless access to the score file
+public final class Records {
 
     private final List<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
     private final String path;
+    private static final Records RECORD = new Records();
 
     /**
-     * The constructor of SizeObserverManager class.
+     * The constructor of Records class.
      */
-    public Records() {
+    private Records() {
 
-        // path = new File(FILE_NAME).getAbsolutePath();
         path = LoadedFilesSingleton.getLoadedFiles().getScoresFile().get().getPath();
+        updateList();
+    }
 
-        // inserimento in records
+    /**
+     * return the instance of the class.
+     * @return
+     *          the Records singleton.
+     */
+    public static Records getInstance() {
+        return RECORD;
+    }
+
+    private void updateList() {
+        leaderBoard.clear();
         try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
             if (bstream2.available() >= 1) {
                 final ObjectInputStream ostream2 = new ObjectInputStream(bstream2);
@@ -148,6 +161,7 @@ public class Records {
         } else {
             leaderBoard.add(p);
             sobstisuteScores();
+            updateList();
             return true;
         }
     }

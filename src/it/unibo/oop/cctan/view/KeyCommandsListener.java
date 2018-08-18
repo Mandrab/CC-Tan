@@ -34,7 +34,6 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      *            A reference to the view (parents).
      */
     public KeyCommandsListener(final View view) {
-        // TODO verificare vhe vada
         super();
         this.view = view;
         this.reset = false;

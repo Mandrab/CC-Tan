@@ -30,7 +30,7 @@ public class LeaderBoardTable {
      *                  A reference to the MainMenu.
      */
     public LeaderBoardTable(final MenuWindow mg) {
-            final Records r = new Records();
+            final Records r = Records.getInstance();
             mainGui = mg;
             int i = 0;
             int s = 0;

@@ -115,7 +115,7 @@ public class EndWindow {
                 if (view.getPlayerName().isPresent()) {
                     final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    final Records rec = new Records();
+                    final Records rec = Records.getInstance();
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                     // MANDARE IL VOMANDO reset end e start
@@ -135,7 +135,7 @@ public class EndWindow {
                 if (view.getPlayerName().isPresent()) {
                     final String nick = view.getPlayerName().get();
                     // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                    final Records rec = new Records();
+                    final Records rec = Records.getInstance();
                     rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
 
                     // non mostrare la endwindow
@@ -154,7 +154,7 @@ public class EndWindow {
             public void actionPerformed(final ActionEvent e) {
                 final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
-                final Records rec = new Records();
+                final Records rec = Records.getInstance();
                 rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
                 Runtime.getRuntime().exit(0);
                 // System.exit(0);
