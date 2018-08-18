@@ -18,8 +18,8 @@ public final class Cctan {
      *            Parameters passed by command line. Unused.
      */
     public static void main(final String[] args) {
-        Controller ctx = new ControllerImpl();
-        View v = new ViewImpl(ctx);
+        final Controller ctx = new ControllerImpl();
+        final View v = new ViewImpl(ctx);
         ctx.setView(v);
     }
 

@@ -5,7 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
 
 /**
  * Represent a square block in the map area. Every square has got different hit points, that are the number
@@ -120,13 +120,11 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
      */
     @Override
     protected void applyConstraints() {
-        synchronized (this.getModel()) {
-            final Area sqArea = new Area(this.getShape());
-            sqArea.intersect(this.getModel().getShuttle().getImpactArea());
-            if (!sqArea.isEmpty()) {
-                this.getModel().pause();
-                this.getModel().setGameStatus(GameStatus.ENDED);
-            }
+        final Area sqArea = new Area(this.getShape());
+        sqArea.intersect(this.getModel().getShuttle().getImpactArea());
+        if (!sqArea.isEmpty()) {
+            this.getModel().pause();
+            this.getModel().setGameStatus(GameStatus.ENDED);
         }
     }
 

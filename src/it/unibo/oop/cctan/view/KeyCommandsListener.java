@@ -4,9 +4,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSourceImpl;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
 
 /**
  * A class which manages keystrokes of some keys via keyListener, and act
@@ -34,6 +34,8 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      *            A reference to the view (parents).
      */
     public KeyCommandsListener(final View view) {
+        // TODO verificare vhe vada
+        super();
         this.view = view;
         this.reset = false;
 
@@ -41,16 +43,14 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
             @Override
             public void keyPressed(final KeyEvent pressEvent) {
-                int keyCode = pressEvent.getKeyCode();
+                final int keyCode = pressEvent.getKeyCode();
                 switch (keyCode) {
                 case P_KEY_VALUE:
                 case SPACE_KEY_VALUE:
-                    if (!lockResumeKey) {
-                        if (actualState != GameStatus.ENDED) {
-                            getCommandsObservers().forEach(co -> co
-                                    .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
-                            actualState = actualState.denies();
-                        }
+                    if (actualState != GameStatus.ENDED && !lockResumeKey) {
+                        getCommandsObservers().forEach(co -> co
+                                .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
+                        actualState = actualState.denies();
                     }
                     break;
                 case ESC_KEY_VALUE:
@@ -84,7 +84,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
      * 
      * @return the boolean variable lockResumeKey.
      */
-    public boolean getLockResumeKey() {
+    public boolean isLockResumeKey() {
         return lockResumeKey;
     }
 
@@ -189,6 +189,9 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
 
     /**
      * Force to send the command indicate in the argument.
+     * 
+     * @param command
+     *            the Command that we want to force.
      */
     public synchronized void forceCommand(final Commands command) {
         switch (command) {

@@ -1,7 +1,7 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
 
@@ -11,8 +11,8 @@ import it.unibo.oop.cctan.view.View;
  */
 class ModelUpdater extends Updater {
 
-    private View view;
-    private Model model;
+    private final View view;
+    private final Model model;
 
     ModelUpdater(final View view, final Model model, final CommandsObserverSource commandsObserverSource) {
         super(commandsObserverSource);

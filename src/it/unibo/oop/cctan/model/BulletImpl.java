@@ -44,10 +44,10 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
             for (final FixedItem it : items) {
                 synchronized (it) {
                     if (this.intersectsWith(it)) {
-                        if (it instanceof Hittable) {
+                        if (it instanceof Hittable) { // always true but for be sure...
                             ((Hittable) it).hit(damage);
                         }
-                        if (it instanceof SquareAgent) {
+                        if (it instanceof SquareAgent) { // possible bounce only on squares
                             this.updateAngle((SquareAgent) it);
                         }
                         this.lastCollision = Optional.of(it);

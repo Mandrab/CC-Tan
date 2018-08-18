@@ -1,11 +1,13 @@
 package it.unibo.oop.cctan.view;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +21,13 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interPackageComunication.MappableData;
-import it.unibo.oop.cctan.interPackageComunication.MappableDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.GameStatus;
-import it.unibo.oop.cctan.interPackageComunication.ModelDataImpl;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
 import it.unibo.oop.cctan.view.View.Component;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -49,97 +51,102 @@ class GameWindowJTest {
     private static final String TEXT1 = "TESTO PER test testo molto LUNGO.";
     private static final String TEXT2 = "Testo linea 1" + System.lineSeparator() + "Testo linea 2"
             + System.lineSeparator() + "Testo linea 3";
+    private static final String GAME_WINDOW_VISIBLE_E = "GameWindow should not be visible";
+    private static final String GAME_WINDOW_NOT_VISIBLE_E = "GameWindow should be visible";
 
     private GameWindow gw;
 
     @Test
-    public void staticSquare() throws InterruptedException, InvocationTargetException {
-        Supplier<Double> s = new Supplier<Double>() {
+    public void staticSquare() {
+        final Supplier<Double> s = new Supplier<Double>() {
 
-            private final double upper = 0.6;
-            private final double lower = -0.6;
-            private int call = 0;
+            private static final double UPPER = 0.6;
+            private static final double LOWER = -0.6;
+            private int call;
 
             @Override
             public Double get() {
-                double d = call % 4 == 0 || call % 4 == 1 ? upper : lower;
+                double d = call % 4 == 0 || call % 4 == 1 ? UPPER : LOWER;
                 call++;
                 return d;
             }
         };
         squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     @Test
-    public void movingSquare() throws InterruptedException, InvocationTargetException {
-        Supplier<Double> s = new Supplier<Double>() {
+    public void movingSquare() {
+        final Supplier<Double> s = new Supplier<Double>() {
 
-            private final double toUpInitialValue = -0.6;
-            private final double toBottomInitialValue = 0.6;
-            private final double deltaMove = 0.001;
-            private int call = 0;
+            private static final double TO_UP_INITIAL_VALUE = -0.6;
+            private static final double TO_BOTTOM_INITIAL_VALUE = 0.6;
+            private static final double DELTA_MOVE = 0.001;
+            private int call;
 
             @Override
             public Double get() {
-                double d = call % 4 == 0 || call % 4 == 1 ? toUpInitialValue + call * deltaMove : toBottomInitialValue - call * deltaMove;
+                double d = call % 4 == 0 || call % 4 == 1 ? TO_UP_INITIAL_VALUE + call * DELTA_MOVE : TO_BOTTOM_INITIAL_VALUE - call * DELTA_MOVE;
                 call++;
                 return d;
             }
         };
         squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     @Test
     public void commandsTextDrawTest() {
-        Supplier<GameStatus> s = new Supplier<GameStatus>() {
+        final Supplier<GameStatus> s = new Supplier<GameStatus>() {
 
-            private final double lowerBound = 0.3;
-            private final double upperBound = 0.6;
+            private static final double LOWER_BOUND = 0.3;
+            private static final double UPPER_BOUND = 0.6;
             private int cicle = -1;
 
             @Override
             public GameStatus get() {
-                return (++cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * lowerBound
+                return (++cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * LOWER_BOUND
                         ? GameStatus.RUNNING 
-                        : cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * upperBound
+                        : cicle < (TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME) * UPPER_BOUND
                             ? GameStatus.PAUSED 
                             : GameStatus.ENDED);
             }
         };
         squareTest(getModelDataSupplier(Optional.empty(), Optional.empty(), Optional.of(s), Optional.empty(), Optional.empty()));
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     @Test
     public void shapeTextDrawTest() {
-        Supplier<Double> positionSupplier = new Supplier<Double>() {
+        final Supplier<Double> positionSupplier = new Supplier<Double>() {
 
-            private final double upperPosition = 0d;
-            private final double lowerPosition = -0.6;
-            private int call = 0;
+            private static final double UPPER_POSITION = 0d;
+            private static final double LOWER_POSITION = -0.6;
+            private int call;
 
             @Override
             public Double get() {
-                double d = call % 4 == 0 || call % 4 == 1 ? upperPosition : lowerPosition;
+                double d = call % 4 == 0 || call % 4 == 1 ? UPPER_POSITION : LOWER_POSITION;
                 call++;
                 return d;
             }
         };
-        Supplier<Double> sizeSupplier = new Supplier<Double>() {
+        final Supplier<Double> sizeSupplier = new Supplier<Double>() {
 
-            private final double upperSize = 0.3d;
-            private final double lowerSize = 1d;
-            private int call = 0;
+            private static final double UPPER_SIZE = 0.3d;
+            private static final double LOWER_SIZE = 1d;
+            private int call;
 
             @Override
             public Double get() {
-                double d = call % 4 == 0 || call % 4 == 1 ? upperSize : lowerSize;
+                double d = call % 4 == 0 || call % 4 == 1 ? UPPER_SIZE : LOWER_SIZE;
                 call++;
                 return d;
             }
         };
-        Supplier<String> stringSupplier = new Supplier<String>() {
+        final Supplier<String> stringSupplier = new Supplier<String>() {
 
-            private int call = 0;
+            private int call;
 
             @Override
             public String get() {
@@ -147,29 +154,31 @@ class GameWindowJTest {
             }
         };
         squareTest(getModelDataSupplier(Optional.of(positionSupplier), Optional.of(sizeSupplier), Optional.empty(), Optional.empty(), Optional.of(stringSupplier)));
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     @Test
     public void unbalancedRatioXOverwhelmingTest() {
-        View view = new EmptyJTestView();
+        final View view = new EmptyJTestView();
         gw = new GameWindow(view);
         gw.update(GAME_WINDOW_DIMENSION_TEST2, GAME_WINDOW_RATIO_TEST2);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
         gw.setVisible(true);
-        List<MappableData> list = new LinkedList<>();
-        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
+        final List<MappableData> list = new LinkedList<>();
+        list.add(new MappableDataImpl(Integer.toString((int) (Math.random() * 10)), 
                 Color.RED,
                 new Rectangle2D.Double(-(GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
                                        1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Top-Left
-        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+        list.add(new MappableDataImpl(Integer.toString((int) (Math.random() * 10)), 
                 Color.RED,
                 new Rectangle2D.Double((GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
                                        -1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Bottom-Right
-        int cicle = 0;
-        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
             gw.refresh(new ModelDataImpl(list, 
                             (int) (Math.random() * 10),
                             GameStatus.RUNNING));
@@ -180,30 +189,33 @@ class GameWindowJTest {
                 e.printStackTrace();
             }
         }
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     @Test
     public void unbalancedRatioYOverwhelmingTest() {
-        View view = new EmptyJTestView();
+        final View view = new EmptyJTestView();
         gw = new GameWindow(view);
         gw.update(GAME_WINDOW_DIMENSION_TEST3, GAME_WINDOW_RATIO_TEST3);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
         gw.setVisible(true);
-        List<MappableData> list = new LinkedList<>();
-        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
+        final List<MappableData> list = new LinkedList<>();
+        list.add(new MappableDataImpl(Integer.toString((int) (Math.random() * 10)), 
                 Color.RED,
                 new Rectangle2D.Double(-GAME_WINDOW_RATIO_TEST3.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST3.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER,
                                        1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Top-Left
-        list.add(new MappableDataImpl("" + (int) (Math.random() * 10), 
+        list.add(new MappableDataImpl(Integer.toString((int) (Math.random() * 10)), 
                 Color.RED,
                 new Rectangle2D.Double((GAME_WINDOW_RATIO_TEST3.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST3.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
                                        -1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Bottom-Right
-        int cicle = 0;
-        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
             gw.refresh(new ModelDataImpl(list, 
                             (int) (Math.random() * 10),
                             GameStatus.RUNNING));
@@ -214,16 +226,19 @@ class GameWindowJTest {
                 e.printStackTrace();
             }
         }
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
     private void squareTest(final Supplier<ModelData> modelDataSupplier) {
-        View view = new EmptyJTestView();
+        final View view = new EmptyJTestView();
         gw = new GameWindow(view);
         gw.update(GAME_WINDOW_DIMENSION_TEST1, GAME_WINDOW_RATIO_TEST1);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
         gw.setVisible(true);
-        int cicle = 0;
-        while (cicle++ * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END) {
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
+        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
             gw.refresh(modelDataSupplier.get());
             view.refreshGui(Component.GAME_WINDOW);
             try {
@@ -232,12 +247,13 @@ class GameWindowJTest {
                 e.printStackTrace();
             }
         }
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
     }
 
     private Supplier<ModelData> getModelDataSupplier(final Optional<Supplier<Double>> positionSupplier, final Optional<Supplier<Double>> squareDimension, final Optional<Supplier<GameStatus>> statusSupplier, final Optional<Integer> score, final Optional<Supplier<String>> text) {
         return () -> new ModelDataImpl(IntStream.range(0, 2)
-                        .mapToObj(i -> new MappableDataImpl(text.isPresent() ? text.get().get() : "" + (int) (Math.random() * 10), 
+                        .mapToObj(i -> new MappableDataImpl(text.isPresent() ? text.get().get() : Integer.toString((int) (Math.random() * 10)), 
                         Color.RED,
                         new Rectangle2D.Double(positionSupplier.isPresent() ? positionSupplier.get().get() : Math.random() * 2 - 1,
                                                positionSupplier.isPresent() ? positionSupplier.get().get() : Math.random() * 2 - 1,

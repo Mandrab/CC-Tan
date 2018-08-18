@@ -6,20 +6,20 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
 import it.unibo.oop.cctan.controller.Controller;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 
 /**
  * A class that implements View interface.
  */
 public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
-    private Controller controller;
+    private final Controller controller;
+    private final Loader loader;
+    private final KeyCommandsListener keyCommandsListener;
     private Optional<MouseEvents> mouseEvents = Optional.empty();
-    private Loader loader;
     private Optional<GameWindow> gameWindow = Optional.empty();
     private Optional<SettingsWindow> settingsWindow = Optional.empty();
-    private KeyCommandsListener keyCommandsListener;
 
     /**
      * The constructor method that instantiate all the sub-classes of the view.
@@ -29,6 +29,7 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
      *            future
      */
     public ViewImpl(final Controller controller) {
+        super();
         this.controller = controller;
         keyCommandsListener = new KeyCommandsListener(this);
         setCommandsObserverSource(keyCommandsListener);

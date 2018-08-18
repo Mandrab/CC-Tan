@@ -1,12 +1,15 @@
 package it.unibo.oop.cctan.controller;
 
 import java.awt.Dimension;
+import java.util.LinkedList;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
@@ -18,15 +21,18 @@ import it.unibo.oop.cctan.view.View.Component;
  */
 class ControllerImpl implements Controller {
 
-    private Optional<View> view = Optional.empty();
-    private Model model;
-    private FileLoader fileLoader;
-    private ViewUpdater viewUpdater;
-    private ModelUpdater modelUpdater;
+    private Optional<View> view;
+    private final Model model;
+    private Optional<ViewUpdater> viewUpdater;
+    private Optional<ModelUpdater> modelUpdater;
 
     ControllerImpl() {
-        fileLoader = new FileLoader(this);
+        view = Optional.empty();
+        model = new ModelImpl();
+        final FileLoader fileLoader = new FileLoader(this);
         fileLoader.start();
+        viewUpdater = Optional.empty();
+        modelUpdater = Optional.empty();
     }
 
     @Override
@@ -34,7 +40,6 @@ class ControllerImpl implements Controller {
     public void setView(final View view) {
         view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
-        model = new ModelImpl();
         this.view = Optional.of(view);
         view.refreshGui(Component.LOADER);
     }
@@ -42,7 +47,9 @@ class ControllerImpl implements Controller {
     @Override
     /** {@inheritDoc} */
     public ModelData getModelData() {
-        return viewUpdater.getModelData();
+        return viewUpdater.isPresent() 
+               ? viewUpdater.get().getModelData() 
+               : new ModelDataImpl(new LinkedList<>(), 0, GameStatus.ENDED);
     }
 
     @Override
@@ -70,10 +77,10 @@ class ControllerImpl implements Controller {
                         model.setDisplayRatio(r.getKey().doubleValue() 
                                               / r.getValue().doubleValue())));
                 view.get().getCommandsObserverSource().ifPresent(cos -> {
-                    viewUpdater = new ViewUpdater(view.get(), model, cos);
-                    viewUpdater.start();
-                    modelUpdater = new ModelUpdater(view.get(), model, cos);
-                    modelUpdater.start();
+                    viewUpdater = Optional.of(new ViewUpdater(view.get(), model, cos));
+                    viewUpdater.get().start();
+                    modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
+                    modelUpdater.get().start();
                 });
                 break;
             case PAUSE:
@@ -84,8 +91,8 @@ class ControllerImpl implements Controller {
                 break;
             case END:
                 model.terminate();
-                viewUpdater.terminate();
-                modelUpdater.terminate();
+                viewUpdater.ifPresent(vu -> vu.terminate());
+                modelUpdater.ifPresent(mu -> mu.terminate());
                 break;
             default:
                 break;

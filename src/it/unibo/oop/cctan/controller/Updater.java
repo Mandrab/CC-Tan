@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interPackageComunication.Commands;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserver;
-import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 
 /**
  * An abstract implementation of a generic updater.
@@ -11,9 +11,9 @@ import it.unibo.oop.cctan.interPackageComunication.CommandsObserverSource;
 abstract class Updater extends Thread implements CommandsObserver {
 
     private static final int REFRESH_TIME = 20;
-    private CommandsObserverSource commandsObserverSource;
-    private boolean suspended = false;
-    private boolean terminated = false;
+    private final CommandsObserverSource commandsObserverSource;
+    private boolean suspended;
+    private boolean terminated;
 
     /**
      * The constructor of GraphicPanelUpdater class.
@@ -22,6 +22,7 @@ abstract class Updater extends Thread implements CommandsObserver {
      *            The graphic panel to update.
      */
     Updater(final CommandsObserverSource commandsObserverSource) {
+        super();
         this.commandsObserverSource = commandsObserverSource;
         commandsObserverSource.addCommandsObserver(this);
     }
@@ -33,7 +34,7 @@ abstract class Updater extends Thread implements CommandsObserver {
             try {
                 exec();
                 synchronized (this) {
-                    if (suspended) {
+                    while (suspended) {
                         wait();
                     }
                 }
@@ -57,7 +58,7 @@ abstract class Updater extends Thread implements CommandsObserver {
         commandsObserverSource.removeCommandsObserver(this);
         if (suspended) {
             suspended = false;
-            notify();
+            notifyAll();
         }
         terminated = true;
     }
@@ -71,7 +72,7 @@ abstract class Updater extends Thread implements CommandsObserver {
     public synchronized void setPause(final boolean val) {
         suspended = val;
         if (!suspended) {
-            notify();
+            notifyAll();
         }
     }
 

@@ -5,27 +5,31 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.MappableData;;
+import it.unibo.oop.cctan.interpackage_comunication.MappableData;
 
 /**
  * Class used to draw shapes on a specific Graphics.
  */
 class Drawer {
 
-    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().width / 35;
-    private static final double PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55;
+    private static final int DEFAULT_MULTIPLIER = 20;
+    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().height
+            / DEFAULT_MULTIPLIER;
+    private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
     private Font font;
+    private int defaultFontSize;
     private Optional<Dimension> gameWindowSize;
     private AffineTransform aTransformation;
 
@@ -33,6 +37,7 @@ class Drawer {
      * The constructor of Drawer class.
      */
     Drawer(final File fontFile) {
+        defaultFontSize = DEFAULT_FONT_SIZE;
         aTransformation = new AffineTransform();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -42,11 +47,21 @@ class Drawer {
         }
     }
 
+    /**
+     * Informs of the change of the dimension/ratio of the screen.
+     * 
+     * @param gameWindowSize
+     *            Dimension of the game window (e.g.: 320x240, 640x480,
+     *            1024x768,...).
+     * @param screenRatio
+     *            Ratio of the game window (e.g.: 1:1, 4:3, 16:9,...).
+     */
     public synchronized void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (gameWindowSize == null || screenRatio == null) {
             throw new IllegalArgumentException();
         }
         this.gameWindowSize = Optional.of(gameWindowSize);
+        defaultFontSize = gameWindowSize.height / DEFAULT_MULTIPLIER;
         aTransformation = new AffineTransform();
         aTransformation.translate(gameWindowSize.width / 2, gameWindowSize.height / 2);
         aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue())
@@ -59,43 +74,91 @@ class Drawer {
      * @param mappableData
      *            The MappableData to draw
      */
-    synchronized void drawMappableData(final MappableData mappableData) {
+    protected synchronized void drawMappableData(final MappableData mappableData) {
         graphics.setColor(mappableData.getColor());
-        Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
+        final Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
-        drawString(mappableData.getText(),
-                new Point((int) (shape.getBounds2D().getCenterX()), (int) (shape.getBounds2D().getCenterY())),
-                new Dimension(shape.getBounds().width, shape.getBounds().height));
+        drawShapeText(mappableData.getText(), shape);
     }
 
-    private synchronized void drawString(final String text, final Point textCenter, final Dimension border) {
-        String[] strings = text.split("\n", -1);
-        graphics.setFont(getAdaptedFont(border, strings));
-        int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
-        int textHeight = lineHeight * strings.length;
-        int yStartingPoint = (int) (textCenter.getY() - (textHeight / 2));
-        for (int index = 0; index < strings.length; index++) {
-            String string = strings[index];
-            graphics.drawString(string, (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
-                    yStartingPoint + (1 + index) * lineHeight);
+    /**
+     * Draw the text at the center of the surrounding rectangle of the shape.
+     * 
+     * @param text
+     *            The text to be drawn
+     * @param shape
+     *            The shape in which center the text
+     */
+    private synchronized void drawShapeText(final String text, final Shape shape) {
+        final String[] strings = text.split("\n", -1);
+        final int fontSize = graphics.getFont().getSize();
+        if (textProtrudes(shape, strings)) {
+            graphics.setFont(getAdaptedFont(shape.getBounds().getSize(), strings));
         }
+        final int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
+        final int yStartingPoint = (int) Math.round(shape.getBounds().getCenterY() - lineHeight * strings.length / 2);
+        IntStream.range(0, strings.length)
+                .forEach(i -> graphics.drawString(strings[i],
+                        Math.round(
+                                shape.getBounds().getCenterX() - graphics.getFontMetrics().stringWidth(strings[i]) / 2),
+                        yStartingPoint + (1 + i) * lineHeight));
+        graphics.setFont(graphics.getFont().deriveFont((float) fontSize));
     }
 
-    private Font getAdaptedFont(final Dimension border, final String[] strings) {
-        int indexLonger = 0;
-        for (int index = 0; index < strings.length; index++) {
-            indexLonger = graphics.getFontMetrics().stringWidth(strings[index]) > graphics.getFontMetrics()
-                    .stringWidth(strings[indexLonger]) ? index : indexLonger;
-        }
-        float xPreferredSize = (float) (border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
-                / graphics.getFontMetrics().stringWidth(strings[indexLonger]));
-        float yPreferredSize = (float) (border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
-                / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length));
-        return font.deriveFont(xPreferredSize < yPreferredSize ? (float) Math.ceil(xPreferredSize * graphics.getFont().getSize())
-                : (float) Math.ceil(yPreferredSize * graphics.getFont().getSize()));
+    /**
+     * Checks if with the actual font the text is inside outsider rectangle of the
+     * shape.
+     * 
+     * @param shape
+     *            The shape to test
+     * @param strings
+     *            The text
+     * @return true if the text is greater than the shape, false otherwise
+     */
+    private boolean textProtrudes(final Shape shape, final String... strings) {
+        final int x = Arrays.asList(strings).stream().mapToInt(str -> graphics.getFontMetrics().stringWidth(str))
+                .sorted().max().orElseGet(() -> 0);
+        final int y = (graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length;
+        return !shape.contains(shape.getBounds2D().getCenterX() - x / 2, shape.getBounds2D().getCenterY() - y / 2, x,
+                y);
     }
 
-    synchronized void drawText(final String text, final Pair<Double, Double> screenPositionOnPercentage,
+    /**
+     * Return a font with adapted size according to the shape size.
+     * 
+     * @param border
+     *            The maximum size of the text
+     * @param strings
+     *            The text
+     * @return The modified font
+     */
+    private Font getAdaptedFont(final Dimension border, final String... strings) {
+        final int longestStringSize = IntStream.range(0, strings.length)
+                .mapToObj(i -> Integer.valueOf(graphics.getFontMetrics().stringWidth(strings[i]))).max((x, y) -> x - y)
+                .orElseGet(() -> Integer.valueOf(0));
+        final float xPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT / longestStringSize;
+        final float yPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
+                / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length);
+        return font.deriveFont(
+                xPreferredSize < yPreferredSize ? (float) Math.ceil(xPreferredSize * graphics.getFont().getSize())
+                        : (float) Math.ceil(yPreferredSize * graphics.getFont().getSize()));
+    }
+
+    /**
+     * Draw a string in a position of the game window. You have to specify which
+     * size and color use.
+     * 
+     * @param text
+     *            The string to print
+     * @param screenPositionOnPercentage
+     *            The center of the string position in a percentage. Eg: 0.5, 1 -> x
+     *            = 50% of the game window x and 100% of the game window y
+     * @param size
+     *            The size of the font to use
+     * @param color
+     *            The color of the text
+     */
+    protected synchronized void drawText(final String text, final Pair<Double, Double> screenPositionOnPercentage,
             final float size, final Color color) {
         if (gameWindowSize.isPresent()) {
             graphics.setFont(graphics.getFont().deriveFont(size));
@@ -114,10 +177,10 @@ class Drawer {
      * @param graphics
      *            The graphic class used by GraphicPanel
      */
-    synchronized void setGraphics(final Graphics graphics) {
+    protected synchronized void setGraphics(final Graphics graphics) {
         this.graphics = (Graphics2D) graphics;
         this.graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        this.graphics.setFont(font);
+        this.graphics.setFont(font.deriveFont((float) defaultFontSize));
     }
 
 }

@@ -10,10 +10,10 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interPackageComunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.interPackageComunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interPackageComunication.ModelData;
-import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 /**
  * Class that instance the component used to show the game to the user.
@@ -21,7 +21,7 @@ import it.unibo.oop.cctan.interPackageComunication.SizeObserver;
 class GameWindow extends JFrame implements SizeObserver {
 
     private static final long serialVersionUID = 3126913839407712312L;
-    private GraphicPanel gpanel;
+    private final GraphicPanel gpanel;
     private Optional<Dimension> gameWindowSize;
     private Optional<Pair<Integer, Integer>> screenRatio;
 
@@ -37,6 +37,7 @@ class GameWindow extends JFrame implements SizeObserver {
      *            The ratio of the window of the game (e.g.: 1:1, 4:3, 16:9,...)
      */
     GameWindow(final View view) {
+        super();
         setTitle("CC-Tan!");
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
@@ -59,7 +60,7 @@ class GameWindow extends JFrame implements SizeObserver {
      * 
      * @return Dimension class that contains the dimension of the window
      */
-    Optional<Dimension> getDimension() {
+    protected Optional<Dimension> getDimension() {
         return gameWindowSize.isPresent() ? gameWindowSize : Optional.empty();
     }
 
@@ -68,7 +69,7 @@ class GameWindow extends JFrame implements SizeObserver {
      * 
      * @return Pair class that contains the screen ratio of the window
      */
-    Optional<Pair<Integer, Integer>> getScreenRatio() {
+    protected Optional<Pair<Integer, Integer>> getScreenRatio() {
         return screenRatio.isPresent() ? screenRatio : Optional.empty();
     }
 
