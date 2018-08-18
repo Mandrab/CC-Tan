@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.controller;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,17 +36,16 @@ import it.unibo.oop.cctan.view.View.Component;
 class FileLoader extends Thread {
 
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final String PATH = System.getProperty("user.home") + "/.cctan";
-    private static final String DIRECTORY_IMG = "/img";
-    private static final String DIRECTORY_SCORE = "/score";
-    private static final String SCORE_FILE_SCORES = "/Scores";
-    private static final String IMG_JPG_LOGO = "/cctan.jpg";
-    private static final String IMG_SVG_LOGO = "/cctan.svg";
-    private static final String IMG_JPG_ICON = "/icona.jpg";
-    private static final String IMG_SVG_ICON = "/icona.svg";
-    private static final String FONT_SUBSPACE = FileLoader.class
-                                                          .getResource("/subspace_font/SubspaceItalic.otf")
-                                                          .getFile();
+    private static final String PC_PATH = System.getProperty("user.home") + "/.cctan";
+    private static final String PC_DIRECTORY_IMG = "/img";
+    private static final String PC_DIRECTORY_SCORE = "/score";
+    private static final String PC_FILE_SCORES_DIR_SCORE = "/Scores";
+    private static final String PC_AND_JAR_IMG_JPG_LOGO = "/cctan.jpg";
+    private static final String PC_AND_JAR_IMG_JPG_ICON = "/icona.jpg";
+    private static final String JAR_DIRECTORY_FONT_SUBSPACE = "/subspace_font";
+    private static final String JAR_FILE_FONT_SUBSPACE = "/SubspaceItalic.otf";
+    private static final String JAR_IMG_SVG_ICON = "/icona.svg";
+    private static final String JAR_IMG_SVG_LOGO = "/cctan.svg";
     private static final int[] PERCENTAGE_ADVANCE = { 10, 10, 10, 20, 50 };
     private static final IntSupplier ADVANCE_PERCENTAGE = new IntSupplier() {
 
@@ -77,45 +77,45 @@ class FileLoader extends Thread {
     /** {@inheritDoc} */
     public void run() {
         // check/create the game directory
-        createDirectories(PATH, new String[] { DIRECTORY_IMG, DIRECTORY_SCORE });
+        createDirectories(PC_PATH, new String[] { PC_DIRECTORY_IMG, PC_DIRECTORY_SCORE });
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(IMG_JPG_LOGO)), ImageType.LOGO);
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
+            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), ImageType.LOGO);
             controller.refreshGui(Component.LOADER);
             try {
-                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_LOGO).toString(),
-                                PATH + DIRECTORY_IMG + IMG_JPG_LOGO);
+                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_LOGO).toString(),
+                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_LOGO), ImageType.LOGO);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), ImageType.LOGO);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PATH, DIRECTORY_IMG + IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
             try {
-                convertSvgToJpg(FileLoader.class.getResource(IMG_SVG_ICON).toString(),
-                                PATH + DIRECTORY_IMG + IMG_JPG_ICON);
+                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_ICON).toString(),
+                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PATH + DIRECTORY_IMG + IMG_JPG_ICON), ImageType.ICON);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), ImageType.ICON);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         //Create score file into .cctan folder
-        if (Files.notExists(Paths.get(PATH, DIRECTORY_SCORE + SCORE_FILE_SCORES), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setScoresFile(new File(SCORE_FILE_SCORES));
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE), LinkOption.NOFOLLOW_LINKS)) {
+            loadedFiles.setScoresFile(new File(PC_FILE_SCORES_DIR_SCORE));
             try {
-                final File file = new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES);
+                final File file = new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE);
                 if (!file.createNewFile()) {
                     System.out.println("File already present at the specified location");
                 }
@@ -124,12 +124,17 @@ class FileLoader extends Thread {
                 e.printStackTrace();
             }
         }
-        loadedFiles.setScoresFile(new File(PATH + DIRECTORY_SCORE + SCORE_FILE_SCORES));
+        loadedFiles.setScoresFile(new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE));
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
 
         //Load the font file
-        loadedFiles.setFontFile(new File(FONT_SUBSPACE));
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
+            loadedFiles.setFontFile(font);
+        } catch (Exception e) {
+            System.err.println("Failed to load font");
+        }
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
         controller.refreshGui(Component.LOADER);
     }

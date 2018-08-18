@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,9 +30,9 @@ class GraphicPanel extends JPanel {
     private Optional<Dimension> dimension;
     private Optional<ModelData> modelData;
 
-    GraphicPanel(final File file) {
+    GraphicPanel() {
         super();
-        drawer = new Drawer(file);
+        drawer = new Drawer();
         modelData = Optional.empty();
     }
 
