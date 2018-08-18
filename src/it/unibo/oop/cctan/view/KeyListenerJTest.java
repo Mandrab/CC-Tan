@@ -111,7 +111,7 @@ public class KeyListenerJTest {
             e.printStackTrace();
         }
 
-        System.out.println(keyCommandsListener.getActualState() + " state");
+        //System.out.println(keyCommandsListener.getActualState() + " state");
         if (assertEquals) {
             assertEquals(gSExpected, keyCommandsListener.getActualState());
         } else {
@@ -122,13 +122,13 @@ public class KeyListenerJTest {
 
     @Before
     private void setUp() {
-        System.out.println("imposto la view");
+        //System.out.println("imposto la view");
         view = new ViewJTest();
 
-        System.out.println("imposto la keycommandlistener");
+        //System.out.println("imposto la keycommandlistener");
         this.keyCommandsListener = new KeyCommandsListener(view);
 
-        System.out.println("imposto la commandibservermanager");
+        //System.out.println("imposto la commandibservermanager");
         commandsObserversManager = new CommandsObserverSourceImpl() {
 
             @Override
@@ -151,15 +151,15 @@ public class KeyListenerJTest {
             }
         };
 
-        System.out.println("imposto un observer nella lista");
+        //System.out.println("imposto un observer nella lista");
         commandsObserversManager.addCommandsObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
-                System.out.println("comando lanciato : " + command);
+                //System.out.println("comando lanciato : " + command);
             }
         });
 
-        System.out.println("imposto la gamewindow");
+        //System.out.println("imposto la gamewindow");
         // view.showGameWindow(GAME_WINDOW_DIMENSION_TEST, GAME_WINDOW_RATIO_TEST);
 
         final JFrame jf = new JFrame();
@@ -168,10 +168,10 @@ public class KeyListenerJTest {
         jf.setVisible(true);
         jf.requestFocus();
 
-        System.out.println("imposto la startCommand");
+        //System.out.println("imposto la startCommand");
         keyCommandsListener.startCommand();
 
-        System.out.println(keyCommandsListener.getActualState() + " state");
+        //System.out.println(keyCommandsListener.getActualState() + " state");
     }
 
     private class ViewJTest extends SizeAndCommandsLinkImpl implements View {

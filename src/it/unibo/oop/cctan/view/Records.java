@@ -54,7 +54,7 @@ public class Records {
                 ostream2.close();
             } else {
                 leaderBoard.clear();
-                System.out.println("il file era vuoto");
+                System.out.println("the file was empty");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -151,9 +151,9 @@ public class Records {
         try {
             final File file = new File(path);
             if (file.delete()) {
-                System.out.println(file.getName() + " is deleted!");
+                //System.out.println(file.getName() + " is deleted!");
             } else {
-                System.out.println("Delete operation is failed. non esiste già");
+                //System.out.println("Delete operation is failed. non esiste già");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,9 +163,9 @@ public class Records {
             final File file = new File(path);
             final boolean fvar = file.createNewFile();
             if (fvar) {
-                System.out.println("File has been created successfully");
+                //System.out.println("File has been created successfully");
             } else {
-                System.out.println("File already present at the specified location");
+                //System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
@@ -182,7 +182,7 @@ public class Records {
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(leaderBoard);
         } catch (FileNotFoundException e) {
-            System.out.println("aggiungere file Scores in res");
+            System.out.println("not existing file in res folder");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

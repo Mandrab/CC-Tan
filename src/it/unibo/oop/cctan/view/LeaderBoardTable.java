@@ -111,7 +111,6 @@ public class LeaderBoardTable {
                     public void windowClosing(final java.awt.event.WindowEvent e) {
                             mainGui.removeLeaderBoard();
                             e.getWindow().dispose();
-                            System.out.println("JFrame Closed!");
                     }
             });
     }
