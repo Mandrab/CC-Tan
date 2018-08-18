@@ -12,7 +12,7 @@ import javafx.geometry.Point2D;
 /**
  * It represents a random generator of {@link PowerUpBlock PowerUpBlock} over time.
  */
-public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
+public class PowerUpGenerator extends AbstractItemGenerator<PowerUpBlock> {
 
     private Supplier<PowerUpBlockImpl.PowerUpBlockBuilder<?>> type;
     private boolean skip;
@@ -23,7 +23,7 @@ public class PowerUpGeneratorImpl extends ItemGeneratorImpl<PowerUpBlock> {
      * @param model
      *            it's the model of the application
      */
-    public PowerUpGeneratorImpl(final Model model) {
+    public PowerUpGenerator(final Model model) {
         super(model, new PowerUpRatio());
         this.type = () -> new LaserBlock.LaserBlockBuilder();
         this.skip = true;

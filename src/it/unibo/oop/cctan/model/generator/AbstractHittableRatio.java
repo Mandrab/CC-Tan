@@ -7,7 +7,7 @@ import it.unibo.oop.cctan.geometry.RandomUtility;
  * at the end of every minute. The operationRatio method is used to change the speed, 
  * the frequency and the points over time, with which the objects (which implement this class) are generated.
  */
-public abstract class HittableRatio extends TimerRatio {
+public abstract class AbstractHittableRatio extends AbstractTimerRatio {
 
     private static final int DELTA = 10;
     private final int defaultPoints;
@@ -22,7 +22,7 @@ public abstract class HittableRatio extends TimerRatio {
      * @param defaultPoints
      *          It's the points that the hittable objects have when they are generated at the beginning.
      */
-    public HittableRatio(final double speed, final int ratio, final int defaultPoints) {
+    public AbstractHittableRatio(final double speed, final int ratio, final int defaultPoints) {
         super(speed, ratio);
         this.points = defaultPoints + DELTA;
         this.defaultPoints = defaultPoints;

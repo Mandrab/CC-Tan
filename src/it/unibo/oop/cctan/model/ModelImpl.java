@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import it.unibo.oop.cctan.geometry.Boundary;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.model.generator.BulletGeneratorImpl;
+import it.unibo.oop.cctan.model.generator.BulletGenerator;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
-import it.unibo.oop.cctan.model.generator.PowerUpGeneratorImpl;
-import it.unibo.oop.cctan.model.generator.SquareGeneratorImpl;
+import it.unibo.oop.cctan.model.generator.PowerUpGenerator;
+import it.unibo.oop.cctan.model.generator.SquareGenerator;
 
 /**
  * The implementation of Model interface, with operations to work with balls and
@@ -44,9 +44,9 @@ public class ModelImpl implements Model {
     public void launch() {
         if (gameStatus.equals(GameStatus.ENDED)) {
             score.reset();
-            this.squareGenerator = new SquareGeneratorImpl(this);
-            this.bulletGenerator = new BulletGeneratorImpl(this);
-            this.powerupGenerator = new PowerUpGeneratorImpl(this);
+            this.squareGenerator = new SquareGenerator(this);
+            this.bulletGenerator = new BulletGenerator(this);
+            this.powerupGenerator = new PowerUpGenerator(this);
             squareGenerator.launch();
             bulletGenerator.launch();
             powerupGenerator.launch();

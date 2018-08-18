@@ -6,7 +6,7 @@ package it.unibo.oop.cctan.model.generator;
  * which the squares are generated is increased, the speed with which the squares move is increased 
  * and the initial life of each square is also increased.
  */
-public class SquareRatio extends HittableRatio {
+public class SquareRatio extends AbstractHittableRatio {
 
     /**
      * Indicates the life of squares when the application is started.

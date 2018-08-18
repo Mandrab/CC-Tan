@@ -11,14 +11,14 @@ import java.util.List;
  *  @param <T>
  *              It's the type of objects that will be created dynamically over time.
  */
-public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread implements ItemGenerator<T> {
+public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread implements ItemGenerator<T> {
 
     private boolean stop;
     private boolean suspend;
     private final Model model;
     private final List<T> items;
     private final Object pauseLock;
-    private final TimerRatio ratio;
+    private final AbstractTimerRatio ratio;
 
     /**
      * Create a new ItemGeneratorImpl thread respecting the value specified inside this fields.
@@ -28,10 +28,10 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      *          This object is of type TimerRatio and represents a thread that keeps track of 
      *          the speed that the object must have when it is generated and also of the 
      *          frequency with which objects of this type must be generated.
-     * {@link TimerRatio#TimerRatio()}
-     * @see TimerRatio#TimerRatio(double speed, int ratio)
+     * {@link AbstractTimerRatio#TimerRatio()}
+     * @see AbstractTimerRatio#TimerRatio(double speed, int ratio)
      */
-    public ItemGeneratorImpl(final Model model, final TimerRatio time) {
+    public AbstractItemGenerator(final Model model, final AbstractTimerRatio time) {
         super();
         this.stop = false;
         this.ratio = time;
@@ -152,7 +152,7 @@ public abstract class ItemGeneratorImpl<T extends FixedItem> extends Thread impl
      * @return
      *          TimerRatio object.
      */
-    public TimerRatio getRatio() {
+    public AbstractTimerRatio getRatio() {
         return this.ratio;
     }
 

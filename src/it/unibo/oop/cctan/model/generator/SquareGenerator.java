@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * It represents a generator of squares.
  */
-public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
+public class SquareGenerator extends AbstractItemGenerator<SquareAgent> {
 
     /**
      * Create a new thread that generates {@link SquareAgent SquareAgent} over time.
@@ -17,7 +17,7 @@ public class SquareGeneratorImpl extends ItemGeneratorImpl<SquareAgent> {
      * @param model
      *            it's the model of the application
      */
-    public SquareGeneratorImpl(final Model model) {
+    public SquareGenerator(final Model model) {
         super(model, new SquareRatio());
     }
 
