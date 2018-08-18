@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -63,22 +63,32 @@ class Drawer {
         graphics.setColor(mappableData.getColor());
         final Shape shape = aTransformation.createTransformedShape(mappableData.getShape());
         graphics.draw(shape);
-        drawString(mappableData.getText(),
-                new Point((int) (shape.getBounds2D().getCenterX()), (int) (shape.getBounds2D().getCenterY())),
-                new Dimension(shape.getBounds().width, shape.getBounds().height));
+        drawShapeText(mappableData.getText(), shape);
+                //new Point((int) (shape.getBounds2D().getCenterX()), (int) (shape.getBounds2D().getCenterY())),
+                //new Dimension(shape.getBounds().width, shape.getBounds().height));
     }
 
-    private synchronized void drawString(final String text, final Point textCenter, final Dimension border) {
+    private synchronized void drawShapeText(final String text, final Shape shape) {
         final String[] strings = text.split("\n", -1);
-        graphics.setFont(getAdaptedFont(border, strings));
+        final int fontSize = graphics.getFont().getSize();
+        if (textProtrudes(shape, strings)) {
+            graphics.setFont(getAdaptedFont(shape.getBounds().getSize(), strings));
+        }
         final int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
         final int textHeight = lineHeight * strings.length;
-        final int yStartingPoint = (int) (textCenter.getY() - (textHeight / 2));
+        final int yStartingPoint = (int) Math.round(shape.getBounds().getCenterY() - textHeight / 2);
         for (int index = 0; index < strings.length; index++) {
             final String string = strings[index];
-            graphics.drawString(string, (int) (textCenter.getX() - graphics.getFontMetrics().stringWidth(string) / 2),
+            graphics.drawString(string, Math.round(shape.getBounds().getCenterX() - graphics.getFontMetrics().stringWidth(string) / 2),
                     yStartingPoint + (1 + index) * lineHeight);
         }
+        graphics.setFont(graphics.getFont().deriveFont((float) fontSize));
+    }
+
+    private boolean textProtrudes(final Shape shape, final String... strings) {
+        int x = Arrays.asList(strings).stream().mapToInt(str -> graphics.getFontMetrics().stringWidth(str)).sorted().max().orElseGet(() -> 0);
+        int y = (graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length;
+        return shape.intersects(shape.getBounds2D().getCenterX() - x / 2, shape.getBounds2D().getCenterY() - y / 2, x, y);
     }
 
     private Font getAdaptedFont(final Dimension border, final String... strings) {
