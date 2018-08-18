@@ -131,7 +131,7 @@ class FileLoader extends Thread {
         //Load the font file
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
-            loadedFiles.setFontFile(font);
+            loadedFiles.setFont(font);
         } catch (Exception e) {
             System.err.println("Failed to load font");
         }

@@ -79,7 +79,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public void setFontFile(final Font fontFile) {
+    public void setFont(final Font fontFile) {
         this.fontFile = Optional.of(fontFile);
     }
 
@@ -90,7 +90,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public Optional<Font> getFontFile() {
+    public Optional<Font> getFont() {
         return fontFile;
     }
 
