@@ -34,7 +34,7 @@ abstract class Updater extends Thread implements CommandsObserver {
             try {
                 exec();
                 synchronized (this) {
-                    if (suspended) {
+                    while (suspended) {
                         wait();
                     }
                 }
