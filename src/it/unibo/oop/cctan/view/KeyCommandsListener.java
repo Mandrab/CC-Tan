@@ -47,7 +47,7 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                 switch (keyCode) {
                 case P_KEY_VALUE:
                 case SPACE_KEY_VALUE:
-                    if (actualState != GameStatus.ENDED && !lockResumeKey) {
+                    if ((!actualState.equals(GameStatus.ENDED)) && !lockResumeKey) {
                         getCommandsObservers().forEach(co -> co
                                 .newCommand(actualState == GameStatus.RUNNING ? Commands.PAUSE : Commands.RESUME));
                         actualState = actualState.denies();

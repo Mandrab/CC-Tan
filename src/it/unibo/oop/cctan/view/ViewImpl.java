@@ -121,6 +121,7 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
     @Override
     public void hideGameWindow() {
         if (gameWindow.isPresent()) {
+            gameWindow.get().removeKeyListener(keyCommandsListener.getKeyListener());
             gameWindow.get().setVisible(false);
         }
     }

@@ -133,6 +133,7 @@ public class PauseWindow {
 
         settingsBtn.addActionListener(e -> {
             if (view.getPlayerName().isPresent()) {
+                view.getKeyCommandsListener().setLockResumeKey(false);
                 final String nick = view.getPlayerName().get();
                 // SALVARE IL PUNTEGGIO SCORE ATTUALE
                 final Records rec = new Records();
@@ -143,7 +144,6 @@ public class PauseWindow {
                 view.getKeyCommandsListener().endCommand();
                 view.hideGameWindow();
                 view.showSettingsWindow();
-                view.getKeyCommandsListener().setLockResumeKey(false);
                 mainFrame.dispose();
             }
         });

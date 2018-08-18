@@ -142,6 +142,7 @@ public class MenuWindow extends JFrame {
 
             view.getKeyCommandsListener().forceCommand(Commands.START);
             view.showGameWindow(settingsWindow.getDimension().get(), settingsWindow.getRatio().get());
+            view.getKeyCommandsListener().setLockResumeKey(false);
             // view.getCommandsObserverSource().ifPresent(s ->
             // s.forceCommand(Commands.START));
             dispose();

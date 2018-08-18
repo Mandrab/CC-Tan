@@ -34,14 +34,11 @@ import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
  */
 public class KeyListenerJTest {
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
-    // private static final Pair<Integer, Integer> GAME_WINDOW_RATIO_TEST = new
-    // ImmutablePair<Integer, Integer>(1, 1);// ratio /// window
 
     private static final int P_KEY_VALUE = KeyEvent.VK_P;
     private static final int SPACE_KEY_VALUE = KeyEvent.VK_SPACE;
     private static final int ESC_KEY_VALUE = KeyEvent.VK_ESCAPE;
 
-    // private Optional<GameWindow> gameWindow = Optional.empty();
     private static View view;
     private KeyCommandsListener keyCommandsListener;
     private static CommandsObserverSourceImpl commandsObserversManager;
@@ -111,7 +108,6 @@ public class KeyListenerJTest {
             e.printStackTrace();
         }
 
-        //System.out.println(keyCommandsListener.getActualState() + " state");
         if (assertEquals) {
             assertEquals(gSExpected, keyCommandsListener.getActualState());
         } else {
@@ -138,7 +134,6 @@ public class KeyListenerJTest {
                     keyCommandsListener.startCommand();
                     break;
                 case PAUSE:
-                    // todo
                     break;
                 case RESUME:
                     keyCommandsListener.resumeCommand();
@@ -178,17 +173,10 @@ public class KeyListenerJTest {
 
         @Override
         public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
-            // if (!gameWindow.isPresent()) {
-            // gameWindow = Optional.of(new GameWindow(this));
-            // }
-            // gameWindow.get().update(gameWindowSize, screenRatio);
-            // gameWindow.get().setVisible(true);
         }
 
         @Override
         public Optional<Point> getWindowLocation() {
-            // return gameWindow.isPresent() ?
-            // Optional.ofNullable(gameWindow.get().getLocation()) : Optional.empty();
             return Optional.empty();
         }
 
