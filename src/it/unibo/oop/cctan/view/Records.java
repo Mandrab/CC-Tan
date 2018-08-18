@@ -39,9 +39,8 @@ public class Records {
      */
     public Records() {
 
-//        path = new File(FILE_NAME).getAbsolutePath();
+        // path = new File(FILE_NAME).getAbsolutePath();
         path = LoadedFilesSingleton.getLoadedFiles().getScoresFile().get().getPath();
-
 
         // inserimento in records
         try (InputStream file2 = new FileInputStream(path); InputStream bstream2 = new BufferedInputStream(file2);) {
@@ -78,8 +77,10 @@ public class Records {
 
     /**
      * A method that return the Best score of a player.
-     * @param player that need to know his Best score.
-     * @return  the best score of the player.
+     * 
+     * @param player
+     *            that need to know his Best score.
+     * @return the best score of the player.
      */
     public int getBestScore(final String player) {
         int best = 0;
@@ -94,8 +95,10 @@ public class Records {
 
     /**
      * A method that return the average score of a player.
-     * @param player that need to know his avarage score.
-     * @return  the average score of the player.
+     * 
+     * @param player
+     *            that need to know his avarage score.
+     * @return the average score of the player.
      */
     public double getAvgScore(final String player) {
         int sum = 0;
@@ -134,7 +137,9 @@ public class Records {
      * A method that allow to add a score of a player if it is not already in the
      * leaderboard.
      * 
-     * @param p the triple that will be add if it is not a duplicate already in the record list.
+     * @param p
+     *            the triple that will be add if it is not a duplicate already in
+     *            the record list.
      * @return true if the argument is not already in the leaderboard list.
      */
     public boolean addWithNoDuplicate(final Triple<String, Integer, Date> p) {
@@ -150,34 +155,32 @@ public class Records {
     private void sobstisuteScores() {
         try {
             final File file = new File(path);
-            if (file.delete()) {
-                //System.out.println(file.getName() + " is deleted!");
-            } else {
-                //System.out.println("Delete operation is failed. non esiste già");
-            }
+            // final boolean fdel =
+            file.delete();
+            // if (file.delete()) {
+            // //System.out.println(file.getName() + " is deleted!");
+            // } else {
+            // //System.out.println("Delete operation is failed. non esiste già");
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             final File file = new File(path);
-            final boolean fvar = file.createNewFile();
-            if (fvar) {
-                //System.out.println("File has been created successfully");
-            } else {
-                //System.out.println("File already present at the specified location");
-            }
+            // final boolean fvar =
+            file.createNewFile();
+            // if (fvar) {
+            // //System.out.println("File has been created successfully");
+            // } else {
+            // //System.out.println("File already present at the specified location");
+            // }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
             e.printStackTrace();
         }
 
-        try (
-                // ClassLoader classLoader = getClass().getClassLoader();
-                // File file = new File(classLoader.getResource("Scores"));
-                // new FileOutputStream(arg0)
-
-                OutputStream fileS = new FileOutputStream(path);
+        try (OutputStream fileS = new FileOutputStream(path);
                 OutputStream bstream = new BufferedOutputStream(fileS);
                 ObjectOutputStream ostream = new ObjectOutputStream(bstream);) {
             ostream.writeObject(leaderBoard);
