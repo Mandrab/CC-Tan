@@ -29,7 +29,7 @@ class Drawer {
             / DEFAULT_MULTIPLIER;
     private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
-    private Font font;
+    private final Font font;
     private int defaultFontSize;
     private Optional<Dimension> gameWindowSize;
     private AffineTransform aTransformation;
@@ -40,7 +40,7 @@ class Drawer {
     Drawer() {
         defaultFontSize = DEFAULT_FONT_SIZE;
         aTransformation = new AffineTransform();
-        font = LoadedFilesSingleton.getLoadedFiles().getFontFile()
+        font = LoadedFilesSingleton.getLoadedFiles().getFont()
                 .orElseGet(() -> new Font("Sans-Serif", Font.BOLD, DEFAULT_FONT_SIZE));
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
         font.deriveFont(Font.BOLD, DEFAULT_FONT_SIZE);
