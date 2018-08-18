@@ -155,26 +155,20 @@ public class Records {
     private void sobstisuteScores() {
         try {
             final File file = new File(path);
-            // final boolean fdel =
-            file.delete();
-            // if (file.delete()) {
-            // //System.out.println(file.getName() + " is deleted!");
-            // } else {
-            // //System.out.println("Delete operation is failed. non esiste già");
-            // }
+            final boolean fdel = file.delete();
+            if (!fdel) {
+                System.out.println("file didn't exist");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             final File file = new File(path);
-            // final boolean fvar =
-            file.createNewFile();
-            // if (fvar) {
-            // //System.out.println("File has been created successfully");
-            // } else {
-            // //System.out.println("File already present at the specified location");
-            // }
+             final boolean fvar = file.createNewFile();
+             if (!fvar) {
+             System.out.println("File already present at the specified location");
+             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
             e.printStackTrace();
