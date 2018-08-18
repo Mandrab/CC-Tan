@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -29,7 +30,7 @@ import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
  * @author Sutera Lorenzo
  *
  */
-//this will also reduce the useless access to the score file
+// this will also reduce the useless access to the score file
 public final class Records {
 
     private final List<Triple<String, Integer, Date>> leaderBoard = new ArrayList<Triple<String, Integer, Date>>();
@@ -47,8 +48,8 @@ public final class Records {
 
     /**
      * return the instance of the class.
-     * @return
-     *          the Records singleton.
+     * 
+     * @return the Records singleton.
      */
     public static Records getInstance() {
         return RECORD;
@@ -96,14 +97,26 @@ public final class Records {
      * @return the best score of the player.
      */
     public int getBestScore(final String player) {
-        int best = 0;
-        int i = 0;
-        for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getLeft().equals(player) && leaderBoard.get(i).getMiddle() > best) {
-                best = leaderBoard.get(i).getMiddle();
-            }
+        // int best = 0;
+        // int i = 0;
+        // for (i = 0; i < leaderBoard.size(); i++) {
+        // if (leaderBoard.get(i).getLeft().equals(player) &&
+        // leaderBoard.get(i).getMiddle() > best) {
+        // best = leaderBoard.get(i).getMiddle();
+        // }
+        // }
+        // return best;
+        if (leaderBoard.stream().filter(leaderBoard -> leaderBoard.getLeft().equals(player)).count() > 0) {
+            return leaderBoard.stream().filter(leaderBoard -> leaderBoard.getLeft().equals(player))
+                    .map(Triple::getMiddle).max(new Comparator<Integer>() {
+                        @Override
+                        public int compare(final Integer o1, final Integer o2) {
+                            return o1 - o2;
+                        }
+                    }).get();
+        } else {
+            return 0;
         }
-        return best;
     }
 
     /**
@@ -179,10 +192,10 @@ public final class Records {
 
         try {
             final File file = new File(path);
-             final boolean fvar = file.createNewFile();
-             if (!fvar) {
-             System.out.println("File already present at the specified location");
-             }
+            final boolean fvar = file.createNewFile();
+            if (!fvar) {
+                System.out.println("File already present at the specified location");
+            }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
             e.printStackTrace();

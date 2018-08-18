@@ -57,7 +57,6 @@ public class KeyCommandsListener extends CommandsObserverSourceImpl {
                         getCommandsObservers().forEach(co -> co.newCommand(Commands.PAUSE));
                         actualState = actualState.denies();
                         setLockResumeKey(true);
-
                         // avvia schermata ESC
                         new PauseWindow(view);
                     }
