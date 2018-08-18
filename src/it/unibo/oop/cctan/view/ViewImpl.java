@@ -51,14 +51,6 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void hideGameWindow() {
-        if (gameWindow.isPresent()) {
-            gameWindow.get().setVisible(false);
-        }
-    }
-
     @Override
     /** {@inheritDoc} */
     public Optional<Point> getWindowLocation() {
@@ -124,7 +116,6 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
         return controller.getModelData();
     }
 
-<<<<<<< HEAD
     /** {@inheritDoc} */
     @Override
     public void hideGameWindow() {
@@ -133,6 +124,4 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
             gameWindow.get().setVisible(false);
         }
     }
-=======
->>>>>>> d7a5f7ccb58a63f17fc7a1f7f0118d0332adde78
 }
