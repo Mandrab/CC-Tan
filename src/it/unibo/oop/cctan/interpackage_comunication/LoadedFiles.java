@@ -1,5 +1,6 @@
 package it.unibo.oop.cctan.interpackage_comunication;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.Optional;
 
@@ -89,14 +90,14 @@ public interface LoadedFiles {
      * @param fontFile
      *            The loaded font file
      */
-    void setFontFile(File fontFile);
+    void setFontFile(Font fontFile);
 
     /**
      * Get the loaded font file. Optional return.
      * 
      * @return If yet loaded, then return the font file
      */
-    Optional<File> getFontFile();
+    Optional<Font> getFontFile();
 
     /**
      * Set the score loaded file.

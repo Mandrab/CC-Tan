@@ -2,7 +2,6 @@ package it.unibo.oop.cctan.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.File;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -42,10 +41,8 @@ class GameWindow extends JFrame implements SizeObserver {
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
 
-        gpanel = new GraphicPanel(LoadedFilesSingleton.getLoadedFiles().getFontFile().orElseGet(() -> new File("")));
+        gpanel = new GraphicPanel();
         getContentPane().add(gpanel, BorderLayout.CENTER);
-        //gpanel.addKeyListener(view.getKeyCommandsListener().getKeyListener());  //SPOSTO?
-        //gpanel.requestFocus();                                                  //SPOSTO?
 
         gameWindowSize = Optional.empty();
         screenRatio = Optional.empty();
