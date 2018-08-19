@@ -1,4 +1,6 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.commands_observer;
+
+import it.unibo.oop.cctan.interpackage_comunication.ObserverSource;
 
 /**
  * An interface that specifies the methods that a CommandsObserverSource class

@@ -15,9 +15,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
  * A class that takes care to show the loading percentage of the application. 

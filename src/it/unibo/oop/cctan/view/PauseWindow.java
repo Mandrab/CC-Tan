@@ -15,9 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
  * Class that instance the component used to show the pause menu to the user.

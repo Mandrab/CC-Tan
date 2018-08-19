@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserver;
 import it.unibo.oop.cctan.view.View;
 
 /**

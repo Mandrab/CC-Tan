@@ -21,19 +21,19 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class GameWindowJTest {
 
     private static final int REFRESH_TIME = 50; // Ms
-    private static final int TIME_BEFORE_JUNIT_TEST_END = 5000; // Ms
+    private static final int TIME_BEFORE_JUNIT_TEST_END = 2500; // Ms
     private static final double SQUARE_EDGE_SIZE = 0.5;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final double DIMENSION_REDUCER_MULTIPLIER = 0.95;

@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
 
 /**
  * An interface that a class that has to update view must implements.

@@ -17,8 +17,8 @@ import java.util.stream.IntStream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
 
 /**
  * Class used to draw shapes on a specific Graphics.

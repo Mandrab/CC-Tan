@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.data;
 
 import java.awt.Font;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
+
+import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
 
 /**
  * A class that implements LoadedFiles. This is a Singleton class.
@@ -47,23 +49,23 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public void addLoaderPercentage(final int maxPercentage) {
+    public synchronized void addLoaderPercentage(final int maxPercentage) {
         this.maxPercentage += maxPercentage;
     }
 
     @Override
-    public void increaseAdvance(final int percentage) {
+    public synchronized void increaseAdvance(final int percentage) {
         this.percentage += percentage;
         notifyObservers();
     }
 
     @Override
-    public int getPercentage() {
+    public synchronized int getPercentage() {
         return Math.round(percentage * 100f / maxPercentage);
     }
 
     @Override
-    public boolean isLoaded() {
+    public synchronized boolean isLoaded() {
         return maxPercentage == percentage;
     }
 

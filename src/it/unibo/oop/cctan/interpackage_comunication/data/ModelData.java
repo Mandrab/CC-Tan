@@ -1,6 +1,8 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.data;
 
 import java.util.List;
+
+import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
 
 /**
  * A flat class containing all the useful data from the model.

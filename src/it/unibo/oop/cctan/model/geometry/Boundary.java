@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.geometry;
+package it.unibo.oop.cctan.model.geometry;
 
 /**
  * Represent the map area boundaries.

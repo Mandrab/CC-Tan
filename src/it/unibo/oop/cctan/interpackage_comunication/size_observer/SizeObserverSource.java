@@ -1,9 +1,11 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.size_observer;
 
 import java.awt.Dimension;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import it.unibo.oop.cctan.interpackage_comunication.ObserverSource;
 
 /**
  * An interface that specifies the method that a SizeObserverSource class must

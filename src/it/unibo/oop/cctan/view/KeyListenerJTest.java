@@ -17,14 +17,15 @@ import javax.swing.JFrame;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
+
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
 /**
  * KeyListener class test.

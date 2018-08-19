@@ -2,11 +2,12 @@ package it.unibo.oop.cctan.model.generator;
 
 import java.util.Random;
 import java.util.function.Supplier;
-import it.unibo.oop.cctan.geometry.RandomUtility;
+
 import it.unibo.oop.cctan.model.LaserBlock;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.PowerUpBlock;
 import it.unibo.oop.cctan.model.PowerUpBlockImpl;
+import it.unibo.oop.cctan.model.geometry.RandomUtility;
 import javafx.geometry.Point2D;
 
 /**

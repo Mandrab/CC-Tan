@@ -14,9 +14,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
 
 class GraphicPanel extends JPanel {
 

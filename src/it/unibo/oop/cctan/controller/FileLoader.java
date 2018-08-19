@@ -24,9 +24,9 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
  * A class created to allow files access and modification. 

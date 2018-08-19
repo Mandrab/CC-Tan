@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Triple;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
 
 /**
  * A class that handle the records of the game.
