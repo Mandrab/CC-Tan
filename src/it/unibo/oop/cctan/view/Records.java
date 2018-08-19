@@ -18,7 +18,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -129,11 +128,10 @@ public final class Records {
     public double getAvgScore(final String player) {
         int sum = 0;
         int num = 0;
-        int i = 0;
         double avg = 0;
-        for (i = 0; i < leaderBoard.size(); i++) {
-            if (leaderBoard.get(i).getLeft().equals(player)) {
-                sum += leaderBoard.get(i).getMiddle();
+        for (final Triple<String, Integer, Date> trip : leaderBoard) {
+            if (trip.getLeft().equals(player)) {
+                sum += trip.getMiddle();
                 num++;
             }
         }
