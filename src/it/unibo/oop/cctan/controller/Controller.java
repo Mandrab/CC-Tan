@@ -4,7 +4,6 @@ import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
 import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
 import it.unibo.oop.cctan.view.View;
-import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * Interface that allow the communication between controller and view.
@@ -27,12 +26,8 @@ public interface Controller extends CommandsObserver, SizeObserver {
     ModelData getModelData();
 
     /**
-     * Make a specific component of the view to refresh. The possible component are
-     * specified in the Component enumeration.
-     * 
-     * @param component
-     *            The component to refresh
+     * Make the game window to refresh.
      */
-    void refreshGui(Component component);
+    void refreshGui();
 
 }

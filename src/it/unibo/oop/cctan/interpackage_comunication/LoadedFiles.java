@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 /**
  * An interface that specifies which method must have a class of tipe LoadedFiles.
  */
-public interface LoadedFiles {
+public interface LoadedFiles extends LoadObserverSource {
 
     /**
      * Enumeration to specify which image attribute set/get.

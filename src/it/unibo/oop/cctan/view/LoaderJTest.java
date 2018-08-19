@@ -44,23 +44,22 @@ public class LoaderJTest {
 
         try {
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            System.out.println(loadedFiles.getPercentage());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
+            loader.update();
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -122,7 +121,7 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

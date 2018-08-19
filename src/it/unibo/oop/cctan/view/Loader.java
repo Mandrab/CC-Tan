@@ -16,12 +16,13 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 
 import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
 import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
 
 /**
  * A class that takes care to show the loading percentage of the application. 
  */
-class Loader extends JWindow {
+class Loader extends JWindow implements LoadObserver {
 
     private static final long serialVersionUID = -5568669894413165308L;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
@@ -36,6 +37,7 @@ class Loader extends JWindow {
     Loader(final View view) {
         super();
         this.view = view;
+        LoadedFilesSingleton.getLoadedFiles().addLoadObserver(this);
         setMinimumSize(WINDOW_SIZE);
         setMaximumSize(WINDOW_SIZE);
         centerWindow();
@@ -120,7 +122,8 @@ class Loader extends JWindow {
                     (int) ((SCREEN_SIZE.getHeight() - WINDOW_SIZE.getHeight()) / 2));
     }
 
-    public void refresh() {
+    @Override
+    public void update() {
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
         advanceLoading(LoadedFilesSingleton.getLoadedFiles().getPercentage());
     }

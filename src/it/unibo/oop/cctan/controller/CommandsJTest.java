@@ -144,7 +144,7 @@ class CommandsJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
     }

@@ -2,7 +2,9 @@ package it.unibo.oop.cctan.interpackage_comunication;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 
@@ -11,6 +13,7 @@ import javax.swing.ImageIcon;
  */
 public final class LoadedFilesSingleton implements LoadedFiles {
 
+    private final Set<LoadObserver> loadObservers;
     private int maxPercentage;
     private int percentage;
     private Optional<ImageIcon> background;
@@ -24,6 +27,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     private LoadedFilesSingleton() {
+        loadObservers = new HashSet<>();
         maxPercentage = 0;
         percentage = 0;
         background = Optional.empty();
@@ -50,6 +54,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     @Override
     public void increaseAdvance(final int percentage) {
         this.percentage += percentage;
+        notifyObservers();
     }
 
     @Override
@@ -76,17 +81,19 @@ public final class LoadedFilesSingleton implements LoadedFiles {
                 break;
             default:
         }
+        notifyObservers();
     }
 
     @Override
     public void setFont(final Font fontFile) {
         this.fontFile = Optional.of(fontFile);
+        notifyObservers();
     }
 
     @Override
     public void setScoresFile(final File file) {
         this.scoreFile = Optional.of(file);
-
+        notifyObservers();
     }
 
     @Override
@@ -112,6 +119,20 @@ public final class LoadedFilesSingleton implements LoadedFiles {
         default:
             return Optional.empty();
         }
+    }
+
+    private synchronized void notifyObservers() {
+        loadObservers.forEach(o -> o.update());
+    }
+
+    @Override
+    public synchronized void addLoadObserver(final LoadObserver loadObserver) {
+        loadObservers.add(loadObserver);
+    }
+
+    @Override
+    public synchronized void removeCommandsObserver(final LoadObserver loadObserver) {
+        loadObservers.remove(loadObserver);
     }
 
 }

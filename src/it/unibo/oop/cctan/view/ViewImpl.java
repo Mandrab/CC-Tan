@@ -15,7 +15,6 @@ import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
     private final Controller controller;
-    private final Loader loader;
     private final KeyCommandsListener keyCommandsListener;
     private Optional<MouseEvents> mouseEvents = Optional.empty();
     private Optional<GameWindow> gameWindow = Optional.empty();
@@ -33,7 +32,7 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
         this.controller = controller;
         keyCommandsListener = new KeyCommandsListener(this);
         setCommandsObserverSource(keyCommandsListener);
-        loader = new Loader(this);
+        new Loader(this);
         controller.setView(this);
     }
 
@@ -102,12 +101,8 @@ public class ViewImpl extends SizeAndCommandsLinkImpl implements View {
 
     @Override
     /** {@inheritDoc} */
-    public void refreshGui(final Component component) {
-        if (component.equals(Component.LOADER)) {
-            loader.refresh();
-        } else {
-            gameWindow.ifPresent(gw -> gw.refresh(controller.getModelData()));
-        }
+    public void refreshGui() {
+        gameWindow.ifPresent(gw -> gw.refresh(controller.getModelData()));
     }
 
     @Override

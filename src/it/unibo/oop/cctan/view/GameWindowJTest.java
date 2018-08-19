@@ -28,7 +28,6 @@ import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
 import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
-import it.unibo.oop.cctan.view.View.Component;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class GameWindowJTest {
@@ -182,7 +181,7 @@ class GameWindowJTest {
             gw.refresh(new ModelDataImpl(list, 
                             (int) (Math.random() * 10),
                             GameStatus.RUNNING));
-            view.refreshGui(Component.GAME_WINDOW);
+            view.refreshGui();
             try {
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
@@ -219,7 +218,7 @@ class GameWindowJTest {
             gw.refresh(new ModelDataImpl(list, 
                             (int) (Math.random() * 10),
                             GameStatus.RUNNING));
-            view.refreshGui(Component.GAME_WINDOW);
+            view.refreshGui();
             try {
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
@@ -240,7 +239,7 @@ class GameWindowJTest {
         assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
             gw.refresh(modelDataSupplier.get());
-            view.refreshGui(Component.GAME_WINDOW);
+            view.refreshGui();
             try {
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
@@ -318,7 +317,7 @@ class GameWindowJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

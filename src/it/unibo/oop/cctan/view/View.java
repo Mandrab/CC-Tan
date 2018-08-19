@@ -14,20 +14,6 @@ import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 public interface View extends SizeAndCommandsLink {
 
     /**
-     * Enumeration used to select which component update.
-     */
-    enum Component {
-        /**
-         * Loader graphic component.
-         */
-        LOADER,
-        /**
-         * GameWindow graphic component.
-         */
-        GAME_WINDOW;
-    }
-
-    /**
      * Setup and show the game window.
      * 
      * @param resolution
@@ -91,12 +77,8 @@ public interface View extends SizeAndCommandsLink {
     ModelData getModelData();
 
     /**
-     * Make a specific component of the view to refresh. The possible component are
-     * specified in the Component enumeration.
-     * 
-     * @param component
-     *            The component to refresh
+     * Make the game window to refresh.
      */
-    void refreshGui(Component component);
+    void refreshGui();
 
 }

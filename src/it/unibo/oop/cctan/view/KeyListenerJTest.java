@@ -100,6 +100,7 @@ public class KeyListenerJTest {
         try {
             r = new Robot();
             r.keyPress(kcInput);
+            r.keyRelease(kcInput);
          // necessaria per fare funzionare il test
             Thread.sleep(100);
         } catch (AWTException e) {
@@ -149,6 +150,11 @@ public class KeyListenerJTest {
         jf.addKeyListener(keyCommandsListener.getKeyListener());
         jf.setSize(GAME_WINDOW_DIMENSION_TEST);
         jf.setVisible(true);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         jf.requestFocus();
 
         keyCommandsListener.startCommand();
@@ -221,7 +227,7 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

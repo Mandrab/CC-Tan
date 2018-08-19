@@ -7,7 +7,6 @@ import it.unibo.oop.cctan.interpackage_comunication.ModelData;
 import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
-import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * A class created to handle the refresh of the game window.
@@ -40,7 +39,7 @@ class ViewUpdaterImpl extends UpdaterImpl implements ViewUpdater {
         if (model.getGameStatus() == GameStatus.ENDED) {
             view.getCommandsObserverSource().ifPresent(s -> s.forceCommand(Commands.END));
         }
-        view.refreshGui(Component.GAME_WINDOW);
+        view.refreshGui();
     }
 
     @Override

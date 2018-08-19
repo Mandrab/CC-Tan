@@ -13,7 +13,6 @@ import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
-import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * A class that implements controller interface.
@@ -29,7 +28,7 @@ class ControllerImpl implements Controller {
     ControllerImpl() {
         view = Optional.empty();
         model = new ModelImpl();
-        final FileLoader fileLoader = new FileLoader(this);
+        final FileLoader fileLoader = new FileLoader();
         fileLoader.start();
         viewUpdater = Optional.empty();
         modelUpdater = Optional.empty();
@@ -41,7 +40,7 @@ class ControllerImpl implements Controller {
         view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
         view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
         this.view = Optional.of(view);
-        view.refreshGui(Component.LOADER);
+        view.refreshGui();
     }
 
     @Override
@@ -54,8 +53,8 @@ class ControllerImpl implements Controller {
 
     @Override
     /** {@inheritDoc} */
-    public void refreshGui(final Component component) {
-        view.ifPresent(v -> v.refreshGui(component));
+    public void refreshGui() {
+        view.ifPresent(v -> v.refreshGui());
     }
 
     @Override
