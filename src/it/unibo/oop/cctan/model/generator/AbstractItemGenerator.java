@@ -152,7 +152,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
      * @return
      *          TimerRatio object.
      */
-    public AbstractTimerRatio getRatio() {
+    protected AbstractTimerRatio getRatio() {
         return this.ratio;
     }
 
