@@ -7,12 +7,14 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 import javax.swing.ImageIcon;
 
@@ -81,8 +83,8 @@ class FileLoader extends Thread {
         if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), ImageType.LOGO);
             try {
-                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_LOGO).toString(),
-                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
+                convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_LOGO),
+                        PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
@@ -94,8 +96,8 @@ class FileLoader extends Thread {
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
             try {
-                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_ICON).toString(),
-                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
+                convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_ICON),
+                        PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
@@ -150,21 +152,21 @@ class FileLoader extends Thread {
     /**
      * Convert an .svg to .jpg.
      * 
-     * @param svgUri
-     *            The path to the .svg
+     * @param inStreamSup
+     *            The supplier for the resource stream
      * @param jpgUri
      *            The path in which create the .jpg file
      */
-    private void convertSvgToJpg(final String svgUri, final String jpgUri) {
+    private void convertSvgToJpg(final Supplier<InputStream> inStreamSup, final String jpgUri) {
         try {
             // Create a JPEG transcoder
             final JPEGTranscoder converter = new JPEGTranscoder();
             converter.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, QUALITY);
-            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(svgUri));
+            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(inStreamSup.get()));
             converter.addTranscodingHint(JPEGTranscoder.KEY_BACKGROUND_COLOR, Color.BLACK);
 
             // Create the transcoder input and output.
-            final TranscoderInput input = new TranscoderInput(svgUri);
+            final TranscoderInput input = new TranscoderInput(inStreamSup.get());
             final OutputStream ostream = new FileOutputStream(jpgUri);
             final TranscoderOutput output = new TranscoderOutput(ostream);
 
@@ -190,9 +192,9 @@ class FileLoader extends Thread {
      * @throws IOException
      *             An exception
      */
-    private float getAdaptedWidth(final String svgUri) throws JDOMException, IOException {
+    private float getAdaptedWidth(final InputStream inStream) throws JDOMException, IOException {
         final SAXBuilder builder = new SAXBuilder();
-        final Document document = builder.build(svgUri);
+        final Document document = builder.build(inStream);
 
         final Element root = document.getRootElement();
         final float svgRateo = Float.valueOf(root.getAttributeValue("width"))
