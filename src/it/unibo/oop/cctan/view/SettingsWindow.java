@@ -29,10 +29,10 @@ import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSourceImpl;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserver;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSourceImpl;
 
 /**
  * Class that show settings to the user using a GUI.

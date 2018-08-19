@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.commands_observer;
 
 /**
  * An interface that specifies which method must have a class that needs to be

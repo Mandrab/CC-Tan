@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.oop.cctan.geometry.Boundary;
+import it.unibo.oop.cctan.model.geometry.Boundary;
 
 /**
  * An abstract bullet interface implementation, to manage generic bullet behavior

@@ -6,26 +6,12 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
 
 /**
  * State what a View implementation must implements.
  */
 public interface View extends SizeAndCommandsLink {
-
-    /**
-     * Enumeration used to select which component update.
-     */
-    enum Component {
-        /**
-         * Loader graphic component.
-         */
-        LOADER,
-        /**
-         * GameWindow graphic component.
-         */
-        GAME_WINDOW;
-    }
 
     /**
      * Setup and show the game window.
@@ -91,12 +77,8 @@ public interface View extends SizeAndCommandsLink {
     ModelData getModelData();
 
     /**
-     * Make a specific component of the view to refresh. The possible component are
-     * specified in the Component enumeration.
-     * 
-     * @param component
-     *            The component to refresh
+     * Make the game window to refresh.
      */
-    void refreshGui(Component component);
+    void refreshGui();
 
 }

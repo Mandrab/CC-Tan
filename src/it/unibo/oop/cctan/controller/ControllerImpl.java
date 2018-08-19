@@ -6,14 +6,13 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.ModelDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelDataImpl;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
-import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * A class that implements controller interface.
@@ -24,12 +23,12 @@ class ControllerImpl implements Controller {
     private Optional<View> view;
     private final Model model;
     private Optional<ViewUpdater> viewUpdater;
-    private Optional<ModelUpdater> modelUpdater;
+    private Optional<Updater> modelUpdater;
 
     ControllerImpl() {
+        final FileLoader fileLoader = new FileLoader();
         view = Optional.empty();
         model = new ModelImpl();
-        final FileLoader fileLoader = new FileLoader(this);
         fileLoader.start();
         viewUpdater = Optional.empty();
         modelUpdater = Optional.empty();
@@ -38,10 +37,10 @@ class ControllerImpl implements Controller {
     @Override
     /** {@inheritDoc} */
     public void setView(final View view) {
-        view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
-        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+        view.getCommandsObserverSource().ifPresent(s -> s.addObserver(this));
+        view.getSizeObserverSource().ifPresent(s -> s.addObserver(this));
         this.view = Optional.of(view);
-        view.refreshGui(Component.LOADER);
+        view.refreshGui();
     }
 
     @Override
@@ -54,8 +53,8 @@ class ControllerImpl implements Controller {
 
     @Override
     /** {@inheritDoc} */
-    public void refreshGui(final Component component) {
-        view.ifPresent(v -> v.refreshGui(component));
+    public void refreshGui() {
+        view.ifPresent(v -> v.refreshGui());
     }
 
     @Override
@@ -77,7 +76,7 @@ class ControllerImpl implements Controller {
                         model.setDisplayRatio(r.getKey().doubleValue() 
                                               / r.getValue().doubleValue())));
                 view.get().getCommandsObserverSource().ifPresent(cos -> {
-                    viewUpdater = Optional.of(new ViewUpdater(view.get(), model, cos));
+                    viewUpdater = Optional.of(new ViewUpdaterImpl(view.get(), model, cos));
                     viewUpdater.get().start();
                     modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
                     modelUpdater.get().start();

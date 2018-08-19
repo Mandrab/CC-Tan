@@ -17,14 +17,15 @@ import javax.swing.JFrame;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
+
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
 /**
  * KeyListener class test.
@@ -100,6 +101,7 @@ public class KeyListenerJTest {
         try {
             r = new Robot();
             r.keyPress(kcInput);
+            r.keyRelease(kcInput);
          // necessaria per fare funzionare il test
             Thread.sleep(100);
         } catch (AWTException e) {
@@ -139,7 +141,7 @@ public class KeyListenerJTest {
                 }
             }
         };
-        commandsObserversManager.addCommandsObserver(new CommandsObserver() {
+        commandsObserversManager.addObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
                 //System.out.println("comando lanciato : " + command);
@@ -149,6 +151,11 @@ public class KeyListenerJTest {
         jf.addKeyListener(keyCommandsListener.getKeyListener());
         jf.setSize(GAME_WINDOW_DIMENSION_TEST);
         jf.setVisible(true);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         jf.requestFocus();
 
         keyCommandsListener.startCommand();
@@ -221,7 +228,7 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

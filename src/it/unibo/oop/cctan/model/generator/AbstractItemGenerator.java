@@ -46,6 +46,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
      * the TimerRatio object because it takes care of varying the frequency with which the 
      * movable objects are generated. 
      */
+    @Override
     public void run() {
         while (!this.stop) {
             synchronized (pauseLock) {
@@ -65,7 +66,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
             }
             createNewItem();
             try {
-                Thread.sleep(this.ratio.getRatio());
+                Thread.sleep(this.ratio.getFrequency());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -114,6 +115,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
     /**
      * {@inheritDoc} 
      */
+    @Override
     public synchronized void addItemToList(final T item) {
         this.items.add(item);
     }
@@ -149,19 +151,19 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
     }
 
     /**
-     * @return
-     *          TimerRatio object.
-     */
-    public AbstractTimerRatio getRatio() {
-        return this.ratio;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public Model getModel() {
         return this.model;
+    }
+
+    /**
+     * @return
+     *          TimerRatio object.
+     */
+    protected AbstractTimerRatio getRatio() {
+        return this.ratio;
     }
 
 }

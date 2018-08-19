@@ -1,16 +1,21 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.data;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
+
+import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
 
 /**
  * A class that implements LoadedFiles. This is a Singleton class.
  */
 public final class LoadedFilesSingleton implements LoadedFiles {
 
+    private final Set<LoadObserver> loadObservers;
     private int maxPercentage;
     private int percentage;
     private Optional<ImageIcon> background;
@@ -24,6 +29,7 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     private LoadedFilesSingleton() {
+        loadObservers = new HashSet<>();
         maxPercentage = 0;
         percentage = 0;
         background = Optional.empty();
@@ -43,22 +49,23 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public void addLoaderPercentage(final int maxPercentage) {
+    public synchronized void addLoaderPercentage(final int maxPercentage) {
         this.maxPercentage += maxPercentage;
     }
 
     @Override
-    public void increaseAdvance(final int percentage) {
+    public synchronized void increaseAdvance(final int percentage) {
         this.percentage += percentage;
+        notifyObservers();
     }
 
     @Override
-    public int getPercentage() {
+    public synchronized int getPercentage() {
         return Math.round(percentage * 100f / maxPercentage);
     }
 
     @Override
-    public boolean isLoaded() {
+    public synchronized boolean isLoaded() {
         return maxPercentage == percentage;
     }
 
@@ -76,17 +83,19 @@ public final class LoadedFilesSingleton implements LoadedFiles {
                 break;
             default:
         }
+        notifyObservers();
     }
 
     @Override
     public void setFont(final Font fontFile) {
         this.fontFile = Optional.of(fontFile);
+        notifyObservers();
     }
 
     @Override
     public void setScoresFile(final File file) {
         this.scoreFile = Optional.of(file);
-
+        notifyObservers();
     }
 
     @Override
@@ -112,6 +121,20 @@ public final class LoadedFilesSingleton implements LoadedFiles {
         default:
             return Optional.empty();
         }
+    }
+
+    private synchronized void notifyObservers() {
+        loadObservers.forEach(o -> o.update());
+    }
+
+    @Override
+    public synchronized void addObserver(final LoadObserver loadObserver) {
+        loadObservers.add(loadObserver);
+    }
+
+    @Override
+    public synchronized void removeObserver(final LoadObserver loadObserver) {
+        loadObservers.remove(loadObserver);
     }
 
 }

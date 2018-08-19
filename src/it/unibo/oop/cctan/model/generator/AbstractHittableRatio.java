@@ -1,6 +1,6 @@
 package it.unibo.oop.cctan.model.generator;
 
-import it.unibo.oop.cctan.geometry.RandomUtility;
+import it.unibo.oop.cctan.model.geometry.RandomUtility;
 
 /**
  * This abstract class is a kind of timer that executes the operationRatio method 

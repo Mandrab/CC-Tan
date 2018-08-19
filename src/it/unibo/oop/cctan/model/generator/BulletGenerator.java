@@ -28,15 +28,6 @@ public class BulletGenerator extends AbstractItemGenerator<Bullet> {
     }
 
     /**
-     * This method allows you to change the type of bullet that is generated.
-     * @param bulletSettings
-     *          It's the new bullet that must be generated.
-     */
-    public void setBulletSettings(final BulletGeneratorSettings bulletSettings) {
-        this.bulletSettings = bulletSettings;
-    }
-
-    /**
      * This method is good for all types of {@link Bullet Bullet} to be generated. 
      * In particular, the task of this method is to create a new bullet having a speed, 
      * an angle, the starting position and a reference to the model.
@@ -51,6 +42,15 @@ public class BulletGenerator extends AbstractItemGenerator<Bullet> {
                 .build();
         this.addItemToList(bullet);
         new Thread(bullet).start();
+    }
+
+    /**
+     * This method allows you to change the type of bullet that is generated.
+     * @param bulletSettings
+     *          It's the new bullet that must be generated.
+     */
+    public void setBulletSettings(final BulletGeneratorSettings bulletSettings) {
+        this.bulletSettings = bulletSettings;
     }
 
     /**

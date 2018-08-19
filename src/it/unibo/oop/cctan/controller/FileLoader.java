@@ -24,10 +24,9 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.view.View.Component;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
  * A class created to allow files access and modification. 
@@ -57,7 +56,6 @@ class FileLoader extends Thread {
         }
     };
     private static final float QUALITY = 1.0f;
-    private final Controller controller;
     private final LoadedFiles loadedFiles;
 
     /**
@@ -66,9 +64,8 @@ class FileLoader extends Thread {
      * @param controller
      *            A class that implements Controller interface
      */
-    FileLoader(final Controller controller) {
+    FileLoader() {
         super();
-        this.controller = controller;
         loadedFiles = LoadedFilesSingleton.getLoadedFiles();
         loadedFiles.addLoaderPercentage(100);
     }
@@ -79,12 +76,10 @@ class FileLoader extends Thread {
         // check/create the game directory
         createDirectories(PC_PATH, new String[] { PC_DIRECTORY_IMG, PC_DIRECTORY_SCORE });
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), ImageType.LOGO);
-            controller.refreshGui(Component.LOADER);
             try {
                 convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_LOGO).toString(),
                                 PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
@@ -95,7 +90,6 @@ class FileLoader extends Thread {
         }
         loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), ImageType.LOGO);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
         if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
@@ -109,7 +103,6 @@ class FileLoader extends Thread {
         }
         loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), ImageType.ICON);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         //Create score file into .cctan folder
         if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE), LinkOption.NOFOLLOW_LINKS)) {
@@ -126,7 +119,6 @@ class FileLoader extends Thread {
         }
         loadedFiles.setScoresFile(new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE));
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         //Load the font file
         try {
@@ -136,7 +128,6 @@ class FileLoader extends Thread {
             System.err.println("Failed to load font");
         }
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
     }
 
     /**

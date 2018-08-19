@@ -1,7 +1,7 @@
 package it.unibo.oop.cctan.controller;
 
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.view.View;
 
@@ -9,7 +9,7 @@ import it.unibo.oop.cctan.view.View;
  * A class created to periodically update data to the model.
  * This class is package protected.
  */
-class ModelUpdater extends Updater {
+class ModelUpdater extends UpdaterImpl {
 
     private final View view;
     private final Model model;
