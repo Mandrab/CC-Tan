@@ -9,7 +9,7 @@ import it.unibo.oop.cctan.view.View;
  * A class created to periodically update data to the model.
  * This class is package protected.
  */
-class ModelUpdater extends Updater {
+class ModelUpdater extends UpdaterImpl {
 
     private final View view;
     private final Model model;

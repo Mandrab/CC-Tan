@@ -64,7 +64,7 @@ class CommandsJTest {
 
     @Test
     public void viewUpdaterJTest() throws InterruptedException {
-        final ViewUpdater vu = new ViewUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
+        final ViewUpdaterImpl vu = new ViewUpdaterImpl(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
         assertFalse(TERMINATED_E, vu.isTerminated());
         vu.start();
         vu.newCommand(Commands.START);
@@ -136,7 +136,6 @@ class CommandsJTest {
 
         @Override
         public ModelData getModelData() {
-            // TODO Auto-generated method stub
             return null;
         }
 

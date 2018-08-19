@@ -24,7 +24,7 @@ class ControllerImpl implements Controller {
     private Optional<View> view;
     private final Model model;
     private Optional<ViewUpdater> viewUpdater;
-    private Optional<ModelUpdater> modelUpdater;
+    private Optional<Updater> modelUpdater;
 
     ControllerImpl() {
         view = Optional.empty();
@@ -77,7 +77,7 @@ class ControllerImpl implements Controller {
                         model.setDisplayRatio(r.getKey().doubleValue() 
                                               / r.getValue().doubleValue())));
                 view.get().getCommandsObserverSource().ifPresent(cos -> {
-                    viewUpdater = Optional.of(new ViewUpdater(view.get(), model, cos));
+                    viewUpdater = Optional.of(new ViewUpdaterImpl(view.get(), model, cos));
                     viewUpdater.get().start();
                     modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
                     modelUpdater.get().start();
