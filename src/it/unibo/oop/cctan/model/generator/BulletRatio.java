@@ -52,7 +52,7 @@ public class BulletRatio extends AbstractTimerRatio {
     @Override
     protected void operationRatio() {
         if (this.getFrequency() > MAX_RATIO) {
-            this.setRatio(this.getFrequency() - DECREASE_RATIO);
+            this.setFrequency(this.getFrequency() - DECREASE_RATIO);
         }
         if (this.getSpeed() < MAX_SPEED) {
             this.setSpeed(this.getSpeed() + INCREASE_SPEED);

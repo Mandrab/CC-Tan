@@ -28,7 +28,7 @@ public class PowerUpRatio extends AbstractHittableRatio {
     @Override
     protected void operationRatio() {
         if (this.getFrequency() >= MAX_RATIO + DECREASE_RATIO) {
-            this.setRatio(this.getFrequency() - DECREASE_RATIO);
+            this.setFrequency(this.getFrequency() - DECREASE_RATIO);
         }
         if (this.getPoints() <= MAX_POINTS - INCREASE_POINTS) {
             this.setPoints(this.getPoints() + INCREASE_POINTS);
