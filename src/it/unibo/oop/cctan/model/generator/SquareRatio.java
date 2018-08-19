@@ -33,7 +33,7 @@ public class SquareRatio extends AbstractHittableRatio {
      * of the squares. Furthermore, the life of each square is also increased.
      */
     @Override
-    public void operationRatio() {
+    protected void operationRatio() {
         if (this.getFrequency() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getFrequency() - DECREASE_RATIO);
         }

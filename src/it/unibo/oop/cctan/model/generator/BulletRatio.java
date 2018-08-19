@@ -50,7 +50,7 @@ public class BulletRatio extends AbstractTimerRatio {
      * the speed of movement of the balls.
      */
     @Override
-    public void operationRatio() {
+    protected void operationRatio() {
         if (this.getFrequency() > MAX_RATIO) {
             this.setRatio(this.getFrequency() - DECREASE_RATIO);
         }

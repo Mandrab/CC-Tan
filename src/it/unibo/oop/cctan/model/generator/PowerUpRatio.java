@@ -26,7 +26,7 @@ public class PowerUpRatio extends AbstractHittableRatio {
      * the points necessary to get the powerUp.
      */
     @Override
-    public void operationRatio() {
+    protected void operationRatio() {
         if (this.getFrequency() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getFrequency() - DECREASE_RATIO);
         }
