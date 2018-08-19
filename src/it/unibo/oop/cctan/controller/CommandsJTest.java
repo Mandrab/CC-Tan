@@ -247,11 +247,11 @@ class CommandsJTest {
     private class CommandsObserverSourceJTest implements CommandsObserverSource {
 
         @Override
-        public void addCommandsObserver(final CommandsObserver commandsObserver) {
+        public void addObserver(final CommandsObserver commandsObserver) {
         }
 
         @Override
-        public void removeCommandsObserver(final CommandsObserver commandsObserver) {
+        public void removeObserver(final CommandsObserver commandsObserver) {
         }
 
         @Override

@@ -23,13 +23,13 @@ public abstract class SizeObserverSourceImpl implements SizeObserverSource {
 
     @Override
     /** {@inheritDoc} */
-    public synchronized void addSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void addObserver(final SizeObserver sizeObserver) {
         sizesObservers.add(sizeObserver);
     }
 
     @Override
     /** {@inheritDoc} */
-    public synchronized void removeSizeObserver(final SizeObserver sizeObserver) {
+    public synchronized void removeObserver(final SizeObserver sizeObserver) {
         sizesObservers.remove(sizeObserver);
     }
 

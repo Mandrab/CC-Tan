@@ -37,8 +37,8 @@ class ControllerImpl implements Controller {
     @Override
     /** {@inheritDoc} */
     public void setView(final View view) {
-        view.getCommandsObserverSource().ifPresent(s -> s.addCommandsObserver(this));
-        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+        view.getCommandsObserverSource().ifPresent(s -> s.addObserver(this));
+        view.getSizeObserverSource().ifPresent(s -> s.addObserver(this));
         this.view = Optional.of(view);
         view.refreshGui();
     }

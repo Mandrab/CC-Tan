@@ -39,7 +39,7 @@ class GameWindow extends JFrame implements SizeObserver {
         super();
         setTitle("CC-Tan!");
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
-        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+        view.getSizeObserverSource().ifPresent(s -> s.addObserver(this));
 
         gpanel = new GraphicPanel();
         getContentPane().add(gpanel, BorderLayout.CENTER);

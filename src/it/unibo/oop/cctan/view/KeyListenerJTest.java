@@ -140,7 +140,7 @@ public class KeyListenerJTest {
                 }
             }
         };
-        commandsObserversManager.addCommandsObserver(new CommandsObserver() {
+        commandsObserversManager.addObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
                 //System.out.println("comando lanciato : " + command);

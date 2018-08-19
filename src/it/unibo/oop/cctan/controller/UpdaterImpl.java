@@ -23,7 +23,7 @@ abstract class UpdaterImpl extends Thread implements Updater {
     UpdaterImpl(final CommandsObserverSource commandsObserverSource) {
         super();
         this.commandsObserverSource = commandsObserverSource;
-        commandsObserverSource.addCommandsObserver(this);
+        commandsObserverSource.addObserver(this);
     }
 
     @Override
@@ -52,7 +52,7 @@ abstract class UpdaterImpl extends Thread implements Updater {
     @Override
     /** {@inheritDoc} */
     public synchronized void terminate() {
-        commandsObserverSource.removeCommandsObserver(this);
+        commandsObserverSource.removeObserver(this);
         if (suspended) {
             suspended = false;
             notifyAll();

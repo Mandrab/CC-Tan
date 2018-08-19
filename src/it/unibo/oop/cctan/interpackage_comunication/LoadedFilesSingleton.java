@@ -126,12 +126,12 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
-    public synchronized void addLoadObserver(final LoadObserver loadObserver) {
+    public synchronized void addObserver(final LoadObserver loadObserver) {
         loadObservers.add(loadObserver);
     }
 
     @Override
-    public synchronized void removeCommandsObserver(final LoadObserver loadObserver) {
+    public synchronized void removeObserver(final LoadObserver loadObserver) {
         loadObservers.remove(loadObserver);
     }
 

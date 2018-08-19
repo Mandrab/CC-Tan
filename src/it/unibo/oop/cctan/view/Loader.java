@@ -37,7 +37,7 @@ class Loader extends JWindow implements LoadObserver {
     Loader(final View view) {
         super();
         this.view = view;
-        LoadedFilesSingleton.getLoadedFiles().addLoadObserver(this);
+        LoadedFilesSingleton.getLoadedFiles().addObserver(this);
         setMinimumSize(WINDOW_SIZE);
         setMaximumSize(WINDOW_SIZE);
         centerWindow();
