@@ -122,7 +122,7 @@ public abstract class AbstractTimerRatio extends Thread implements Commands {
      * @return
      *          ratio field
      */
-    protected int getRatio() {
+    protected int getFrequency() {
         return this.ratio;
     }
 

@@ -65,7 +65,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Thread 
             }
             createNewItem();
             try {
-                Thread.sleep(this.ratio.getRatio());
+                Thread.sleep(this.ratio.getFrequency());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
