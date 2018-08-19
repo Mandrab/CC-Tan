@@ -71,6 +71,7 @@ class Loader extends JWindow implements LoadObserver {
         add(containerLabel);
         pack();
         setVisible(true);
+        this.update();
     }
 
     /**
@@ -123,7 +124,7 @@ class Loader extends JWindow implements LoadObserver {
     }
 
     @Override
-    public void update() {
+    public final void update() {
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
         advanceLoading(LoadedFilesSingleton.getLoadedFiles().getPercentage());
     }
