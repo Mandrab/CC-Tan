@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.view;
 
 import static org.junit.Assert.assertNotEquals;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -35,6 +35,8 @@ import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSo
  */
 public class KeyListenerJTest {
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
+    private static final String EXCEPTION = "An exception has been thrown";
+    private static final String ERROR = "Failed Assertion";
 
     private static final int P_KEY_VALUE = KeyEvent.VK_P;
     private static final int SPACE_KEY_VALUE = KeyEvent.VK_SPACE;
@@ -51,12 +53,16 @@ public class KeyListenerJTest {
     @Test
     public synchronized void pausePPressed() {
         setuped = false;
-        keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        try {
+            keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -65,11 +71,15 @@ public class KeyListenerJTest {
     @Test
     public synchronized void tryEscPauseAndPpressed() {
         setuped = false;
-        keyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
-        keyCommandsListener.setLockResumeKey(false);
+        try {
+            keyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
+            keyCommandsListener.setLockResumeKey(false);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -78,10 +88,14 @@ public class KeyListenerJTest {
     @Test
     public synchronized void pauseSpacePressed() {
         setuped = false;
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+        try {
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -111,9 +125,9 @@ public class KeyListenerJTest {
         }
 
         if (assertEquals) {
-            assertEquals(gSExpected, keyCommandsListener.getActualState());
+            assertEquals(ERROR, gSExpected, keyCommandsListener.getActualState());
         } else {
-            assertNotEquals(gSExpected, keyCommandsListener.getActualState());
+            assertNotEquals(ERROR, gSExpected, keyCommandsListener.getActualState());
         }
 
     }
@@ -144,7 +158,6 @@ public class KeyListenerJTest {
         commandsObserversManager.addObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
-                //System.out.println("comando lanciato : " + command);
             }
         });
         final JFrame jf = new JFrame();
