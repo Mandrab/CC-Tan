@@ -44,6 +44,7 @@ public final class Score {
     }
 
     private static class ScoreGenerator {
+        // singleton pattern
         private static final Score SINGLETON = new Score();
     }
 }
