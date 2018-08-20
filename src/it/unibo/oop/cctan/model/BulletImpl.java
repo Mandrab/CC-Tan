@@ -20,7 +20,7 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
      * @param builder
      *                  the builder to construct the bullet
      */
-    protected BulletImpl(final BulletBuilder builder) {
+    protected BulletImpl(final BulletBuilder<?> builder) {
         super(builder);
         this.lastCollision = Optional.empty();
     }
@@ -108,8 +108,10 @@ public abstract class BulletImpl extends MovableItemImpl implements Bullet {
 
     /**
      * A basic abstract builder for BulletImpl class.
+     * @param <T>
+                 the current builder type
      */
-    public abstract static class BulletBuilder extends MovableItemImpl.AbstractBuilderMI<BulletBuilder> {
+    public abstract static class BulletBuilder<T extends BulletBuilder<T>> extends MovableItemImpl.AbstractBuilderMI<BulletBuilder<T>> {
 
     }
 }

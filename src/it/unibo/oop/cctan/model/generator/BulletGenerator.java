@@ -2,11 +2,12 @@ package it.unibo.oop.cctan.model.generator;
 
 import javafx.geometry.Point2D;
 import java.util.function.Supplier;
-import it.unibo.oop.cctan.model.Model;
-import it.unibo.oop.cctan.model.Bullet;
+
 import it.unibo.oop.cctan.model.BallAgent;
+import it.unibo.oop.cctan.model.Bullet;
 import it.unibo.oop.cctan.model.BulletImpl;
 import it.unibo.oop.cctan.model.LaserAgent;
+import it.unibo.oop.cctan.model.Model;
 
 /**
  * It represents a generator of {@link Bullet Bullet} over time. The bullet that is generated 
@@ -72,7 +73,7 @@ public class BulletGenerator extends AbstractItemGenerator<Bullet> {
          */
         LASER(() -> new LaserAgent.LaserBuilder());
 
-        private Supplier<BulletImpl.BulletBuilder> bulletBuilder;
+        private Supplier<BulletImpl.BulletBuilder<?>> bulletBuilder;
 
         /**
          * Set the bulletBuilder field of each object contained within the enumeration.
@@ -80,7 +81,7 @@ public class BulletGenerator extends AbstractItemGenerator<Bullet> {
          *              The builder of the current bullet.
          */
         //The constructor BulletGeneratorSettings is already PRIVATE by default.
-        BulletGeneratorSettings(final Supplier<BulletImpl.BulletBuilder> bulletBuilder) {
+        BulletGeneratorSettings(final Supplier<BulletImpl.BulletBuilder<?>> bulletBuilder) {
             this.bulletBuilder = bulletBuilder;
         }
 
@@ -89,7 +90,7 @@ public class BulletGenerator extends AbstractItemGenerator<Bullet> {
          *      The builder of the {@link BulletGeneratorSettings BulletGeneratorSettings} 
          *      that made the call to this method.
          */
-        public BulletImpl.BulletBuilder getBulletBuilder() {
+        public BulletImpl.BulletBuilder<?> getBulletBuilder() {
             return this.bulletBuilder.get();
         }
 

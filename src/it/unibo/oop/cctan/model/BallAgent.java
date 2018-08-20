@@ -24,7 +24,7 @@ public class BallAgent extends BulletImpl implements Bullet {
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 0.05; // 1 / 40.0;
+    public static final double WIDTH = 0.05;
 
     /**
      * The height of the ball.
@@ -153,7 +153,7 @@ public class BallAgent extends BulletImpl implements Bullet {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class BallBuilder extends BulletImpl.BulletBuilder {
+    public static class BallBuilder extends BulletImpl.BulletBuilder<BallBuilder> {
 
         /** 
          * {@inheritDoc}
