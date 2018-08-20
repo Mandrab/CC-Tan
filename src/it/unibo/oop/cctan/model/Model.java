@@ -1,9 +1,10 @@
 package it.unibo.oop.cctan.model;
 
 import java.util.List;
-import it.unibo.oop.cctan.geometry.Boundary;
+
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
+import it.unibo.oop.cctan.model.geometry.Boundary;
 
 /**
  * The model of the MVC pattern, with methods to manage squares and balls.

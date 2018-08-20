@@ -11,15 +11,14 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.oop.cctan.geometry.Boundary;
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverLink;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverLink;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverLink;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 import it.unibo.oop.cctan.model.Bullet;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.PowerUpBlock;
@@ -28,6 +27,7 @@ import it.unibo.oop.cctan.model.Score;
 import it.unibo.oop.cctan.model.Shuttle;
 import it.unibo.oop.cctan.model.SquareAgent;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
+import it.unibo.oop.cctan.model.geometry.Boundary;
 import it.unibo.oop.cctan.view.KeyCommandsListener;
 import it.unibo.oop.cctan.view.View;
 
@@ -38,6 +38,9 @@ class CommandsJTest {
     private static final String TERMINATED_E = "Should not be terminated";
     private static final String NOT_TERMINATED_E = "Should be terminated";
 
+    /**
+     * Test ModelUpdater.
+     */
     @Test
     public void modelUpdaterJTest() {
         final ModelUpdater mu = new ModelUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
@@ -62,9 +65,14 @@ class CommandsJTest {
         assertTrue(NOT_TERMINATED_E, mu.isTerminated());
     }
 
+
+    /**
+     * Test ViewUpdater.
+     */
     @Test
     public void viewUpdaterJTest() throws InterruptedException {
-        final ViewUpdater vu = new ViewUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
+        final ViewUpdaterImpl vu = new ViewUpdaterImpl(new ViewJTest(), new ModelJTest(),
+                new CommandsObserverSourceJTest());
         assertFalse(TERMINATED_E, vu.isTerminated());
         vu.start();
         vu.newCommand(Commands.START);
@@ -136,7 +144,6 @@ class CommandsJTest {
 
         @Override
         public ModelData getModelData() {
-            // TODO Auto-generated method stub
             return null;
         }
 
@@ -145,7 +152,7 @@ class CommandsJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
     }
@@ -248,11 +255,11 @@ class CommandsJTest {
     private class CommandsObserverSourceJTest implements CommandsObserverSource {
 
         @Override
-        public void addCommandsObserver(final CommandsObserver commandsObserver) {
+        public void addObserver(final CommandsObserver commandsObserver) {
         }
 
         @Override
-        public void removeCommandsObserver(final CommandsObserver commandsObserver) {
+        public void removeObserver(final CommandsObserver commandsObserver) {
         }
 
         @Override

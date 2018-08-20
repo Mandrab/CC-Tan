@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.view;
 
 import static org.junit.Assert.assertNotEquals;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -17,14 +17,15 @@ import javax.swing.JFrame;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserver;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSource;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
+
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSource;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSourceImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
 /**
  * KeyListener class test.
@@ -34,6 +35,8 @@ import it.unibo.oop.cctan.interpackage_comunication.SizeObserverSource;
  */
 public class KeyListenerJTest {
     private static final Dimension GAME_WINDOW_DIMENSION_TEST = new Dimension(500, 500); // dimension of the window
+    private static final String EXCEPTION = "An exception has been thrown";
+    private static final String ERROR = "Failed Assertion";
 
     private static final int P_KEY_VALUE = KeyEvent.VK_P;
     private static final int SPACE_KEY_VALUE = KeyEvent.VK_SPACE;
@@ -50,12 +53,16 @@ public class KeyListenerJTest {
     @Test
     public synchronized void pausePPressed() {
         setuped = false;
-        keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        try {
+            keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, true);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -64,11 +71,15 @@ public class KeyListenerJTest {
     @Test
     public synchronized void tryEscPauseAndPpressed() {
         setuped = false;
-        keyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
-        keyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
-        keyCommandsListener.setLockResumeKey(false);
+        try {
+            keyListenerTest(ESC_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(P_KEY_VALUE, GameStatus.RUNNING, false);
+            keyListenerTest(ESC_KEY_VALUE, GameStatus.RUNNING, false);
+            keyCommandsListener.setLockResumeKey(false);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -77,10 +88,14 @@ public class KeyListenerJTest {
     @Test
     public synchronized void pauseSpacePressed() {
         setuped = false;
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
-        keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+        try {
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.PAUSED, true);
+            keyListenerTest(SPACE_KEY_VALUE, GameStatus.RUNNING, true);
+        } catch (Exception e) {
+            fail(EXCEPTION);
+        }
     }
 
     /**
@@ -100,6 +115,7 @@ public class KeyListenerJTest {
         try {
             r = new Robot();
             r.keyPress(kcInput);
+            r.keyRelease(kcInput);
          // necessaria per fare funzionare il test
             Thread.sleep(100);
         } catch (AWTException e) {
@@ -109,9 +125,9 @@ public class KeyListenerJTest {
         }
 
         if (assertEquals) {
-            assertEquals(gSExpected, keyCommandsListener.getActualState());
+            assertEquals(ERROR, gSExpected, keyCommandsListener.getActualState());
         } else {
-            assertNotEquals(gSExpected, keyCommandsListener.getActualState());
+            assertNotEquals(ERROR, gSExpected, keyCommandsListener.getActualState());
         }
 
     }
@@ -139,16 +155,20 @@ public class KeyListenerJTest {
                 }
             }
         };
-        commandsObserversManager.addCommandsObserver(new CommandsObserver() {
+        commandsObserversManager.addObserver(new CommandsObserver() {
             @Override
             public void newCommand(final Commands command) {
-                //System.out.println("comando lanciato : " + command);
             }
         });
         final JFrame jf = new JFrame();
         jf.addKeyListener(keyCommandsListener.getKeyListener());
         jf.setSize(GAME_WINDOW_DIMENSION_TEST);
         jf.setVisible(true);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         jf.requestFocus();
 
         keyCommandsListener.startCommand();
@@ -221,7 +241,7 @@ public class KeyListenerJTest {
         }
 
         @Override
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

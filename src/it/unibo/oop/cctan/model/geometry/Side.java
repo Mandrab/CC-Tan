@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.geometry;
+package it.unibo.oop.cctan.model.geometry;
 
 /**
  * Identify the side of an element in the game area.

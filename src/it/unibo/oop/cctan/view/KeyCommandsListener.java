@@ -4,9 +4,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.CommandsObserverSourceImpl;
 import it.unibo.oop.cctan.interpackage_comunication.GameStatus;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.Commands;
+import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserverSourceImpl;
 
 /**
  * A class which manages keystrokes of some keys via keyListener, and act

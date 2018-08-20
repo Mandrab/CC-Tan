@@ -10,9 +10,9 @@ import java.util.function.IntSupplier;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
 
 /**
  * Loader class test.
@@ -38,29 +38,22 @@ public class LoaderJTest {
      */
     @Test
     public void visualLoad() {
-        final Loader loader = new Loader(new ViewJTest());
         final LoadedFiles loadedFiles = LoadedFilesSingleton.getLoadedFiles();
         loadedFiles.addLoaderPercentage(MAX_PERCENTAGE);
+        new Loader(new ViewJTest());
 
         try {
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            System.out.println(loadedFiles.getPercentage());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
             loadedFiles.increaseAdvance(ADVANCE_LOADING.getAsInt());
-            loader.refresh();
             Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -122,7 +115,7 @@ public class LoaderJTest {
 
         @Override
         /** {@inheritDoc} */
-        public void refreshGui(final Component component) {
+        public void refreshGui() {
         }
 
         @Override

@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
-import it.unibo.oop.cctan.interpackage_comunication.MappableDataImpl;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableDataImpl;
 import it.unibo.oop.cctan.model.Model;
 
 /**
@@ -50,11 +50,6 @@ class MappableDataAdapter {
                                                       sa.getShape()))
                       .collect(Collectors.toList()));
 
-        // Add shuttle to the list of mappable data
-        l.add(0, new MappableDataImpl("", 
-                                      Color.WHITE, 
-                                      model.getShuttle().getShape()));
-
         // Add all the powerup to the list of mappable data
         l.addAll(model.getPowerUpBlocks()
                       .stream()
@@ -63,6 +58,11 @@ class MappableDataAdapter {
                                                       pu.getColor(), 
                                                       pu.getShape()))
                       .collect(Collectors.toList()));
+
+        // Add shuttle to the list of mappable data
+        l.add(0, new MappableDataImpl("", 
+                                      Color.WHITE, 
+                                      model.getShuttle().getShape()));
 
         return l;
     }

@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.data;
 
 import java.awt.Font;
 import java.io.File;
@@ -6,10 +6,12 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 
+import it.unibo.oop.cctan.interpackage_comunication.LoadObserverSource;
+
 /**
  * An interface that specifies which method must have a class of tipe LoadedFiles.
  */
-public interface LoadedFiles {
+public interface LoadedFiles extends LoadObserverSource {
 
     /**
      * Enumeration to specify which image attribute set/get.
