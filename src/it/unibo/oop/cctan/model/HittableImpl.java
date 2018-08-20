@@ -15,7 +15,7 @@ public abstract class HittableImpl implements Hittable {
     }
 
     /**
-     * Create the new hittable item with the specifiet hit points.
+     * Create the new hittable item with the specified hit points.
      * @param hitPoints
      *                  the item's hit points (life), i.e. total damage
      *                  it has to receive to be destroyed
