@@ -16,20 +16,21 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.MappableData;
+import it.unibo.oop.cctan.interpackage_comunication.LoadObserver;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
 
 /**
- * Class used to draw shapes on a specific Graphics.
+ * Class used to draw shapes on a specific Graphics. Package protected.
  */
-class Drawer {
+class Drawer implements LoadObserver {
 
     private static final int DEFAULT_MULTIPLIER = 20;
-    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().height
-            / DEFAULT_MULTIPLIER;
+    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit()
+                                                            .getScreenSize().height / DEFAULT_MULTIPLIER;
     private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
-    private final Font font;
+    private Font font;
     private int defaultFontSize;
     private Optional<Dimension> gameWindowSize;
     private AffineTransform aTransformation;
@@ -63,8 +64,8 @@ class Drawer {
         defaultFontSize = gameWindowSize.height / DEFAULT_MULTIPLIER;
         aTransformation = new AffineTransform();
         aTransformation.translate(gameWindowSize.width / 2, gameWindowSize.height / 2);
-        aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue())
-                / (2 * screenRatio.getKey().doubleValue()), -gameWindowSize.height / 2);
+        aTransformation.scale(gameWindowSize.width * screenRatio.getValue().doubleValue()
+                              / (2 * screenRatio.getKey().doubleValue()), -gameWindowSize.height / 2);
     }
 
     /**
@@ -97,10 +98,11 @@ class Drawer {
         final int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
         final int yStartingPoint = (int) Math.round(shape.getBounds().getCenterY() - lineHeight * strings.length / 2);
         IntStream.range(0, strings.length)
-                .forEach(i -> graphics.drawString(strings[i],
-                        Math.round(
-                                shape.getBounds().getCenterX() - graphics.getFontMetrics().stringWidth(strings[i]) / 2),
-                        yStartingPoint + (1 + i) * lineHeight));
+                 .forEach(i -> graphics.drawString(strings[i],
+                                                   Math.round(shape.getBounds().getCenterX() 
+                                                              - graphics.getFontMetrics()
+                                                                        .stringWidth(strings[i]) / 2),
+                                                   yStartingPoint + (1 + i) * lineHeight));
         graphics.setFont(graphics.getFont().deriveFont((float) fontSize));
     }
 
@@ -115,11 +117,18 @@ class Drawer {
      * @return true if the text is greater than the shape, false otherwise
      */
     private boolean textProtrudes(final Shape shape, final String... strings) {
-        final int x = Arrays.asList(strings).stream().mapToInt(str -> graphics.getFontMetrics().stringWidth(str))
-                .sorted().max().orElseGet(() -> 0);
-        final int y = (graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length;
-        return !shape.contains(shape.getBounds2D().getCenterX() - x / 2, shape.getBounds2D().getCenterY() - y / 2, x,
-                y);
+        final int x = Arrays.asList(strings)
+                            .stream()
+                            .mapToInt(str -> graphics.getFontMetrics().stringWidth(str))
+                            .sorted()
+                            .max()
+                            .orElseGet(() -> 0);
+        final int y = (graphics.getFontMetrics().getAscent() 
+                      + graphics.getFontMetrics().getDescent()) 
+                      * strings.length;
+        return !shape.contains(shape.getBounds2D().getCenterX() - x / 2, 
+                               shape.getBounds2D().getCenterY() - y / 2, 
+                               x, y);
     }
 
     /**
@@ -133,8 +142,10 @@ class Drawer {
      */
     private Font getAdaptedFont(final Dimension border, final String... strings) {
         final int longestStringSize = IntStream.range(0, strings.length)
-                .mapToObj(i -> Integer.valueOf(graphics.getFontMetrics().stringWidth(strings[i]))).max((x, y) -> x - y)
-                .orElseGet(() -> Integer.valueOf(0));
+                                               .mapToObj(i -> graphics.getFontMetrics()
+                                                                      .stringWidth(strings[i]))
+                                               .max((x, y) -> x - y)
+                                               .orElseGet(() -> 0);
         final float xPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT / longestStringSize;
         final float yPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
                 / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length);
@@ -180,6 +191,21 @@ class Drawer {
         this.graphics = (Graphics2D) graphics;
         this.graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.graphics.setFont(font.deriveFont((float) defaultFontSize));
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void update() {
+        LoadedFilesSingleton.getLoadedFiles().getFont().ifPresent(font -> {
+            if (!this.font.getFontName().equals(font.getFontName())) {
+                this.font = font;
+                GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+                font.deriveFont(Font.BOLD, DEFAULT_FONT_SIZE);
+                if (graphics != null) {
+                    graphics.setFont(font);
+                }
+            }
+        });
     }
 
 }

@@ -11,7 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import it.unibo.oop.cctan.geometry.Side;
+
+import it.unibo.oop.cctan.model.geometry.Side;
 import javafx.geometry.Point2D;
 
 /**
@@ -23,7 +24,7 @@ public class BallAgent extends BulletImpl implements Bullet {
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 0.05; // 1 / 40.0;
+    public static final double WIDTH = 0.05;
 
     /**
      * The height of the ball.
@@ -134,7 +135,6 @@ public class BallAgent extends BulletImpl implements Bullet {
         }
     }
 
-    //Vertexes in rectangle path iterators are slide counterclockwise, from right-bottom ones to left-bottom
     private List<Double> getDistancesFromPoint(final Point2D point, final PathIterator pathIterator) {
         final int length = 6;
         final double[] coordinates = new double[length];
@@ -153,7 +153,7 @@ public class BallAgent extends BulletImpl implements Bullet {
     /**
      * A basic builder for BallAgent class.
      */
-    public static class BallBuilder extends BulletImpl.BulletBuilder {
+    public static class BallBuilder extends BulletImpl.BulletBuilder<BallBuilder> {
 
         /** 
          * {@inheritDoc}

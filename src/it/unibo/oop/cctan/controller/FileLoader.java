@@ -7,12 +7,14 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 import javax.swing.ImageIcon;
 
@@ -24,14 +26,13 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
-import it.unibo.oop.cctan.view.View.Component;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
- * A class created to allow files access and modification. 
- * This class is package protected.
+ * A class created to allow files access and modification. This class is package
+ * protected.
  */
 class FileLoader extends Thread {
 
@@ -53,11 +54,12 @@ class FileLoader extends Thread {
 
         @Override
         public int getAsInt() {
-            return index < PERCENTAGE_ADVANCE.length ? PERCENTAGE_ADVANCE[index++] : 100;
+            return index < PERCENTAGE_ADVANCE.length 
+                   ? PERCENTAGE_ADVANCE[index++] 
+                   : PERCENTAGE_ADVANCE[PERCENTAGE_ADVANCE.length - 1];
         }
     };
     private static final float QUALITY = 1.0f;
-    private final Controller controller;
     private final LoadedFiles loadedFiles;
 
     /**
@@ -66,9 +68,8 @@ class FileLoader extends Thread {
      * @param controller
      *            A class that implements Controller interface
      */
-    FileLoader(final Controller controller) {
+    FileLoader() {
         super();
-        this.controller = controller;
         loadedFiles = LoadedFilesSingleton.getLoadedFiles();
         loadedFiles.addLoaderPercentage(100);
     }
@@ -79,40 +80,42 @@ class FileLoader extends Thread {
         // check/create the game directory
         createDirectories(PC_PATH, new String[] { PC_DIRECTORY_IMG, PC_DIRECTORY_SCORE });
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), ImageType.LOGO);
-            controller.refreshGui(Component.LOADER);
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO),
+                            LinkOption.NOFOLLOW_LINKS)) {
+            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), 
+                                 ImageType.LOGO);
             try {
-                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_LOGO).toString(),
+                convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_LOGO),
                                 PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), ImageType.LOGO);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), 
+                                           ImageType.LOGO);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON),
+                            LinkOption.NOFOLLOW_LINKS)) {
             try {
-                convertSvgToJpg(FileLoader.class.getResource(JAR_IMG_SVG_ICON).toString(),
+                convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_ICON),
                                 PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), ImageType.ICON);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), 
+                             ImageType.ICON);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
-        //Create score file into .cctan folder
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE), LinkOption.NOFOLLOW_LINKS)) {
+        // Create score file into .cctan folder
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE),
+                            LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setScoresFile(new File(PC_FILE_SCORES_DIR_SCORE));
             try {
                 final File file = new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE);
@@ -126,17 +129,16 @@ class FileLoader extends Thread {
         }
         loadedFiles.setScoresFile(new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE));
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
 
-        //Load the font file
+        // Load the font file
         try {
-            final Font font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
+            final Font font = Font.createFont(Font.TRUETYPE_FONT,
+                    this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
             loadedFiles.setFont(font);
         } catch (Exception e) {
             System.err.println("Failed to load font");
         }
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
-        controller.refreshGui(Component.LOADER);
     }
 
     /**
@@ -149,9 +151,8 @@ class FileLoader extends Thread {
      */
     private void createDirectories(final String path, final String... names) {
         Arrays.asList(names).forEach(name -> {
-            if (!new File(path + name).mkdirs() 
-                && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
-                    System.err.println("An error as occurred during " + name + " directory creation!");
+            if (!new File(path + name).mkdirs() && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
+                System.err.println("An error as occurred during " + name + " directory creation!");
             }
         });
     }
@@ -159,21 +160,24 @@ class FileLoader extends Thread {
     /**
      * Convert an .svg to .jpg.
      * 
-     * @param svgUri
-     *            The path to the .svg
+     * @param inStreamSup
+     *            The supplier for the resource stream
      * @param jpgUri
      *            The path in which create the .jpg file
      */
-    private void convertSvgToJpg(final String svgUri, final String jpgUri) {
+    private void convertSvgToJpg(final Supplier<InputStream> inStreamSup, final String jpgUri) {
         try {
             // Create a JPEG transcoder
             final JPEGTranscoder converter = new JPEGTranscoder();
+            InputStream inStream = inStreamSup.get();
             converter.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, QUALITY);
-            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(svgUri));
+            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(inStream));
             converter.addTranscodingHint(JPEGTranscoder.KEY_BACKGROUND_COLOR, Color.BLACK);
+            inStream.close();
 
             // Create the transcoder input and output.
-            final TranscoderInput input = new TranscoderInput(svgUri);
+            inStream = inStreamSup.get();
+            final TranscoderInput input = new TranscoderInput(inStream);
             final OutputStream ostream = new FileOutputStream(jpgUri);
             final TranscoderOutput output = new TranscoderOutput(ostream);
 
@@ -181,6 +185,7 @@ class FileLoader extends Thread {
             converter.transcode(input, output);
 
             // Flush and close the stream.
+            inStream.close();
             ostream.flush();
             ostream.close();
         } catch (Exception e) {
@@ -199,13 +204,13 @@ class FileLoader extends Thread {
      * @throws IOException
      *             An exception
      */
-    private float getAdaptedWidth(final String svgUri) throws JDOMException, IOException {
+    private float getAdaptedWidth(final InputStream inStream) throws JDOMException, IOException {
         final SAXBuilder builder = new SAXBuilder();
-        final Document document = builder.build(svgUri);
+        final Document document = builder.build(inStream);
 
         final Element root = document.getRootElement();
         final float svgRateo = Float.valueOf(root.getAttributeValue("width"))
-                                       / Float.valueOf(root.getAttributeValue("height"));
+                / Float.valueOf(root.getAttributeValue("height"));
         final double deltaX = SCREEN_SIZE.getWidth() - Double.valueOf(root.getAttributeValue("width"));
         final double deltaY = SCREEN_SIZE.getHeight() - Double.valueOf(root.getAttributeValue("height"));
         return deltaX < deltaY ? svgRateo * SCREEN_SIZE.height : SCREEN_SIZE.width;

@@ -17,7 +17,7 @@ public class ShuttleJTest {
 
     /**
      * Test the movement (rotation) of the shuttle, checking some known points (0, 90, 180, and 270 degrees).
-     * Note: to run correctly this test, please set INTERVALS field to 1 in ShuttleImpl class.
+     * Note: to run correctly this test, please set WIDTH and HEIGHT fields to 1 in ShuttleImpl class.
      */
     @Test
     public void testRotationShuttle() {
@@ -26,7 +26,7 @@ public class ShuttleJTest {
         final Shuttle shuttle = model.getShuttle();
 
         // now shuttle top should be on the right
-        shuttle.setAngle(0);
+        ((FixedItemImpl) shuttle).setAngle(0);
         comparePoints(new Point2D(0.5, 0.5), shuttle.getPos(), tollerance);
         List<Point2D> shapePoints = shuttle.getShapePoints();
         List<Point2D> expectedPoints = Arrays.asList(new Point2D(0.5, 0), new Point2D(-0.5, 0.5),
@@ -36,7 +36,7 @@ public class ShuttleJTest {
         System.out.println(SEPARATOR);
 
         // now set angle to 90° (starting from x-axis), such that shuttle top should be in the up
-        shuttle.setAngle(90);
+        ((FixedItemImpl) shuttle).setAngle(90);
         comparePoints(new Point2D(-0.5, 0.5), shuttle.getPos(), tollerance);
         shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(0, 0.5), new Point2D(-0.5, -0.5), new Point2D(0.5, -0.5));
@@ -45,7 +45,7 @@ public class ShuttleJTest {
         System.out.println(SEPARATOR);
 
         // now set angle to 180° (starting from x-axis), such that shuttle top should be on the left
-        shuttle.setAngle(180);
+        ((FixedItemImpl) shuttle).setAngle(180);
         comparePoints(new Point2D(-0.5, -0.5), shuttle.getPos(), tollerance);
         shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(-0.5, 0), new Point2D(0.5, -0.5), new Point2D(0.5, 0.5));
@@ -55,7 +55,7 @@ public class ShuttleJTest {
 
         // now set angle to 270° (starting from x-axis), such that shuttle top should be on the bottom
         final double angle = 270;
-        shuttle.setAngle(angle);
+        ((FixedItemImpl) shuttle).setAngle(angle);
         comparePoints(new Point2D(0.5, -0.5), shuttle.getPos(), tollerance);
         shapePoints = shuttle.getShapePoints();
         expectedPoints = Arrays.asList(new Point2D(0, -0.5), new Point2D(0.5, 0.5), new Point2D(-0.5, 0.5));

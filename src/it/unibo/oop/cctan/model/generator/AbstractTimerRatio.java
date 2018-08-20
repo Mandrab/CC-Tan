@@ -54,6 +54,14 @@ public abstract class AbstractTimerRatio extends PausableThread implements Comma
     }
     /**
      * @return
+     *          speed field
+     */
+    protected double getSpeed() {
+        return this.speed;
+    }
+
+    /**
+     * @return
      *          ratio field
      */
     protected int getRatio() {
@@ -61,11 +69,19 @@ public abstract class AbstractTimerRatio extends PausableThread implements Comma
     }
 
     /**
-     * @return
-     *          speed field
+     * @param ratio
+     *          ratio field
      */
-    protected double getSpeed() {
-        return this.speed;
+    protected void setRatio(final int ratio) {
+        this.ratio = ratio;
+    }
+
+    /**
+     * @return
+     *          ratio field
+     */
+    protected int getFrequency() {
+        return this.ratio;
     }
 
     /**
@@ -79,11 +95,11 @@ public abstract class AbstractTimerRatio extends PausableThread implements Comma
 
     /**
      * Set the new ratio field.
-     * @param ratio
-     *          it's the new ratio of the item.
+     * @param frequency
+     *          it's the new frequency of the item.
      */
-    protected void setRatio(final int ratio) {
-        this.ratio = ratio;
+    protected void setFrequency(final int frequency) {
+        this.ratio = frequency;
     }
 
 }

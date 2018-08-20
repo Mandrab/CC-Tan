@@ -19,10 +19,11 @@ import javafx.geometry.Point2D;
  * Represent the shuttle in the space, where balls get out from. When a square collide with it the game will ends.
  * The shuttle will rotate with mouse position.
  */
+//package protected
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
-    private static final double HEIGHT = 1 / 6.0; //height of the rectangle containing the triangle, in terms of interval-unit
-    private static final double WIDTH = 1 / 6.0; //width of the rectangle, in terms of interval-unit
+    private static final double HEIGHT = 1 / 6.0; // use 1 to test
+    private static final double WIDTH = 1 / 6.0; // use 1 to test
 
     private final Point2D startingPos;
     private final List<Pair<PowerUpBlock, PausableThread>> activePowerUps;
@@ -133,8 +134,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public synchronized List<PausableThread> getActivePowerUps() {
         return Collections.unmodifiableList(this.activePowerUps.stream()
-                                                                .map(p -> p.getRight())
-                                                                .collect(Collectors.toList()));
+                                                               .map(p -> p.getRight())
+                                                               .collect(Collectors.toList()));
     }
 
     /** 

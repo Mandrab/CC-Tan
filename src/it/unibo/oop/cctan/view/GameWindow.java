@@ -9,13 +9,13 @@ import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFilesSingleton;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.interpackage_comunication.SizeObserver;
-import it.unibo.oop.cctan.interpackage_comunication.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
+import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
+import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
+import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserver;
 
 /**
- * Class that instance the component used to show the game to the user.
+ * Class that instance the component used to show the game to the user. Package protected.
  */
 class GameWindow extends JFrame implements SizeObserver {
 
@@ -39,7 +39,7 @@ class GameWindow extends JFrame implements SizeObserver {
         super();
         setTitle("CC-Tan!");
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.ICON).ifPresent(img -> setIconImage(img.getImage()));
-        view.getSizeObserverSource().ifPresent(s -> s.addSizeObserver(this));
+        view.getSizeObserverSource().ifPresent(s -> s.addObserver(this));
 
         gpanel = new GraphicPanel();
         getContentPane().add(gpanel, BorderLayout.CENTER);
@@ -71,6 +71,7 @@ class GameWindow extends JFrame implements SizeObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         this.gameWindowSize = Optional.of(gameWindowSize);
         this.screenRatio = Optional.of(screenRatio);
@@ -79,6 +80,7 @@ class GameWindow extends JFrame implements SizeObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void setVisible(final boolean cond) {
         if (!gameWindowSize.isPresent() || !screenRatio.isPresent()) {
             throw new IllegalArgumentException();
@@ -86,6 +88,9 @@ class GameWindow extends JFrame implements SizeObserver {
         super.setVisible(cond);
     }
 
+    /**
+     * Make the game window to refresh.
+     */
     public void refresh(final ModelData modelData) {
         gpanel.refresh(modelData);
     }

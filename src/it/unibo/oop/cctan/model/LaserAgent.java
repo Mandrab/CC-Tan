@@ -39,14 +39,6 @@ public class LaserAgent extends BulletImpl implements Bullet {
      * {@inheritDoc}
      */
     @Override
-    protected boolean intersectsWith(final FixedItem item) {
-        return this.getShape().intersects(item.getShape().getBounds2D());
-    }
-
-    /** 
-     * {@inheritDoc}
-     */
-    @Override
     public Shape getShape() {
         final double angle = Math.toRadians(this.getAngle());
         return new Line2D.Double(this.getPos().getX(), this.getPos().getY(),
@@ -74,6 +66,14 @@ public class LaserAgent extends BulletImpl implements Bullet {
      * {@inheritDoc}
      */
     @Override
+    protected boolean intersectsWith(final FixedItem item) {
+        return this.getShape().intersects(item.getShape().getBounds2D());
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
     protected void updatePos() {
         super.updatePos();
         this.checkIntersecate(Optional.empty(), DAMAGE);
@@ -95,13 +95,13 @@ public class LaserAgent extends BulletImpl implements Bullet {
      */
     @Override
     protected void updateAngle(final SquareAgent rect) {
-        //nothing to do here
+        //nothing to do here: laser can pass through square
     }
 
     /**
      * A basic builder for LaserAgent class.
      */
-    public static class LaserBuilder extends BulletImpl.BulletBuilder {
+    public static class LaserBuilder extends BulletImpl.BulletBuilder<LaserBuilder> {
 
         /** 
          * {@inheritDoc}

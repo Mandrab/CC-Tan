@@ -1,4 +1,4 @@
-package it.unibo.oop.cctan.interpackage_comunication;
+package it.unibo.oop.cctan.interpackage_comunication.commands_observer;
 
 import java.util.Optional;
 

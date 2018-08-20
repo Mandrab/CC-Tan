@@ -4,6 +4,7 @@ import java.awt.geom.Area;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
+
 import javafx.geometry.Point2D;
 
 /**

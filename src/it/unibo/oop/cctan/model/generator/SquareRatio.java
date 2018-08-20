@@ -36,6 +36,7 @@ public class SquareRatio extends AbstractHittableRatio {
     public void operation() {
         if (this.getRatio() >= MAX_RATIO + DECREASE_RATIO) {
             this.setRatio(this.getRatio() - DECREASE_RATIO);
+
         }
         if (this.getSpeed() <= MAX_SPEED - INCREASE_SPEED) {
             this.setSpeed(this.getSpeed() + INCREASE_SPEED);

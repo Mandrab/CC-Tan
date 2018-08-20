@@ -57,6 +57,7 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Pausabl
     /**
      * {@inheritDoc} 
      */
+    @Override
     public synchronized void addItemToList(final T item) {
         this.items.add(item);
     }
@@ -90,19 +91,19 @@ public abstract class AbstractItemGenerator<T extends FixedItem> extends Pausabl
     }
 
     /**
-     * @return
-     *          TimerRatio object.
-     */
-    public AbstractTimerRatio getRatio() {
-        return this.ratio;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public Model getModel() {
         return this.model;
+    }
+
+    /**
+     * @return
+     *          TimerRatio object.
+     */
+    protected AbstractTimerRatio getRatio() {
+        return this.ratio;
     }
 
 }

@@ -82,10 +82,13 @@ public abstract class MovableItemImpl extends FixedItemImpl implements MovableIt
         return this.speed;
     }
 
-    /** 
-     * {@inheritDoc}
+    /**
+     * Set the speed of the item, express in units per refresh.
+     * @see #getSpeed()
+     * @param speed
+     *          the new speed
      */
-    public void setSpeed(final double speed) {
+    protected void setSpeed(final double speed) {
         this.speed = speed;
     }
 

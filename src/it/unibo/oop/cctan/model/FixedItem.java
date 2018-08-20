@@ -59,12 +59,4 @@ public interface FixedItem {
      *          the item's color to be used by the view
      */
     Color getColor();
-
-    /**
-     * Set the angle of the item axis.
-     * @see #getAngle()
-     * @param angle
-     *          the new movement angle
-     */
-    void setAngle(double angle);
 }

@@ -2,7 +2,6 @@ package it.unibo.oop.cctan.controller;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,15 +9,9 @@ import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import it.unibo.oop.cctan.interpackage_comunication.Commands;
-import it.unibo.oop.cctan.interpackage_comunication.ModelData;
-import it.unibo.oop.cctan.view.View;
-import it.unibo.oop.cctan.view.View.Component;
 
 /**
  * Class to test fileLoader work.
@@ -47,10 +40,15 @@ public class FileLoaderJTest {
         final FileLoader fileLoader = createFileLoader();
         fileLoader.start();
         fileLoader.join();
-        assertTrue(Files.exists(Paths.get(USER_HOME + GAME_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + GAME_DIRECTORY);
-        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + IMG_DIRECTORY);
-        assertTrue(
-                Files.exists(Paths.get(USER_HOME + SCORE_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + SCORE_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + GAME_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + GAME_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + IMG_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + SCORE_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + SCORE_DIRECTORY);
         deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 
@@ -67,8 +65,10 @@ public class FileLoaderJTest {
         fileLoader.start();
         fileLoader.join();
         assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE),
-                LinkOption.NOFOLLOW_LINKS), FILE_CREATION_E);
-        assertTrue(Files.isReadable(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE)), FILE_READ_E);
+                                LinkOption.NOFOLLOW_LINKS), 
+                   FILE_CREATION_E);
+        assertTrue(Files.isReadable(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE)), 
+                   FILE_READ_E);
         deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 
@@ -83,29 +83,7 @@ public class FileLoaderJTest {
     }
 
     private FileLoader createFileLoader() {
-        return new FileLoader(new Controller() {
-
-            @Override
-            public void setView(final View v) {
-            }
-
-            @Override
-            public void newCommand(final Commands command) {
-            }
-
-            @Override
-            public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
-            }
-
-            @Override
-            public ModelData getModelData() {
-                return null;
-            }
-
-            @Override
-            public void refreshGui(final Component component) {
-            }
-        });
+        return new FileLoader();
     }
 
 }

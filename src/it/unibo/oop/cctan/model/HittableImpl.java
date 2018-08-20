@@ -3,7 +3,7 @@ package it.unibo.oop.cctan.model;
 /**
  * The implementation of Hittable interface to manage hittable items.
  */
-public abstract class HittableImpl  implements Hittable {
+public abstract class HittableImpl implements Hittable {
 
     private int hitPoints;
 
@@ -15,7 +15,7 @@ public abstract class HittableImpl  implements Hittable {
     }
 
     /**
-     * Create the new hittable item with the specifiet hit points.
+     * Create the new hittable item with the specified hit points.
      * @param hitPoints
      *                  the item's hit points (life), i.e. total damage
      *                  it has to receive to be destroyed
@@ -37,7 +37,7 @@ public abstract class HittableImpl  implements Hittable {
      */
     @Override
     public void hit(final int damage) {
-        this.hitPoints--;
+        this.hitPoints -= damage;
         if (this.hitPoints <= 0) {
             this.hitPoints = 0;
             this.destroyed();

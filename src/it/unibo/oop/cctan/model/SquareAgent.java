@@ -16,12 +16,12 @@ public class SquareAgent extends MovableItemImpl implements Hittable, MovableIte
     /**
      * The width of the ball.
      */
-    public static final double WIDTH = 0.18; //1 / 12.0; //0.18
+    public static final double WIDTH = 0.18;
 
     /**
      * The height of the ball.
      */
-    public static final double HEIGHT = 0.18; //1 / 12.0;
+    public static final double HEIGHT = 0.18;
 
     private static final double DEFAULT_SPEED = 0.0005;
     private static final int BLU_LIMIT = 10;
