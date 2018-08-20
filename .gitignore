@@ -1,4 +1,5 @@
 bin/
 doc/
+*.ucls
 *.log
 *.pdf
