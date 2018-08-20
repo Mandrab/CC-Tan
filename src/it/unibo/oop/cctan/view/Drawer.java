@@ -21,7 +21,7 @@ import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
 
 /**
- * Class used to draw shapes on a specific Graphics.
+ * Class used to draw shapes on a specific Graphics. Package protected.
  */
 class Drawer implements LoadObserver {
 

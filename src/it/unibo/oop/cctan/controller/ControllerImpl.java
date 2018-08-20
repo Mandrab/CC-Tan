@@ -70,35 +70,35 @@ class ControllerImpl implements Controller {
     /** {@inheritDoc} */
     public void newCommand(final Commands command) {
         switch (command) {
-        case START:
-            model.launch();
-            view.get()
-                .getSizeObserverSource()
-                .ifPresent(s -> s.getRatio()
-                                 .ifPresent(r -> model.setDisplayRatio(r.getKey().doubleValue() 
-                                                                       / r.getValue().doubleValue())));
-            view.get()
-                .getCommandsObserverSource()
-                .ifPresent(cos -> {
-                    viewUpdater = Optional.of(new ViewUpdaterImpl(view.get(), model, cos));
-                    viewUpdater.get().start();
-                    modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
-                    modelUpdater.get().start();
-                });
-            break;
-        case PAUSE:
-            model.pause();
-            break;
-        case RESUME:
-            model.resumeGame();
-            break;
-        case END:
-            model.terminate();
-            viewUpdater.ifPresent(vu -> vu.terminate());
-            modelUpdater.ifPresent(mu -> mu.terminate());
-            break;
-        default:
-            break;
+            case START:
+                model.launch();
+                view.get()
+                    .getSizeObserverSource()
+                    .ifPresent(s -> s.getRatio()
+                                     .ifPresent(r -> model.setDisplayRatio(r.getKey().doubleValue() 
+                                                                           / r.getValue().doubleValue())));
+                view.get()
+                    .getCommandsObserverSource()
+                    .ifPresent(cos -> {
+                        viewUpdater = Optional.of(new ViewUpdaterImpl(view.get(), model, cos));
+                        viewUpdater.get().start();
+                        modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
+                        modelUpdater.get().start();
+                    });
+                break;
+            case PAUSE:
+                model.pause();
+                break;
+            case RESUME:
+                model.resumeGame();
+                break;
+            case END:
+                model.terminate();
+                viewUpdater.ifPresent(vu -> vu.terminate());
+                modelUpdater.ifPresent(mu -> mu.terminate());
+                break;
+            default:
+                break;
         }
     }
 }

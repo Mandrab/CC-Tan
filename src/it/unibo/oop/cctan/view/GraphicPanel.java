@@ -18,6 +18,9 @@ import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
 import it.unibo.oop.cctan.interpackage_comunication.data.MappableDataImpl;
 import it.unibo.oop.cctan.interpackage_comunication.data.ModelData;
 
+/**
+ * The panel where draw. Package protected.
+ */
 class GraphicPanel extends JPanel {
 
     private static final long serialVersionUID = 7947210167853025169L;
@@ -36,6 +39,14 @@ class GraphicPanel extends JPanel {
         modelData = Optional.empty();
     }
 
+    /**
+     * Update dimension and x/y ratio setted.
+     * 
+     * @param gameWindowSize
+     *          New Dimension
+     * @param screenRatio
+     *          New ratio
+     */
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         if (gameWindowSize == null || screenRatio == null) {
             throw new IllegalArgumentException();

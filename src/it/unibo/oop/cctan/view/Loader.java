@@ -20,7 +20,7 @@ import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
- * A class that takes care to show the loading percentage of the application. 
+ * A class that takes care to show the loading percentage of the application. Package protected.
  */
 class Loader extends JWindow implements LoadObserver {
 
