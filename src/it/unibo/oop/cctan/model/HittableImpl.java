@@ -37,7 +37,7 @@ public abstract class HittableImpl  implements Hittable {
      */
     @Override
     public void hit(final int damage) {
-        this.hitPoints--;
+        this.hitPoints -= damage;
         if (this.hitPoints <= 0) {
             this.hitPoints = 0;
             this.destroyed();

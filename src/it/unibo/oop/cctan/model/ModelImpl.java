@@ -44,9 +44,7 @@ public class ModelImpl implements Model {
     public void launch() {
         if (gameStatus.equals(GameStatus.ENDED)) {
             score.reset();
-            this.squareGenerator = new SquareGenerator(this);
-            this.bulletGenerator = new BulletGenerator(this);
-            this.powerupGenerator = new PowerUpGenerator(this);
+            this.generatorInstantiation();
             squareGenerator.launch();
             bulletGenerator.launch();
             powerupGenerator.launch();
@@ -225,4 +223,9 @@ public class ModelImpl implements Model {
         gameStatus = GameStatus.RUNNING;
     }
 
+    private void generatorInstantiation() {
+        this.squareGenerator = new SquareGenerator(this);
+        this.bulletGenerator = new BulletGenerator(this);
+        this.powerupGenerator = new PowerUpGenerator(this);
+    }
 }

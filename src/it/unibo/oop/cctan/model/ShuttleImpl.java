@@ -19,6 +19,7 @@ import javafx.geometry.Point2D;
  * Represent the shuttle in the space, where balls get out from. When a square collide with it the game will ends.
  * The shuttle will rotate with mouse position.
  */
+//package protected
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
     private static final double HEIGHT = 1 / 6.0; //height of the rectangle containing the triangle, in terms of interval-unit
@@ -133,8 +134,8 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
     @Override
     public synchronized List<PowerUpExecution> getActivePowerUps() {
         return Collections.unmodifiableList(this.activePowerUps.stream()
-                                                                .map(p -> p.getRight())
-                                                                .collect(Collectors.toList()));
+                                                               .map(p -> p.getRight())
+                                                               .collect(Collectors.toList()));
     }
 
     /** 
@@ -142,10 +143,10 @@ public class ShuttleImpl extends FixedItemImpl implements Shuttle {
      */
     @Override
     public synchronized void activePowerUp(final Pair<PowerUpBlock, PowerUpExecution> powerUpExecution) {
-        final List<Pair<PowerUpBlock, PowerUpExecution>> duplicate = this.activePowerUps.stream()
-                                                 .filter(p -> p.getLeft().getClass()
-                                                         .equals(powerUpExecution.getLeft().getClass()))
-                                                 .collect(Collectors.toList());
+        final List<Pair<PowerUpBlock, PowerUpExecution>> duplicate =
+                this.activePowerUps.stream()
+                                   .filter(p -> p.getLeft().getClass().equals(powerUpExecution.getLeft().getClass()))
+                                   .collect(Collectors.toList());
         if (!duplicate.isEmpty()) {
             duplicate.forEach(p -> p.getRight().increaseTimer(powerUpExecution.getLeft().getDuration()));
         } else {

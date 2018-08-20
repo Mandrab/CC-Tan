@@ -134,7 +134,6 @@ public class BallAgent extends BulletImpl implements Bullet {
         }
     }
 
-    //Vertexes in rectangle path iterators are slide counterclockwise, from right-bottom ones to left-bottom
     private List<Double> getDistancesFromPoint(final Point2D point, final PathIterator pathIterator) {
         final int length = 6;
         final double[] coordinates = new double[length];

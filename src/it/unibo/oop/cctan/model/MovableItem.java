@@ -21,20 +21,4 @@ public interface MovableItem extends FixedItem, Commands {
      *          the new speed
      */
     void setSpeed(double speed);
-
-    /**
-     * Stop the item activity, terminating its execution.
-     */
-    void terminate();
-
-    /**
-     * Pause the item activity, locking its execution.
-     */
-    void pause();
-
-    /**
-     * Resume the item activity, continuing its execution.
-     */
-    void resumeGame();
-
 }
