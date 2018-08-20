@@ -38,6 +38,9 @@ class CommandsJTest {
     private static final String TERMINATED_E = "Should not be terminated";
     private static final String NOT_TERMINATED_E = "Should be terminated";
 
+    /**
+     * Test ModelUpdater.
+     */
     @Test
     public void modelUpdaterJTest() {
         final ModelUpdater mu = new ModelUpdater(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
@@ -62,9 +65,14 @@ class CommandsJTest {
         assertTrue(NOT_TERMINATED_E, mu.isTerminated());
     }
 
+
+    /**
+     * Test ViewUpdater.
+     */
     @Test
     public void viewUpdaterJTest() throws InterruptedException {
-        final ViewUpdaterImpl vu = new ViewUpdaterImpl(new ViewJTest(), new ModelJTest(), new CommandsObserverSourceJTest());
+        final ViewUpdaterImpl vu = new ViewUpdaterImpl(new ViewJTest(), new ModelJTest(),
+                new CommandsObserverSourceJTest());
         assertFalse(TERMINATED_E, vu.isTerminated());
         vu.start();
         vu.newCommand(Commands.START);

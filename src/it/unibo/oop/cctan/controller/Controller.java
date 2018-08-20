@@ -26,7 +26,7 @@ public interface Controller extends CommandsObserver, SizeObserver {
     ModelData getModelData();
 
     /**
-     * Make the game window to refresh.
+     * Make the view to refresh.
      */
     void refreshGui();
 

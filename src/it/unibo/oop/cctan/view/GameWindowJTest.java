@@ -55,6 +55,9 @@ class GameWindowJTest {
 
     private GameWindow gw;
 
+    /**
+     * Test for static square.
+     */
     @Test
     public void staticSquare() {
         final Supplier<Double> s = new Supplier<Double>() {
@@ -74,6 +77,9 @@ class GameWindowJTest {
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
+    /**
+     * Test for square in motion.
+     */
     @Test
     public void movingSquare() {
         final Supplier<Double> s = new Supplier<Double>() {
@@ -94,6 +100,10 @@ class GameWindowJTest {
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
+    /**
+     * Test for commands text print. NOTE: The square will continue to update in background,
+     * this is not an error but is derived by the test.
+     */
     @Test
     public void commandsTextDrawTest() {
         final Supplier<GameStatus> s = new Supplier<GameStatus>() {
@@ -115,6 +125,9 @@ class GameWindowJTest {
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
+    /**
+     * Test for text inside of a shape.
+     */
     @Test
     public void shapeTextDrawTest() {
         final Supplier<Double> positionSupplier = new Supplier<Double>() {
@@ -156,6 +169,9 @@ class GameWindowJTest {
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
+    /**
+     * Test for x / y ratio > 0.
+     */
     @Test
     public void unbalancedRatioXOverwhelmingTest() {
         final View view = new EmptyJTestView();
@@ -177,22 +193,25 @@ class GameWindowJTest {
                                        -1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Bottom-Right
-        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
+        IntStream.range(0, TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME).forEach(cicle -> {
             gw.refresh(new ModelDataImpl(list, 
-                            (int) (Math.random() * 10),
-                            GameStatus.RUNNING));
+                                         (int) (Math.random() * 10),
+                                         GameStatus.RUNNING));
             view.refreshGui();
             try {
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        });
         assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
     }
 
+    /**
+     * Test for x / y ratio < 0.
+     */
     @Test
     public void unbalancedRatioYOverwhelmingTest() {
         final View view = new EmptyJTestView();
@@ -214,17 +233,17 @@ class GameWindowJTest {
                                        -1 * DIMENSION_REDUCER_MULTIPLIER,
                                        SQUARE_EDGE_SIZE, 
                                        SQUARE_EDGE_SIZE)));             //Bottom-Right
-        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
+        IntStream.range(0, TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME).forEach(cicle -> {
             gw.refresh(new ModelDataImpl(list, 
-                            (int) (Math.random() * 10),
-                            GameStatus.RUNNING));
+                                         (int) (Math.random() * 10),
+                                         GameStatus.RUNNING));
             view.refreshGui();
             try {
                 Thread.sleep(REFRESH_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        });
         assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
@@ -237,7 +256,7 @@ class GameWindowJTest {
         assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
         gw.setVisible(true);
         assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
-        for (int cicle = 0; cicle * REFRESH_TIME < TIME_BEFORE_JUNIT_TEST_END; cicle++) {
+        IntStream.range(0, TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME).forEach(cicle -> {
             gw.refresh(modelDataSupplier.get());
             view.refreshGui();
             try {
@@ -245,7 +264,7 @@ class GameWindowJTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        });
         assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
         gw.setVisible(false);
     }

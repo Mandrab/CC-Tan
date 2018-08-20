@@ -46,6 +46,12 @@ class GraphicPanel extends JPanel {
         drawer.update(gameWindowSize, screenRatio);
     }
 
+    /**
+     * Refresh the panel with passed data.
+     * 
+     * @param modelData
+     *          the passed data.
+     */
     public void refresh(final ModelData modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException();
@@ -89,10 +95,23 @@ class GraphicPanel extends JPanel {
         }
     }
 
+    /**
+     * Opacifies the passed data.
+     * 
+     * @param mappableDatas
+     *          The data to opacifies
+     * @return
+     *          The data opacified
+     */
     private List<MappableData> opacifies(final List<MappableData> mappableDatas) {
-        return mappableDatas.stream().map(e -> new MappableDataImpl(e.getText(),
-                new Color(e.getColor().getRed(), e.getColor().getGreen(), e.getColor().getBlue(), OPACITY_VALUE),
-                e.getShape())).collect(Collectors.toList());
+        return mappableDatas.stream()
+                            .map(e -> new MappableDataImpl(e.getText(),
+                                                           new Color(e.getColor().getRed(), 
+                                                                     e.getColor().getGreen(), 
+                                                                     e.getColor().getBlue(), 
+                                                                     OPACITY_VALUE),
+                                                           e.getShape()))
+                            .collect(Collectors.toList());
     }
 
 }

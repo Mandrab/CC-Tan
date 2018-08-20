@@ -124,6 +124,7 @@ class Loader extends JWindow implements LoadObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public final void update() {
         LoadedFilesSingleton.getLoadedFiles().getImage(ImageType.LOGO).ifPresent(img -> setLoadImage(img));
         advanceLoading(LoadedFilesSingleton.getLoadedFiles().getPercentage());

@@ -26,8 +26,8 @@ import it.unibo.oop.cctan.interpackage_comunication.data.MappableData;
 class Drawer implements LoadObserver {
 
     private static final int DEFAULT_MULTIPLIER = 20;
-    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit().getScreenSize().height
-            / DEFAULT_MULTIPLIER;
+    private static final int DEFAULT_FONT_SIZE = Toolkit.getDefaultToolkit()
+                                                            .getScreenSize().height / DEFAULT_MULTIPLIER;
     private static final float PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT = 0.55f;
     private Graphics2D graphics;
     private Font font;
@@ -64,8 +64,8 @@ class Drawer implements LoadObserver {
         defaultFontSize = gameWindowSize.height / DEFAULT_MULTIPLIER;
         aTransformation = new AffineTransform();
         aTransformation.translate(gameWindowSize.width / 2, gameWindowSize.height / 2);
-        aTransformation.scale((gameWindowSize.width * screenRatio.getValue().doubleValue())
-                / (2 * screenRatio.getKey().doubleValue()), -gameWindowSize.height / 2);
+        aTransformation.scale(gameWindowSize.width * screenRatio.getValue().doubleValue()
+                              / (2 * screenRatio.getKey().doubleValue()), -gameWindowSize.height / 2);
     }
 
     /**
@@ -98,10 +98,11 @@ class Drawer implements LoadObserver {
         final int lineHeight = graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent();
         final int yStartingPoint = (int) Math.round(shape.getBounds().getCenterY() - lineHeight * strings.length / 2);
         IntStream.range(0, strings.length)
-                .forEach(i -> graphics.drawString(strings[i],
-                        Math.round(
-                                shape.getBounds().getCenterX() - graphics.getFontMetrics().stringWidth(strings[i]) / 2),
-                        yStartingPoint + (1 + i) * lineHeight));
+                 .forEach(i -> graphics.drawString(strings[i],
+                                                   Math.round(shape.getBounds().getCenterX() 
+                                                              - graphics.getFontMetrics()
+                                                                        .stringWidth(strings[i]) / 2),
+                                                   yStartingPoint + (1 + i) * lineHeight));
         graphics.setFont(graphics.getFont().deriveFont((float) fontSize));
     }
 
@@ -116,11 +117,18 @@ class Drawer implements LoadObserver {
      * @return true if the text is greater than the shape, false otherwise
      */
     private boolean textProtrudes(final Shape shape, final String... strings) {
-        final int x = Arrays.asList(strings).stream().mapToInt(str -> graphics.getFontMetrics().stringWidth(str))
-                .sorted().max().orElseGet(() -> 0);
-        final int y = (graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length;
-        return !shape.contains(shape.getBounds2D().getCenterX() - x / 2, shape.getBounds2D().getCenterY() - y / 2, x,
-                y);
+        final int x = Arrays.asList(strings)
+                            .stream()
+                            .mapToInt(str -> graphics.getFontMetrics().stringWidth(str))
+                            .sorted()
+                            .max()
+                            .orElseGet(() -> 0);
+        final int y = (graphics.getFontMetrics().getAscent() 
+                      + graphics.getFontMetrics().getDescent()) 
+                      * strings.length;
+        return !shape.contains(shape.getBounds2D().getCenterX() - x / 2, 
+                               shape.getBounds2D().getCenterY() - y / 2, 
+                               x, y);
     }
 
     /**
@@ -134,8 +142,10 @@ class Drawer implements LoadObserver {
      */
     private Font getAdaptedFont(final Dimension border, final String... strings) {
         final int longestStringSize = IntStream.range(0, strings.length)
-                .mapToObj(i -> Integer.valueOf(graphics.getFontMetrics().stringWidth(strings[i]))).max((x, y) -> x - y)
-                .orElseGet(() -> Integer.valueOf(0));
+                                               .mapToObj(i -> graphics.getFontMetrics()
+                                                                      .stringWidth(strings[i]))
+                                               .max((x, y) -> x - y)
+                                               .orElseGet(() -> 0);
         final float xPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT / longestStringSize;
         final float yPreferredSize = border.width * PERCENTAGE_OF_SHAPE_OCCUPIED_BY_TEXT
                 / ((graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent()) * strings.length);
@@ -184,6 +194,7 @@ class Drawer implements LoadObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void update() {
         LoadedFilesSingleton.getLoadedFiles().getFont().ifPresent(font -> {
             if (!this.font.getFontName().equals(font.getFontName())) {

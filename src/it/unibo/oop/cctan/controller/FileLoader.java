@@ -31,8 +31,8 @@ import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFilesSingleton;
 import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 
 /**
- * A class created to allow files access and modification. 
- * This class is package protected.
+ * A class created to allow files access and modification. This class is package
+ * protected.
  */
 class FileLoader extends Thread {
 
@@ -54,7 +54,9 @@ class FileLoader extends Thread {
 
         @Override
         public int getAsInt() {
-            return PERCENTAGE_ADVANCE[index++];
+            return index < PERCENTAGE_ADVANCE.length 
+                   ? PERCENTAGE_ADVANCE[index++] 
+                   : PERCENTAGE_ADVANCE[PERCENTAGE_ADVANCE.length - 1];
         }
     };
     private static final float QUALITY = 1.0f;
@@ -80,34 +82,40 @@ class FileLoader extends Thread {
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), LinkOption.NOFOLLOW_LINKS)) {
-            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), ImageType.LOGO);
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO),
+                            LinkOption.NOFOLLOW_LINKS)) {
+            loadedFiles.setImage(new ImageIcon(FileLoader.class.getResource(PC_AND_JAR_IMG_JPG_LOGO)), 
+                                 ImageType.LOGO);
             try {
                 convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_LOGO),
-                        PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
+                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), ImageType.LOGO);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_LOGO), 
+                                           ImageType.LOGO);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
 
         // convert svg to jpg. if jpg file already exists will do nothing
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), LinkOption.NOFOLLOW_LINKS)) {
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON),
+                            LinkOption.NOFOLLOW_LINKS)) {
             try {
                 convertSvgToJpg(() -> FileLoader.class.getResourceAsStream(JAR_IMG_SVG_ICON),
-                        PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
+                                PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON);
             } catch (Exception e) {
                 System.err.println("Error during svg conversion!");
                 e.printStackTrace();
             }
         }
-        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), ImageType.ICON);
+        loadedFiles.setImage(new ImageIcon(PC_PATH + PC_DIRECTORY_IMG + PC_AND_JAR_IMG_JPG_ICON), 
+                             ImageType.ICON);
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
 
-        //Create score file into .cctan folder
-        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE), LinkOption.NOFOLLOW_LINKS)) {
+        // Create score file into .cctan folder
+        if (Files.notExists(Paths.get(PC_PATH, PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE),
+                            LinkOption.NOFOLLOW_LINKS)) {
             loadedFiles.setScoresFile(new File(PC_FILE_SCORES_DIR_SCORE));
             try {
                 final File file = new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE);
@@ -122,9 +130,10 @@ class FileLoader extends Thread {
         loadedFiles.setScoresFile(new File(PC_PATH + PC_DIRECTORY_SCORE + PC_FILE_SCORES_DIR_SCORE));
         loadedFiles.increaseAdvance(ADVANCE_PERCENTAGE.getAsInt());
 
-        //Load the font file
+        // Load the font file
         try {
-            final Font font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
+            final Font font = Font.createFont(Font.TRUETYPE_FONT,
+                    this.getClass().getResourceAsStream(JAR_DIRECTORY_FONT_SUBSPACE + JAR_FILE_FONT_SUBSPACE));
             loadedFiles.setFont(font);
         } catch (Exception e) {
             System.err.println("Failed to load font");
@@ -142,9 +151,8 @@ class FileLoader extends Thread {
      */
     private void createDirectories(final String path, final String... names) {
         Arrays.asList(names).forEach(name -> {
-            if (!new File(path + name).mkdirs() 
-                && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
-                    System.err.println("An error as occurred during " + name + " directory creation!");
+            if (!new File(path + name).mkdirs() && Files.notExists(Paths.get(path, name), LinkOption.NOFOLLOW_LINKS)) {
+                System.err.println("An error as occurred during " + name + " directory creation!");
             }
         });
     }
@@ -202,7 +210,7 @@ class FileLoader extends Thread {
 
         final Element root = document.getRootElement();
         final float svgRateo = Float.valueOf(root.getAttributeValue("width"))
-                                       / Float.valueOf(root.getAttributeValue("height"));
+                / Float.valueOf(root.getAttributeValue("height"));
         final double deltaX = SCREEN_SIZE.getWidth() - Double.valueOf(root.getAttributeValue("width"));
         final double deltaY = SCREEN_SIZE.getHeight() - Double.valueOf(root.getAttributeValue("height"));
         return deltaX < deltaY ? svgRateo * SCREEN_SIZE.height : SCREEN_SIZE.width;

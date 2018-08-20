@@ -77,7 +77,7 @@ public interface View extends SizeAndCommandsLink {
     ModelData getModelData();
 
     /**
-     * Make the game window to refresh.
+     * Make the view to refresh.
      */
     void refreshGui();
 

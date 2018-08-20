@@ -71,6 +71,7 @@ class GameWindow extends JFrame implements SizeObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
         this.gameWindowSize = Optional.of(gameWindowSize);
         this.screenRatio = Optional.of(screenRatio);
@@ -79,6 +80,7 @@ class GameWindow extends JFrame implements SizeObserver {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void setVisible(final boolean cond) {
         if (!gameWindowSize.isPresent() || !screenRatio.isPresent()) {
             throw new IllegalArgumentException();
@@ -86,6 +88,9 @@ class GameWindow extends JFrame implements SizeObserver {
         super.setVisible(cond);
     }
 
+    /**
+     * Make the game window to refresh.
+     */
     public void refresh(final ModelData modelData) {
         gpanel.refresh(modelData);
     }

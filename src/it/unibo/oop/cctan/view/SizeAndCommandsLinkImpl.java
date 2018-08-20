@@ -7,6 +7,9 @@ import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsOb
 import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverLink;
 import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
+/**
+ * Implementation of SizeAndCommandsLink.
+ */
 abstract class SizeAndCommandsLinkImpl implements SizeAndCommandsLink {
 
     private Optional<CommandsObserverSource> commandsObserverSource = Optional.empty();

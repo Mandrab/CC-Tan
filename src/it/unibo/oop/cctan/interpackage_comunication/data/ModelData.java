@@ -24,9 +24,10 @@ public interface ModelData {
     int getScore();
 
     /**
-     * Return the actual status of the game as described in the GameStatus enumeration.
-     * @return
-     * The status of the game
+     * Return the actual status of the game as described in the GameStatus
+     * enumeration.
+     * 
+     * @return The status of the game
      */
     GameStatus getGameStatus();
 

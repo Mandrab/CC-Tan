@@ -40,10 +40,15 @@ public class FileLoaderJTest {
         final FileLoader fileLoader = createFileLoader();
         fileLoader.start();
         fileLoader.join();
-        assertTrue(Files.exists(Paths.get(USER_HOME + GAME_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + GAME_DIRECTORY);
-        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + IMG_DIRECTORY);
-        assertTrue(
-                Files.exists(Paths.get(USER_HOME + SCORE_DIRECTORY), LinkOption.NOFOLLOW_LINKS), DIRECTORY_CREATION_E + SCORE_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + GAME_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + GAME_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + IMG_DIRECTORY);
+        assertTrue(Files.exists(Paths.get(USER_HOME + SCORE_DIRECTORY), 
+                                LinkOption.NOFOLLOW_LINKS), 
+                   DIRECTORY_CREATION_E + SCORE_DIRECTORY);
         deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 
@@ -60,8 +65,10 @@ public class FileLoaderJTest {
         fileLoader.start();
         fileLoader.join();
         assertTrue(Files.exists(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE),
-                LinkOption.NOFOLLOW_LINKS), FILE_CREATION_E);
-        assertTrue(Files.isReadable(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE)), FILE_READ_E);
+                                LinkOption.NOFOLLOW_LINKS), 
+                   FILE_CREATION_E);
+        assertTrue(Files.isReadable(Paths.get(USER_HOME + IMG_DIRECTORY + IMG_FILE)), 
+                   FILE_READ_E);
         deleteDirectory(USER_HOME + GAME_DIRECTORY);
     }
 

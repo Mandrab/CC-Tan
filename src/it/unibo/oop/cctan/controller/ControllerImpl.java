@@ -15,8 +15,8 @@ import it.unibo.oop.cctan.model.ModelImpl;
 import it.unibo.oop.cctan.view.View;
 
 /**
- * A class that implements controller interface.
- * This implementation is package protected.
+ * A class that implements controller interface. This implementation is package
+ * protected.
  */
 class ControllerImpl implements Controller {
 
@@ -25,6 +25,9 @@ class ControllerImpl implements Controller {
     private Optional<ViewUpdater> viewUpdater;
     private Optional<Updater> modelUpdater;
 
+    /**
+     * Constructor.
+     */
     ControllerImpl() {
         final FileLoader fileLoader = new FileLoader();
         view = Optional.empty();
@@ -47,7 +50,7 @@ class ControllerImpl implements Controller {
     /** {@inheritDoc} */
     public ModelData getModelData() {
         return viewUpdater.isPresent() 
-               ? viewUpdater.get().getModelData() 
+               ? viewUpdater.get().getModelData()
                : new ModelDataImpl(new LinkedList<>(), 0, GameStatus.ENDED);
     }
 
@@ -60,41 +63,42 @@ class ControllerImpl implements Controller {
     @Override
     /** {@inheritDoc} */
     public void update(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
-        model.setDisplayRatio(screenRatio.getKey().doubleValue() 
-                              / screenRatio.getValue().doubleValue());
+        model.setDisplayRatio(screenRatio.getKey().doubleValue() / screenRatio.getValue().doubleValue());
     }
 
     @Override
     /** {@inheritDoc} */
     public void newCommand(final Commands command) {
         switch (command) {
-            case START:
-                model.launch();
-                view.get()
-                    .getSizeObserverSource()
-                    .ifPresent(s -> s.getRatio().ifPresent(r -> 
-                        model.setDisplayRatio(r.getKey().doubleValue() 
-                                              / r.getValue().doubleValue())));
-                view.get().getCommandsObserverSource().ifPresent(cos -> {
+        case START:
+            model.launch();
+            view.get()
+                .getSizeObserverSource()
+                .ifPresent(s -> s.getRatio()
+                                 .ifPresent(r -> model.setDisplayRatio(r.getKey().doubleValue() 
+                                                                       / r.getValue().doubleValue())));
+            view.get()
+                .getCommandsObserverSource()
+                .ifPresent(cos -> {
                     viewUpdater = Optional.of(new ViewUpdaterImpl(view.get(), model, cos));
                     viewUpdater.get().start();
                     modelUpdater = Optional.of(new ModelUpdater(view.get(), model, cos));
                     modelUpdater.get().start();
                 });
-                break;
-            case PAUSE:
-                model.pause();
-                break;
-            case RESUME:
-                model.resumeGame();
-                break;
-            case END:
-                model.terminate();
-                viewUpdater.ifPresent(vu -> vu.terminate());
-                modelUpdater.ifPresent(mu -> mu.terminate());
-                break;
-            default:
-                break;
+            break;
+        case PAUSE:
+            model.pause();
+            break;
+        case RESUME:
+            model.resumeGame();
+            break;
+        case END:
+            model.terminate();
+            viewUpdater.ifPresent(vu -> vu.terminate());
+            modelUpdater.ifPresent(mu -> mu.terminate());
+            break;
+        default:
+            break;
         }
     }
 }

@@ -49,27 +49,32 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized void addLoaderPercentage(final int maxPercentage) {
         this.maxPercentage += maxPercentage;
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized void increaseAdvance(final int percentage) {
         this.percentage += percentage;
         notifyObservers();
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized int getPercentage() {
         return Math.round(percentage * 100f / maxPercentage);
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized boolean isLoaded() {
         return maxPercentage == percentage;
     }
 
     @Override
+    /** {@inheritDoc} */
     public void setImage(final ImageIcon img, final ImageType type) {
         switch (type) {
             case LOGO:
@@ -87,29 +92,34 @@ public final class LoadedFilesSingleton implements LoadedFiles {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void setFont(final Font fontFile) {
         this.fontFile = Optional.of(fontFile);
         notifyObservers();
     }
 
     @Override
+    /** {@inheritDoc} */
     public void setScoresFile(final File file) {
         this.scoreFile = Optional.of(file);
         notifyObservers();
     }
 
     @Override
+    /** {@inheritDoc} */
     public Optional<Font> getFont() {
         return fontFile;
     }
 
     @Override
+    /** {@inheritDoc} */
     public Optional<File> getScoresFile() {
         return this.scoreFile;
 
     }
 
     @Override
+    /** {@inheritDoc} */
     public Optional<ImageIcon> getImage(final ImageType type) {
         switch (type) {
         case LOGO:
@@ -123,16 +133,21 @@ public final class LoadedFilesSingleton implements LoadedFiles {
         }
     }
 
+    /**
+     * Call update on all observer.
+     */
     private synchronized void notifyObservers() {
         loadObservers.forEach(o -> o.update());
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized void addObserver(final LoadObserver loadObserver) {
         loadObservers.add(loadObserver);
     }
 
     @Override
+    /** {@inheritDoc} */
     public synchronized void removeObserver(final LoadObserver loadObserver) {
         loadObservers.remove(loadObserver);
     }
