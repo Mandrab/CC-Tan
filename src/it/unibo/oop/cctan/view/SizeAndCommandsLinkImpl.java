@@ -8,7 +8,7 @@ import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverLi
 import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSource;
 
 /**
- * Implementation of SizeAndCommandsLink.
+ * Implementation of SizeAndCommandsLink. Package protected.
  */
 abstract class SizeAndCommandsLinkImpl implements SizeAndCommandsLink {
 

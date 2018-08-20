@@ -15,7 +15,7 @@ import it.unibo.oop.cctan.interpackage_comunication.data.LoadedFiles.ImageType;
 import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserver;
 
 /**
- * Class that instance the component used to show the game to the user.
+ * Class that instance the component used to show the game to the user. Package protected.
  */
 class GameWindow extends JFrame implements SizeObserver {
 

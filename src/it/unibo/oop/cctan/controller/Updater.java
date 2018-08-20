@@ -3,7 +3,7 @@ package it.unibo.oop.cctan.controller;
 import it.unibo.oop.cctan.interpackage_comunication.commands_observer.CommandsObserver;
 
 /**
- * An interface for class that have to update something.
+ * An interface for class that have to update something. Package protected.
  */
 interface Updater extends CommandsObserver {
 

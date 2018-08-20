@@ -3,6 +3,9 @@ package it.unibo.oop.cctan.view;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
+/**
+ * Works on mouse (degree). Package protected.
+ */
 class MouseEvents {
 
     private final View view;

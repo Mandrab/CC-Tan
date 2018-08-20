@@ -65,7 +65,6 @@ class CommandsJTest {
         assertTrue(NOT_TERMINATED_E, mu.isTerminated());
     }
 
-
     /**
      * Test ViewUpdater.
      */
