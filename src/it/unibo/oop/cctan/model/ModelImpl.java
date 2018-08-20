@@ -70,7 +70,7 @@ public class ModelImpl implements Model {
      */
     @Override
     public void setSpaceshipAngle(final double angle) {
-        this.shuttle.setAngle(angle);
+        ((FixedItemImpl) this.shuttle).setAngle(angle);
     }
 
     /**

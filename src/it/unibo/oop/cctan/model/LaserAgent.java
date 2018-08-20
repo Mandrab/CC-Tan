@@ -101,7 +101,7 @@ public class LaserAgent extends BulletImpl implements Bullet {
     /**
      * A basic builder for LaserAgent class.
      */
-    public static class LaserBuilder extends BulletImpl.BulletBuilder {
+    public static class LaserBuilder extends BulletImpl.BulletBuilder<LaserBuilder> {
 
         /** 
          * {@inheritDoc}

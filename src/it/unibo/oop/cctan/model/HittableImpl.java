@@ -3,7 +3,7 @@ package it.unibo.oop.cctan.model;
 /**
  * The implementation of Hittable interface to manage hittable items.
  */
-public abstract class HittableImpl  implements Hittable {
+public abstract class HittableImpl implements Hittable {
 
     private int hitPoints;
 

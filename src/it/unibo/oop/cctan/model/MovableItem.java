@@ -13,12 +13,4 @@ public interface MovableItem extends FixedItem, Commands {
      *          the current speed of the item
      */
     double getSpeed();
-
-    /**
-     * Set the speed of the item, express in units per refresh.
-     * @see #getSpeed()
-     * @param speed
-     *          the new speed
-     */
-    void setSpeed(double speed);
 }

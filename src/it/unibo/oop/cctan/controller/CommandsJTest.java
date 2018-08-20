@@ -22,10 +22,10 @@ import it.unibo.oop.cctan.interpackage_comunication.size_observer.SizeObserverSo
 import it.unibo.oop.cctan.model.Bullet;
 import it.unibo.oop.cctan.model.Model;
 import it.unibo.oop.cctan.model.PowerUpBlock;
-import it.unibo.oop.cctan.model.PowerUpBlockImpl.PowerUpBlockBuilder;
 import it.unibo.oop.cctan.model.Score;
 import it.unibo.oop.cctan.model.Shuttle;
 import it.unibo.oop.cctan.model.SquareAgent;
+import it.unibo.oop.cctan.model.PowerUpBlockImpl.PowerUpBlockBuilder;
 import it.unibo.oop.cctan.model.generator.ItemGenerator;
 import it.unibo.oop.cctan.model.geometry.Boundary;
 import it.unibo.oop.cctan.view.KeyCommandsListener;

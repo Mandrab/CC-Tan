@@ -1,8 +1,8 @@
 package it.unibo.oop.cctan.model.generator;
 
-import it.unibo.oop.cctan.model.SquareAgent;
 import it.unibo.oop.cctan.model.geometry.RandomUtility;
 import it.unibo.oop.cctan.model.Model;
+import it.unibo.oop.cctan.model.SquareAgent;
 import javafx.geometry.Point2D;
 import java.util.Random;
 

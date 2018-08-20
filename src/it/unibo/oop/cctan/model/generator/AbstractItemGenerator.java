@@ -2,6 +2,7 @@ package it.unibo.oop.cctan.model.generator;
 
 import it.unibo.oop.cctan.model.FixedItem;
 import it.unibo.oop.cctan.model.Model;
+
 import java.util.ArrayList;
 import java.util.List;
 

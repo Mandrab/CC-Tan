@@ -58,11 +58,13 @@ public abstract class FixedItemImpl implements FixedItem {
         return this.angle;
     }
 
-    /** 
-     * {@inheritDoc}
+    /**
+     * Set the angle of the item axis.
+     * @see #getAngle()
+     * @param angle
+     *          the new movement angle
      */
-    @Override
-    public synchronized void setAngle(final double angle) {
+    protected synchronized void setAngle(final double angle) {
         this.angle = angle;
     }
 

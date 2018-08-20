@@ -22,8 +22,8 @@ import javafx.geometry.Point2D;
 //package protected
 public class ShuttleImpl extends FixedItemImpl implements Shuttle {
 
-    private static final double HEIGHT = 1 / 6.0; //height of the rectangle containing the triangle, in terms of interval-unit
-    private static final double WIDTH = 1 / 6.0; //width of the rectangle, in terms of interval-unit
+    private static final double HEIGHT = 1 / 6.0; // use 1 to test
+    private static final double WIDTH = 1 / 6.0; // use 1 to test
 
     private final Point2D startingPos;
     private final List<Pair<PowerUpBlock, PowerUpExecution>> activePowerUps;
