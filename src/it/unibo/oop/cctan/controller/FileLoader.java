@@ -54,7 +54,7 @@ class FileLoader extends Thread {
 
         @Override
         public int getAsInt() {
-            return index < PERCENTAGE_ADVANCE.length ? PERCENTAGE_ADVANCE[index++] : 100;
+            return PERCENTAGE_ADVANCE[index++];
         }
     };
     private static final float QUALITY = 1.0f;
@@ -161,12 +161,15 @@ class FileLoader extends Thread {
         try {
             // Create a JPEG transcoder
             final JPEGTranscoder converter = new JPEGTranscoder();
+            InputStream inStream = inStreamSup.get();
             converter.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, QUALITY);
-            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(inStreamSup.get()));
+            converter.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, getAdaptedWidth(inStream));
             converter.addTranscodingHint(JPEGTranscoder.KEY_BACKGROUND_COLOR, Color.BLACK);
+            inStream.close();
 
             // Create the transcoder input and output.
-            final TranscoderInput input = new TranscoderInput(inStreamSup.get());
+            inStream = inStreamSup.get();
+            final TranscoderInput input = new TranscoderInput(inStream);
             final OutputStream ostream = new FileOutputStream(jpgUri);
             final TranscoderOutput output = new TranscoderOutput(ostream);
 
@@ -174,6 +177,7 @@ class FileLoader extends Thread {
             converter.transcode(input, output);
 
             // Flush and close the stream.
+            inStream.close();
             ostream.flush();
             ostream.close();
         } catch (Exception e) {
