@@ -1,0 +1,768 @@
+Found a 22 line (131 tokens) duplication in the following files: 
+Starting at line 77 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 75 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        title.setText("GAME-OVER");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        background.add(title, c);
+        c.gridx = 0;
+        c.gridy = pos++;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        background.add(new JLabel("           "), c);
+
+        final JLabel nickLabl = new JLabel();
+        nickLabl.setText("Your score : " + this.score);
+        c.gridx = 0;
+        c.gridy = pos++;
+        nickLabl.setHorizontalAlignment(JLabel.CENTER);
+        background.add(nickLabl, c);
+
+        c.insets = new Insets(10, INSETS, 0, INSETS);
+        c.gridwidth = 1;
+
+        final JButton settingsBtn = new JButton("Settings");
+=====================================================================
+Found a 22 line (131 tokens) duplication in the following files: 
+Starting at line 179 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 176 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        title.setText("GAME-OVER");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(title, c);
+        c.gridx = 0;
+        c.gridy = pos++;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(new JLabel("           "), c);
+
+        final JLabel nickLabl = new JLabel();
+        nickLabl.setText("Your score : " + this.score);
+        c.gridx = 0;
+        c.gridy = pos++;
+        nickLabl.setHorizontalAlignment(JLabel.CENTER);
+        tmpBackground.add(nickLabl, c);
+
+        c.insets = new Insets(10, INSETS, 0, INSETS);
+        c.gridwidth = 1;
+
+        final JButton settingsBtn = new JButton("Settings");
+=====================================================================
+Found a 17 line (128 tokens) duplication in the following files: 
+Starting at line 61 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 59 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        final Dimension windowDimension = tryDimensionOfWindow();
+
+        final ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        final JLabel background = new JLabel(new ImageIcon(imgIco.getImage()
+                .getScaledInstance((int) windowDimension.getWidth(), (int) windowDimension.getHeight(), 0)));
+        mainFrame.add(background);
+        mainFrame.setResizable(false);
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 19 line (121 tokens) duplication in the following files: 
+Starting at line 192 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+Starting at line 232 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+
+                new Rectangle2D.Double((GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
+                                       -1 * DIMENSION_REDUCER_MULTIPLIER,
+                                       SQUARE_EDGE_SIZE, 
+                                       SQUARE_EDGE_SIZE)));             //Bottom-Right
+        IntStream.range(0, TIME_BEFORE_JUNIT_TEST_END / REFRESH_TIME).forEach(cicle -> {
+            gw.refresh(new ModelDataImpl(list, 
+                                         (int) (Math.random() * 10),
+                                         GameStatus.RUNNING));
+            view.refreshGui();
+            try {
+                Thread.sleep(REFRESH_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
+        gw.setVisible(false);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
+    }
+=====================================================================
+Found a 17 line (105 tokens) duplication in the following files: 
+Starting at line 114 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 116 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+            public void actionPerformed(final ActionEvent e) {
+                if (view.getPlayerName().isPresent()) {
+                    final String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    final Records rec = Records.getInstance();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+
+                    // MANDARE IL VOMANDO reset end e start
+                    view.getKeyCommandsListener().setReset(true);
+                    view.getKeyCommandsListener().endCommand();
+
+                    view.getKeyCommandsListener().setLockResumeKey(false);
+                    view.getKeyCommandsListener().startCommand();
+
+                    mainFrame.dispose();
+                }
+            }
+=====================================================================
+Found a 18 line (100 tokens) duplication in the following files: 
+Starting at line 162 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 160 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        });
+
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        final JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        final JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 18 line (99 tokens) duplication in the following files: 
+Starting at line 162 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 160 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 247 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        });
+
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        final JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        final JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 19 line (97 tokens) duplication in the following files: 
+Starting at line 200 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 202 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        final JButton settingsBtn = new JButton("Settings");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(settingsBtn, c);
+
+        final JButton exitBtn = new JButton("Exit");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(exitBtn, c);
+
+        final JButton restartBtn = new JButton("Restart");
+        c.gridx = 0;
+        c.gridy = pos++;
+        tmpBackground.add(restartBtn, c);
+
+        tmpSet.pack();
+        return tmpSet.getSize();
+    }
+}
+=====================================================================
+Found a 34 line (91 tokens) duplication in the following files: 
+Starting at line 117 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+Starting at line 144 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MouseJTest.java
+
+            return Optional.empty();
+        }
+
+        @Override
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            return Optional.empty();
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            return null;
+        }
+
+        @Override
+        public Optional<CommandsObserverSource> getCommandsObserverSource() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<SizeObserverSource> getSizeObserverSource() {
+            return Optional.empty();
+        }
+
+        @Override
+        public ModelData getModelData() {
+            return null;
+        }
+
+        @Override
+        public void hideGameWindow() {
+=====================================================================
+Found a 16 line (88 tokens) duplication in the following files: 
+Starting at line 98 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 101 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        final JButton settingsBtn = new JButton("Settings");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(settingsBtn, c);
+
+        final JButton exitBtn = new JButton("Exit");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(exitBtn, c);
+
+        final JButton restartBtn = new JButton("Restart");
+        c.gridx = 0;
+        c.gridy = pos++;
+        background.add(restartBtn, c);
+
+        restartBtn.addActionListener(new ActionListener() {
+=====================================================================
+Found a 14 line (84 tokens) duplication in the following files: 
+Starting at line 68 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 171 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+=====================================================================
+Found a 14 line (84 tokens) duplication in the following files: 
+Starting at line 66 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 168 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("PAUSE");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+=====================================================================
+Found a 14 line (84 tokens) duplication in the following files: 
+Starting at line 93 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+Starting at line 255 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("Settings");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+=====================================================================
+Found a 14 line (77 tokens) duplication in the following files: 
+Starting at line 66 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+Starting at line 171 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+
+        this.setResizable(false);
+
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("CC-TAN");
+        constraints.gridx = 0;
+        constraints.gridy = pos++;
+        constraints.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+=====================================================================
+Found a 13 line (76 tokens) duplication in the following files: 
+Starting at line 77 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 75 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 102 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        title.setText("GAME-OVER");
+        c.gridx = 0;
+        c.gridy = pos++;
+        c.gridwidth = 2;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        background.add(title, c);
+        c.gridx = 0;
+        c.gridy = pos++;
+        title.setHorizontalAlignment(JLabel.CENTER);
+        background.add(new JLabel("           "), c);
+
+        final JLabel nickLabl = new JLabel();
+        nickLabl.setText("Your score : " + this.score);
+=====================================================================
+Found a 7 line (76 tokens) duplication in the following files: 
+Starting at line 113 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 133 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+
+        restartBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                if (view.getPlayerName().isPresent()) {
+                    final String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    final Records rec = Records.getInstance();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+=====================================================================
+Found a 8 line (75 tokens) duplication in the following files: 
+Starting at line 179 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+Starting at line 219 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+
+        gw.update(GAME_WINDOW_DIMENSION_TEST2, GAME_WINDOW_RATIO_TEST2);
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
+        gw.setVisible(true);
+        assertTrue(GAME_WINDOW_NOT_VISIBLE_E, gw.isVisible());
+        final List<MappableData> list = new LinkedList<>();
+        list.add(new MappableDataImpl(Integer.toString((int) (Math.random() * 10)), 
+                Color.RED,
+                new Rectangle2D.Double(-(GAME_WINDOW_RATIO_TEST2.getKey().doubleValue() / GAME_WINDOW_RATIO_TEST2.getValue().doubleValue() * DIMENSION_REDUCER_MULTIPLIER),
+=====================================================================
+Found a 24 line (73 tokens) duplication in the following files: 
+Starting at line 42 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/MovableItemImpl.java
+Starting at line 49 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/generator/AbstractTimerRatio.java
+
+        this.pauseLock = new Object();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        while (!this.stop) {
+            synchronized (pauseLock) {
+                if (this.stop) {
+                    break;
+                }
+                if (this.suspend) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException ex) {
+                        break;
+                    }
+                    if (this.stop) {
+                        break;
+                    }
+                }
+            }
+=====================================================================
+Found a 29 line (72 tokens) duplication in the following files: 
+Starting at line 107 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+Starting at line 77 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/LoaderJTest.java
+
+            return Optional.of(new Point(0, 0));
+        }
+
+        @Override
+        public double getMouseRelativePosition() {
+            return 0;
+        }
+
+        @Override
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            return Optional.empty();
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            return null;
+        }
+
+        @Override
+        public Optional<CommandsObserverSource> getCommandsObserverSource() {
+=====================================================================
+Found a 25 line (68 tokens) duplication in the following files: 
+Starting at line 185 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/KeyListenerJTest.java
+Starting at line 134 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MouseJTest.java
+
+            return Optional.empty();
+        }
+
+        @Override
+        public double getMouseRelativePosition() {
+            return 0;
+        }
+
+        @Override
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.of(GAME_WINDOW_DIMENSION_TEST);
+        }
+
+        @Override
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            return Optional.empty();
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            return keyCommandsListener;
+=====================================================================
+Found a 24 line (67 tokens) duplication in the following files: 
+Starting at line 42 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/MovableItemImpl.java
+Starting at line 42 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/generator/AbstractItemGenerator.java
+Starting at line 49 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/generator/AbstractTimerRatio.java
+
+        this.pauseLock = new Object();
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        while (!this.stop) {
+            synchronized (pauseLock) {
+                if (this.stop) {
+                    break;
+                }
+                if (this.suspend) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException ex) {
+                        break;
+                    }
+                    if (this.stop) {
+                        break;
+                    }
+                }
+            }
+=====================================================================
+Found a 10 line (67 tokens) duplication in the following files: 
+Starting at line 116 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 118 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 137 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+                    final String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    final Records rec = Records.getInstance();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+
+                    // MANDARE IL VOMANDO reset end e start
+                    view.getKeyCommandsListener().setReset(true);
+                    view.getKeyCommandsListener().endCommand();
+
+                    view.getKeyCommandsListener().setLockResumeKey(false);
+=====================================================================
+Found a 6 line (63 tokens) duplication in the following files: 
+Starting at line 58 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+Starting at line 85 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        setLayout(new BorderLayout());
+
+        // COMPONENTS
+        final ImageIcon imgIco = new ImageIcon(SettingsWindow.class.getResource(BACKGROUND_JPG));
+        final JLabel background = new JLabel(new ImageIcon(imgIco.getImage()
+                .getScaledInstance((int) settingsDimansion.getWidth(), (int) settingsDimansion.getHeight(), 0)));
+=====================================================================
+Found a 28 line (61 tokens) duplication in the following files: 
+Starting at line 321 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+Starting at line 96 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/LoaderJTest.java
+
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+            return Optional.empty();
+        }
+
+        @Override
+        public KeyCommandsListener getKeyCommandsListener() {
+            return null;
+        }
+
+        @Override
+        public ModelData getModelData() {
+            return null;
+        }
+
+        @Override
+        public void refreshGui() {
+        }
+
+        @Override
+        public void hideGameWindow() {
+        }
+
+    }
+
+}
+=====================================================================
+Found a 11 line (60 tokens) duplication in the following files: 
+Starting at line 67 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 65 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 91 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        mainFrame.setResizable(false);
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 6 line (60 tokens) duplication in the following files: 
+Starting at line 134 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 116 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+            public void actionPerformed(final ActionEvent e) {
+                if (view.getPlayerName().isPresent()) {
+                    final String nick = view.getPlayerName().get();
+                    // SALVARE IL PUNTEGGIO SCORE ATTUALE
+                    final Records rec = Records.getInstance();
+                    rec.addWithNoDuplicate(new ImmutableTriple<String, Integer, Date>(nick, score, new Date()));
+=====================================================================
+Found a 10 line (58 tokens) duplication in the following files: 
+Starting at line 68 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 168 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 255 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        background.setLayout(new GridBagLayout());
+
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 9 line (58 tokens) duplication in the following files: 
+Starting at line 171 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 66 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+Starting at line 93 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        int pos = 0;
+        final Font font = new Font("Serif", FONT_STYLE, FONT_SIZE);
+        final JLabel title = new JLabel();
+        title.setFont(font);
+        title.setText("GAME-OVER");
+=====================================================================
+Found a 13 line (57 tokens) duplication in the following files: 
+Starting at line 72 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+Starting at line 95 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+
+                call++;
+                return d;
+            }
+        };
+        squareTest(getModelDataSupplier(Optional.of(s), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()));
+        assertFalse(GAME_WINDOW_VISIBLE_E, gw.isVisible());
+    }
+
+    /**
+     * Test for square in motion.
+     */
+    @Test
+    public void movingSquare() {
+=====================================================================
+Found a 16 line (55 tokens) duplication in the following files: 
+Starting at line 180 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/KeyListenerJTest.java
+Starting at line 71 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/LoaderJTest.java
+
+        public void showGameWindow(final Dimension gameWindowSize, final Pair<Integer, Integer> screenRatio) {
+        }
+
+        @Override
+        public Optional<Point> getWindowLocation() {
+            return Optional.empty();
+        }
+
+        @Override
+        public double getMouseRelativePosition() {
+            return 0;
+        }
+
+        @Override
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.of(GAME_WINDOW_DIMENSION_TEST);
+=====================================================================
+Found a 20 line (53 tokens) duplication in the following files: 
+Starting at line 305 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/GameWindowJTest.java
+Starting at line 71 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/LoaderJTest.java
+
+        public void showSettingsWindow() {
+        }
+
+        @Override
+        public Optional<Point> getWindowLocation() {
+            return Optional.empty();
+        }
+
+        @Override
+        public double getMouseRelativePosition() {
+            return 0;
+        }
+
+        @Override
+        public Optional<Dimension> getGameWindowDimension() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<String> getPlayerName() {
+=====================================================================
+Found a 11 line (53 tokens) duplication in the following files: 
+Starting at line 162 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+Starting at line 159 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/PauseWindow.java
+
+            });
+        });
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        final JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        final JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints constraints = new GridBagConstraints();
+=====================================================================
+Found a 11 line (52 tokens) duplication in the following files: 
+Starting at line 162 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/EndWindow.java
+Starting at line 163 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+
+        });
+
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        final JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        final JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints c = new GridBagConstraints();
+=====================================================================
+Found a 7 line (51 tokens) duplication in the following files: 
+Starting at line 52 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+Starting at line 58 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+
+        mu.newCommand(Commands.PAUSE);
+        assertFalse(RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
+        mu.newCommand(Commands.RESUME);
+        assertTrue(NOT_RUNNING_E, mu.isRunning());
+        assertFalse(TERMINATED_E, mu.isTerminated());
+        mu.newCommand(Commands.END);
+=====================================================================
+Found a 7 line (51 tokens) duplication in the following files: 
+Starting at line 80 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+Starting at line 86 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/controller/CommandsJTest.java
+
+        vu.newCommand(Commands.PAUSE);
+        assertFalse(RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
+        vu.newCommand(Commands.RESUME);
+        assertTrue(NOT_RUNNING_E, vu.isRunning());
+        assertFalse(TERMINATED_E, vu.isTerminated());
+        vu.newCommand(Commands.END);
+=====================================================================
+Found a 10 line (51 tokens) duplication in the following files: 
+Starting at line 163 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/MenuWindow.java
+Starting at line 247 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/view/SettingsWindow.java
+
+        });
+    }
+
+    private Dimension tryDimensionOfWindow() {
+        final JFrame tmpSet = new JFrame("tryDimension");
+        tmpSet.setLayout(new BorderLayout());
+        final JPanel tmpBackground = new JPanel();
+        tmpSet.add(tmpBackground);
+        tmpBackground.setLayout(new GridBagLayout());
+        final GridBagConstraints constraints = new GridBagConstraints();
+=====================================================================
+Found a 14 line (50 tokens) duplication in the following files: 
+Starting at line 20 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/generator/PowerUpRatio.java
+Starting at line 27 of /home/danysk/git/oop17-baldini-paolo-magnani-gianmarco-pasolini-nicolas-sutera/src/it/unibo/oop/cctan/model/generator/SquareRatio.java
+
+    public PowerUpRatio() {
+        super(DEFAULT_SPEED, DEFAULT_RATIO, DEFAULT_POINTS);
+    }
+
+    /**
+     * Increases the frequency with which power-ups are generated and increases 
+     * the points necessary to get the powerUp.
+     */
+    @Override
+    protected void operationRatio() {
+        if (this.getFrequency() >= MAX_RATIO + DECREASE_RATIO) {
+            this.setFrequency(this.getFrequency() - DECREASE_RATIO);
+        }
+        if (this.getPoints() <= MAX_POINTS - INCREASE_POINTS) {
