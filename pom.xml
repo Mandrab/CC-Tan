@@ -47,9 +47,9 @@
         <version>3.7</version>
     </dependency>
     <dependency>
-	    <groupId>org.apache.xmlgraphics</groupId>
-	    <artifactId>batik-transcoder</artifactId>
-	    <version>1.12</version>
+	    <groupId>fr.avianey.apache-xmlgraphics</groupId>
+	    <artifactId>batik</artifactId>
+	    <version>1.8</version>
 	</dependency>
     <dependency>
 	    <groupId>org.jdom</groupId>
